@@ -2,13 +2,13 @@
 set $mod Mod4
 
 # Hide titlebar
-new_window none
+new_window normal
 
 # i3-gaps
-gaps inner 6
+gaps inner 6 
 
 # Font for window titles.
-font pango: Roboto Mono Nerd Font Bold, 11
+font pango: Source Code Pro Black 11
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -142,19 +142,18 @@ set $silver 	#e4e4e4
 set $elegant	#1b1d1e
 
 # Set some nice colors      border	background  text	indicator
-client.focused              $magenta	$magenta    $magenta   	$magenta
-client.unfocused            $magenta 	$magenta    $magenta    $magenta
+client.focused              $magenta	$magenta    $silver   	$white
+client.unfocused            $elegant 	$elegant    $magenta    $white
 client.focused_inactive     $magenta 	$magenta    $silver     $magenta
 client.urgent               $cyan 	$cyan	    $silver     $magenta
-client.placeholder          $magenta 	$magenta    $silver     $magenta
+client.placeholder          $magenta 	$magenta    $silver     $white
 
 # Start i3blocks to display a workspace bar
 bar
 {
 	position top
 	status_command i3blocks
-	font pango: Roboto Mono Nerd Font Bold 10
-	
+	font pango: SauceCodePro Nerd Font Black 10	
 	colors
 	{
 				    # Border	# Background	# Text
