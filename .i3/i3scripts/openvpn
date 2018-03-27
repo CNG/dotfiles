@@ -76,7 +76,7 @@ sub print_output {
                 }
                 if ($_ =~ /--config\x{00}(.*?\.conf)\x{00}/) {
                     # Get interface from config file
-                    $current_config_path = "/etc/openvpn/client/japan.conf";
+                    $current_config_path = "/etc/openvpn/client/$1";
                     # Remove unwanted escape chars
                     $interface = 'null';
                     # Get configuration name
