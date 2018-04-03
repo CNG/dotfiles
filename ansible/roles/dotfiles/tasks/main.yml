@@ -1,18 +1,72 @@
 ---
 - name: Install rcm
-  aur: name=rcm user={{ user.name }}
+  aur: name=rcm
   when: dotfiles is defined
-  tags:
-    - aur
+  become: yes
+  become_user: aur_builder
 
+# This would put the dotfiles in place for rcup to do its work
+# But till I have the repo set up, I need to manually put the
+# dotfiles in ~/projects/
 - name: Clone user dotfiles
-  git: repo={{ dotfiles.url }} dest=/home/{{ user.name }}/{{ dotfiles.destination }} accept_hostkey=yes update=no
-  when: dotfiles is defined
+  git:
+    repo: "{{ dotfiles.url }}"
+    dest: "/home/{{ user.name }}/{{ dotfiles.source }}"
+    accept_hostkey: yes
+    update: no
+  when: dotfiles.url is defined
   become: yes
   become_user: "{{ user.name }}"
 
 - name: Install user dotfiles
-  command: rcup -d /home/{{ user.name}}/{{ dotfiles.destination}} {{ dotfiles.rcup_flags }}
-  when: dotfiles is defined
+  command: rcup -d /home/{{ user.name }}/{{ dotfiles.source }}/files {{ dotfiles.rcup_flags }}
+  when: dotfiles.source is defined
   become: yes
   become_user: "{{ user.name }}"
+
+- name: Set Github author name
+  git_config:
+    name: user.name
+    scope: global
+    value: "{{ user.fullname }}"
+
+- name: Set Github author email
+  git_config:
+    name: user.email
+    scope: global
+    value: "{{ user.email }}"
+
+- name: Get device UUIDs
+  command: "ls /dev/disk/by-uuid"
+  register: ls_result
+- set_fact:
+    uuids: "{{ ls_result.stdout_lines }}"
+
+- debug:
+    var: uuids
+    verbosity: 2
+- debug:
+    msg: "Looking for UUID {{ item.uuid }} in {{ uuids }}"
+    verbosity: 2
+  with_items: "{{ volumes }}"
+
+- name: Mount volumes
+  mount:
+    path: "{{ item.path }}"
+    src: "UUID={{ item.uuid }}"
+    fstype: auto
+    opts: "{{ item.opts }}"
+    state: mounted
+  with_items: "{{ volumes }}"
+  when: item.uuid in uuids
+
+- name: Link private Zsh files
+  file:
+    path: "/home/{{ user.name }}/.{{ item }}"
+    src: "/home/{{ user.name }}/projects/dotfiles/private/{{ item }}"
+    state: link
+    force: yes
+  with_items:
+    - zshrc.local
+    - zshenv.local
+    - ssh

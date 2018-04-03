@@ -3,9 +3,9 @@
   pacman: name=firejail state=present
 
 - name: Install firewarden
-  aur: name=firewarden user={{ user.name }}
-  tags:
-    - aur
+  aur: name=firewarden
+  become: yes
+  become_user: aur_builder
 
 - name: Install firejail profile update script
   copy: src=profile-activate.sh dest=/usr/local/bin/profile-activate mode=0755

@@ -14,12 +14,13 @@
               state=present
               line="load-module module-switch-on-connect"
 
-- name: Install pasystray
-  aur: name=pasystray-gtk3-git user={{ user.name }}
-  tags:
-    - aur
+# https://aur.archlinux.org/packages/pasystray-gtk3-git/
+# - name: Install pasystray
+#   aur: name=pasystray-gtk3-git
+#   become: yes
+#   become_user: aur_builder
 
 - name: Install pulseaudio-ctl
-  aur: name=pulseaudio-ctl user={{ user.name }}
-  tags:
-    - aur
+  aur: name=pulseaudio-ctl
+  become: yes
+  become_user: aur_builder

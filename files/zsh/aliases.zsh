@@ -15,3 +15,5 @@ rm () { [[ -e ${1: -1} ]] && trash "$@" || /bin/rm "$@" }
 bashman () { man bash | less -p "^       $1 "; }
 
 zshman () { man zshbuiltins | less -p "^       $1 "; }
+
+alias open='xdg-open'

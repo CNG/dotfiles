@@ -1,5 +1,5 @@
 ---
-- include: tlp.yml
+- import_tasks: tlp.yml
 
 - name: Copy touchpad configuration file
   copy: src=30-touchpad.conf dest=/etc/X11/xorg.conf.d/30-touchpad.conf
@@ -25,7 +25,4 @@
   service: name=lowbatt.timer enabled=yes state=started
 
 - name: Install light
-  aur: name=light user={{ user.name }}
-  tags:
-    - aur
-    - light
+  aur: name=light

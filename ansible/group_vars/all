@@ -1,146 +1,75 @@
+# perl -p00 -i -e 's/\n  tags:\N*(:?\n    -\N+)+//' **/*.yml
 user:
-    name: pigmonkey
+    name: cgorichanaz
+    fullname: "Charlie Gorichanaz"
     uid: 1000
-    group: pigmonkey
+    group: cgorichanaz
     shell: /usr/bin/zsh
-    email:  peter@havenaut.net
+    email:  charlie@gorichanaz.com
     log:
         dir: log
         rotate: 8
 
-hostname: nous
+hostname: CharlieDesktop18
+
+volumes:
+  - path: /mnt/macos
+    uuid: 78cf44f7-1108-3047-a3ae-fb797fc9ac6d
+    opts: nosuid,nodev,nofail,x-gvfs-show,ro
+  - path: /mnt/vids
+    uuid: 228b4ef2-e597-4e23-8e3b-af968367715f
+    opts: nosuid,nodev,nofail,x-gvfs-show
+  - path: /mnt/docs
+    uuid: 8f2f1490-0056-414a-9994-acc65a6ab056
+    opts: nosuid,nodev,nofail,x-gvfs-show
 
 dotfiles:
-    url: git@github.com:pigmonkey/dotfiles.git
-    destination: projects/dotfiles
-    rcup_flags: -fx README.md
-
-aur:
-    dir: aur
-    packages:
-        - aura-bin
-        - downgrade
-        - zplug
-        - miller
-        - myrepos
-        - ctmg
+    # url: git@github.com:CNG/dotfiles2.git
+    source: projects/dotfiles
+    rcup_flags: -f
 
 ssh:
     port: 22
-    user_key: /root/id_rsa
+   # user_key: /root/id_rsa
     enable_sshd: False
 
 gnupg:
     enable_agent: True
     emulate_ssh: True
 
-mail:
-    sync_tool: isync
-    sync_pim: True
-    sync_taskwarrior: True
-    sync_time: 5min
-    sync_boot_delay: 2min
-    sync_on: trusted
-
 network:
-    spoof_mac: True
+    spoof_mac: False
     conn_check:
         interval: 0
-    trusted_uuid:
-        - b21284e6-01af-492f-8bea-45a69ef22a23
-        - 4ddd6988-aad1-4927-b650-ea7d24e0138b
-        - f9b3c62c-2d9f-450a-ac9b-528ba4c85ded
-        - b94375d1-70f8-424f-a6d7-dc52d0ab7288
-        - f74f2bd5-8748-4e1e-98f9-dae2dd44b916
-        - faeec88c-79ec-4840-ab25-ea356af8a81b
+    trusted_uuidX:
 
-editors:
-    - gvim
-
-video_drivers:
-    - libva-intel-driver
-
-base_packages:
-    - base-devel
-    - tmux
-    - git
-    - rsync
-    - glances
-    - coreutils
-    - moreutils
-    - dateutils
-    - reflector
-    - bc
-    - ranger
-    - strace
-    - lsof
-    - sysstat
-    - arch-wiki-lite
-    - arch-wiki-docs
-    - python-keyring
-    - python-secretstorage
-    - fabric
-    - tig
-    - ruby
-    - pv
-    - minicom
-    - jq
-    - python-docs
-    - python2-docs
-    - screen
-    - units
-    - python-pipenv
-
-filesystem_packages:
-    - dosfstools
-    - hfsprogs
-    - ntfs-3g
-    - exfat-utils
+#video_drivers:
+    # - libva-intel-driver
 
 browser_choices:
-    - firefox -P default
-    - firefox -P work
-    - firewarden chromium
-    - tor-browser-en
-    - play
-    - qcode
-    - "| xclip -selection c"
+    # - firefox -P default
+    # - firefox -P work
+    # - firewarden chromium
+    # - tor-browser-en
+    # - play
+    # - qcode
+    # - "| xclip -selection c"
 
 passwordless_sudo:
     - /usr/bin/openvpn*
 
-tarsnapper:
-  deltas: 1h 1d 7d 30d 365d
-  period: DAILY
-  ac_only: True
-  run_on: trusted
-  random_delay: 600
-
-gitannex:
-    stop_on_untrusted: True
-
-bitlbee:
-    run_on: trusted
-    torify: True
-
 bootloader: grub
 
-postgresql:
-    enable: True
-    root: /home/postgres
+# fingerprint: False
 
-fingerprint: False
-
-tor:
-    run_on: trusted
+# tor:
+#     run_on: trusted
 
 localtime:
-    run_on: trusted
+     run_on: all
 
 nameservers:
     - 8.8.8.8       # Google
-    - 209.244.0.3   # Level 3
-    - 74.82.42.42   # Hurricane Electric
 
 bluetooth:
     disable: False
@@ -158,37 +87,17 @@ firejail:
         - ~/.vdirsyncer
         - ~/library
 
-cryptshot:
-    - name: alta
-      uuid: 0a0db776-84c5-48e1-9079-cacfbc5de8a3
-      keyfile: /home/pigmonkey/.keys/usb-alta.key
-      retain:
-        - level: daily
-          interval: 7
-        - level: weekly
-          interval: 6
-        - level: monthly
-          interval: 3
-    - name: bishorn
-      uuid: baeb40a2-b19e-4adc-8ef6-44ee720a4d1a
-      keyfile: /home/pigmonkey/.keys/usb-bishorn.key
-      retain:
-        - level: daily
-          interval: 7
-        - level: weekly
-          interval: 6
-        - level: monthly
-          interval: 3
-    - name: pilchuck
-      uuid: d96a0fc3-7ea1-42f7-b0d0-42e573c478bd
-      keyfile: /home/pigmonkey/.keys/usb-pilchuck.key
-      retain:
-        - level: daily
-          interval: 7
-        - level: weekly
-          interval: 6
-        - level: monthly
-          interval: 3
+# cryptshot:
+#     - name: 
+#       uuid: 
+#       keyfile: 
+#       retain:
+#         - level: daily
+#           interval: 7
+#         - level: weekly
+#           interval: 6
+#         - level: monthly
+#           interval: 3
 
 journal:
     max_size: 500M
@@ -203,7 +112,310 @@ hostsctl:
 himawaripy:
     run_time: 15min
     run_boot_delay: 2min
-    run_on: trusted
+    run_on: all
     flags: --auto-offset --level 4
 
 middle_click_scroll: True
+
+desktop: plasma
+
+packages:
+    base:
+        - base-devel
+        - tmux
+        - [ git, hub ]
+        - rsync
+        - glances
+        - coreutils
+        - moreutils
+        - dateutils
+        - rsync
+        # - reflector
+        - bc
+        # - ranger
+        - strace
+        - lsof
+        - sysstat
+        # - python-keyring
+        # - python-secretstorage
+        # - fabric
+        # - tig
+        - ruby
+        - go
+        # - pv
+        # - minicom
+        # - jq
+        # - python-docs
+        # - python2-docs
+        # - units
+        # - python-pipenv
+    plasma:
+        - plasma-meta
+        # also check out kde-applications-meta
+        # - plasma-wayland-session # enable support for Wayland in Plasma
+        - gwenview # best image viewer for KDE
+        - dolphin
+        - kdialog
+        - kfind
+        - konsole
+        - spectacle
+        - kio-extras
+        - kompare
+        - dolphin-plugins
+        - kwallet
+        - kwalletmanager
+        - ark # compresses/extract zip files from within dolphin
+        # - yakuake # top-down terminal for KDE
+        - kde-gtk-config
+        # - sierrabreeze-kwin-decoration-git # mimic the OSX Sierra titlebar
+        - latte-dock
+        - numix-kde-theme-git
+        # plasma-meta includes:
+            # bluedevil
+            # breeze-gtk
+            # discover
+            # drkonqi
+            # kdeplasma-addons
+            # kgamma5
+            # kinfocenter
+            # kscreen
+            # ksshaskpass
+            # ksysguard
+            # kwallet-pam
+            # kwayland-integration
+            # kwrited
+            # oxygen
+            # plasma-desktop
+            # plasma-nm
+            # plasma-pa
+            # plasma-sdk
+            # plasma-vault
+            # plasma-workspace-wallpapers
+            # powerdevil
+            # sddm-kcm
+            # user-manager
+            # xdg-desktop-portal-kde
+            # breeze-grub (optional) - Breeze theme for GRUB
+            # kde-gtk-config (optional) - GTK Theme configuration KCM
+
+    base_aur:
+        - zplug
+        - miller
+        - myrepos
+        - ctmg
+    filesystem:
+        - dosfstools
+        - efibootmgr
+        - hfsprogs
+        - hfsutils
+        - ntfs-3g
+        - exfat-utils
+        - libguestfs # mount VMDKs, large install
+    editors:
+        - vi
+        - vim
+        - nano
+        - sublime-text-dev
+        - typora
+    office:
+        # - okular # Ebook Reader, simple yet capable
+        - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
+        #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
+        #   --> as root to configure your settings. If you are using systemd, 
+        #   --> then run "systemctl enable foldingathome.service" to enable
+        #   --> the folding service. If you would like join the Arch Linux
+        #   --> team, use team number 45032.  
+        - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki ]
+        - [ zathura-pdf-mupdf, zathura-ps ]
+        - archlinux-java-run
+        - automatic
+        - cerebro
+        - enscript
+        - [ insync, insync-dolphin ]
+        - keybase
+        - libreoffice-fresh
+        - masterpdfeditor
+        - pandoc
+        - pdfgrep
+        - rescuetime
+        - simple-scan
+        - visidata-git
+    developer:
+        - ack
+        - arduino
+        - grc # Colorize logfiles and command output
+        - highlight
+        - htop
+        - iftop
+        - iotop
+        - iputils
+        - linux-headers
+        - messengerfordesktop
+        - nfs-utils
+        - ntop
+        - qt5-webengine
+        - screen
+        - solaar
+        - sqlitebrowser
+        - sysstat
+        - tree
+        - vnstat
+        - wget
+        - wireless_tools
+        - rsnapshot
+    media:
+        # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
+        # - inkscape
+        # - makemkv-cli
+        # - mcomix # image viewer for comic books
+        # - xfburn # CD/DVD burning tool
+        - [ cdparanoia, abcde ] # CD track encoder
+        - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
+        - [ qt4, vlc ]
+        - guvcview # webcam record
+        - losslesscut # video trim
+        - darktable
+        - digikam
+        - flac2all
+        - xsane-gimp
+        - iscan-plugin-gt-x820 # Epson V600 scanner
+        - flameshot
+        - flashplugin
+        - flite # lightweight speech synthesis engine
+        - fritzing
+        - gpscorrelate
+        - gthumb
+        - handbrake
+        - imv # Image viewer for X11/Wayland
+        - kamoso # webcam recorder from KDE community
+        - kindleunpack
+        - mediainfo-gui
+        - pdfshuffler
+        - spotify
+        - youtube-dl
+        # misc media codecs and helpers
+        - exiv2
+        - flac
+        - gst-libav
+        # error: failed to commit transaction (conflicting files)
+        # - gst-plugins-good
+        - lame
+        - opus-tools
+        - perl-image-exiftool
+        - x264
+    nettools:
+        - wmsystemtray
+        - trickle
+        - openvpn
+        - openssh
+        - mtr
+        - net-tools
+        - bind-tools
+        - whois
+        - gnu-netcat
+        - lftp
+        - nmap
+        - tcpdump
+        - sshuttle
+        - pdsh
+        - wireshark-qt
+        # - wireshark-gtk
+        - socat
+        - nethogs
+        - speedtest-cli
+        - wondershaper-git
+        - bitmeter-os
+        - darkstat # packet sniffer
+        - bmon
+        # - gufw # GTK front-end for Ufw
+    fonts:
+        # core:
+        - terminus-font
+        - cantarell-fonts
+        - noto-fonts
+        - ttf-dejavu
+        - ttf-liberation
+        - ttf-symbola
+        - gsfonts
+        - tex-gyre-fonts
+        - ttf-droid
+        - ttf-ubuntu-font-family
+        - ttf-inconsolata
+        - ttf-signika
+        - ttf-quintessential
+        - ttf-oswald
+        - ttf-opensans
+        - ttf-merriweather-sans
+        - ttf-merriweather
+        # - ttf-impallari-cantora
+        - ttf-carlito
+        - ttf-caladea
+        - ttf-courier-prime
+        - ttf-heuristica
+        # extra:
+        - adobe-base-14-fonts
+        - ttf-adobe-fonts
+        - ttf-bookerly
+        - ttf-contemporary
+        - ttf-emojione-color
+        - ttf-font-awesome-4
+        - ttf-google-fonts-git
+        - ttf-input
+        - ttf-iosevka
+        - ttf-latex-xft-fonts
+        - ttf-mac-fonts
+        - ttf-montserrat
+        - ttf-noto-fonts-emoji-ib
+        - ttf-raleway
+        - ttf-spacemono
+        - ttf-tahoma
+        - ttf-fantasque-sans-mono
+        - ttf-fira-code
+        - ttf-nanum
+    gnome:
+        - ghex
+        - gloobus-preview
+        - gnome-specimen
+        - guake # top down terminal
+        - chrome-gnome-shell
+        - nemo-audio-tab
+        - nemo-emblems
+        - nemo-fileroller
+        - nemo-image-converter
+        - nemo-preview
+        - nemo-seahorse
+    from_last_system:
+        - acpid
+        - b43-fwcutter
+        - bluez-utils
+        - bzr
+        - dhcpcd
+        - diffstat
+        - f2fs-tools
+        - hplip
+        - inxi
+        - iperf3
+        - ipw2100-fw
+        - ipw2200-fw
+        - jfsutils
+        - jnettop
+        - libappindicator-gtk3
+        - libwnck3
+        - modemmanager
+        - nilfs-utils
+        - nload
+        - pcmciautils
+        - pepper-flash
+        - plasma-workspace
+        - python2-gnomekeyring
+        - reiserfsprogs
+        - retext
+        - s-nail
+        - splix
+        - system-config-printer
+        - turbostat
+        - usb_modeswitch
+        - usbutils
+        - wpa_actiond
+        - x-tile-git
+        - zd1211-firmware

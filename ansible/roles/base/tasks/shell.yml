@@ -1,16 +1,55 @@
 ---
 - name: Install Bash
-  pacman: name={{ item }} state=present
+  aur:
+    name: "{{ item }}"
   with_items:
     - bash
     - bash-completion
-  tags:
-    - shell
+  become: yes
+  become_user: aur_builder
 
 - name: Install ZSH
-  pacman: name={{ item }} state=present
+  aur:
+    name: "{{ item }}"
   with_items:
     - zsh
     - zsh-completions
-  tags:
-    - shell
+    - zsh-syntax-highlighting
+    - zsh-theme-powerlevel9k
+    - oh-my-zsh-git
+    - archfetch
+    # - oh-my-zsh-powerline-theme-git
+    # - powerline-fonts-git # failed when plasma-integration tried to install ttf-hack
+  become: yes
+  become_user: aur_builder
+
+- name: Clone oh-my-zsh repo
+  git:
+    repo: "git://github.com/robbyrussell/oh-my-zsh.git"
+    dest: "/home/{{ user.name }}/.oh-my-zsh"
+    depth: 1
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Clone powerlevel9k repo
+  git:
+    repo: "git://github.com/bhilburn/powerlevel9k.git"
+    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel9k"
+    depth: 1
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Install Tmux Plugin Manager
+  git:
+    repo: "git://github.com/tmux-plugins/tpm.git"
+    dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
+    depth: 1
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+

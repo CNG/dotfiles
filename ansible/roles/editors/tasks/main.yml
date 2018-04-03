@@ -1,4 +1,47 @@
 ---
 - name: Install editors
-  pacman: name={{ item }} state=present
-  with_items: "{{ editors }}"
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items: "{{ packages.editors }}"
+
+
+- name: Make directory for Pathogen
+  file:
+    name: /home/{{ user.name }}/.vim/bundle
+    state: directory
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Install Pathogen and Vim plugins
+  git:
+    repo: "git://github.com/{{ item.user }}/{{ item.repo }}.git"
+    dest: "/home/{{ user.name }}/.vim/bundle/{{ item.repo }}"
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+  with_items:
+    - { user: 'tpope', repo: 'vim-pathogen' }
+    - { user: 'tpope', repo: 'vim-repeat' }
+    - { user: 'tpope', repo: 'vim-surround' }
+    - { user: 'tpope', repo: 'vim-speeddating' }
+    # this looks interesting, but I am doing too much new stuff already
+    # - { user: 'tpope', repo: 'vim-abolish' }
+    - { user: 'tpope', repo: 'vim-commentary' }
+    - { user: 'scrooloose', repo: 'nerdcommenter' }
+    - { user: 'michaeljsmith', repo: 'vim-indent-object' }
+    - { user: 'bronson', repo: 'vim-visual-star-search' }
+    - { user: 'altercation', repo: 'vim-colors-solarized' }
+    - { user: 'tomasr', repo: 'molokai' }
+    # SnipMate
+    - { user: 'tomtom', repo: 'tlib_vim' }
+    - { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
+    - { user: 'garbas', repo: 'vim-snipmate' }
+    # SnipMate optional
+    - { user: 'honza', repo: 'vim-snippets' }
+    # Vim Airline
+    - { user: 'vim-airline', repo: 'vim-airline' }
+    - { user: 'vim-airline', repo: 'vim-airline-themes' }
+

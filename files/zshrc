@@ -1,5 +1,6 @@
 # .zshenv is always sourced, while .zshrc is only sourced in interactive shells
 
+export TERM="xterm-256color"
 
 # Put private interactive shell definitions in ~/.zshrc.local
 # so they are ignored by Git and not inadvertently made public
@@ -9,7 +10,7 @@ fi
 
 # Gather all config files in dictionary-like array
 typeset -U config_files # keep only one occurrence of each value
-config_files=($DOTFILES/mods-enabled/***/*.zsh) # *** recurses, follows symlinks
+config_files=($HOME/.zsh/***/*.zsh) # *** recurses, follows symlinks
 
 # Load the Oh-My-Zsh plugin files
 for file in ${(M)config_files:#*/plugins*}; do
@@ -31,5 +32,16 @@ for file in ${(M)config_files:#*/completion*}; do
 done
 
 unset config_files
-source /etc/bashrc_fitbit
 export PATH=$HOME/.local/bin:$PATH
+
+# could also use systemd service, see
+# https://wiki.archlinux.org/index.php/SSH_keys#Keychain
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+  ssh-agent > ~/.ssh-agent-thing
+fi
+if [[ "$SSH_AGENT_PID" == "" ]]; then
+  eval "$(<~/.ssh-agent-thing)" 1> /dev/null
+fi
+
+ZSH_TMUX_AUTOSTART='true'
+

@@ -1,0 +1,112 @@
+---
+- name: Install desktop
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items: "{{ packages[desktop] }}"
+
+- name: Install NVIDIA
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - nvidia
+    - cuda
+
+- name: Install NVIDIA Pacman hook
+  become: yes
+  copy:
+    src: nvidia.hook
+    dest: /etc/pacman.d/hooks/nvidia.hook
+    mode: 0644
+
+- name: Install NVIDIA config
+  become: yes
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf.d/20-nvidia.conf
+    mode: 0644
+
+- name: Remove Xorg config
+  become: yes
+  file:
+    state: absent
+    path: /etc/X11/xorg.conf
+
+- name: kwin.sh
+  become: yes
+  copy:
+    src: kwin.sh
+    dest: /etc/profile.d/kwin.sh
+    mode: 0755
+
+
+
+
+- name: Send CUPS logs to systemd journal
+  become: yes
+  lineinfile:
+    dest: /etc/cups/cups-files.conf
+    backrefs: yes
+    regexp: "^({{ item }})"
+    line: '\1 syslog'
+    state: present
+  with_items:
+    - AccessLog
+    - ErrorLog
+    - PageLog
+
+- name: Prereqs for PolicyKit to allow nonadmins to edit printers
+  aur:
+    name: cups-pk-helper 
+  become: yes
+  become_user: aur_builder
+
+- name: Install printer drivers
+  aur:
+    name: brother-hl3170cdw 
+  become: yes
+  become_user: aur_builder
+
+- name: Allow wheel group to admin printers
+  become: yes
+  copy:
+    src: 49-allow-passwordless-printer-admin.rules
+    dest: /etc/polkit-1/rules.d/49-allow-passwordless-printer-admin.rules
+    mode: 0644
+
+
+
+
+- name: Fix Baloo inotify folder watch limit error
+  become: yes
+  copy:
+    src: 40-max-user-watches.conf
+    dest: /etc/sysctl.d/40-max-user-watches.conf
+    mode: 0644
+
+
+- set_fact:
+    media_controls:
+      # see https://specifications.freedesktop.org/mpris-spec/latest/Player_Interface.html
+      - PlayPause
+      - Next
+      - Previous
+
+- name: Create global media control scripts
+  template:
+    src: media-control.sh
+    dest: "/usr/local/bin/media-control-{{ item }}.sh"
+    mode: 0755
+  with_items: "{{ media_controls }}"
+
+- name: "Check whether ~/.config/kglobalshortcutsrc contains media control shortcuts"
+  command: "awk '/=F[0-9]+,none,{{ item }}$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/kglobalshortcutsrc"
+  with_items: "{{ media_controls }}"
+
+- name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
+  command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
+  with_items: "{{ media_controls }}"
+

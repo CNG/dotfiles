@@ -1,22 +1,14 @@
 # .zshenv is always sourced, while .zshrc is only sourced in interactive shells
 
-
 # Put private environment definitions in ~/.zshenv.local
 # so they are ignored by Git and not inadvertently made public
 if [[ -a ~/.zshenv.local ]]; then
   source ~/.zshenv.local
 fi
 
-# $DOTFILES is base directory of dotfiles project
-# Set custom in zshenv.local
-if [[ ! $DOTFILES ]]; then
-  DOTFILES=$HOME/.dotfiles
-fi
-export DOTFILES
-
 # Gather all config files in dictionary-like array
 typeset -U config_files # keep only one occurrence of each value
-config_files=($DOTFILES/mods-enabled/***/*.zsh) # *** recurses, follows symlinks
+config_files=($HOME/.zsh/***/*.zsh) # *** recurses, follows symlinks
 
 # Load env files
 for file in ${(M)config_files:#*/env*}; do

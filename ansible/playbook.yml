@@ -1,0 +1,89 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    # these run as dependencies
+    # - { role: base, tags: ['base'] }
+    # - { role: x, tags: ['x'] }
+
+    - { role: desktop, tags: ['desktop'] }
+
+    - { role: archive, tags: ['archive'] }
+    - { role: android, tags: ['android'] }
+    - { role: bluetooth, tags: ['bluetooth'], when: "hostname is defined" }
+    - { role: browsers, tags: ['browsers'] }
+    - { role: cron, tags: ['cron'] }
+    - { role: cups, tags: ['cups'] }
+    - { role: developer, tags: ['developer'] }
+    - { role: dotfiles, tags: ['dotfiles'] }
+    - { role: editors, tags: ['editors'] }
+    - { role: filesystems, tags: ['filesystems'] }
+    - { role: firejail, tags: ['firejail'] }
+    - { role: fonts, tags: ['fonts'] }
+    - { role: gnupg, tags: ['gnupg'] }
+    - { role: himawaripy, tags: ['himawaripy'], when: "himawaripy is defined" } # fetches picture of Earth
+    # next was commented due to error but accidentally installed manually
+    - { role: hostsctl, tags: ['hostsctl'], when: "hostsctl is defined" }
+    - { role: laptop, tags: ['laptop'], when: "'laptop' in hostname"  }
+    - { role: lightdm, tags: ['lightdm'] }
+    - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
+    - { role: media, tags: ['media'] }
+    - { role: microcode, tags: ['microcode'], when: "'GenuineIntel' in ansible_processor" }
+    - { role: mpd, tags: ['mpd'] } # MPD (music player daemon) is an audio player that has a server-client architecture
+    - { role: mpv, tags: ['mpv'] } # a free, open source, and cross-platform media player
+    - { role: nettools, tags: ['nettools'] }
+    - { role: networkmanager, tags: ['networkmanager'] }
+    - { role: ntp, tags: ['ntp'] }
+    - { role: office, tags: ['office'] }
+    - { role: parcimonie, tags: ['parcimonie'], when: "tor is defined" } # refreshes individual keys in your GnuPG keyring
+    - { role: redshift, tags: ['redshift'] } # adjusts the color temperature of your screen according to your surroundings
+    - { role: rtorrent, tags: ['rtorrent'] }
+    - { role: screensaver, tags: ['screensaver'] }
+    - { role: sound, tags: ['sound'] }
+    - { role: spell, tags: ['spell'] }
+    - { role: ssd, tags: ['ssd'] }
+    - { role: ssh, tags: ['ssh'] }
+    - { role: tor, tags: ['tor'], when: "tor is defined" }
+    - { role: udisks, tags: ['udisks'] }
+    - { role: virtualbox, tags: ['virtualbox'] }
+    - { role: virtualenv, tags: ['virtualenv'] }
+
+    # might start using
+    # - { role: iptables, tags: ['iptables'] }
+    # - { role: macchiato, tags: ['macchiato'] } # assigns a random MAC address
+    # - { role: pass, tags: ['pass'] } # simple password manager for the command line
+    # - { role: taskwarrior, tags: ['taskwarrior'] } # manages your TODO list from the command line
+    # - { role: unbound, tags: ['unbound'] } # validating, recursive, and caching DNS resolver
+    # - { role: wormhole, tags: ['wormhole'] } # get things from one computer to another, safely
+    # - { role: wttr, tags: ['wttr'] } # check weather condition using site : http://wttr.in
+
+    # do not want these for now
+    # - { role: aws, tags: ['aws'] }
+    # - { role: backitup, tags: ['backitup'] }
+    # - { role: bitlbee, tags: ['bitlbee'] } # console-based IRC to IM chatting gateway
+    # - { role: borg, tags: ['borg'] } # backup program with compression and authenticated encryption
+    # - { role: calibre, tags: ['calibre'] } # Ebook management
+    # - { role: cryptshot, tags: ['cryptshot'], when: "cryptshot is defined" }
+    # - { role: formd, tags: ['formd'] } # Markdown converter: inline-referenced
+    # - { role: git-annex, tags: ['git-annex'], when: "gitannex is defined" }
+    # - { role: hardened, tags: ['hardened'] }
+    # - { role: hashicorp, tags: ['hashicorp'] } # vagrant, consul, terraform
+    # - { role: i3, tags: ['i3'] } # tiling window manager
+    # - { role: kiwix, tags: ['kiwix'] } # offline reader for Web content, Wikipedia
+    # - { role: ledger, tags: ['ledger'] } # double-entry accounting system
+    # - { role: macbook, tags: ['macbook'], when: "'MacBook' in ansible_product_name" }
+    # - { role: mail, tags: ['mail'] }
+    # - { role: mapping, tags: ['mapping'] } # cartography
+    # - { role: pianobar, tags: ['pianobar'] } # Console-based pandora.com player
+    # - { role: pim, tags: ['pim'] } # Python image viewer with vim-like keybindings
+    # - { role: postgresql, tags: ['postgresql'] }
+    # - { role: radio, tags: ['radio'] }
+    # - { role: tarsnap, tags: ['tarsnap'] } # Online backups for the truly paranoid
+    # - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
+    # - { role: weechat, tags: ['weechat'] } # IRC
+    # - { role: yubikey, tags: ['yubikey'] }
+
+
+  vars_prompt:
+    - name: user_password
+      prompt: "Enter desired user password"

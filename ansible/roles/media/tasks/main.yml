@@ -1,38 +1,25 @@
 ---
-- include: beets.yml
-- include: abcde.yml
-- include: xfburn.yml
-- include: imagemagick.yml
-- include: inkscape.yml
-- include: gimp.yml
-- include: gthumb.yml
-- include: feh.yml
-- include: imv.yml
-- include: mcomix.yml
-- include: teiler.yml
-- include: flac2all.yml
-- include: darktable.yml
-- include: qcode.yml
+- name: Install media tools
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_flattened: "{{ packages.media }}"
 
-- name: Install misc media codecs and helpers
-  pacman: name={{ item }} state=present
-  with_items:
-    - flac
-    - lame
-    - gst-libav
-    - gst-plugins-good
-    - exiv2
-    - perl-image-exiftool
-    - opus-tools
+- name: Jail feh
+  file: src=/usr/bin/firejail
+        dest=/usr/local/bin/feh
+        state=link
 
 - name: Install Metadata Anonymisation Toolkit and dependencies
-  aur: name={{ item }} user={{ user.name }}
+  aur: name={{ item }}
+  become: yes
+  become_user: aur_builder
   with_items:
     - hachoir-core
     - hachoir-parser
     - mat
-  tags:
-    - aur
 
-- name: Install youtube-dl
-  pacman: name=youtube-dl state=present
+# - import_tasks: beets.yml # the music geek's media organizer
+- import_tasks: gimp.yml
+- import_tasks: qcode.yml

@@ -1,0 +1,6 @@
+[submodule "ansible/library/ansible-aur"]
+	path = ansible/library/ansible-aur
+	url = https://github.com/CNG/ansible-aur.git
+[submodule "ansible/roles/networkmanager/files/nmtrust"]
+	path = ansible/roles/networkmanager/files/nmtrust
+	url = https://github.com/pigmonkey/nmtrust.git

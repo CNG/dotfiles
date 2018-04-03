@@ -13,27 +13,19 @@
 
 - name: Create Tor systemd unit file directory
   file: path=/etc/systemd/system/tor.service.d state=directory
-  tags:
-    - firejail
 
 - name: Push Tor socket unit file
   copy: src=tor-service-override.conf dest=/etc/systemd/system/tor.service.d/override.conf
   notify:
     - reload systemd config
-  tags:
-    - firejail
 
 - name: Verify Tor firejail local profile exists
   file: path=/etc/firejail/tor.local state=touch
-  tags:
-    - firejail
 
 - name: Allow Tor firejail /dev access
   lineinfile:
     dest: /etc/firejail/tor.local
     line: "ignore private-dev"
-  tags:
-    - firejail
 
 - name: Enable and start Tor
   service: name=tor enabled=yes state=started

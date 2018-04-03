@@ -5,9 +5,9 @@
         protocol = https
 [alias]
         co = checkout
-        promote = !$DOTFILES/mods-available/git/functions/git-promote
-        wtf     = !$DOTFILES/mods-available/git/functions/git-wtf
-        rank-contributors = !$DOTFILES/mods-available/git/functions/git-rank-contributors
+        promote = !~/.zsh/functions/git-promote
+        wtf     = !~/.zsh/functions/git-wtf
+        rank-contributors = !~/.zsh/functions/git-rank-contributors
         count   = !git shortlog -sn
 [color]
         diff = auto
@@ -33,3 +33,6 @@
         #
         # Setting to git 2.0 default to suppress warning message
         default = simple
+[user]
+	name = Charlie Gorichanaz
+	email = charlie@gorichanaz.com

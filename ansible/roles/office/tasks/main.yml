@@ -1,78 +1,45 @@
 ---
-- name: Install LibreOffice
-  pacman: name=libreoffice-fresh state=present
+- name: Install office tools
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_flattened: "{{ packages.office }}"
 
 - name: Jail LibreOffice
   file: src=/usr/bin/firejail
         dest=/usr/local/bin/libreoffice
         state=link
-  tags:
-    - firejail
+  when: "'libreoffice-fresh' in packages.office"
 
 - name: Verify LibreOffice firejail local profile exists
   file: path=/etc/firejail/libreoffice.local state=touch
-  tags:
-    - firejail
+  when: "'libreoffice-fresh' in packages.office"
 
 - name: Restrict LibreOffice network access
   lineinfile:
     dest: /etc/firejail/libreoffice.local
     regexp: "^net"
     line: "net none"
-  tags:
-    - firejail
+  when: "'libreoffice-fresh' in packages.office"
 
 - name: Restrict LibreOffice access to /etc
   lineinfile:
     dest: /etc/firejail/libreoffice.local
     regexp: "^private-etc"
     line: "private-etc firejail,libreoffice,fonts,passwd"
-  tags:
-    - firejail
+  when: "'libreoffice-fresh' in packages.office"
 
-- name: Install Zathura and dependencies
-  pacman: name={{ item }} state=present
-  with_items:
-    - zathura-pdf-mupdf
-    - zathura-ps
-
-- name: Set Zathura as default PDF viewer
-  lineinfile: dest=/etc/xdg/mimeapps.list
-              regexp=^application/pdf
-              state=present
-              line="application/pdf=zathura.desktop"
+# Destination /etc/xdg/mimeapps.list does not exist
+# - name: Set Zathura as default PDF viewer
+#   lineinfile: dest=/etc/xdg/mimeapps.list
+#               regexp=^application/pdf
+#               state=present
+#               line="application/pdf=zathura.desktop"
+#   when: "'zathura-pdf-mupdf' in packages.office"
 
 - name: Jail Zathura
   file: src=/usr/bin/firejail
         dest=/usr/local/bin/zathura
         state=link
-  tags:
-    - firejail
-
-- name: Install enscript
-  pacman: name=enscript state=present
-
-- name: Install Simple Scan
-  pacman: name=simple-scan state=present
-
-- name: Install pandoc
-  pacman: name=pandoc state=present
-
-- name: Install texlive-core
-  pacman: name=texlive-core state=present
-
-- name: Install texlive-latexextra
-  pacman: name=texlive-latexextra state=present
-
-- name: Install masterpdfeditor
-  aur: name=masterpdfeditor user={{ user.name }}
-  tags:
-    - aur
-
-- name: Install pdfgrep
-  pacman: name=pdfgrep state=present
-
-- name: Install visidata
-  aur: name=visidata-git user={{ user.name }}
-  tags:
-    - aur
+  when: "'zathura-pdf-mupdf' in packages.office"

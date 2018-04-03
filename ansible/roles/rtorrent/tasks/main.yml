@@ -6,5 +6,3 @@
   file: src=/usr/bin/firejail
         dest=/usr/local/bin/rtorrent
         state=link
-  tags:
-    - firejail

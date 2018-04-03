@@ -1,8 +1,6 @@
 ---
 - name: Install macchiato
-  aur: name=macchiato-git user={{ user.name }}
-  tags:
-    - aur
+  aur: name=macchiato-git
 
 - name: Configure interfaces for macchiato
   copy: src=macchiato_default.sh dest=/etc/macchiato.d/{{ item }}.sh

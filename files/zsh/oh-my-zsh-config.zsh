@@ -3,7 +3,11 @@ ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Look in ~/.oh-my-zsh/themes/. Optionally, if
 # you set this to "random", it'll load a random theme each time oh-my-zsh loads.
-ZSH_THEME="robbyrussell"
+#if [[ -z ${ZSH_THEME+x} ]]; then
+#ZSH_THEME="robbyrussell"
+#fi
+ZSH_THEME="powerlevel9k/powerlevel9k"
+#ZSH_THEME="powerlevel9k"
 
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"

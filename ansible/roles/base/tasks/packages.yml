@@ -1,59 +1,65 @@
 ---
 - name: Install universal base packages
-  pacman: name={{ item }} state=present
-  with_items: "{{ base_packages }}"
-  tags:
-    - packages
+  pacman:
+    name: "{{ item }}"
+    state: present
+  with_flattened: "{{ packages.base }}"
 
 - name: Create pacman hook directory
-  file: path=/etc/pacman.d/hooks
-        state=directory
-  tags:
-    - packages
+  file:
+    path: "/etc/pacman.d/hooks"
+    state: directory
 
 - name: Push pacman mirror list update hook
-  copy: src=mirrorlist.hook dest=/etc/pacman.d/hooks/mirrorlist.hook
-  tags:
-    - packages
+  copy:
+    src: "mirrorlist.hook"
+    dest: "/etc/pacman.d/hooks/mirrorlist.hook"
 
-- name: Create AUR directory
-  file: path=/home/{{ user.name }}/{{ aur.dir }}
-        state=directory
-        owner={{ user.name }}
-        group={{ user.group }}
-  tags:
-    - aur
-    - packages
+- name: Install AUR helper
+  aur:
+    name: "{{ item }}"
+    use: internal
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - aurman
+    # - package-query
+    # - yaourt
 
-- name: Install cower
-  aur: name=cower user={{ user.name }} skip_pgp=yes
-  tags:
-    - aur
-    - packages
+# This is redundant with dotfiles but here for ordering
+- name: Configure Aurman
+  blockinfile:
+    dest: "/home/{{ user.name }}/.config/aurman/aurman_config"
+    state: present
+    block: |
+      [miscellaneous]
+      no_sudo_loop
+    mode: "u=rw,g=r,o=r"
 
 - name: Install AUR base packages
-  aur: name={{ item }} user={{ user.name }}
-  with_items: "{{ aur.packages }}"
-  tags:
-    - aur
-    - packages
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_flattened: "{{ packages.base_aur }}"
 
 - name: Push pacman cache cleanup service
-  copy: src=paccache.service dest=/etc/systemd/system/paccache.service
+  copy:
+    src: "paccache.service"
+    dest: "/etc/systemd/system/paccache.service"
   notify:
     - reload systemd config
-  tags:
-    - packages
 
 - name: Push pacman cache cleanup timer
-  copy: src=paccache.timer dest=/etc/systemd/system/paccache.timer
+  copy:
+    src: "paccache.timer"
+    dest: "/etc/systemd/system/paccache.timer"
   notify:
     - reload systemd config
     - restart paccache
-  tags:
-    - packages
 
 - name: Enable and start pacman cache cleanup timer
-  service: name=paccache.timer enabled=yes state=started
-  tags:
-    - packages
+  service:
+    name: "paccache.timer"
+    enabled: yes
+    state: started

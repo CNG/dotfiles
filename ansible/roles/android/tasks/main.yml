@@ -1,0 +1,45 @@
+---
+- name: Check if fb-adb is installed
+  command: which fb-adb
+  register: fbadb_check
+
+- name: Add key for fb-adb-git dependency ncurses5-compat-libs
+  command: gpg --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB
+  when: fbadb_check.rc == 1
+
+- name: Install Android programs
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - jdk9-openjdk
+    - android-sdk
+    - android-sdk-platform-tools
+    - android-file-transfer
+    - fb-adb-git
+
+- name: Clone adb-sync repo
+  git:
+    repo: "git://github.com/google/adb-sync.git"
+    dest: "/home/{{ user.name }}/projects/adb-sync-git"
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Link adb-channel to bin
+  file:
+    path: "/usr/local/bin/{{ item }}"
+    src: "/home/{{ user.name }}/projects/adb-sync-git/{{ item }}"
+    state: link
+    force: yes
+  with_items:
+    - adb-sync
+    - adb-channel
+
+# ➜  ~ ssh android
+# SSHelper Version 10.3 Copyright 2017, P. Lutus
+# Default password is "admin" (recommend: change it)
+# CANNOT LINK EXECUTABLE "-sh": library "libTcpOptimizer.so" not found
+# Connection to android closed.

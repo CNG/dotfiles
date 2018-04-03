@@ -1,0 +1,4 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+[miscellaneous]
+no_sudo_loop
+# END ANSIBLE MANAGED BLOCK

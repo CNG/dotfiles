@@ -13,11 +13,8 @@
     - python-requests
     - python-pyacoustid
     - beets
-  tags:
-    - beets
 
 - name: Install mp3val
-  aur: name=mp3val user={{ user.name }}
-  tags:
-    - aur
-    - beets
+  aur: name=mp3val
+  become: yes
+  become_user: aur_builder

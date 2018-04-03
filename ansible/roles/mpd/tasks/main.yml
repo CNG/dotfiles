@@ -6,28 +6,20 @@
   file: src=/usr/bin/firejail
         dest=/usr/local/bin/mpd
         state=link
-  tags:
-    - firejail
 
 - name: Verify mpd firejail local profile exists
   file: path=/etc/firejail/mpd.local state=touch
-  tags:
-    - firejail
 
 - name: Set mpd firejail protocols
   lineinfile:
     dest: /etc/firejail/mpd.local
     regexp: "^protocol"
     line: "protocol unix,inet,inet6,netlink"
-  tags:
-    - firejail
 
 - name: Push mpd service file
   copy: src=mpd.service dest=/etc/systemd/user/mpd.service
   notify:
     - reload systemd config
-  tags:
-    - firejail
 
 - name: Install mpc
   pacman: name=mpc state=present
@@ -39,12 +31,8 @@
   file: src=/usr/bin/firejail
         dest=/usr/local/bin/ncmpcpp
         state=link
-  tags:
-    - firejail
 
 - name: Push ncmpcpp firejail profile
   copy: src=firejail/ncmpcpp.profile dest=/usr/local/etc/firejail/ncmpcpp.profile
   notify:
     - activate firejail profiles
-  tags:
-    - firejail
