@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# this is executed by arch-chroot
+
+set -o xtrace
+set -o errexit
+
+# Setup system clock
+ln -f -s /usr/share/zoneinfo/US/Pacific /etc/localtime
+hwclock --systohc --utc
+
+# Generate locale
+sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+{ echo LANG=en_US.UTF-8; echo LC_ALL= } >> /etc/locale.conf
+
+echo KEYMAP=dvorak >> /etc/vconsole.conf
+
+echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
+echo -e "::1\tlocalhost" >> /etc/hosts
+echo -e "127.0.1.1\t$(cat /etc/hostname)" >> /etc/hosts
+systemctl enable NetworkManager
+
+# Set password for root
+passwd
+
+# Configure mkinitcpio with modules needed for the initrd image
+sed -i -e 's/^MODULES=()/MODULES=(ext4)/' -e '/^HOOKS/s/filesystems/encrypt lvm2 resume filesystems/' /etc/mkinitcpio.conf
+
+# Regenerate initrd image
+mkinitcpio -p linux
+
+# Setup systembootd (grub will not work on nvme at this moment)
+bootctl --path=/boot install
+
+# Create loader.conf
+f=/boot/loader/entries/loader.conf
+echo 'default arch' >> $f
+echo 'timeout 5' >> $f
+echo 'editor 1' >> $f
+
+# Create arch.conf
+f=/boot/loader/entries/arch.conf
+echo "title Arch Linux" >> $f
+echo "linux /vmlinuz-linux" >> $f
+echo "initrd /initramfs-linux.img" >> $f
+echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/sda2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw intel_pstate=no_hwp vsyscall=emulate" >> $f
+
+# Exit new system and go into the cd shell
+exit

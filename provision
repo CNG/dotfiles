@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -o errexit
+
+# Top level manager for @CNG's system configuration scripts
+
+# Script location determination accounting for symlinked script name
+# http://stackoverflow.com/a/246128/172602
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+APP_ROOT="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+err_report () {
+  echo "Error on line $1"
+}
+
+main () {
+  trap 'err_report $LINENO' ERR
+  cd "$APP_ROOT"
+
+  if ! pacman -Qi ansible > /dev/null; then
+    # I think we will just use Python 3 (python) right away
+    # sudo pacman -Syy --noconfirm python2-passlib ansible git
+    sudo pacman -Sy --noconfirm python ansible git
+  fi
+
+  cd ansible
+  git submodule init && git submodule update
+
+  if [[ ! -d library/ansible-aur ]]; then
+    git clone https://github.com/kewlfft/ansible-aur.git library/ansible-aur
+    # Next line checks our PR that fixes 'ImportError: No module named request'
+    ( cd library/ansible-aur; git fetch origin pull/1/head:1 && git checkout 1 )
+  fi
+  ln -fs ansible-aur/aur.py library/aur
+
+  # ansible-playbook -i local -K playbook.yml "$@"
+  sudo ansible-playbook -i local playbook.yml "$@"
+
+  trap - ERR
+}
+
+( main "$@" )

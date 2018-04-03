@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# mostly from https://gist.github.com/binaerbaum/535884a7f5b8a8697557 but automated the partitioning
+# loadkeys dvorak
+
+set -o xtrace
+set -o errexit
+
+setuppartition=/dev/sdb2
+setupdir=/tmp/setupdir
+# rootdevice=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
+rootdevice=/dev/sda
+
+mkdir $setupdir
+mount $setuppartition $setupdir
+$setupdir/dotfiles/base
+
+timedatectl set-ntp true
+
+# Create partitions
+parted --script $rootdevice mklabel gpt
+partprobe
+# EFI
+sgdisk $rootdevice -n=1:0:+512M -t=1:ef00
+mkfs.vfat -F32 $rootdevice"1"
+# Encrypted root, swap
+sgdisk $rootdevice -n=2:0:0
+cryptsetup luksFormat --type luks2 $rootdevice"2" # enter password
+cryptsetup luksAddKey $rootdevice"2" # enter password AS IF US KEYBOARD
+cryptsetup luksOpen $rootdevice"2" luks
+pvcreate /dev/mapper/luks
+vgcreate vg0 /dev/mapper/luks
+swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
+swapsize=$(($swapsize/1000))"M"
+lvcreate --size $swapsize vg0 --name swap
+lvcreate -l +100%FREE vg0 --name root
+
+read -p "Continue? [y|n]" -n 1 -r
+echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+
+mkfs.ext4 /dev/mapper/vg0-root
+mkswap /dev/mapper/vg0-swap
+
+# Mount the new system 
+mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
+swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
+mkdir /mnt/boot
+mount $rootdevice"1" /mnt/boot
+
+read -p "Continue? [y|n]" -n 1 -r
+echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+
+# Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
+# Unless vim and zsh are desired these can be removed from the command. Dialog is needed by wifi-menu
+# pacstrap /mnt base base-devel zsh vim git sudo efibootmgr dialog wpa_supplicant networkmanager
+pacstrap /mnt base base-devel efibootmgr dialog wpa_supplicant networkmanager
+
+read -p "Continue? [y|n]" -n 1 -r
+echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+
+# 'install' fstab
+genfstab -pU /mnt >> /mnt/etc/fstab
+# Make /tmp a ramdisk
+echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
+# Change relatime on all non-boot partitions to noatime (reduces wear if using an SSD)
+
+# Enter the new system
+cp -a $setupdir/dotfiles/base_include /mnt
+
+read -p "Continue? [y|n]" -n 1 -r
+echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+
+arch-chroot /mnt ./base_include
+
+read -p "Continue? [y|n]" -n 1 -r
+echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+
+# Unmount all partitions
+umount -R /mnt
+swapoff -a
+
+# Reboot into the new system, don't forget to remove the cd/usb
+reboot
