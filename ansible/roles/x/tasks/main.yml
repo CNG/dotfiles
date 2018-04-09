@@ -41,7 +41,6 @@
     - unclutter
     - autorandr-git
     - srandrd
-    # - termite
     - autocutsel
 
 - import_tasks: xdg.yml

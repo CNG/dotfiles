@@ -24,3 +24,9 @@
     src: "/home/{{ user.name }}/{{ dotfiles.source }}/provision"
     dest: /usr/local/bin/provision
     state: link
+
+# Added this when troubleshooting irregular temp readings in i3 setup
+# https://wiki.archlinux.org/index.php/lm_sensors
+- name: Run sensors-detect
+  command: sensors-detect --auto
+  become: yes

@@ -8,17 +8,17 @@
 - name: Enable LightDM
   service: name=lightdm.service enabled=yes
 
-- name: Create background dir
-  file: path=/usr/share/backgrounds state=directory
+# - name: Create background dir
+#   file: path=/usr/share/backgrounds state=directory
 
-- name: Push LightDM greeter background
-  copy: src=onosendai.jpg dest=/usr/share/backgrounds/onosendai.jpg
+# - name: Push LightDM greeter background
+#   copy: src=onosendai.jpg dest=/usr/share/backgrounds/onosendai.jpg
 
-- name: Specify LightDM greeter background
-  lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf
-              regexp="^background="
-              state=present
-              line="background=/usr/share/backgrounds/onosendai.jpg"
+# - name: Specify LightDM greeter background
+#   lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf
+#               regexp="^background="
+#               state=present
+#               line="background=/usr/share/backgrounds/onosendai.jpg"
 
 - name: Hide user images
   lineinfile: dest=/etc/lightdm/lightdm-gtk-greeter.conf

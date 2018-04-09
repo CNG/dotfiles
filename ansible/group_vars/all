@@ -225,7 +225,16 @@ packages:
         #   --> then run "systemctl enable foldingathome.service" to enable
         #   --> the folding service. If you would like join the Arch Linux
         #   --> team, use team number 45032.  
-        - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki ]
+        - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
+        # Anki addons:
+        # not yet Anki 2.1: 162313389 Power format pack
+        # 874215009 Advanced Browser
+        # 1672832404 Add note id
+        # 613684242 True retention
+        # 3491767031 Multi-column note editor
+        # 291119185 Batch Note Editing
+        # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
+        # 117604477 Dark Themes Fix for 2.0
         - [ zathura-pdf-mupdf, zathura-ps ]
         - archlinux-java-run
         - automatic

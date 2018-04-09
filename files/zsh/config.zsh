@@ -6,8 +6,8 @@ fpath=($HOME/.zsh/***/functions $fpath)
 autoload -U $HOME/.zsh/***/functions/*(:t)
 
 HISTFILE=~/.zsh_history
-HISTSIZE=
-SAVEHIST=
+HISTSIZE=10000000
+SAVEHIST=10000000
 
 setopt NO_BG_NICE # don't nice background tasks
 setopt NO_HUP
