@@ -80,13 +80,15 @@
 
 
 
-- name: Fix Baloo inotify folder watch limit error
+- name: Fix Baloo (and more) inotify folder watch limit error
   become: yes
   copy:
     src: 40-max-user-watches.conf
     dest: /etc/sysctl.d/40-max-user-watches.conf
     mode: 0644
-
+- name: sudo sysctl --system
+  become: yes
+  command: sysctl --system
 
 - set_fact:
     media_controls:

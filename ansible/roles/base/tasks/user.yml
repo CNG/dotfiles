@@ -15,6 +15,7 @@
     groups:
       - uucp
       - plugdev
+      - vboxusers
     append: yes
   tags: base
 

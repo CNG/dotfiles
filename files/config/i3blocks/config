@@ -8,6 +8,12 @@ markup=pango
 interval=2
 
 
+[arch_update]
+command=~/.config/i3scripts/arch-update.py -a -b "#5fff5f" -u "#FFFF85" -w "^linux.*" "^pacman.*" -q
+interval=3600
+separator_block_width=50
+
+
 [mediaplayer]
 instance=spotify
 interval=5
@@ -16,9 +22,10 @@ color=#8CE000
 separator_block_width=50
 
 
-[arch_update]
-command=~/.config/i3scripts/arch-update.py -a -b "#5fff5f" -u "#FFFF85" -w "^linux.*" "^pacman.*"
-interval=3600
+[usb]
+command=~/.config/i3blocks-contrib/usb/usb -i sda1 -i nvme0n1p1 -i nvme0n1p2 -i nvme0n1p3
+signal=1
+color=#8CE000
 separator_block_width=50
 
 
@@ -92,6 +99,12 @@ signal=10
 interval=once
 instance=Master
 separator_block_width=20
+
+#[volume-pulseaudio]
+#command=~/.config/i3blocks-contrib/volume-pulseaudio/volume-pulseaudio -Sa -m default -s Master
+#interval=persist
+#separator_block_width=50
+
 
 [date]
 command=date +%Y-%m-%d

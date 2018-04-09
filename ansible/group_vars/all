@@ -238,7 +238,7 @@ packages:
         - [ zathura-pdf-mupdf, zathura-ps ]
         - archlinux-java-run
         - automatic
-        - cerebro
+        # - cerebro
         - enscript
         - [ insync, insync-dolphin ]
         - keybase

@@ -11,6 +11,13 @@
     #- i3blocks-git
     - rofi
     - playerctl
+    # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    - qt5ct
+    - compton
+    - xbindkeys
+
+
+
 
 # - name: Verify default applications file exists
 #   file:
@@ -35,3 +42,23 @@
   become: yes
   become_user: "{{ user.name }}"
 
+# https://github.com/vivien/i3blocks-contrib/tree/master/usb
+- name: Configure USB reload script for i3blocks
+  copy:
+    src: 70-persistent-usb.rules
+    dest: /etc/udev/rules.d/70-persistent-usb.rules
+- name: udevadm control --reload-rules
+  command: "udevadm control --reload-rules"
+  become: yes
+
+
+- name: Create kbdrate service
+  copy:
+    src: kbdrate.service
+    dest: /etc/systemd/system/kbdrate.service
+
+- name: Enable and start kbdrate service
+  service:
+    name: kbdrate.service
+    enabled: yes
+    state: started
