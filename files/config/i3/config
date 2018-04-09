@@ -1,5 +1,5 @@
 # Default modkey
-set $mod Mod4
+set $mod Mod1
 
 # Hide titlebar
 new_window pixel
@@ -8,57 +8,47 @@ new_window pixel
 gaps inner 6
 
 # Font for window titles.
-font pango: SauceCodePro Nerd Font Black 11
+#font pango: SauceCodePro Nerd Font Black 11
+font pango: Fira Sans Regular 12
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # Start a terminal
-bindsym $mod+Return exec terminator
-
-# Kill focused window
-bindsym $mod+Shift+q kill
-
+bindsym $mod+Return exec alacritty
 # Start rofi
 bindsym $mod+d exec rofi -show drun
 
-# Move between windows
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# Kill focused window
+bindsym $mod+q kill
 
-# Alternatively, you can use the cursor keys:
+
+# Move between windows
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# Alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# Split in horizontal orientation
+# Split
 bindsym $mod+h split h
-
-# Split in vertical orientation
 bindsym $mod+v split v
 
 # Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# Change container layout (stacked, tabbed, toggle split)
+# Open blank container
+bindsym $mod+o open
+
+# # Change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+t layout tabbed
+bindsym $mod+n layout toggle split
 
 # Toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -70,14 +60,14 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # Name the workspaces
-set $workspace1 "1:  www"
-set $workspace2 "2:  code"
-set $workspace3 "3:  terminal"
-set $workspace4 "4:  files"
-set $workspace5 "5:  virtual machines"
-set $workspace6 "6:  status"
-set $workspace7 "7: ♬ music"
-set $workspace8 "8:  random"
+set $workspace1 "1"
+set $workspace2 "2"
+set $workspace3 "3"
+set $workspace4 "4"
+set $workspace5 "5"
+set $workspace6 "6"
+set $workspace7 "7"
+set $workspace8 "8: ♬ "
 
 # Switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -104,17 +94,12 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # Always open some programs on specified workspace
-assign [class="firefox"]  $workspace1
-assign [class="emacs"]	   	$workspace2
-assign [class="VirtualBox"]	$workspace5
-assign [class="cmus"]		$workspace7
+assign [class="spotify"]    $workspace8
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
-
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-
 # Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -134,16 +119,16 @@ mode "resize"
 bindsym $mod+r mode "resize"
 
 # Defining colors
-set $cyan	   #00afd7
-set $acqua	 #007089 
-set $wine 	 #72003e
+set $cyan    #00afd7
+set $acqua   #007089
+set $wine    #72003e
 set $magenta #af005f
 set $orange  #ff8700
 set $silver  #e4e4e4
 set $elegant #00002c
 
-# Set some nice colors      border	 background text	   indicator
-client.focused              $cyan	   $cyan      $elegant $silver
+# Set some nice colors      border   background text     indicator
+client.focused              $cyan    $cyan      $elegant $silver
 client.unfocused            $elegant $elegant   $cyan    $silver
 client.focused_inactive     $acqua   $acqua     $silver  $magenta
 client.urgent               $magenta $magenta   $silver  $magenta
@@ -152,18 +137,18 @@ client.placeholder          $magenta $magenta   $silver  $white
 # Start i3blocks to display a workspace bar
 bar
 {
-	position top
-	status_command i3blocks
-	font pango: SauceCodePro Nerd Font Black 10	
-	colors
-	{
-                        # Border	# Background	# Text
-		focused_workspace   $silver	  $silver		$elegant
-		active_workspace    $elegant  $elegant  $orange
-		inactive_workspace  $elegant  $elegant 	$cyan
-		urgent_workspace    $acqua    $acqua    $silver
-		background          $elegant
-    	}
+  position top
+  status_command i3blocks
+  #font pango: Input Regular 12
+  colors
+  {
+                        # Border  # Background  # Text
+    focused_workspace   $silver   $silver       $elegant
+    active_workspace    $elegant  $elegant      $orange
+    inactive_workspace  $elegant  $elegant      $cyan
+    urgent_workspace    $acqua    $acqua        $silver
+    background          $elegant
+  }
 }
 
 # Startup programs
@@ -174,17 +159,15 @@ exec_always --no-startup-id feh --bg-scale ~/.taipei.jpg
 # Compositor for window transparency
 exec --no-startup-id compton -f
 
-# Set keyboard colour config
-exec_always --no-startup-id g213-led -r 1 ff0000 & # Red
-exec_always --no-startup-id g213-led -r 2 f0ff00 & # Yellow
-exec_always --no-startup-id g213-led -r 3 0fff00 & # Green
-exec_always --no-startup-id g213-led -r 4 0046ce & # Blue
-exec_always --no-startup-id g213-led -r 5 9900c9 & # Purple
-
 # Others
-exec --no-startup-id notify-send "Welcome back Andrea!" -i ~/.happy.png
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id setxkbmap latam
-exec --no-startup-id xbindkeys
+#exec --no-startup-id notify-send "Welcome back Andrea!" -i ~/.happy.png
+#exec --no-startup-id xfce4-power-manager
+#exec --no-startup-id setxkbmap dvorak
+#exec --no-startup-id xbindkeys
 
 for_window [class="Yad"] floating enable
+
+# change volume or toggle mute
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks

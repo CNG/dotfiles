@@ -5,19 +5,33 @@
   become: yes
   become_user: aur_builder
   with_items:
-    - i3-gaps-next-git
-    - i3blocks-git
+    - i3-gaps
+    - i3blocks
+    #- i3-gaps-next-git
+    #- i3blocks-git
     - rofi
+    - playerctl
 
-- name: Verify default applications file exists
-  file:
-    path: /etc/xdg/mimeapps.list
-    state: touch
+# - name: Verify default applications file exists
+#   file:
+#     path: /etc/xdg/mimeapps.list
+#     state: touch
 
-- name: Verify header in default applications file
-  lineinfile:
-    dest: /etc/xdg/mimeapps.list
-    state: present
-    line: '[Default Applications]'
-    insertbefore: BOF
+# https://github.com/ansible/ansible/issues/38219
+# - name: Verify header in default applications file
+#   lineinfile:
+#     dest: /etc/xdg/mimeapps.list
+#     state: present
+#     line: '[Default Applications]'
+#     insertbefore: BOF
+#     create: yes
+
+- name: Install i3blocks-contrib scripts
+  git:
+    repo: "git://github.com/vivien/i3blocks-contrib.git"
+    dest: "/home/{{ user.name }}/.config/i3blocks-contrib"
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
 
