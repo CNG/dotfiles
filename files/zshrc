@@ -43,5 +43,14 @@ if [[ "$SSH_AGENT_PID" == "" ]]; then
   eval "$(<~/.ssh-agent-thing)" 1> /dev/null
 fi
 
-ZSH_TMUX_AUTOSTART='true'
+# ZSH_TMUX_AUTOSTART='true'
+# TMUX
+if which tmux >/dev/null 2>&1; then
+  # if no session is started, start a new session
+  test -z ${TMUX} && tmux
 
+  # when quitting tmux, try to attach
+  while test -z ${TMUX}; do
+    tmux attach || break
+  done
+fi
