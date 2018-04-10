@@ -300,6 +300,7 @@ packages:
         - kindleunpack
         - mediainfo-gui
         - pdfshuffler
+        - cava # visualizer
         - spotify
         - youtube-dl
         # misc media codecs and helpers
