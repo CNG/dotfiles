@@ -1,7 +1,7 @@
 set $mod Mod1
 # Hide titlebar
 new_window pixel
-font pango: Fira Sans Regular 12
+font pango: Fira Sans Regular 16
 
 bindsym $mod+Return exec alacritty
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
@@ -137,7 +137,7 @@ bar
 # Wallpaper
 exec_always --no-startup-id feh --bg-scale ~/.taipei.jpg
 # Compositor for window transparency
-exec --no-startup-id compton -f
+exec --no-startup-id compton --config ~/.config/compton.conf
 exec --no-startup-id xbindkeys
 exec --no-startup-id insync start
 # typematic delay for X
