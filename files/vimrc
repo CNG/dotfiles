@@ -2,15 +2,9 @@
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 " runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
-" comment because adde.e syntax enable for Solarized colors
-" syntax on
+
 filetype plugin indent on
 
-syntax enable
-set background=dark
-" colorscheme solarized
-colorscheme molokai
-" let g:molokai_original = 1
 
 " prevent security exploits http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
 " set modelines=0
@@ -30,7 +24,6 @@ set autoindent
 set wildmenu
 set wildmode=list:longest
 set visualbell
-set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
@@ -54,6 +47,8 @@ nnoremap <leader><space> :noh<cr>
 " nnoremap <tab> %
 " vnoremap <tab> %
 set spell
+set spelllang=en
+set spellfile=$HOME/.vim/spell/en.utf-8.add
 
 set wrap
 set linebreak
@@ -116,4 +111,91 @@ nmap <Leader>s :%s///g<left><left>
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 " https://stackoverflow.com/a/7078429/172602
 cmap w!! w !sudo tee > /dev/null %
+
+
+set termguicolors
+set background=dark
+" colorscheme solarized8
+colorscheme solarized8_high
+" comment because adde.e syntax enable for Solarized colors
+" syntax on
+syntax enable
+let g:solarized_termtrans = 1
+let g:solarized_term_italics = 1
+" colorscheme molokai
+" let g:molokai_original = 1
+"
+"
+" Following needed for Tmux
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_powerline_fonts = 1
+
+let g:airline_detect_spell=0
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '^V' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '^S' : 'S',
+    \ }
+
+"  variable names                default contents
+"  ----------------------------------------------------------------------------
+"  let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
+"  let g:airline_section_b       (hunks, branch)[*]
+"  let g:airline_section_c       (bufferline or filename)
+"  let g:airline_section_gutter  (readonly, csv)
+"  let g:airline_section_x       (tagbar, filetype, virtualenv)
+"  let g:airline_section_y       (fileencoding, fileformat)
+"  let g:airline_section_z       (percentage, line number, column number)
+"  let g:airline_section_error   (ycm_error_count, syntastic-err, eclim)
+"  let g:airline_section_warning (ycm_warning_count, syntastic-warn, whitespace)
+
+  " [*] This section needs at least the fugitive extension or else
+  "     it will remain empty
+  "
+  " here is an example of how you could replace the branch indicator with
+  " the current working directory (limited to 10 characters),
+  " followed by the filename.
+"  let g:airline_section_b = '%-0.10{getcwd()}'
+"  let g:airline_section_c = '%t'
+
+" let g:airline_theme='molokai'
+
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+
+
+" set cursorline
+"nnoremap H :set cursorline! cursorcolumn!<CR>
+"hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" hlight current line current window only
+" augroup CursorLine
+"     au!
+"     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"     au WinLeave * setlocal nocursorline
+" augroup END
+" https://github.com/lifepillar/vim-solarized8.git
+" https://github.com/akracun/vitality.vim.git
+let g:vitality_tmux_can_focus = 1
+
+let g:bufferline_echo = 0
+
+
+set noshowmode
+set noruler
+"set laststatus=0
+"set noshowcmd
 
