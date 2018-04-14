@@ -89,8 +89,9 @@ color=#f92672
 label=
 
 [battery]
+instance=2
 interval=30
-separator_block_width=50
+separator_block_width=20
 
 
 [volume]

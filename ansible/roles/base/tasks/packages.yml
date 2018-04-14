@@ -17,14 +17,10 @@
 
 - name: Install AUR helper
   aur:
-    name: "{{ item }}"
+    name: aurman
     use: internal
   become: yes
   become_user: aur_builder
-  with_items:
-    - aurman
-    # - package-query
-    # - yaourt
 
 # This is redundant with dotfiles but here for ordering
 - name: Configure Aurman
@@ -34,7 +30,15 @@
     block: |
       [miscellaneous]
       no_sudo_loop
+    create: yes
     mode: "u=rw,g=r,o=r"
+
+- name: Upgrade all packages
+  aur:
+    upgrade: yes
+    skip_installed: no
+  become: yes
+  become_user: aur_builder
 
 - name: Install AUR base packages
   aur:

@@ -1,9 +1,13 @@
 ---
 - name: Install LightDM
-  pacman: name={{ item }} state=present
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
   with_items:
       - lightdm
       - lightdm-webkit2-greeter
+      - lightdm-webkit2-theme-material2
 
 - name: Enable LightDM
   service:
@@ -19,20 +23,55 @@
   copy:
     src: taipei.jpg
     dest: /usr/share/backgrounds/taipei.jpg
+    mode: 0666
+
+- name: Specify LightDM greeter
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: "^#? ?greeter-session *="
+    state: present
+    line: "greeter-session=lightdm-webkit2-greeter"
 
 - name: Specify LightDM greeter background
   lineinfile:
-    dest: /etc/lightdm/lightdm-webkit2-greeter.conf
-    regexp: "^background="
+    path: /etc/lightdm/lightdm-webkit2-greeter.conf
+    regexp: "^#? ?background *="
     state: present
-    line: "background=/usr/share/backgrounds/taipei.jpg"
+    line: "background        = /usr/share/backgrounds/taipei.jpg"
+
+- name: Specify LightDM greeter theme
+  lineinfile:
+    path: /etc/lightdm/lightdm-webkit2-greeter.conf
+    regexp: "^#? ?webkit_theme *="
+    state: present
+    line: "webkit_theme        = material2"
+
+- name: Create LightDM greeter keyboard settings directory
+  file:
+    name: /etc/lightdm/lightdm-webkit2-greeter.conf.d
+    state: directory
+    mode: 0755
+
+- name: Specify LightDM greeter keyboard settings
+  copy:
+    src: 50-modify-indicators.conf
+    dest: /etc/lightdm/lightdm-webkit2-greeter.conf.d/50-modify-indicators.conf
+    mode: 0644
+
+- name: Hide AUR user
+  # could also make aur_builder have ID<1000
+  lineinfile:
+    path: /etc/lightdm/users.conf
+    regexp: "^#? ?hidden-users *="
+    state: present
+    line: "hidden-users=nobody nobody4 noaccess aur_builder"
 
 - name: Hide user images
   lineinfile:
     dest: /etc/lightdm/lightdm-webkit2-greeter.conf
-    regexp: "^hide-user-image="
+    regexp: "^#? ?hide-user-image *="
     state: present
-    line: "hide-user-image=true"
+    line: "hide-user-image   = true"
 
 - name: Force LightDM greeter theme
   lineinfile:

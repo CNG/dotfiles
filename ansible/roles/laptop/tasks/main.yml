@@ -25,4 +25,8 @@
   service: name=lowbatt.timer enabled=yes state=started
 
 - name: Install light
-  aur: name=light
+  aur:
+    name: light-git
+  become: yes
+  become_user: aur_builder
+
