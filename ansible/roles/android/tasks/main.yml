@@ -23,7 +23,7 @@
   git:
     repo: "git://github.com/google/adb-sync.git"
     dest: "/home/{{ user.name }}/projects/adb-sync-git"
-    update: yes
+    update: no
     accept_hostkey: yes
   become: yes
   become_user: "{{ user.name }}"

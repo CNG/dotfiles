@@ -35,6 +35,7 @@
     - { user: 'bronson', repo: 'vim-visual-star-search' }
     - { user: 'altercation', repo: 'vim-colors-solarized' }
     - { user: 'tomasr', repo: 'molokai' }
+    - { user: 'lifepillar', repo: 'vim-solarized8' }
     # SnipMate
     - { user: 'tomtom', repo: 'tlib_vim' }
     - { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }

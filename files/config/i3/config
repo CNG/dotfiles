@@ -141,9 +141,9 @@ exec --no-startup-id compton --config ~/.config/compton.conf
 exec --no-startup-id xbindkeys
 exec --no-startup-id insync start
 # typematic delay for X
-exec --no-startup-id xset r rate 200 30
+exec_always --no-startup-id xset r rate 170 45
 # typematic delay for virtual console, maybe don't need here
-exec --no-startup-id kbdrate -d 200 -r 30
+exec_always --no-startup-id kbdrate -d 170 -r 45
 
 for_window [class="Yad"] floating enable
 for_window [class="insync.py"] floating enable
