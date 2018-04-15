@@ -4,3 +4,6 @@
 [submodule "ansible/roles/networkmanager/files/nmtrust"]
 	path = ansible/roles/networkmanager/files/nmtrust
 	url = https://github.com/pigmonkey/nmtrust.git
+[submodule "files/config/sublime-text-3/Packages/molokai"]
+	path = files/config/sublime-text-3/Packages/molokai
+	url = https://github.com/tomasr/molokai.git

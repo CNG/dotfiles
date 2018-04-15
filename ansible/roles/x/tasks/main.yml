@@ -1,38 +1,80 @@
 ---
 - name: Install Xorg
-  pacman: name=xorg-server state=present
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_flattened:
+    - xorg-server
+    - xorg-xinit
+    - xorg-xmodmap
+    - xorg-xdpyinfo
+    - xorg-xev
+    - xorg-sessreg
+    - xautomation
+    - xdg-user-dirs
+    - sxhkd
+    - unclutter
+    - autorandr-git
+    - srandrd
+    - autocutsel
+    # - libva-intel-driver
 
-- name: Install Xinit
-  pacman: name=xorg-xinit state=present
+- name: Check for NVIDIA graphics card
+  command: lspci -k | grep -i nvidia
+  register: nvidia_check
+  failed_when: False
+  changed_when: False
 
-- name: Install xmodmap
-  pacman: name=xorg-xmodmap state=present
+- name: Install NVIDIA
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - nvidia
+    - cuda
+  when: nvidia_check.rc == 0
 
-- name: Install xdpyinfo
-  pacman: name=xorg-xdpyinfo state=present
+- name: Install NVIDIA Pacman hook
+  become: yes
+  copy:
+    src: nvidia.hook
+    dest: /etc/pacman.d/hooks/nvidia.hook
+    mode: 0644
+  when: nvidia_check.rc == 0
 
-- name: Install xev
-  pacman: name=xorg-xev state=present
+- name: Install NVIDIA config
+  become: yes
+  copy:
+    src: xorg.conf
+    dest: /etc/X11/xorg.conf.d/20-nvidia.conf
+    mode: 0644
+  when: nvidia_check.rc == 0
 
-- name: Install xorg-sessreg
-  pacman: name=xorg-sessreg state=present
-
-- name: Install xautomation
-  pacman: name=xautomation state=present
-
-- name: Install video driver(s)
-  pacman: name={{ item }} state=present
-  with_items: "{{ video_drivers | default([]) }}"
+- name: Remove Xorg config
+  become: yes
+  file:
+    state: absent
+    path: /etc/X11/xorg.conf
+  when: nvidia_check.rc == 0
 
 - name: Add user to video group
-  user: name={{ user.name }} groups=video append=yes
+  user:
+    name: "{{ user.name }}"
+    groups: video
+    append: yes
 
 - name: Enable middle-click scrolling
-  copy: src=30-scroll.conf dest=/etc/X11/xorg.conf.d/30-scroll.conf
+  copy:
+    src: 30-scroll.conf
+    dest: /etc/X11/xorg.conf.d/30-scroll.conf
   when: middle_click_scroll is defined and middle_click_scroll == True
 
 - name: Enable natural scrolling
-  copy: src=31-scroll-direction.conf dest=/etc/X11/xorg.conf.d/31-scroll-direction.conf
+  copy:
+    src: 31-scroll-direction.conf
+    dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
 
 - name: Install more X stuff
   aur:
@@ -46,4 +88,15 @@
     - srandrd
     - autocutsel
 
-- import_tasks: xdg.yml
+# https://wiki.archlinux.org/index.php/intel_graphics
+# needed to delete this file to get displays to load, didn't investigate
+# - name: "Intel graphics: take advantage of some driver options"
+#   copy:
+#     src: 20-intel.conf
+#     dest: /etc/X11/xorg.conf.d/20-intel.conf
+#   when: nvidia_check.rc == 1
+
+- name: Create user directories
+  command: /usr/bin/xdg-user-dirs-update
+  become: yes
+  become_user: "{{ user.name }}"

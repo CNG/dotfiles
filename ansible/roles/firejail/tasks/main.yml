@@ -14,10 +14,11 @@
   file: path=/usr/local/etc/firejail state=directory
 
 - name: Verify firejail globals file exists
-  file: path=/etc/firejail/globals.local state=touch
+  file: path=/etc/firejail/globals.local state=file
 
 - name: Add blacklist to globals
-  lineinfile: dest=/etc/firejail/globals.local
-              state=present
-              line="blacklist {{ item }}"
+  lineinfile:
+    dest: /etc/firejail/globals.local
+    state: present
+    line: "blacklist {{ item }}"
   with_items: "{{ firejail.blacklist }}"

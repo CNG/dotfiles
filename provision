@@ -28,12 +28,12 @@ main () {
   fi
 
   cd ansible
-  git submodule init && git submodule update
+  git submodule init && git submodule update || true # ignore submodule issue i should fix
 
-  if [[ ! -d library/ansible-aur ]]; then
-    git clone https://github.com/kewlfft/ansible-aur.git library/ansible-aur
+  if [[ ! -f library/ansible-aur/aur.py ]]; then
+    git clone https://github.com/CNG/ansible-aur.git library/ansible-aur
     # Next line checks our PR that fixes 'ImportError: No module named request'
-    ( cd library/ansible-aur; git fetch origin pull/1/head:1 && git checkout 1 )
+    # ( cd library/ansible-aur; git fetch origin pull/1/head:1 && git checkout 1 )
   fi
   ln -fs ansible-aur/aur.py library/aur
 

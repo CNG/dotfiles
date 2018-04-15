@@ -33,7 +33,7 @@
     - { user: 'scrooloose', repo: 'nerdcommenter' }
     - { user: 'michaeljsmith', repo: 'vim-indent-object' }
     - { user: 'bronson', repo: 'vim-visual-star-search' }
-    - { user: 'altercation', repo: 'vim-colors-solarized' }
+    - { user: 'lifepillar', repo: 'vim-solarized8' }
     - { user: 'tomasr', repo: 'molokai' }
     - { user: 'lifepillar', repo: 'vim-solarized8' }
     # SnipMate

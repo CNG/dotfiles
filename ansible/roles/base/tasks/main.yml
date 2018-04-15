@@ -1,4 +1,8 @@
 ---
+- name: Report ansible_product_version
+  debug:
+    msg: "ansible_product_version: {{ ansible_product_version }}"
+
 - name: Copy pacman configuration file
   copy:
     src: pacman.conf

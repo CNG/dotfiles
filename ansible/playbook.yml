@@ -1,12 +1,15 @@
 ---
 - hosts: localhost
   become: yes
+  ignore_errors: yes # TODO
   roles:
     # these run as dependencies
     # - { role: base, tags: ['base'] }
     # - { role: x, tags: ['x'] }
+    # - { role: laptop, tags: ['laptop'] }
 
-    - { role: desktop, tags: ['desktop'] }
+    - { role: desktop, tags: ['desktop'], when: "desktop is defined" }
+    - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
 
     - { role: archive, tags: ['archive'] }
     - { role: android, tags: ['android'] }
@@ -16,17 +19,16 @@
     - { role: cups, tags: ['cups'] }
     - { role: developer, tags: ['developer'] }
     - { role: dotfiles, tags: ['dotfiles'] }
+    - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }
     - { role: filesystems, tags: ['filesystems'] }
     - { role: firejail, tags: ['firejail'] }
     - { role: fonts, tags: ['fonts'] }
     - { role: gnupg, tags: ['gnupg'] }
-    - { role: himawaripy, tags: ['himawaripy'], when: "himawaripy is defined" } # fetches picture of Earth
-    # next was commented due to error but accidentally installed manually
+    # - { role: himawaripy, tags: ['himawaripy'], when: "himawaripy is defined" } # fetches picture of Earth
     - { role: hostsctl, tags: ['hostsctl'], when: "hostsctl is defined" }
-    - { role: i3, tags: ['i3'] } # tiling window manager
-    - { role: laptop, tags: ['laptop'], when: "'laptop' in hostname"  }
-    - { role: lightdm, tags: ['lightdm'] }
+    - { role: i3, tags: ['i3'], when: desktop == "i3" } # tiling window manager
+    - { role: lightdm, tags: ['lightdm'] } # login manager
     - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
     - { role: media, tags: ['media'] }
     - { role: microcode, tags: ['microcode'], when: "'GenuineIntel' in ansible_processor" }
@@ -68,7 +70,6 @@
     # - { role: formd, tags: ['formd'] } # Markdown converter: inline-referenced
     # - { role: git-annex, tags: ['git-annex'], when: "gitannex is defined" }
     # - { role: hardened, tags: ['hardened'] }
-    # - { role: hashicorp, tags: ['hashicorp'] } # vagrant, consul, terraform
     # - { role: kiwix, tags: ['kiwix'] } # offline reader for Web content, Wikipedia
     # - { role: ledger, tags: ['ledger'] } # double-entry accounting system
     # - { role: macbook, tags: ['macbook'], when: "'MacBook' in ansible_product_name" }
@@ -79,7 +80,6 @@
     # - { role: postgresql, tags: ['postgresql'] }
     # - { role: radio, tags: ['radio'] }
     # - { role: tarsnap, tags: ['tarsnap'] } # Online backups for the truly paranoid
-    # - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
     # - { role: weechat, tags: ['weechat'] } # IRC
     # - { role: yubikey, tags: ['yubikey'] }
 

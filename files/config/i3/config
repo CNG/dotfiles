@@ -3,6 +3,9 @@ set $mod Mod1
 new_window pixel
 font pango: Fira Sans Regular 16
 
+bindsym $mod+Shift+s exec --no-startup-id /usr/local/bin/monitor
+bindsym $mod+Shift+n exec --no-startup-id /usr/local/bin/monitor2
+
 bindsym $mod+Return exec alacritty
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
 bindsym $mod+b exec firefox
@@ -135,11 +138,15 @@ bar
 }
 
 # Wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.taipei.jpg
+exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/taipei.jpg
 # Compositor for window transparency
 exec --no-startup-id compton --config ~/.config/compton.conf
+# exec --no-startup-id xfce4-power-manager
+exec --no-startup-id setxkbmap dvorak
 exec --no-startup-id xbindkeys
 exec --no-startup-id insync start
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 # typematic delay for X
 exec_always --no-startup-id xset r rate 170 45
 # typematic delay for virtual console, maybe don't need here

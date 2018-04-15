@@ -1,6 +1,10 @@
 ---
 - name: restart tlp
-  service: name=tlp.service state=restarted
+  service:
+    name: tlp
+    state: restarted
 
 - name: restart lowbatt
-  service: name=lowbatt.timer state=restarted
+  service:
+    name: lowbatt.timer
+    state: restarted

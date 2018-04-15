@@ -1,6 +1,8 @@
 ---
 - name: Install hdparm
-  pacman: name=hdparm state=present
+  pacman:
+    name: hdparm
+    state: present
 
 - name: Check for TRIM support
   shell: "hdparm -I /dev/sda | grep TRIM"
@@ -8,5 +10,8 @@
   ignore_errors: True
 
 - name: Enable and start weekly filesystem TRIM timer
-  service: name=fstrim.timer enabled=yes state=started
+  service:
+    name: fstrim.timer
+    enabled: yes
+    state: started
   when: "hdparm.rc == 0"

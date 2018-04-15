@@ -39,6 +39,8 @@
 - name: Get device UUIDs
   command: "ls /dev/disk/by-uuid"
   register: ls_result
+  changed_when: False
+
 - set_fact:
     uuids: "{{ ls_result.stdout_lines }}"
 
@@ -60,7 +62,7 @@
   with_items: "{{ volumes }}"
   when: item.uuid in uuids
 
-- name: Link private Zsh files
+- name: Link private files
   file:
     path: "/home/{{ user.name }}/.{{ item }}"
     src: "/home/{{ user.name }}/projects/dotfiles/private/{{ item }}"

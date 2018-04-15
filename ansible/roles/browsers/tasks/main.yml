@@ -1,17 +1,24 @@
 ---
 - name: Install w3m
-  pacman: name=w3m state=present
+  pacman:
+    name: w3m
+    state: present
 
 - name: Install Firefox
-  pacman: name=firefox state=present
+  pacman:
+    name: firefox
+    state: present
 
 - name: Jail Firefox
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/firefox
-        state=link
+  file:
+    src: /usr/bin/firejail
+    dest: /usr/local/bin/firefox
+    state: link
 
 - name: Verify Firefox firejail local profile exists
-  file: path=/etc/firejail/firefox.local state=touch
+  file:
+    path: /etc/firejail/firefox.local
+    state: file
 
 - name: Restrict Firefox access to /etc
   lineinfile:
@@ -23,12 +30,15 @@
   pacman: name=chromium state=present
 
 - name: Jail Chromium
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/chromium
-        state=link
+  file:
+    src: /usr/bin/firejail
+    dest: /usr/local/bin/chromium
+    state: link
 
 - name: Verify Chromium firejail local profile exists
-  file: path=/etc/firejail/chromium.local state=touch
+  file:
+    path: /etc/firejail/chromium.local
+    state: file
 
 - name: Restrict Chromium access to /etc
   lineinfile:

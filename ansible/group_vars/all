@@ -1,16 +1,31 @@
 # perl -p00 -i -e 's/\n  tags:\N*(:?\n    -\N+)+//' **/*.yml
+
+multiple_solutions_under_aurman:
+    - gwenview # best image viewer for KDE
+    - dolphin
+    - dolphin-plugins
+    - kwallet
+    - kwalletmanager
+    - ark # compresses/extract zip files from within dolphin
+    - kfind
+    - digikam
+    - kamoso
+    - insync-dolphin
+
+
 user:
     name: cgorichanaz
     fullname: "Charlie Gorichanaz"
     uid: 1000
     group: cgorichanaz
     shell: /usr/bin/zsh
+    layout: dvorak
     email:  charlie@gorichanaz.com
     log:
         dir: log
         rotate: 8
 
-hostname: CharlieDesktop18
+hostname: CharlieFitbit18a
 
 volumes:
   - path: /mnt/macos
@@ -24,13 +39,13 @@ volumes:
     opts: nosuid,nodev,nofail,x-gvfs-show
 
 dotfiles:
-    # url: git@github.com:CNG/dotfiles2.git
+    # url: git@github.com:CNG/dotfiles.git
     source: projects/dotfiles
     rcup_flags: -f
 
 ssh:
     port: 22
-   # user_key: /root/id_rsa
+    # user_key: /root/id_rsa
     enable_sshd: False
 
 gnupg:
@@ -42,9 +57,6 @@ network:
     conn_check:
         interval: 0
     trusted_uuidX:
-
-#video_drivers:
-    # - libva-intel-driver
 
 browser_choices:
     # - firefox -P default
@@ -60,7 +72,7 @@ passwordless_sudo:
 
 bootloader: grub
 
-# fingerprint: False
+fingerprint: True
 
 # tor:
 #     run_on: trusted
@@ -69,7 +81,7 @@ localtime:
      run_on: all
 
 nameservers:
-    - 8.8.8.8       # Google
+    - 1.1.1.1
 
 bluetooth:
     disable: False
@@ -100,10 +112,10 @@ firejail:
 #           interval: 3
 
 journal:
-    max_size: 500M
+    max_size: 5000M
 
 udisks:
-    auto_mount: False
+    auto_mount: True
     shared_mount: True
 
 hostsctl:
@@ -117,9 +129,11 @@ himawaripy:
 
 middle_click_scroll: True
 
-desktop: plasma
+desktop: i3
 
 packages:
+    printers:
+        - brother-hl3170cdw
     base:
         - base-devel
         - tmux
@@ -149,22 +163,30 @@ packages:
         # - python2-docs
         # - units
         # - python-pipenv
+    i3:
+        - gwenview # best image viewer for KDE
+        - dolphin
+        - dolphin-plugins
+        - kwallet
+        - kwalletmanager
+        - ark # compresses/extract zip files from within dolphin
+        - kfind
     plasma:
         - plasma-meta
         # also check out kde-applications-meta
         # - plasma-wayland-session # enable support for Wayland in Plasma
         - gwenview # best image viewer for KDE
         - dolphin
-        - kdialog
-        - kfind
-        - konsole
-        - spectacle
-        - kio-extras
-        - kompare
         - dolphin-plugins
         - kwallet
         - kwalletmanager
         - ark # compresses/extract zip files from within dolphin
+        - kfind
+        - kdialog
+        - konsole
+        - spectacle
+        - kio-extras
+        - kompare
         # - yakuake # top-down terminal for KDE
         - kde-gtk-config
         # - sierrabreeze-kwin-decoration-git # mimic the OSX Sierra titlebar
@@ -199,6 +221,8 @@ packages:
             # kde-gtk-config (optional) - GTK Theme configuration KCM
 
     base_aur:
+        - alacritty-scrollback-git
+        - alacritty-scrollback-terminfo-git
         - zplug
         - miller
         - myrepos
@@ -272,6 +296,7 @@ packages:
         - wget
         - wireless_tools
         - rsnapshot
+        - vagrant
     media:
         # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
         # - inkscape
@@ -351,7 +376,7 @@ packages:
         - ttf-droid
         - ttf-ubuntu-font-family
         - ttf-inconsolata
-        - ttf-signika
+        #- ttf-signika
         - ttf-quintessential
         - ttf-oswald
         - ttf-opensans
@@ -369,7 +394,7 @@ packages:
         - ttf-contemporary
         - ttf-emojione-color
         - ttf-font-awesome-4
-        - ttf-google-fonts-git
+        #- ttf-google-fonts-git
         - ttf-input
         - ttf-iosevka
         - ttf-latex-xft-fonts

@@ -1,7 +1,5 @@
 # .zshenv is always sourced, while .zshrc is only sourced in interactive shells
 
-export TERM="xterm-256color"
-
 # Put private interactive shell definitions in ~/.zshrc.local
 # so they are ignored by Git and not inadvertently made public
 if [[ -a ~/.zshrc.local ]]; then
