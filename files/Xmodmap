@@ -1,5 +1,5 @@
 ! scrolling: https://wiki.archlinux.org/index.php/xmodmap#Reverse_scrolling
 ! reverse vertical, normal horizontal
-pointer = 1 2 3 5 4 7 6 8 9 10 11 12
+! pointer = 1 2 3 5 4 7 6 8 9 10 11 12
 ! normal vertical, normal horizontal
 ! pointer = 1 2 3 4 5 7 6 8 9 10 11 12

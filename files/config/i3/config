@@ -8,12 +8,23 @@ bindsym $mod+Shift+n exec --no-startup-id /usr/local/bin/monitor2
 
 bindsym $mod+Return exec alacritty
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
-bindsym $mod+b exec firefox
+bindsym $mod+i exec firefox
+bindsym $mod+f exec dolphin
+bindsym $mod+Shift-m exec vboxmanage startvm Hackintosh
+bindsym $mod+e exec subl3 --new-window
 bindsym $mod+m exec spotify --force-device-scale-factor=1.5
+
+# Use ImageMagick import util for screenshots
+# bindsym Print exec import ~/Pictures/screenshot_.png
+# bindsym $mod+Print exec import -window root ~/Pictures/screenshot_.png
+exec --no-startup-id mkdir -p ~/Pictures/`date +%Y/%m`
+bindsym Print exec escrotum ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
+bindsym $mod+Print exec escrotum -u ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
+bindsym $mod+Shift+Print exec escrotum -s ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
 
 bindsym $mod+o open
 bindsym $mod+q kill
-bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+f fullscreen toggle
 bindsym $mod+a focus parent
 bindsym $mod+h split h
 bindsym $mod+v split v
@@ -112,7 +123,7 @@ set $wine    #72003e
 set $magenta #af005f
 set $orange  #ff8700
 set $silver  #e4e4e4
-set $elegant #00002c
+set $elegant #00002ccc
 
 # Set some nice colors      border   background text     indicator
 client.focused              $cyan    $cyan      $elegant $silver
@@ -126,6 +137,7 @@ bar
 {
   position top
   status_command i3blocks
+  i3bar_command i3bar -t
   colors
   {
                         # Border  # Background  # Text
@@ -135,25 +147,35 @@ bar
     urgent_workspace    $acqua    $acqua        $silver
     background          $elegant
   }
+tray_padding 6
 }
 
-# Wallpaper
+
+# typematic delay
+exec_always --no-startup-id xset r rate 170    45 # for X
+exec_always --no-startup-id kbdrate  -d 170 -r 45 # virtual console; redudant?
+# wallpaper
 exec_always --no-startup-id feh --bg-scale /usr/share/backgrounds/taipei.jpg
-# Compositor for window transparency
-exec --no-startup-id compton --config ~/.config/compton.conf
-# exec --no-startup-id xfce4-power-manager
+# compositor, window transparency
+exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
+
 exec --no-startup-id setxkbmap dvorak
 exec --no-startup-id xbindkeys
-exec --no-startup-id insync start
-exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
-# typematic delay for X
-exec_always --no-startup-id xset r rate 170 45
-# typematic delay for virtual console, maybe don't need here
-exec_always --no-startup-id kbdrate -d 170 -r 45
+exec --no-startup-id insync start   # GDrive manager
+exec --no-startup-id nm-applet      # network manager
+exec --no-startup-id blueman-applet # bluetooth manager
+exec --no-startup-id klipper        # clipboard manager
+exec --no-startup-id rescuetime     # time use tracker
+
 
 for_window [class="Yad"] floating enable
 for_window [class="insync.py"] floating enable
+for_window [class="(?i)vlc"] floating enable
+for_window [class="(?i)gwenview"] floating enable
+for_window [class="(?i)guvcview"] floating enable
+for_window [class="(?i)gloobus-preview"] floating enable
+for_window [class="VirtualBox Machine"] floating enable
+
 
 # change volume or toggle mute
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
