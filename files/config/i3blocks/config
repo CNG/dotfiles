@@ -34,10 +34,17 @@ label=
 interval=5
 color=#FF8C00
 
+[f5vpn]
+signal=10
+interval=600
+color=#FF8C00
+
+
+
 [wifi]
 label=
 color=#8CE000
-instance=wlp8s0
+instance=wlp58s0
 interval=5
 
 [bandwidth3]
@@ -88,6 +95,14 @@ min_width=' 44°C'
 color=#f92672
 label=
 
+[battery]
+instance=0
+interval=30
+separator_block_width=5
+[battery]
+instance=1
+interval=30
+separator_block_width=5
 [battery]
 instance=2
 interval=30

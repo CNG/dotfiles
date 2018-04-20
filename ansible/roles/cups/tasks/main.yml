@@ -44,6 +44,15 @@
 #   notify:
 #     - restart cups
 
+- name: Print PDFs to Downloads directory
+  become: yes
+  lineinfile:
+    dest: /etc/cups/cups-pdf.conf
+    regexp: "^#? ?Out "
+    state: present
+    line: "Out ${HOME}/Downloads"
+  notify: restart cups
+
 - name: Send CUPS logs to systemd journal
   become: yes
   lineinfile:

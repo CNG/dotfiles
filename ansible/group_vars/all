@@ -171,6 +171,9 @@ packages:
         - kwalletmanager
         - ark # compresses/extract zip files from within dolphin
         - kfind
+        - klipper
+        - scrot
+        - escrotum
     plasma:
         - plasma-meta
         # also check out kde-applications-meta

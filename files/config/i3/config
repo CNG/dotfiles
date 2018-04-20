@@ -1,26 +1,51 @@
 set $mod Mod1
+set $modB Mod4
+
+#set $mod Mod4
+#set $modB Mod1
+
 # Hide titlebar
 new_window pixel
-font pango: Fira Sans Regular 16
+font pango: Fira Sans Regular 12
+
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+bindsym $mod+ctrl+6           exec xbacklight -inc 10 # increase screen brightness
+bindsym $mod+ctrl+5           exec xbacklight -dec 10 # decrease screen brightness
 
 bindsym $mod+Shift+s exec --no-startup-id /usr/local/bin/monitor
 bindsym $mod+Shift+n exec --no-startup-id /usr/local/bin/monitor2
 
+bindsym $modB+v       exec "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $modB+Shift+v exec "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+
 bindsym $mod+Return exec alacritty
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
-bindsym $mod+i exec firefox
+bindsym $mod+i exec /usr/bin/firefox
 bindsym $mod+f exec dolphin
 bindsym $mod+Shift-m exec vboxmanage startvm Hackintosh
 bindsym $mod+e exec subl3 --new-window
 bindsym $mod+m exec spotify --force-device-scale-factor=1.5
 
-# Use ImageMagick import util for screenshots
-# bindsym Print exec import ~/Pictures/screenshot_.png
-# bindsym $mod+Print exec import -window root ~/Pictures/screenshot_.png
-exec --no-startup-id mkdir -p ~/Pictures/`date +%Y/%m`
-bindsym Print exec escrotum ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
-bindsym $mod+Print exec escrotum -u ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
-bindsym $mod+Shift+Print exec escrotum -s ~/Pictures/%Y/%m/screenshot_%F_%H%M%S.png
+bindsym $mod+Ctrl+e exec /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
+bindsym $mod+Ctrl+c exec /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
+bindsym $mod+Ctrl+w exec /usr/bin/chromium --app=https://web.whatsapp.com
+bindsym $mod+Ctrl+f exec /usr/bin/chromium --app=https://www.facebook.com/messages
+
+
+set $shot_d $HOME/Pictures/%Y/%m
+set $shot_f screenshot_%F_%H%M%S.png
+exec --no-startup-id mkdir -p `date +$shot_d`
+
+# ImageMagick import util too slow for screenshots
+# bindsym Print exec import `date +$shot_d/$shot_f`
+# bindsym $mod+Print exec import -window root `date +$shot_d/$shot_f`
+
+# scrot --select leaves border artifacts in image, also requires --release
+# bindsym Print --release exec scrot --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Print     exec escrotum --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Shift+Print exec scrot --focused $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Ctrl+Shift+Print exec scrot      $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
 
 bindsym $mod+o open
 bindsym $mod+q kill
@@ -147,7 +172,7 @@ bar
     urgent_workspace    $acqua    $acqua        $silver
     background          $elegant
   }
-tray_padding 6
+  tray_padding 6
 }
 
 

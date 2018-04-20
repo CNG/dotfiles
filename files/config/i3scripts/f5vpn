@@ -1,0 +1,38 @@
+#!/bin/zsh
+# https://github.com/MatthiasLohr/docker-f5fpc/blob/master/files/opt/run.sh
+
+F5FPC=/usr/local/bin/f5fpc
+
+[[ -e $F5FPC ]] || exit 1
+
+connected=0
+vpnstatus=$($F5FPC -i > /dev/null; echo $?)
+case $vpnstatus in
+  # https://support.f5.com/kb/en-us/products/big-ip_apm/manuals/product/apm-client-configuration-11-4-0/4.html
+  0) echo -e "\uf09c?" ;;
+  2) echo "Logging in..." ;;
+  3) echo "Logged in." ;;
+  4) echo "Connecting..." ;;
+  5) echo -e "\uf023"; connected=1 ;;
+  7) echo "Login denied. Exiting." ;;
+  9) echo "Session timed out." ;;
+  *) echo -e "\uf09c" ;;
+esac
+
+if [[ $BLOCK_BUTTON = 3 ]]; then # right click
+  if [[ $connected = 0 ]]; then
+    fitbitvpn start && pkill -RTMIN+10 i3blocks
+    # fitbitvpn start &
+    # for i in {1..39}; do
+    #   pkill -RTMIN+10 i3blocks
+    #   sleep 1
+    # done
+  else
+    fitbitvpn stop && pkill -RTMIN+10 i3blocks
+    # fitbitvpn stop &
+    # for i in {1..39}; do
+    #   pkill -RTMIN+10 i3blocks
+    #   sleep 1
+    # done
+  fi
+fi

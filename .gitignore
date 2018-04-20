@@ -1,4 +1,4 @@
-mods-enabled/*
+ansible/roles/work/*
 _resources
 *.local.symlink
 *.local.sh
