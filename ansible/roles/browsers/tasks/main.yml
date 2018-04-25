@@ -4,6 +4,10 @@
     name: w3m
     state: present
 
+# TODO: see about setting 'ui.context_menus.after_mouseup' true automatically
+# lineinfile: line: user_pref("ui.context_menus.after_mouseup", true);
+# file like /home/cgorichanaz/.mozilla/firefox/rwv4hwau.default/prefs.js
+# less /home/cgorichanaz/.mozilla/firefox/profiles.ini
 - name: Install Firefox
   pacman:
     name: firefox

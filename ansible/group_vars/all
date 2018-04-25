@@ -128,7 +128,7 @@ himawaripy:
     flags: --auto-offset --level 4
 
 middle_click_scroll: True
-
+multitouch: True
 desktop: i3
 
 packages:
