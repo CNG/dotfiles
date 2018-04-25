@@ -3,12 +3,12 @@
 # Copyright 2014 Pierre Mavro <deimos@deimos.fr>
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
 # Copyright 2017 Andrea Gomez <hi@daedra.ml>
-#
+# Modified 2018 Charlie Gorichanaz @CNG
+# 
 # Licensed under the terms of the GNU GPL v3, or any later version.
 #
-# This script is meant to use with i3blocks. It parses the output of the "acpi"
-# command (often provided by a package of the same name) to read the status of
-# the battery, and eventually its remaining time (to full charge or discharge).
+# This script is meant to use with i3blocks. It reads /sys/class/power_supply
+# to calculate battery level and state.
 #
 # The color will gradually change for a percentage below 100%, 85%, 60%, 40%,
 # 20% as well as the icons using FontAwesomeand.
@@ -19,25 +19,29 @@ use strict;
 use warnings;
 use utf8;
 
-my $acpi;
+my $energy_full;
+my $energy_now;
 my $status;
 my $percent;
 my $full_text;
 my $short_text;
-my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
 
-# Read the first line of the "acpi" command output
-open (ACPI, "acpi -b | grep 'Battery $bat_number' |") or die;
-$acpi = <ACPI>;
-close(ACPI);
 
-# Fail on unexpected output
-if ($acpi !~ /: (\w+), (\d+)%/) {
-    die "$acpi\n";
-}
 
-$status = $1;
-$percent = $2;
+# Sum the energy_full for all batteries
+open (CAT, "ls /sys/class/power_supply/BAT*/energy_full | xargs awk '{s+=\$1} END {print s}' |") or die;
+$energy_full = <CAT>;
+close(CAT);
+# Sum the energy_now for all batteries
+open (CAT, "ls /sys/class/power_supply/BAT*/energy_now | xargs awk '{s+=\$1} END {print s}' |") or die;
+$energy_now = <CAT>;
+close(CAT);
+# Sort of get the status, favoring charging over discharging over unknown by order
+open (CAT, "ls /sys/class/power_supply/BAT*/status | xargs cat | sort | head -n1 | tr -d \\\\n |") or die;
+$status = <CAT>;
+close(CAT);
+
+$percent = $energy_now * 100 / $energy_full;
 
 # Display different icons for battery status
 if ($status eq 'Discharging') {
@@ -60,9 +64,7 @@ if ($status eq 'Discharging') {
 
 $short_text = $full_text;
 
-if ($acpi =~ /(\d\d:\d\d):/) {
-    $full_text .= " $percent%";
-}
+$full_text .= sprintf("%.1f%", $percent);
 
 # Print text
 print "$full_text\n";
