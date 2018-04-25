@@ -96,16 +96,7 @@ color=#f92672
 label=
 
 [battery]
-instance=0
-interval=30
-separator_block_width=5
-[battery]
-instance=1
-interval=30
-separator_block_width=5
-[battery]
-instance=2
-interval=30
+interval=15
 separator_block_width=20
 
 
@@ -132,5 +123,12 @@ command=date +%H:%M:%S
 color=#8CE000
 interval=1
 min_width=44:44:44
+separator_block_width=5
+
+[time_utc]
+command=date -u '+(%H:%M UTC)'
+color=#4ec2f7
+interval=1
+min_width='(44:44 UTC)'
 separator_block_width=50
 
