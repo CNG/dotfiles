@@ -3,29 +3,38 @@
 # xbindkeys configuration #
 ###########################
 
+# Vim like copy-paste
+"xclip -selection primary -o | xclip -selection clipboard -i"
+   Control + y
+
+"sh -c 'xclip -selection clipboard -o | xvkbd -xsendevent -file - 2>/dev/null'"
+   Control + p
+
+# most of this handled in i3 now
+
 # Increase volume
-"pulseaudio-ctl up"
-   XF86AudioRaiseVolume
+# "pulseaudio-ctl up"
+#    XF86AudioRaiseVolume
 
 # Decrease volume
-"pulseaudio-ctl down"
-   XF86AudioLowerVolume
+# "pulseaudio-ctl down"
+#    XF86AudioLowerVolume
 
 # Mute
-"pulseaudio-ctl mute"
-   XF86AudioMute
+# "pulseaudio-ctl mute"
+#    XF86AudioMute
 
 # Next song
-"playerctl next"
-   XF86AudioNext
+# "playerctl next"
+#    XF86AudioNext
 
 # Previous song
-"playerctl previous"
-   XF86AudioPrev
+# "playerctl previous"
+#    XF86AudioPrev
 
 # Play/pause
-"playerctl play-pause"
-   XF86AudioPlay
+# "playerctl play-pause"
+#    XF86AudioPlay
 
 # Fullscreen screenshot
 "flameshot full -p ~/Pictures/$(date +%Y/%m)/"

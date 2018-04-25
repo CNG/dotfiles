@@ -18,6 +18,7 @@
     - autorandr-git
     - srandrd
     - autocutsel
+    - xvkbd # virtual keyboard, need binary for my xbindkeysrc paste command 
     # - libva-intel-driver
 
 - name: Check for NVIDIA graphics card

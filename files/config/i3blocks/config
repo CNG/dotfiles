@@ -15,8 +15,9 @@ separator_block_width=50
 
 
 [mediaplayer]
-instance=spotify
-interval=5
+#instance=spotify
+#interval=5
+interval=once
 signal=10
 color=#8CE000
 separator_block_width=50

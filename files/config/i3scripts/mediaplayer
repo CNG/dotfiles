@@ -73,5 +73,12 @@ my $title = qx(playerctl $player_arg metadata title);
 exit(1) if $title eq '(null)';
 push(@metadata, $title) if $title;
 
+my $status;
+# Color based on player status
+open (CAT, "playerctl $player_arg status | tr -d \\\\n |") or die;
+$status = <CAT>;
+close(CAT);
+
 print "\x{266A} ";
 print(join(" - ", @metadata)) if @metadata;
+print "\n\n#f77b71\n" if $status eq 'Paused'

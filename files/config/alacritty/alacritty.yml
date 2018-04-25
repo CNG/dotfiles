@@ -284,8 +284,18 @@ live_config_reload: true
 # (e.g. "\x1b[5~") is? Open another terminal (like xterm) without tmux,
 # then run `showkey -a` to get the sequence associated to a key combination.
 key_bindings:
-  - { key: V,        mods: Control|Shift,    action: Paste               }
-  - { key: C,        mods: Control|Shift,    action: Copy                }
+
+  # copy and paste kind of like Vim
+  - { key: P,        mods: Control, action: Paste                        }
+  - { key: Y,        mods: Control, action: Copy                         }
+
+  # copy and paste using normal ^c/^v but...
+  # overrides normal ^c interrupt, use ^C
+  # - { key: V,        mods: Control, action: Paste                        }
+  # - { key: C,        mods: Control, action: Copy                         }
+  # - { key: V,        mods: Control|Shift, chars: "\x16"                  }
+  # - { key: C,        mods: Control|Shift, chars: "\x03"                  }
+
   - { key: Q,        mods: Command, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }

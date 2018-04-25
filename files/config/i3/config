@@ -200,7 +200,7 @@ for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable
 for_window [class="(?i)gwenview"] floating enable
 for_window [class="(?i)guvcview"] floating enable
-for_window [class="(?i)pavucontrol"] floating enable move absolute position 100 300
+for_window [class="(?i)pavucontrol"] floating enable move absolute position center
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
 
@@ -209,3 +209,6 @@ for_window [class="VirtualBox Machine"] floating enable
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 2%+ && pkill -RTMIN+10 i3blocks 
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 2%- && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioNext exec playerctl next && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioPrev exec playerctl previous && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioPlay exec playerctl play-pause && pkill -RTMIN+10 i3blocks
