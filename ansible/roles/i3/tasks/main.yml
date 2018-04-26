@@ -72,3 +72,67 @@
     dest: "/usr/local/bin/monitor2"
     mode: 0755
   when: "'ThinkPad' in ansible_product_version"
+
+# Configure Samba
+- name: Copy Samba config
+#   copy:
+#     src: smb.conf
+  blockinfile:
+    dest: /etc/samba/smb.conf
+    state: present
+    block: |
+      usershare path = /var/lib/samba/usershares
+      usershare max shares = 100
+      usershare allow guests = yes
+      usershare owner only = yes
+    create: yes
+    insertafter: '^[global]'
+- name: This creates the group sambashare
+  group:
+    name: "sambashare"
+    state: present
+- name: This creates the usershares directory in /var/lib/samba
+  file:
+    path: /var/lib/samba/usershares
+    state: directory
+    owner: 0
+    group: sambashare
+    mode: 01770
+- name: Add your user to the sambashare group
+  user:
+    name: "{{ user.name }}"
+    groups: sambashare
+    append: yes
+
+
+
+# Restart smb.service and nmb.service services.
+
+# Log out and log back in. You should now be able to configure your samba share using GUI. For example, in Thunar you can right click on any directory and share it on the network. If you want to share paths inside your home directory you must make it listable for the group others.
+# Adding a user
+
+# Samba requires a Linux user account - you may use an existing user account or create a new one.
+
+# Although the user name is shared with Linux system, Samba uses a password separate from that of the Linux user accounts. Replace samba_user with the chosen Samba user account:
+
+# # smbpasswd -a samba_user
+
+# Depending on the server role, existing File permissions and attributes may need to be altered for the Samba user account.
+
+# If you want the new user only to be allowed to remotely access the file server shares through Samba, you can restrict other login options：
+
+#     disabling shell - usermod --shell /usr/bin/nologin --lock username
+#     disabling SSH logons - edit /etc/ssh/sshd_conf, change option AllowUsers
+
+# Also see Security for hardening your system.
+# Listing users
+
+# Samba users can be listed using the pdbedit(8) command:
+
+# # pdbedit -L -v
+
+# Changing Samba user's password
+
+# To change a user's password, use smbpasswd:
+
+# # smbpasswd samba_user

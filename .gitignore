@@ -1,4 +1,5 @@
 ansible/roles/work/*
+ansible/host_vars/*
 _resources
 *.local.symlink
 *.local.sh
