@@ -11,11 +11,12 @@
     - { role: desktop, tags: ['desktop'], when: "desktop is defined" }
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
 
-    - { role: work, tags: ['work'], when: hostname == "CharlieFitbit18a" }
+    - { role: work, tags: ['work'], when: work == "True" }
 
+    - { role: bertvv.samba, tags: ['samba'] }
     - { role: archive, tags: ['archive'] }
     - { role: android, tags: ['android'] }
-    - { role: bluetooth, tags: ['bluetooth'], when: "hostname is defined" }
+    - { role: bluetooth, tags: ['bluetooth'] }
     - { role: browsers, tags: ['browsers'] }
     - { role: cron, tags: ['cron'] }
     - { role: cups, tags: ['cups'] }

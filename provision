@@ -37,6 +37,7 @@ main () {
   fi
   ln -fs ansible-aur/aur.py library/aur
 
+  sudo ansible-galaxy install -r requirements.yml
   # ansible-playbook -i local -K playbook.yml "$@"
   sudo ansible-playbook -i local playbook.yml "$@"
 

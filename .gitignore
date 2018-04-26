@@ -1,4 +1,3 @@
-ansible/roles/work/*
 _resources
 *.local.symlink
 *.local.sh

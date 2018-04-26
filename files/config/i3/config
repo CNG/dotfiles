@@ -29,6 +29,7 @@ bindsym $mod+Shift-m exec vboxmanage startvm Hackintosh
 bindsym $mod+e exec subl3 --new-window
 bindsym $mod+m exec spotify --force-device-scale-factor=1.5
 
+
 bindsym $mod+Ctrl+e exec /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
 bindsym $mod+Ctrl+c exec /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
 bindsym $mod+Ctrl+w exec /usr/bin/chromium --app=https://web.whatsapp.com
@@ -193,7 +194,7 @@ exec --no-startup-id nm-applet      # network manager
 exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id klipper        # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
-
+exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 
 for_window [class="Yad"] floating enable
 for_window [class="insync.py"] floating enable

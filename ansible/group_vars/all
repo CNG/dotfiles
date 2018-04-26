@@ -1,460 +1,398 @@
-# perl -p00 -i -e 's/\n  tags:\N*(:?\n    -\N+)+//' **/*.yml
-
-multiple_solutions_under_aurman:
-    - gwenview # best image viewer for KDE
-    - dolphin
-    - dolphin-plugins
-    - kwallet
-    - kwalletmanager
-    - ark # compresses/extract zip files from within dolphin
-    - kfind
-    - digikam
-    - kamoso
-    - insync-dolphin
-
-
 user:
-    name: cgorichanaz
-    fullname: "Charlie Gorichanaz"
-    uid: 1000
-    group: cgorichanaz
-    shell: /usr/bin/zsh
-    layout: dvorak
-    email:  charlie@gorichanaz.com
-    log:
-        dir: log
-        rotate: 8
-
-hostname: CharlieFitbit18a
-
-volumes:
-  - path: /mnt/macos
-    uuid: 78cf44f7-1108-3047-a3ae-fb797fc9ac6d
-    opts: nosuid,nodev,nofail,x-gvfs-show,ro
-  - path: /mnt/vids
-    uuid: 228b4ef2-e597-4e23-8e3b-af968367715f
-    opts: nosuid,nodev,nofail,x-gvfs-show
-  - path: /mnt/docs
-    uuid: 8f2f1490-0056-414a-9994-acc65a6ab056
-    opts: nosuid,nodev,nofail,x-gvfs-show
+  name: cgorichanaz
+  fullname: "Charlie Gorichanaz"
+  uid: 1000
+  group: cgorichanaz
+  shell: /usr/bin/zsh
+  layout: dvorak
+  email:  charlie@gorichanaz.com
+  log:
+    dir: log
+    rotate: 8
 
 dotfiles:
-    # url: git@github.com:CNG/dotfiles.git
-    source: projects/dotfiles
-    rcup_flags: -f
+  # url: git@github.com:CNG/dotfiles.git
+  source: projects/dotfiles
+  rcup_flags: -f
 
 ssh:
-    port: 22
-    # user_key: /root/id_rsa
-    enable_sshd: False
+  port: 22
+  # user_key: /root/id_rsa
+  enable_sshd: False
 
 gnupg:
-    enable_agent: True
-    emulate_ssh: True
+  enable_agent: True
+  emulate_ssh: True
 
 network:
-    spoof_mac: False
-    conn_check:
-        interval: 0
-    trusted_uuidX:
+  spoof_mac: False
+  conn_check:
+    interval: 0
+  trusted_uuidX:
 
 browser_choices:
-    # - firefox -P default
-    # - firefox -P work
-    # - firewarden chromium
-    # - tor-browser-en
-    # - play
-    # - qcode
-    # - "| xclip -selection c"
+# - firefox -P default
+# - firefox -P work
+# - firewarden chromium
+# - tor-browser-en
+# - play
+# - qcode
+# - "| xclip -selection c"
 
 passwordless_sudo:
-    - /usr/bin/openvpn*
+- /usr/bin/openvpn*
 
 bootloader: grub
 
 fingerprint: True
 
 # tor:
-#     run_on: trusted
+#   run_on: trusted
 
 localtime:
-     run_on: all
+  run_on: all
 
 nameservers:
-    - 1.1.1.1
+- 1.1.1.1
 
 bluetooth:
-    disable: False
+  disable: False
 
 firejail:
-    blacklist:
-        - ~/.calendars
-        - ~/.config/vdirsyncer
-        - ~/.contacts
-        - ~/.keys
-        - ~/.mbsyncrc
-        - ~/.offlineimap
-        - ~/.offlineimaprc
-        - ~/.password-store
-        - ~/.vdirsyncer
-        - ~/library
+  blacklist:
+  - ~/.calendars
+  - ~/.config/vdirsyncer
+  - ~/.contacts
+  - ~/.keys
+  - ~/.mbsyncrc
+  - ~/.offlineimap
+  - ~/.offlineimaprc
+  - ~/.password-store
+  - ~/.vdirsyncer
+  - ~/library
 
 # cryptshot:
-#     - name: 
-#       uuid: 
-#       keyfile: 
-#       retain:
-#         - level: daily
-#           interval: 7
-#         - level: weekly
-#           interval: 6
-#         - level: monthly
-#           interval: 3
+#   - name: 
+#     uuid: 
+#     keyfile: 
+#     retain:
+#     - level: daily
+#       interval: 7
+#     - level: weekly
+#       interval: 6
+#     - level: monthly
+#       interval: 3
 
 journal:
-    max_size: 5000M
+  max_size: 5000M
 
 udisks:
-    auto_mount: True
-    shared_mount: True
+  auto_mount: True
+  shared_mount: True
 
 hostsctl:
-    url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
 
 himawaripy:
-    run_time: 15min
-    run_boot_delay: 2min
-    run_on: all
-    flags: --auto-offset --level 4
+  run_time: 15min
+  run_boot_delay: 2min
+  run_on: all
+  flags: --auto-offset --level 4
 
 middle_click_scroll: True
 multitouch: True
 desktop: i3
 
 packages:
-    printers:
-        - brother-hl3170cdw
-    base:
-        - base-devel
-        - tmux
-        - [ git, hub ]
-        - rsync
-        - glances
-        - coreutils
-        - moreutils
-        - dateutils
-        - rsync
-        # - reflector
-        - bc
-        # - ranger
-        - strace
-        - lsof
-        - sysstat
-        # - python-keyring
-        # - python-secretstorage
-        # - fabric
-        # - tig
-        - ruby
-        - go
-        # - pv
-        # - minicom
-        # - jq
-        # - python-docs
-        # - python2-docs
-        # - units
-        # - python-pipenv
-    i3:
-        - gwenview # best image viewer for KDE
-        - dolphin
-        - dolphin-plugins
-        - kwallet
-        - kwalletmanager
-        - ark # compresses/extract zip files from within dolphin
-        - kfind
-        - klipper
-        - scrot
-        - escrotum
-    plasma:
-        - plasma-meta
-        # also check out kde-applications-meta
-        # - plasma-wayland-session # enable support for Wayland in Plasma
-        - gwenview # best image viewer for KDE
-        - dolphin
-        - dolphin-plugins
-        - kwallet
-        - kwalletmanager
-        - ark # compresses/extract zip files from within dolphin
-        - kfind
-        - kdialog
-        - konsole
-        - spectacle
-        - kio-extras
-        - kompare
-        # - yakuake # top-down terminal for KDE
-        - kde-gtk-config
-        # - sierrabreeze-kwin-decoration-git # mimic the OSX Sierra titlebar
-        - latte-dock
-        - numix-kde-theme-git
-        # plasma-meta includes:
-            # bluedevil
-            # breeze-gtk
-            # discover
-            # drkonqi
-            # kdeplasma-addons
-            # kgamma5
-            # kinfocenter
-            # kscreen
-            # ksshaskpass
-            # ksysguard
-            # kwallet-pam
-            # kwayland-integration
-            # kwrited
-            # oxygen
-            # plasma-desktop
-            # plasma-nm
-            # plasma-pa
-            # plasma-sdk
-            # plasma-vault
-            # plasma-workspace-wallpapers
-            # powerdevil
-            # sddm-kcm
-            # user-manager
-            # xdg-desktop-portal-kde
-            # breeze-grub (optional) - Breeze theme for GRUB
-            # kde-gtk-config (optional) - GTK Theme configuration KCM
+  printers:
+  - brother-hl3170cdw
+  base:
+  - base-devel
+  - tmux
+  - [ git, hub ]
+  - rsync
+  - glances
+  - coreutils
+  - moreutils
+  - dateutils
+  - rsync
+  # - reflector
+  - bc
+  # - ranger
+  - strace
+  - lsof
+  - sysstat
+  # - python-keyring
+  # - python-secretstorage
+  # - fabric
+  # - tig
+  - ruby
+  - go
+  # - pv
+  # - minicom
+  # - jq
+  # - python-docs
+  # - python2-docs
+  # - units
+  # - python-pipenv
+  i3:
+  - gwenview # best image viewer for KDE
+  - [ dolphin, dolphin-plugins ]
+  - [ kwallet, kwalletmanager ]
+  - ark # compresses/extract zip files from within dolphin
+  - kfind
+  - qlipper
+  - scrot
+  - escrotum
+  # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
+  - [ nemo, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
+  #- [ nemo-seahorse-nonautilus, gnome-keyring ]
+  plasma:
+  - plasma-meta
+  # also check out kde-applications-meta
+  # - plasma-wayland-session # enable support for Wayland in Plasma
+  - gwenview # best image viewer for KDE
+  - dolphin
+  - dolphin-plugins
+  - kwallet
+  - kwalletmanager
+  - ark # compresses/extract zip files from within dolphin
+  - kfind
+  - kdialog
+  - konsole
+  - spectacle
+  - kio-extras
+  - kompare
+  # - yakuake # top-down terminal for KDE
+  - kde-gtk-config
+  # - sierrabreeze-kwin-decoration-git # mimic the OSX Sierra titlebar
+  - latte-dock
+  - numix-kde-theme-git
+  # plasma-meta includes:
+    # bluedevil
+    # breeze-gtk
+    # discover
+    # drkonqi
+    # kdeplasma-addons
+    # kgamma5
+    # kinfocenter
+    # kscreen
+    # ksshaskpass
+    # ksysguard
+    # kwallet-pam
+    # kwayland-integration
+    # kwrited
+    # oxygen
+    # plasma-desktop
+    # plasma-nm
+    # plasma-pa
+    # plasma-sdk
+    # plasma-vault
+    # plasma-workspace-wallpapers
+    # powerdevil
+    # sddm-kcm
+    # user-manager
+    # xdg-desktop-portal-kde
+    # breeze-grub (optional) - Breeze theme for GRUB
+    # kde-gtk-config (optional) - GTK Theme configuration KCM
 
-    base_aur:
-        - alacritty-scrollback-git
-        - alacritty-scrollback-terminfo-git
-        - zplug
-        - miller
-        - myrepos
-        - ctmg
-    filesystem:
-        - dosfstools
-        - efibootmgr
-        - hfsprogs
-        - hfsutils
-        - ntfs-3g
-        - exfat-utils
-        - libguestfs # mount VMDKs, large install
-    editors:
-        - vi
-        - vim
-        - nano
-        - sublime-text-dev
-        - typora
-    office:
-        # - okular # Ebook Reader, simple yet capable
-        # TODO enable following for desktop only
-        # - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
-        #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
-        #   --> as root to configure your settings. If you are using systemd, 
-        #   --> then run "systemctl enable foldingathome.service" to enable
-        #   --> the folding service. If you would like join the Arch Linux
-        #   --> team, use team number 45032.  
-        - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
-        # Anki addons:
-        # not yet Anki 2.1: 162313389 Power format pack
-        # 874215009 Advanced Browser
-        # 1672832404 Add note id
-        # 613684242 True retention
-        # 3491767031 Multi-column note editor
-        # 291119185 Batch Note Editing
-        # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
-        # 117604477 Dark Themes Fix for 2.0
-        - [ zathura-pdf-mupdf, zathura-ps ]
-        - archlinux-java-run
-        - automatic
-        # - cerebro
-        - enscript
-        - [ insync, insync-dolphin ]
-        - keybase
-        - libreoffice-fresh
-        - masterpdfeditor
-        - pandoc
-        - pdfgrep
-        - rescuetime
-        - simple-scan
-        - visidata-git
-    developer:
-        - ack
-        - arduino
-        - grc # Colorize logfiles and command output
-        - highlight
-        - htop
-        - iftop
-        - iotop
-        - iputils
-        - linux-headers
-        - messengerfordesktop
-        - nfs-utils
-        - ntop
-        - qt5-webengine
-        - screen
-        - solaar
-        - sqlitebrowser
-        - sysstat
-        - tree
-        - vnstat
-        - wget
-        - wireless_tools
-        - rsnapshot
-        - vagrant
-    media:
-        # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
-        # - inkscape
-        # - makemkv-cli
-        # - mcomix # image viewer for comic books
-        # - xfburn # CD/DVD burning tool
-        - [ cdparanoia, abcde ] # CD track encoder
-        - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
-        - [ qt4, vlc ]
-        - guvcview # webcam record
-        - losslesscut # video trim
-        - darktable
-        - digikam
-        - flac2all
-        - xsane-gimp
-        - iscan-plugin-gt-x820 # Epson V600 scanner
-        - flameshot
-        - flashplugin
-        - flite # lightweight speech synthesis engine
-        - fritzing
-        - gpscorrelate
-        - gthumb
-        - handbrake
-        - imv # Image viewer for X11/Wayland
-        - kamoso # webcam recorder from KDE community
-        - kindleunpack
-        - mediainfo-gui
-        - pdfshuffler
-        - cava # visualizer
-        - spotify
-        - youtube-dl
-        # misc media codecs and helpers
-        - exiv2
-        - flac
-        - gst-libav
-        # error: failed to commit transaction (conflicting files)
-        # - gst-plugins-good
-        - lame
-        - opus-tools
-        - perl-image-exiftool
-        - x264
-    nettools:
-        - wmsystemtray
-        - trickle
-        - openvpn
-        - openssh
-        - mtr
-        - net-tools
-        - bind-tools
-        - whois
-        - gnu-netcat
-        - lftp
-        - nmap
-        - tcpdump
-        - sshuttle
-        - pdsh
-        - wireshark-qt
-        # - wireshark-gtk
-        - socat
-        - nethogs
-        - speedtest-cli
-        - wondershaper-git
-        - bitmeter-os
-        - darkstat # packet sniffer
-        - bmon
-        # - gufw # GTK front-end for Ufw
-    fonts:
-        # core:
-        - terminus-font
-        - cantarell-fonts
-        - noto-fonts
-        - ttf-dejavu
-        - ttf-liberation
-        - ttf-symbola
-        - gsfonts
-        - tex-gyre-fonts
-        - ttf-droid
-        - ttf-ubuntu-font-family
-        - ttf-inconsolata
-        #- ttf-signika
-        - ttf-quintessential
-        - ttf-oswald
-        - ttf-opensans
-        - ttf-merriweather-sans
-        - ttf-merriweather
-        # - ttf-impallari-cantora
-        - ttf-carlito
-        - ttf-caladea
-        - ttf-courier-prime
-        - ttf-heuristica
-        # extra:
-        - adobe-base-14-fonts
-        - ttf-adobe-fonts
-        - ttf-bookerly
-        - ttf-contemporary
-        - ttf-emojione-color
-        - ttf-font-awesome-4
-        #- ttf-google-fonts-git
-        - ttf-input
-        - ttf-iosevka
-        - ttf-latex-xft-fonts
-        - ttf-mac-fonts
-        - ttf-montserrat
-        - ttf-noto-fonts-emoji-ib
-        - ttf-raleway
-        - ttf-spacemono
-        - ttf-tahoma
-        - ttf-fantasque-sans-mono
-        - ttf-fira-code
-        - ttf-nanum
-    gnome:
-        - ghex
-        - gloobus-preview
-        - gnome-specimen
-        - guake # top down terminal
-        - chrome-gnome-shell
-        - nemo-audio-tab
-        - nemo-emblems
-        - nemo-fileroller
-        - nemo-image-converter
-        - nemo-preview
-        - nemo-seahorse
-    from_last_system:
-        - acpid
-        - b43-fwcutter
-        - bluez-utils
-        - bzr
-        - dhcpcd
-        - diffstat
-        - f2fs-tools
-        - hplip
-        - inxi
-        - iperf3
-        - ipw2100-fw
-        - ipw2200-fw
-        - jfsutils
-        - jnettop
-        - libappindicator-gtk3
-        - libwnck3
-        - modemmanager
-        - nilfs-utils
-        - nload
-        - pcmciautils
-        - pepper-flash
-        - plasma-workspace
-        - python2-gnomekeyring
-        - reiserfsprogs
-        - retext
-        - s-nail
-        - splix
-        - system-config-printer
-        - turbostat
-        - usb_modeswitch
-        - usbutils
-        - wpa_actiond
-        - x-tile-git
-        - zd1211-firmware
+  base_aur:
+  - alacritty-scrollback-git
+  - alacritty-scrollback-terminfo-git
+  - zplug
+  - miller
+  - myrepos
+  - ctmg
+  - imwheel
+  filesystem:
+  - dosfstools
+  - efibootmgr
+  - hfsprogs
+  - hfsutils
+  - ntfs-3g
+  - exfat-utils
+  - libguestfs # mount VMDKs, large install
+  editors:
+  - vi
+  - vim
+  - nano
+  - sublime-text-dev
+  - typora
+  office:
+  # - okular # Ebook Reader, simple yet capable
+  - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
+  #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
+  #   --> as root to configure your settings. If you are using systemd, 
+  #   --> then run "systemctl enable foldingathome.service" to enable
+  #   --> the folding service. If you would like join the Arch Linux
+  #   --> team, use team number 45032.  
+  - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
+  # Anki addons:
+  # not yet Anki 2.1: 162313389 Power format pack
+  # 874215009 Advanced Browser
+  # 1672832404 Add note id
+  # 613684242 True retention
+  # 3491767031 Multi-column note editor
+  # 291119185 Batch Note Editing
+  # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
+  # 117604477 Dark Themes Fix for 2.0
+  - [ zathura-pdf-mupdf, zathura-ps ]
+  - archlinux-java-run
+  - automatic
+  # - cerebro
+  - enscript
+  - [ insync, insync-dolphin ]
+  - keybase-bin
+  - libreoffice-fresh
+  - masterpdfeditor
+  - pandoc
+  - pdfgrep
+  - rescuetime
+  - simple-scan
+  - visidata-git
+  developer:
+  - ack
+  - arduino
+  - grc # Colorize logfiles and command output
+  - highlight
+  - htop
+  - iftop
+  - iotop
+  - iputils
+  - linux-headers
+  - messengerfordesktop
+  - nfs-utils
+  - ntop
+  - qt5-webengine
+  - screen
+  - solaar
+  - sqlitebrowser
+  - sysstat
+  - tree
+  - vnstat
+  - wget
+  - wireless_tools
+  - rsnapshot
+  - vagrant
+  media:
+  # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
+  # - inkscape
+  # - makemkv-cli
+  # - mcomix # image viewer for comic books
+  # - xfburn # CD/DVD burning tool
+  - [ cdparanoia, abcde ] # CD track encoder
+  - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
+  - [ qt4, vlc ]
+  - guvcview # webcam record
+  - losslesscut # video trim
+  - darktable
+  - digikam
+  - flac2all
+  - xsane-gimp
+  - iscan-plugin-gt-x820 # Epson V600 scanner
+  - flameshot
+  - flashplugin
+  - flite # lightweight speech synthesis engine
+  - fritzing
+  - gpscorrelate
+  - gthumb
+  - handbrake
+  - imv # Image viewer for X11/Wayland
+  - kamoso # webcam recorder from KDE community
+  - kindleunpack
+  - mediainfo-gui
+  - pdfshuffler
+  - cava # visualizer
+  - spotify
+  - youtube-dl
+  # misc media codecs and helpers
+  - exiv2
+  - flac
+  - gst-libav
+  # error: failed to commit transaction (conflicting files)
+  # - gst-plugins-good
+  - lame
+  - opus-tools
+  - perl-image-exiftool
+  - x264
+  nettools:
+  - wmsystemtray
+  - trickle
+  - openvpn
+  - openssh
+  - mtr
+  - net-tools
+  - bind-tools
+  - whois
+  - gnu-netcat
+  - lftp
+  - nmap
+  - tcpdump
+  - sshuttle
+  - pdsh
+  - wireshark-qt
+  # - wireshark-gtk
+  - socat
+  - nethogs
+  - speedtest-cli
+  - wondershaper-git
+  - bitmeter-os
+  - darkstat # packet sniffer
+  - bmon
+  # - gufw # GTK front-end for Ufw
+  fonts:
+  # core:
+  - terminus-font
+  - cantarell-fonts
+  - noto-fonts
+  - ttf-dejavu
+  - ttf-liberation
+  - ttf-symbola
+  - gsfonts
+  - tex-gyre-fonts
+  - ttf-droid
+  - ttf-ubuntu-font-family
+  - ttf-inconsolata
+  #- ttf-signika
+  - ttf-quintessential
+  - ttf-oswald
+  - ttf-opensans
+  - ttf-merriweather-sans
+  - ttf-merriweather
+  # - ttf-impallari-cantora
+  - ttf-carlito
+  - ttf-caladea
+  - ttf-courier-prime
+  - ttf-heuristica
+  # extra:
+  - adobe-base-14-fonts
+  - ttf-adobe-fonts
+  - ttf-bookerly
+  - ttf-contemporary
+  - ttf-emojione-color
+  - ttf-font-awesome-4
+  #- ttf-google-fonts-git
+  - ttf-input
+  - ttf-iosevka
+  - ttf-latex-xft-fonts
+  - ttf-mac-fonts
+  - ttf-montserrat
+  - ttf-noto-fonts-emoji-ib
+  - ttf-raleway
+  - ttf-spacemono
+  - ttf-tahoma
+  - ttf-fantasque-sans-mono
+  - ttf-fira-code
+  - ttf-nanum
+  gnome:
+  - ghex
+  - gloobus-preview
+  - gnome-specimen
+  - guake # top down terminal
+  - chrome-gnome-shell
+  - nemo-audio-tab
+  - nemo-emblems
+  - nemo-fileroller
+  - nemo-image-converter
+  - nemo-preview
+  - nemo-seahorse

@@ -1,0 +1,2 @@
+# Install a role from the Ansible Galaxy
+- src: bertvv.samba
