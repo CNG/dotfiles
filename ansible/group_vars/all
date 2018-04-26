@@ -242,7 +242,7 @@ packages:
   # - cerebro
   - enscript
   - [ insync, insync-dolphin ]
-  - keybase
+  - keybase-bin
   - libreoffice-fresh
   - masterpdfeditor
   - pandoc
