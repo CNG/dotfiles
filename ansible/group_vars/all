@@ -246,7 +246,8 @@ packages:
         - typora
     office:
         # - okular # Ebook Reader, simple yet capable
-        - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
+        # TODO enable following for desktop only
+        # - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
         #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
         #   --> as root to configure your settings. If you are using systemd, 
         #   --> then run "systemctl enable foldingathome.service" to enable

@@ -66,11 +66,11 @@ if ($player_arg eq '' or $player_arg =~ /cmus$/) {
 
 my $artist = qx(playerctl $player_arg metadata artist);
 # exit status will be nonzero when playerctl cannot find your player
-exit(1) if $artist eq '(null)';
+exit(1) if $? != 0 || $artist eq '(null)';
 push(@metadata, $artist) if $artist;
 
 my $title = qx(playerctl $player_arg metadata title);
-exit(1) if $title eq '(null)';
+exit(1) if $? != 0 || $title eq '(null)';
 push(@metadata, $title) if $title;
 
 my $status;
@@ -81,4 +81,4 @@ close(CAT);
 
 print "\x{266A} ";
 print(join(" - ", @metadata)) if @metadata;
-print "\n\n#f77b71\n" if $status eq 'Paused'
+print "\n\n#f77b71\n" if $status eq 'Paused' && @metadata;

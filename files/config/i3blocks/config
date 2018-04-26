@@ -15,9 +15,11 @@ separator_block_width=50
 
 
 [mediaplayer]
+# works without specifying player (and maybe works with VLC etc then?)
 #instance=spotify
-#interval=5
-interval=once
+# still need interval despite signal else won't update when song changes
+# naturally
+interval=5
 signal=10
 color=#8CE000
 separator_block_width=50
