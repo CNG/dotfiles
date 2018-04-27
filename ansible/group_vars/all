@@ -145,7 +145,7 @@ packages:
   - scrot
   - escrotum
   # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
-  - [ nemo, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
+  - [ nemo-git, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
   #- [ nemo-seahorse-nonautilus, gnome-keyring ]
   plasma:
   - plasma-meta
@@ -204,6 +204,7 @@ packages:
   - myrepos
   - ctmg
   - imwheel
+  - neofetch
   filesystem:
   - dosfstools
   - efibootmgr
@@ -220,7 +221,8 @@ packages:
   - typora
   office:
   # - okular # Ebook Reader, simple yet capable
-  - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
+  # TODO: desktop only, not work
+  # - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
   #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
   #   --> as root to configure your settings. If you are using systemd, 
   #   --> then run "systemctl enable foldingathome.service" to enable
