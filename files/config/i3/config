@@ -2,9 +2,13 @@ set $mod Mod1
 set $modB Mod4
 
 set $background /usr/share/backgrounds/taipei.jpg
+set $set_background feh --bg-scale /usr/share/backgrounds/taipei.jpg
 
 #set $mod Mod4
 #set $modB Mod1
+set $term --no-startup-id alacritty
+set $stoprec --no-startup-id killall ffmpeg
+
 
 # Hide titlebar
 new_window pixel
@@ -15,40 +19,40 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 bindsym $mod+ctrl+6           exec xbacklight -inc 10 # increase screen brightness
 bindsym $mod+ctrl+5           exec xbacklight -dec 10 # decrease screen brightness
 
-bindsym $mod+Shift+s exec --no-startup-id /usr/local/bin/monitor
-bindsym $mod+Shift+n exec --no-startup-id /usr/local/bin/monitor2
+bindsym $mod+Shift+s exec --no-startup-id "/usr/local/bin/monitor && $set_background"
+bindsym $mod+Shift+n exec --no-startup-id "/usr/local/bin/monitor2 && $set_background"
 
-bindsym $modB+v       exec "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
-bindsym $modB+Shift+v exec "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $modB+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec $term
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
-bindsym $mod+i exec /usr/bin/firefox
-bindsym $mod+f exec dolphin
-bindsym $mod+Shift-m exec vboxmanage startvm Hackintosh
-bindsym $mod+e exec subl3 --new-window
-bindsym $mod+m exec spotify --force-device-scale-factor=1.5
+bindsym $mod+i exec --no-startup-id /usr/bin/firefox
+bindsym $mod+f exec --no-startup-id dolphin
+bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
+bindsym $mod+e exec --no-startup-id subl3 --new-window
+bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=1.5
 
 
-bindsym $mod+Ctrl+e exec /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
-bindsym $mod+Ctrl+c exec /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
-bindsym $mod+Ctrl+w exec /usr/bin/chromium --app=https://web.whatsapp.com
-bindsym $mod+Ctrl+f exec /usr/bin/chromium --app=https://www.facebook.com/messages
-
+bindsym $mod+Ctrl+e exec --no-startup-id /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
+bindsym $mod+Ctrl+c exec --no-startup-id /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
+bindsym $mod+Ctrl+w exec --no-startup-id /usr/bin/chromium --app=https://web.whatsapp.com
+bindsym $mod+Ctrl+f exec --no-startup-id /usr/bin/chromium --app=https://www.facebook.com/messages
+bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/i3scripts/lock
 
 set $shot_d $HOME/Pictures/%Y/%m
 set $shot_f screenshot_%F_%H%M%S.png
 exec --no-startup-id mkdir -p `date +$shot_d`
 
 # ImageMagick import util too slow for screenshots
-# bindsym Print exec import `date +$shot_d/$shot_f`
-# bindsym $mod+Print exec import -window root `date +$shot_d/$shot_f`
+# bindsym Print exec --no-startup-id import `date +$shot_d/$shot_f`
+# bindsym $mod+Print exec --no-startup-id import -window root `date +$shot_d/$shot_f`
 
 # scrot --select leaves border artifacts in image, also requires --release
-# bindsym Print --release exec scrot --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
-bindsym Print     exec escrotum --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
-bindsym Shift+Print exec scrot --focused $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
-bindsym Ctrl+Shift+Print exec scrot      $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+# bindsym Print --release exec--no-startup-id  scrot --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Print     exec --no-startup-id escrotum --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Shift+Print exec --no-startup-id scrot --focused $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+bindsym Ctrl+Shift+Print exec --no-startup-id scrot      $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
 
 bindsym $mod+o open
 bindsym $mod+q kill
@@ -183,7 +187,7 @@ bar
 exec_always --no-startup-id xset r rate 170    45 # for X
 exec_always --no-startup-id kbdrate  -d 170 -r 45 # virtual console; redudant?
 # wallpaper
-exec_always --no-startup-id feh --bg-scale $background
+exec_always --no-startup-id $set_background
 # compositor, window transparency
 exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
 
@@ -207,9 +211,9 @@ for_window [class="VirtualBox Machine"] floating enable
 
 
 # change volume or toggle mute
-bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 2%+ && pkill -RTMIN+10 i3blocks 
-bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 2%- && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioNext exec playerctl next && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioPrev exec playerctl previous && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioPlay exec playerctl play-pause && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 2%+ && pkill -RTMIN+10 i3blocks 
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 2%- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioNext exec --no-startup-id playerctl next && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause && pkill -RTMIN+10 i3blocks

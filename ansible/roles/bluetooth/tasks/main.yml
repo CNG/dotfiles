@@ -39,3 +39,11 @@
     enabled: yes
     state: started
   when: bluetooth.disable == True
+
+- name: Start bluetooth automatically, for LightDM
+  lineinfile:
+    path: /etc/bluetooth/main.conf
+    regexp: "^#? ?AutoEnable *="
+    state: present
+    line: "AutoEnable=true"
+

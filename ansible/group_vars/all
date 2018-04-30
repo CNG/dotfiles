@@ -18,7 +18,7 @@ dotfiles:
 ssh:
   port: 22
   # user_key: /root/id_rsa
-  enable_sshd: False
+  enable_sshd: True
 
 gnupg:
   enable_agent: True
@@ -329,6 +329,7 @@ packages:
   - gnu-netcat
   - lftp
   - nmap
+  - ngrep
   - tcpdump
   - sshuttle
   - pdsh

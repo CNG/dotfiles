@@ -5,13 +5,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Shortcuts
-#alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
 alias g="git"
 alias h="history"
@@ -76,11 +73,6 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 # macOS has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-# JavaScriptCore REPL
-jscbin="/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc";
-[ -e "${jscbin}" ] && alias jsc="${jscbin}";
-unset jscbin;
-
 # Trim new lines and copy to clipboard
 # alias c="tr -d '\n' | pbcopy"
 
@@ -96,9 +88,9 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 alias map="xargs -n1"
 
 # One of @janmoesen’s ProTip™s
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "$method"="lwp-request -m '$method'"
-done
+#for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+#	alias "$method"="lwp-request -m '$method'"
+#done
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"

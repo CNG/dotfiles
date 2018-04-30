@@ -1,5 +1,7 @@
 #compdef c
-if [[ $PROJECTS ]]; then
+if [[ -d $HOME/Workspace ]]; then
+  _files -W $HOME/Workspace -/
+elif [[ $PROJECTS ]]; then
   _files -W $PROJECTS -/
 fi
 if [[ $GOPATH ]]; then

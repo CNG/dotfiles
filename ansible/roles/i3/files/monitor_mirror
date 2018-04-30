@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# get info from xrandr
+connectedOutputs=$(xrandr | grep " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+max_resolution=$(xrandr | grep " connected" | grep -oP "\d+x\d+" | sort | uniq)
+execute="xrandr --fb $max_resolution "
+
+for display in $connectedOutputs; do
+  execute=$execute"--output $display --auto "
+done
+
+echo "Command: $execute" | tee -a /var/log/lightdm/monitor
+$($execute)
+echo -e "\n$(xrandr)" | tee -a /var/log/lightdm/monitor
+

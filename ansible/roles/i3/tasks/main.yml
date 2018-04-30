@@ -73,6 +73,12 @@
     mode: 0755
   when: "'ThinkPad' in ansible_product_version"
 
+- name: Install screen mirroring
+  copy:
+    src: monitor_mirror
+    dest: "/usr/local/bin/monitor_mirror"
+    mode: 0755
+
 # Configure Samba
 - name: Copy Samba config
 #   copy:

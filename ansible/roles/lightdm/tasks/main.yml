@@ -8,6 +8,7 @@
       - lightdm
       - lightdm-webkit2-greeter
       - lightdm-webkit2-theme-material2
+      - accountsservice
 
 - name: Enable LightDM
   service:
@@ -25,32 +26,40 @@
     dest: /usr/share/backgrounds/taipei.jpg
     mode: 0666
 
-- name: Specify LightDM greeter
-  lineinfile:
-    path: /etc/lightdm/lightdm.conf
-    regexp: "^#? ?greeter-session *="
-    state: present
-    line: "greeter-session=lightdm-webkit2-greeter"
+- name: Create user avatars dir
+  file:
+    path: /var/lib/AccountsService/users
+    state: directory
 
-- name: Specify LightDM greeter background
-  lineinfile:
-    path: /etc/lightdm/lightdm-webkit2-greeter.conf
-    regexp: "^#? ?background *="
-    state: present
-    line: "background        = /usr/share/backgrounds/taipei.jpg"
+- name: Push user avatar
+  copy:
+    src: cgorichanaz.png
+    dest: /var/lib/AccountsService/users/cgorichanaz
+    mode: 0666
 
-- name: Specify LightDM greeter theme
-  lineinfile:
-    path: /etc/lightdm/lightdm-webkit2-greeter.conf
-    regexp: "^#? ?webkit_theme *="
-    state: present
-    line: "webkit_theme        = material2"
+- name: Create LightDM settings directory
+  file:
+    name: /etc/lightdm/lightdm.conf.d
+    state: directory
+    mode: 0755
 
-- name: Create LightDM greeter keyboard settings directory
+- name: Specify LightDM settings
+  copy:
+    src: 50-lightdm.conf
+    dest: /etc/lightdm/lightdm.conf.d/50-lightdm.conf
+    mode: 0644
+
+- name: Create LightDM greeter settings directory
   file:
     name: /etc/lightdm/lightdm-webkit2-greeter.conf.d
     state: directory
     mode: 0755
+
+- name: Specify LightDM greeter settings
+  copy:
+    src: 50-lightdm-greeter.conf
+    dest: /etc/lightdm/lightdm-webkit2-greeter.conf.d/50-lightdm-greeter.conf
+    mode: 0644
 
 - name: Specify LightDM greeter keyboard settings
   copy:
@@ -66,12 +75,13 @@
     state: present
     line: "hidden-users=nobody nobody4 noaccess aur_builder"
 
-- name: Hide user images
-  lineinfile:
-    dest: /etc/lightdm/lightdm-webkit2-greeter.conf
-    regexp: "^#? ?hide-user-image *="
-    state: present
-    line: "hide-user-image   = true"
+# for lightdm-gtk-greeter only
+# - name: Hide user images
+#   lineinfile:
+#     dest: /etc/lightdm/lightdm-webkit2-greeter.conf
+#     regexp: "^#? ?hide-user-image *="
+#     state: present
+#     line: "hide-user-image   = true"
 
 - name: Force LightDM greeter theme
   lineinfile:

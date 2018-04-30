@@ -20,14 +20,17 @@
 if [ ! -z "$1" ]; then
   if [[ $GOPATH ]] && [[ -s $GOPATH/src/github.com/$1 ]]; then
     cd "$GOPATH/src/github.com/$1"
-  fi
-  if [[ $PROJECTS ]]; then
+  elif [[ -s $HOME/Workspace/$1 ]]; then
+    cd "$HOME/Workspace/$1"
+  elif [[ $PROJECTS ]]; then
     cd "$PROJECTS/$1"
   else
-    cd ~"/$1"
+    cd "$HOME/$1"
   fi
 else
-  if [[ $PROJECTS ]]; then
+  if [[ -d ~/Workspace ]]; then
+    cd ~/Workspace
+  elif [[ $PROJECTS ]]; then
     cd "$PROJECTS"
   else
     cd

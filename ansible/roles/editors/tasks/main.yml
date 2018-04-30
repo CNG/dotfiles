@@ -31,6 +31,8 @@
     # - { user: 'tpope', repo: 'vim-abolish' }
     - { user: 'tpope', repo: 'vim-commentary' }
     - { user: 'scrooloose', repo: 'nerdcommenter' }
+    - { user: 'scrooloose', repo: 'nerdtree' }
+    - { user: 'vim-scripts', repo: 'taglist' }
     - { user: 'michaeljsmith', repo: 'vim-indent-object' }
     - { user: 'bronson', repo: 'vim-visual-star-search' }
     - { user: 'lifepillar', repo: 'vim-solarized8' }
