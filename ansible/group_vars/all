@@ -136,6 +136,7 @@ packages:
   # - units
   # - python-pipenv
   i3:
+  - [ gnome-themes-extra, gtk-engines ] # fixed Spotify Gtk error
   - gwenview # best image viewer for KDE
   - [ dolphin, dolphin-plugins ]
   - [ kwallet, kwalletmanager ]
