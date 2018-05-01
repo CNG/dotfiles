@@ -184,8 +184,8 @@ bar
 
 
 # typematic delay
-exec_always --no-startup-id xset r rate 170    45 # for X
-exec_always --no-startup-id kbdrate  -d 170 -r 45 # virtual console; redudant?
+exec_always --no-startup-id xset r rate 150    50 # for X
+exec_always --no-startup-id kbdrate  -d 150 -r 50 # virtual console; redudant?
 # wallpaper
 exec_always --no-startup-id $set_background
 # compositor, window transparency
