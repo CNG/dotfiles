@@ -33,7 +33,6 @@ bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
 bindsym $mod+e exec --no-startup-id subl3 --new-window
 bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=1.5
 
-
 bindsym $mod+Ctrl+e exec --no-startup-id /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
 bindsym $mod+Ctrl+c exec --no-startup-id /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
 bindsym $mod+Ctrl+w exec --no-startup-id /usr/bin/chromium --app=https://web.whatsapp.com
@@ -193,7 +192,7 @@ exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawas
 
 exec --no-startup-id setxkbmap dvorak
 exec --no-startup-id xbindkeys
-exec --no-startup-id insync start   # GDrive manager
+exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id nm-applet      # network manager
 exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id klipper        # clipboard manager
