@@ -218,7 +218,7 @@ packages:
   - vi
   - vim
   - nano
-  - sublime-text-dev
+  - sublime-text
   - typora
   office:
   # - okular # Ebook Reader, simple yet capable
