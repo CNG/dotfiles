@@ -18,18 +18,19 @@ main () {
 
   (
     cd "$private_repo"
-    git pull
+    git pull || return
 
     # Next line assumes Shell history file is ~/.zsh_history
     sync_zsh_history
 
+    # Disabling /etc/hosts customization till decide about Ansible tasks
     # Next line assumes current user can sudo without password
-    update-hosts # Zsh autoloaded function
+    # update-hosts # Zsh autoloaded function
 
     # sync_crontab contains a Zsh autoloaded function
     sync_crontab
     # Next line assumes current user can sudo without password
-    sync_crontab root
+    # sync_crontab root
 
     git push
   )
@@ -38,7 +39,9 @@ main () {
 
 sync_crontab () {
   local user=${1:-$(whoami)}
-  sync-crontab $user # Zsh autoloaded function
+  # not working for some reason, load file directly
+  # sync-crontab $user # Zsh autoloaded function
+  ~/.zsh/functions/sync-crontab $user
   commit_if_untracked crontab_$(hostname)_$user "Initial $user crontab"
   commit_if_modified  crontab_$(hostname)_$user "Update $user crontab"
 }
@@ -79,12 +82,13 @@ sync_zsh_history () {
 
   # add new content (appears locally but not in repo) to host log in repo
   command diff --changed-group-format="%>" --unchanged-group-format="" \
-    $merged "$localh" >> $splith
+    $merged "$localh" >> $splith || true
 
   # add local history to combined hosts repo history
   # sort (timestamp prepended lines) and remove duplicates
+  # sponge lets write out to input file
   if [[ $(which sponge) ]]; then
-    cat "$localh" $merged |
+    command cat "$localh" $merged |
       tr '\n' '\0' |
       sed 's|\\\x00|\\\n|g' |
       LC_ALL='C' sort -zu |
@@ -92,7 +96,7 @@ sync_zsh_history () {
       sponge $merged
   else
     echo "$(
-      cat "$localh" $merged |
+      command cat "$localh" $merged |
         tr '\n' '\0' |
         sed 's|\\\x00|\n|g' |
         LC_ALL='C' sort -zu |

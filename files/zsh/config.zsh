@@ -1,3 +1,5 @@
+source ~/.zsh/oh-my-zsh-config
+
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
@@ -30,9 +32,11 @@ setopt INC_APPEND_HISTORY_TIME # history written after command finished so time 
 # I think APPEND_HISTORY is also redundant if INC_APPEND_HISTORY is set.
 # setopt APPEND_HISTORY # adds history rather than replaces it
 
-# setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
-setopt HIST_IGNORE_DUPS # don't record in history if duplicate of previous event
-setopt HIST_REDUCE_BLANKS
+setopt NO_HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+setopt NO_HIST_IGNORE_SPACE
+setopt NO_HIST_IGNORE_DUPS # don't record in history if duplicate of previous event
+setopt NO_HIST_REDUCE_BLANKS
+setopt NO_SHARE_HISTORY
 
 # don't expand aliases _before_ completion has finished
 #   like: git comm-[tab]
