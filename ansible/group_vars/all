@@ -206,6 +206,7 @@ packages:
   - ctmg
   - imwheel
   - neofetch
+  - python-systemd # Ansible log to journal
   filesystem:
   - dosfstools
   - efibootmgr
@@ -286,6 +287,7 @@ packages:
   - [ cdparanoia, abcde ] # CD track encoder
   - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
   - [ qt4, vlc ]
+  - vdhcoapp # Video Downloadhelper companion app
   - guvcview # webcam record
   - losslesscut # video trim
   - darktable

@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/feh --bg-fill '/usr/share/backgrounds/taipei.jpg' 

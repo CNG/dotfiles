@@ -3,3 +3,4 @@ _resources
 *.local.sh
 *.local.bash
 private/
+*.retry

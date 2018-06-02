@@ -97,7 +97,7 @@ if args.aur:
 
 update_count = len(updates)
 if update_count > 0:
-    info = str(update_count) + ' updates available'
+    info = str(update_count) + ' update' + ('s' if update_count > 1 else '')
     matches = matching_updates(updates, args.watch)
     if matches:
         info += ' [{0}]'.format(', '.join(matches))

@@ -1,23 +1,72 @@
 set $mod Mod1
 set $modB Mod4
+focus_follows_mouse no
 
-set $background /usr/share/backgrounds/taipei.jpg
-set $set_background feh --bg-scale /usr/share/backgrounds/taipei.jpg
-
-#set $mod Mod4
-#set $modB Mod1
 set $term --no-startup-id alacritty
 set $stoprec --no-startup-id killall ffmpeg
+set $background /usr/share/backgrounds/taipei.jpg
+set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
+
+set $RaiseVolume --no-startup-id amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
+set $LowerVolume --no-startup-id amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
+set $Mute --no-startup-id amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
+set $Next --no-startup-id playerctl next && pkill -RTMIN+10 i3blocks
+set $Prev --no-startup-id playerctl previous && pkill -RTMIN+10 i3blocks
+set $Play --no-startup-id playerctl play-pause && pkill -RTMIN+10 i3blocks
+
+# change volume or toggle mute
+bindsym XF86AudioRaiseVolume exec $RaiseVolume
+bindsym XF86AudioLowerVolume exec $LowerVolume
+bindsym XF86AudioMute exec $Mute
+bindsym XF86AudioNext exec $Next
+bindsym XF86AudioPrev exec $Prev
+bindsym XF86AudioPlay exec $Play
+
+# copy and paste with Vim like keys with Ctrl or capslock(mapped to hyper)
+bindsym Ctrl+y --release exec xdotool key --clearmodifiers Ctrl+c
+bindsym Ctrl+p --release exec xdotool key --clearmodifiers Ctrl+v
+bindsym mod4+y --release exec xdotool key --clearmodifiers Ctrl+c
+bindsym mod4+p --release exec xdotool key --clearmodifiers Ctrl+v
+bindsym mod4+x --release exec xdotool key --clearmodifiers Ctrl+x
+bindsym mod4+a --release exec xdotool key --clearmodifiers Ctrl+a
+
+# emulate 60% keyboard on the laptop
+# wish these would work without "--release" :-(
+bindsym mod4+g --release exec --no-startup-id xdotool key --clearmodifiers Prior
+bindsym mod4+r --release exec --no-startup-id xdotool key --clearmodifiers Next
+bindsym mod4+c --release exec --no-startup-id xdotool key --clearmodifiers Up
+bindsym mod4+h --release exec --no-startup-id xdotool key --clearmodifiers Left
+bindsym mod4+t --release exec --no-startup-id xdotool key --clearmodifiers Down
+bindsym mod4+n --release exec --no-startup-id xdotool key --clearmodifiers Right
+bindsym mod4+Shift+c --release exec --no-startup-id xdotool key --clearmodifiers Shift+Up
+bindsym mod4+Shift+h --release exec --no-startup-id xdotool key --clearmodifiers Shift+Left
+bindsym mod4+Shift+t --release exec --no-startup-id xdotool key --clearmodifiers Shift+Down
+bindsym mod4+Shift+n --release exec --no-startup-id xdotool key --clearmodifiers Shift+Right
+bindsym mod4+$mod+c focus up
+bindsym mod4+$mod+h focus left
+bindsym mod4+$mod+t focus down
+bindsym mod4+$mod+n focus right
+bindsym mod4+$mod+Shift+c move up
+bindsym mod4+$mod+Shift+h move left
+bindsym mod4+$mod+Shift+t move down
+bindsym mod4+$mod+Shift+n move right
+bindsym mod4+BackSpace --release exec xdotool key --clearmodifiers Delete
+bindsym mod4+apostrophe exec $Prev
+bindsym mod4+comma exec $Play
+bindsym mod4+period exec $Next
+bindsym mod4+o exec $LowerVolume
+bindsym mod4+e exec $RaiseVolume
+bindsym mod4+u exec $Mute
 
 
 # Hide titlebar
 new_window pixel
 font pango: Fira Sans Regular 12
 
-bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-bindsym $mod+ctrl+6           exec xbacklight -inc 10 # increase screen brightness
-bindsym $mod+ctrl+5           exec xbacklight -dec 10 # decrease screen brightness
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 5 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
+bindsym $mod+ctrl+6           exec xbacklight -inc 5 # increase screen brightness
+bindsym $mod+ctrl+5           exec xbacklight -dec 5 # decrease screen brightness
 
 bindsym $mod+Shift+s exec --no-startup-id "/usr/local/bin/monitor && $set_background"
 bindsym $mod+Shift+n exec --no-startup-id "/usr/local/bin/monitor2 && $set_background"
@@ -31,7 +80,7 @@ bindsym $mod+i exec --no-startup-id /usr/bin/firefox
 bindsym $mod+f exec --no-startup-id nemo
 bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
 bindsym $mod+e exec --no-startup-id subl3 --new-window
-bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=1.5
+bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=0.75
 
 bindsym $mod+Ctrl+e exec --no-startup-id /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
 bindsym $mod+Ctrl+c exec --no-startup-id /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
@@ -182,6 +231,10 @@ bar
 }
 
 
+
+exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
+
+exec_always --no-startup-id xrandr --dpi 108
 # typematic delay
 exec_always --no-startup-id xset r rate 150    50 # for X
 exec_always --no-startup-id kbdrate  -d 150 -r 50 # virtual console; redudant?
@@ -200,6 +253,8 @@ exec --no-startup-id rescuetime     # time use tracker
 exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 
 for_window [class="Yad"] floating enable
+for_window [title="Event Tester"] floating enable # xev
+for_window [class="zoom"] floating enable
 for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable
 for_window [class="(?i)gwenview"] floating enable
@@ -216,3 +271,4 @@ bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle
 bindsym XF86AudioNext exec --no-startup-id playerctl next && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause && pkill -RTMIN+10 i3blocks
+
