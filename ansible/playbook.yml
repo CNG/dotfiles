@@ -11,8 +11,7 @@
     - { role: desktop, tags: ['desktop'], when: "desktop is defined" }
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
 
-    - { role: work, tags: ['work'] }
-    #- { role: work, tags: ['work'], when: work == "True" }
+      #    - { role: work, tags: ['work'], when: work == "True" }
 
     - { role: bertvv.samba, tags: ['samba'] }
     - { role: archive, tags: ['archive'] }
