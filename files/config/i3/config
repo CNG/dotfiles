@@ -28,7 +28,7 @@ bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in 
 bindsym $mod+Return exec $term
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
 bindsym $mod+i exec --no-startup-id /usr/bin/firefox
-bindsym $mod+f exec --no-startup-id dolphin
+bindsym $mod+f exec --no-startup-id nemo
 bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
 bindsym $mod+e exec --no-startup-id subl3 --new-window
 bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=1.5
@@ -207,7 +207,7 @@ for_window [class="(?i)guvcview"] floating enable
 for_window [class="(?i)pavucontrol"] floating enable move absolute position center
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
-
+for_window [class="(?i)nemo-preview-start"] floating enable, resize set 3840 2160, move absolute position center
 
 # change volume or toggle mute
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
