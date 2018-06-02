@@ -7,12 +7,13 @@
   with_flattened:
     - i3-gaps
     - i3blocks
-    - rofi
-    - playerctl
+    - rofi # menu
+    - playerctl # media player controls
     - qt5ct # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
     - compton-tryone-git # better blur than compton
     - xbindkeys
-    - [ escrotum-git, python2-numpy ]
+    - xdotool # for emulating 60% keyboard in i3 config
+    - [ escrotum-git, python2-numpy ] # screenshots
     - breeze-gtk # need to check if this gets what i want
 
 # - name: Verify default applications file exists

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#xrandr --dpi 108
+~/.fehbg &
+

@@ -4,11 +4,11 @@
 ###########################
 
 # Vim like copy-paste
-"xclip -selection primary -o | xclip -selection clipboard -i"
-   Control + y
+#"xclip -selection primary -o | xclip -selection clipboard -i"
+#   Control + y
 
-"sh -c 'xclip -selection clipboard -o | xvkbd -xsendevent -file - 2>/dev/null'"
-   Control + p
+#"sh -c 'xclip -selection clipboard -o | xvkbd -xsendevent -file - 2>/dev/null'"
+#   Control + p
 
 # most of this handled in i3 now
 
