@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# https://unix.stackexchange.com/a/67398/39419
+
+if [[ -z $1 ]]; then
+  # echo "Usage: $0 <sinkId/sinkName>" >&2
+  # echo "Valid sinks:" >&2
+  # pactl list short sinks >&2
+  # exit 1
+  newSink=$(pactl list short sinks | tail -n1 | cut -f1)
+else
+  newSink="$1"
+fi
+
+pactl list short sink-inputs|while read stream; do
+  streamId=$(echo $stream|cut '-d ' -f1)
+  echo "moving stream $streamId"
+  pactl move-sink-input "$streamId" "$newSink"
+done
+
