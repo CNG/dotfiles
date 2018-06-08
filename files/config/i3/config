@@ -74,7 +74,7 @@ bindsym $mod+Shift+n exec --no-startup-id "/usr/local/bin/monitor2 && $set_backg
 bindsym $modB+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 
-bindsym $mod+z exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && zoom && streams_to_sink"
+bindsym $mod+z exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
 bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 8 a2dp_sink && streams_to_sink"
 
 bindsym $mod+Return exec $term
@@ -257,7 +257,7 @@ exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 
 for_window [class="Yad"] floating enable
 for_window [title="Event Tester"] floating enable # xev
-for_window [class="zoom"] floating enable
+for_window [class="(?i)zoom"] floating enable, move absolute position center
 for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable
 for_window [class="(?i)gwenview"] floating enable
@@ -266,3 +266,5 @@ for_window [class="(?i)pavucontrol"] floating enable move absolute position cent
 for_window [class="(?i)blueman-manager"] floating enable
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
+for_window [class="(?i)nemo-preview-start"] floating enable, resize set 3840 2160, move absolute position center
+
