@@ -20,6 +20,30 @@
     - hachoir-parser
     - mat
 
+- name: Enable MariaDB for digiKam
+  service:
+    name: mariadb
+    enabled: yes
+    state: started
+
+- name: MySQL settings for digiKam
+  lineinfile:
+    dest: /etc/mysql/my.cnf
+    regexp: "^max_allowed_packet"
+    line: "max_allowed_packet = 16M"
+  become: yes
+
+- name: digiKam MariaDB service config
+  copy:
+    src: unsafe.conf
+    dest: /etc/systemd/system/mariadb.service.d/unsafe.conf
+    mode: 0644
+  become: yes
+
+#- name: First time setup MariaDB
+#  command: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+#  become: yes
+
 # - import_tasks: beets.yml # the music geek's media organizer
 - import_tasks: gimp.yml
 - import_tasks: qcode.yml

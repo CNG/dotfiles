@@ -291,7 +291,8 @@ packages:
   - guvcview # webcam record
   - losslesscut # video trim
   - darktable
-  - digikam
+  - [ digikam-without-akonadi-mediawiki-vkontakte, mariadb, kipi-plugins ]
+  - entangle # camera tethering
   - flac2all
   - xsane-gimp
   - iscan-plugin-gt-x820 # Epson V600 scanner

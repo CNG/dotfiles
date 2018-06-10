@@ -14,4 +14,4 @@
         state=link
 
 - name: Install GIMP raw support
-  pacman: name=gimp-ufraw state=present
+  pacman: name=gimp-nufraw state=present
