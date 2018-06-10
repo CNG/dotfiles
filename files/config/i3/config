@@ -60,7 +60,10 @@ bindsym mod4+u exec $Mute
 
 
 # Hide titlebar
-new_window pixel
+#default_border normal
+default_border pixel 2
+default_floating_border normal
+
 font pango: Fira Sans Regular 12
 
 bindsym XF86MonBrightnessUp   exec xbacklight -inc 5 # increase screen brightness

@@ -19,6 +19,11 @@ use strict;
 use warnings;
 use utf8;
 
+my $laptop = system("ls /sys/class/power_supply/BAT*");
+if($laptop != 0){
+  exit(0);
+}
+
 my $energy_full;
 my $energy_now;
 my $status;

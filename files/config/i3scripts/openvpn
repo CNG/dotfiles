@@ -36,7 +36,7 @@ sub print_output {
         unless (-f $openvpn_disabled) {
             open(my $shm, '>', $openvpn_disabled) or die "Can't write $openvpn_disabled\n";
         }
-        exit(1);
+        exit(0);
     }
 
     # Check if interface device is present
