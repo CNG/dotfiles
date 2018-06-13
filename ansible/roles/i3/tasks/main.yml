@@ -86,6 +86,12 @@
     dest: "/usr/local/bin/monitor_mirror"
     mode: 0755
 
+- name: Install display-setup-script
+  copy:
+    src: display-setup-script
+    dest: "/usr/local/bin/display-setup-script"
+    mode: 0755
+
 # Configure Samba
 - name: Copy Samba config
 #   copy:
