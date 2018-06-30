@@ -80,7 +80,7 @@ bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in 
 bindsym $mod+z exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
 bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 8 a2dp_sink && streams_to_sink"
 
-bindsym $mod+Return exec $term
+bindsym $mod+Return --release exec $term
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
 bindsym $mod+i exec --no-startup-id /usr/bin/firefox
 bindsym $mod+f exec --no-startup-id nemo
@@ -242,8 +242,8 @@ exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_
 
 exec_always --no-startup-id xrandr --dpi 108
 # typematic delay
-exec_always --no-startup-id xset r rate 150    50 # for X
-exec_always --no-startup-id kbdrate  -d 150 -r 50 # virtual console; redudant?
+exec_always --no-startup-id xset r rate 200    50 # for X
+exec_always --no-startup-id kbdrate  -d 200 -r 50 # virtual console; redudant?
 # wallpaper
 exec_always --no-startup-id $set_background
 # compositor, window transparency

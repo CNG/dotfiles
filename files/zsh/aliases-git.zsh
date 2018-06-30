@@ -16,6 +16,7 @@ alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
 
 alias gc='git commit'
 alias gca='git commit -a'
+alias gcam='git commit --amend --no-edit'
 alias gco='git checkout'
 alias gcb='git copy-branch-name'
 alias gb='git branch'
