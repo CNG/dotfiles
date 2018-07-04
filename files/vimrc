@@ -38,7 +38,6 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
-set relativenumber
 " set undofile
 
 " Need to better understand what crazy Vim regex Losh is talking about
@@ -75,6 +74,17 @@ set wrapmargin=0
 
 " don't do two spaces after sentences
 set nojoinspaces
+
+" setting both is "hybrid": relative except current line
+set number relativenumber
+" Automatic toggling between line number modes
+" https://jeffkreeftmeijer.com/vim-number/
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 
 " Show < or > when characters are not displayed on the left or right.
 " set list listchars=precedes:<,extends:>
