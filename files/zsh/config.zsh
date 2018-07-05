@@ -1,11 +1,9 @@
-source ~/.zsh/oh-my-zsh-config
+export EDITOR=vim
+export TERMINAL=alacritty
+export VISUAL=vim
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
-
-fpath=($HOME/.zsh/***/functions $fpath)
-
-autoload -U $HOME/.zsh/***/functions/*(:t)
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000000

@@ -1,4 +1,17 @@
-# https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
+# Many of these from https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
+
+alias reload!='. ~/.zshenv; . ~/.zshrc'
+alias br=". ~/.zshenv; . ~/.zshrc"
+alias l="ls -F --color=tty"
+alias ll="ls -l -F --color=tty"
+
+alias cls='clear' # Good 'ol Clear Screen command
+
+# http://unix.stackexchange.com/a/18092/39419
+bashman () { man bash | less -p "^       $1 "; }
+zshman () { man zshbuiltins | less -p "^       $1 "; }
+
+alias open='xdg-open'
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."

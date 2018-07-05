@@ -6,7 +6,7 @@
 # opens the given location
 
 if [ $# -eq 0 ]; then
-	subl .;
+	subl3 .;
 else
-	subl "$@";
+	subl3 "$@";
 fi;

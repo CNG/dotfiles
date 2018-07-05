@@ -6,9 +6,12 @@ if [[ -a ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
+# Load main configuration file
+source $HOME/.zsh/config.zsh
+
 # Gather all config files in dictionary-like array
 typeset -U config_files # keep only one occurrence of each value
-config_files=($HOME/.zsh/***/*.zsh) # *** recurses, follows symlinks
+config_files=($HOME/.zsh/config/***/*.zsh) # *** recurses, follows symlinks
 
 # Load the Oh-My-Zsh plugin files
 for file in ${(M)config_files:#*/plugins*}; do
@@ -20,6 +23,9 @@ for file in ${${${config_files:#*/env*}:#*/completion*}:#*/plugins*}; do
   source $file
 done
 
+# Load Oh-My-Zsh configuration file 
+source $HOME/.zsh/oh-my-zsh.zsh
+
 # Initialize autocomplete here so functions will load
 autoload -U compinit
 compinit
@@ -30,30 +36,3 @@ for file in ${(M)config_files:#*/completion*}; do
 done
 
 unset config_files
-export PATH=$HOME/.local/bin:$PATH
-
-# could also use systemd service, see
-# https://wiki.archlinux.org/index.php/SSH_keys#Keychain
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-  ssh-agent > ~/.ssh-agent-thing
-fi
-if [[ "$SSH_AGENT_PID" == "" ]]; then
-  eval "$(<~/.ssh-agent-thing)" 1> /dev/null
-fi
-
-# ZSH_TMUX_AUTOSTART='true'
-# TMUX
-# if which tmux >/dev/null 2>&1; then
-#   # if no session is started, start a new session
-#   test -z ${TMUX} && tmux
-
-#   # when quitting tmux, try to attach
-#   while test -z ${TMUX}; do
-#     tmux attach || break
-#   done
-# fi
-
-export EDITOR=vim
-export TERMINAL=alacritty
-export VISUAL=vim
-
