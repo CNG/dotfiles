@@ -108,7 +108,7 @@ packages:
   - brother-hl3170cdw
   base:
   - base-devel
-  - tmux
+  - [ tmux, tmux-bash-completion ]
   - [ git, hub ]
   - rsync
   - glances
@@ -257,8 +257,10 @@ packages:
   developer:
   - ack
   - arduino
+  - [ zopfli, pigz ] # 
   - grc # Colorize logfiles and command output
   - highlight
+  - pygmentize # Python syntax highlighter
   - htop
   - iftop
   - iotop
@@ -287,6 +289,7 @@ packages:
   - [ cdparanoia, abcde ] # CD track encoder
   - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
   - [ qt4, vlc ]
+  - [ zopfli, zopflipng ] # compression
   - vdhcoapp # Video Downloadhelper companion app
   - guvcview # webcam record
   - losslesscut # video trim
