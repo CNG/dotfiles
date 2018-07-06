@@ -45,6 +45,7 @@ echo 'editor 1' >> $f
 f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
+echo "initrd /intel-ucode.img" >> $f
 echo "initrd /initramfs-linux.img" >> $f
 echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/sda2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw intel_pstate=no_hwp vsyscall=emulate" >> $f
 

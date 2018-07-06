@@ -34,7 +34,6 @@
     - { role: lightdm, tags: ['lightdm'] } # login manager
     - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
     - { role: media, tags: ['media'] }
-    - { role: microcode, tags: ['microcode'], when: "'GenuineIntel' in ansible_processor" }
     - { role: mpd, tags: ['mpd'] } # MPD (music player daemon) is an audio player that has a server-client architecture
     - { role: mpv, tags: ['mpv'] } # a free, open source, and cross-platform media player
     - { role: nettools, tags: ['nettools'] }

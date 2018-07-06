@@ -108,6 +108,7 @@ packages:
   - brother-hl3170cdw
   base:
   - base-devel
+  - intel-ucode
   - [ tmux, tmux-bash-completion ]
   - [ git, hub ]
   - rsync
@@ -280,6 +281,7 @@ packages:
   - wireless_tools
   - rsnapshot
   - vagrant
+  - command-not-found # may need to check if /etc/zsh/zprofile is sourced as it says it should be
   media:
   # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
   # - inkscape
