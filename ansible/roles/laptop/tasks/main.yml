@@ -35,3 +35,25 @@
   become: yes
   become_user: aur_builder
 
+
+- name: Install multitouch drivers
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - xf86-input-mtrack-git
+  when: multitouch is defined and multitouch == True
+
+- name: Add user to input group, for mtrack
+  user:
+    name: "{{ user.name }}"
+    groups: input
+    append: yes
+  when: multitouch is defined and multitouch == True
+
+- name: Enable multitouch trackpad
+  copy:
+    src: 10-mtrack.conf
+    dest: /etc/X11/xorg.conf.d/10-mtrack.conf
+  when: multitouch is defined and multitouch == True

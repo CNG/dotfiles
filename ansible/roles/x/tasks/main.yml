@@ -21,6 +21,30 @@
     - xvkbd # virtual keyboard, need binary for my xbindkeysrc paste command 
     # - libva-intel-driver
 
+- name: Create user directories
+  command: /usr/bin/xdg-user-dirs-update
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Enable middle-click scrolling
+  copy:
+    src: 30-scroll.conf
+    dest: /etc/X11/xorg.conf.d/30-scroll.conf
+  when: middle_click_scroll is defined and middle_click_scroll == True
+
+- name: Enable natural scrolling
+  copy:
+    src: 31-scroll-direction.conf
+    dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
+
+# https://wiki.archlinux.org/index.php/intel_graphics
+# needed to delete this file to get displays to load, didn't investigate
+# - name: "Intel graphics: take advantage of some driver options"
+#   copy:
+#     src: 20-intel.conf
+#     dest: /etc/X11/xorg.conf.d/20-intel.conf
+#   when: nvidia_check.rc == 1
+
 - name: Check for NVIDIA graphics card
   command: lspci -k | grep -i nvidia
   register: nvidia_check
@@ -65,63 +89,3 @@
     name: "{{ user.name }}"
     groups: video
     append: yes
-
-
-- name: Install multitouch drivers
-  aur:
-    name: "{{ item }}"
-  become: yes
-  become_user: aur_builder
-  with_items:
-    - xf86-input-mtrack-git
-  when: multitouch is defined and multitouch == True
-
-- name: Add user to input group, for mtrack
-  user:
-    name: "{{ user.name }}"
-    groups: video
-    append: yes
-  when: multitouch is defined and multitouch == True
-
-- name: Enable multitouch trackpad
-  copy:
-    src: 10-mtrack.conf
-    dest: /etc/X11/xorg.conf.d/10-mtrack.conf
-  when: multitouch is defined and multitouch == True
-
-
-- name: Enable middle-click scrolling
-  copy:
-    src: 30-scroll.conf
-    dest: /etc/X11/xorg.conf.d/30-scroll.conf
-  when: middle_click_scroll is defined and middle_click_scroll == True
-
-- name: Enable natural scrolling
-  copy:
-    src: 31-scroll-direction.conf
-    dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
-
-- name: Install more X stuff
-  aur:
-    name: "{{ item }}"
-  become: yes
-  become_user: aur_builder
-  with_items:
-    - sxhkd
-    - unclutter
-    - autorandr-git
-    - srandrd
-    - autocutsel
-
-# https://wiki.archlinux.org/index.php/intel_graphics
-# needed to delete this file to get displays to load, didn't investigate
-# - name: "Intel graphics: take advantage of some driver options"
-#   copy:
-#     src: 20-intel.conf
-#     dest: /etc/X11/xorg.conf.d/20-intel.conf
-#   when: nvidia_check.rc == 1
-
-- name: Create user directories
-  command: /usr/bin/xdg-user-dirs-update
-  become: yes
-  become_user: "{{ user.name }}"
