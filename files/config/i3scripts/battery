@@ -18,8 +18,9 @@
 use strict;
 use warnings;
 use utf8;
+binmode(STDOUT, ':utf8');
 
-my $laptop = system("ls /sys/class/power_supply/BAT*");
+my $laptop = system("ls /sys/class/power_supply/BAT* &> /dev/null");
 if($laptop != 0){
   exit(0);
 }
@@ -68,8 +69,7 @@ if ($status eq 'Discharging') {
 }
 
 $short_text = $full_text;
-
-$full_text .= sprintf(" %.1f%", $percent);
+$full_text .= sprintf(" %.1f%%", $percent);
 
 # Print text
 print "$full_text\n";
