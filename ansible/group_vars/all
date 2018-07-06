@@ -305,6 +305,7 @@ packages:
   - flashplugin
   - flite # lightweight speech synthesis engine
   - fritzing
+  - libheif
   - gpscorrelate
   - gthumb
   - handbrake
