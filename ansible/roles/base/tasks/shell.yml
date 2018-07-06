@@ -33,6 +33,16 @@
   become: yes
   become_user: "{{ user.name }}"
 
+- name: Clone  repo
+  git:
+    repo: "git://github.com/zdharma/history-search-multi-word.git"
+    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
+    depth: 1
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
 - name: Clone powerlevel9k repo
   git:
     repo: "git://github.com/bhilburn/powerlevel9k.git"
