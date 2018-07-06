@@ -37,6 +37,12 @@
     src: 31-scroll-direction.conf
     dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
 
+- name: Check for NVIDIA graphics card
+  command: lspci -k | grep -i nvidia
+  register: nvidia_check
+  failed_when: False
+  changed_when: False
+
 # https://wiki.archlinux.org/index.php/intel_graphics
 # needed to delete this file to get displays to load, didn't investigate
 # - name: "Intel graphics: take advantage of some driver options"
@@ -45,11 +51,44 @@
 #     dest: /etc/X11/xorg.conf.d/20-intel.conf
 #   when: nvidia_check.rc == 1
 
-- name: Check for NVIDIA graphics card
-  command: lspci -k | grep -i nvidia
-  register: nvidia_check
-  failed_when: False
-  changed_when: False
+- name: "Intel graphics: Kernel Mode Setting"
+  become: yes
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+    backrefs: yes
+    state: present
+    line: "MODULES=(\\1 {{item}})"
+  with_items:
+    - i915
+  when: nvidia_check.rc == 1
+
+- name: "NVIDIA graphics: direct rendering manager kernel mode setting"
+  become: yes
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+    backrefs: yes
+    state: present
+    line: "MODULES=(\\1 {{item}})"
+  with_items:
+    - nvidia
+    - nvidia_modeset
+    - nvidia_uvm
+    - nvidia_drm
+  when: nvidia_check.rc == 0
+
+- name: "NVIDIA graphics: direct rendering manager kernel param"
+  become: yes
+  lineinfile:
+    path: /boot/loader/entries/arch.conf
+    regexp: "^options ((?:(?!{{item}}).)*)"
+    backrefs: yes
+    state: present
+    line: "options \\1 {{item}}"
+  with_items:
+    - nvidia-drm.modeset=1
+  when: nvidia_check.rc == 0
 
 - name: Install NVIDIA
   aur:

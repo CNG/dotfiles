@@ -17,6 +17,14 @@
     name: "{{ hostname }}"
   when: hostname is defined
 
+- name: Intel Microcode boot setup
+  become: yes
+  lineinfile:
+    path: /boot/loader/entries/arch.conf
+    line: "initrd /intel-ucode.img"
+    state: present
+    insertafter: "^linux /vmlinuz-linux$"
+
 - import_tasks: user.yml
 - import_tasks: sudo.yml
 - import_tasks: packages.yml
