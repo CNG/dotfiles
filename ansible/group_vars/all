@@ -109,7 +109,7 @@ packages:
   base:
   - base-devel
   - intel-ucode
-  - [ tmux, tmux-bash-completion ]
+  - tmux
   - [ git, hub ]
   - rsync
   - glances
@@ -203,6 +203,7 @@ packages:
   - alacritty-scrollback-terminfo-git
   - zplug
   - miller
+  - tmux-bash-completion
   - myrepos
   - ctmg
   - imwheel
