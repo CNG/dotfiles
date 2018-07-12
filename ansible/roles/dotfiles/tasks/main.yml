@@ -71,4 +71,5 @@
   with_items:
     - zshrc.local
     - zshenv.local
+    - gitconfig.local
     - ssh
