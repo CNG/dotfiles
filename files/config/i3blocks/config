@@ -131,10 +131,10 @@ interval=1
 min_width='44:44 UTC'
 separator_block_width=20
 
-[openvpn]
-label=
-interval=5
-color=#FF8C00
+#[openvpn]
+#label=
+#interval=5
+#color=#FF8C00
 
 [f5vpn]
 signal=10

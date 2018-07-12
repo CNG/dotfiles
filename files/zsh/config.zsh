@@ -1,6 +1,8 @@
 export EDITOR=vim
 export TERMINAL=alacritty
 export VISUAL=vim
+# one screen exit
+export LESS="-RFX"
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
@@ -46,3 +48,23 @@ bindkey '^[[5D' beginning-of-line
 bindkey '^[[5C' end-of-line
 bindkey '^[[3~' delete-char
 bindkey '^?' backward-delete-char
+
+
+# space expands glob expressions, subcommands and aliases
+typeset -a noexpand
+noexpand=(ls less cat)
+globalias() {
+  if [[ $LBUFFER =~ "\<(${(j:|:)noexpand})\$" ]]; then
+    zle _expand_alias
+    zle expand-word
+    zle self-insert
+    zle backward-delete-char # otherwise I get a ^@, not sure why
+  fi
+}
+zle -N globalias
+# normal space during searches
+bindkey -M isearch " " magic-space
+# space expands all aliases, including global
+bindkey -M viins " " globalias
+# control-space to make a normal space
+bindkey -M viins "^ " magic-space
