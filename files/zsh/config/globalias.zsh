@@ -28,8 +28,10 @@ bindkey -M viins "^ " magic-space
 
 # do the expansions even on return, before running command
 globaliasaccept() {
-  zle globalias
-  zle backward-delete-char
+  if [[ ! $LBUFFER =~ " \$" ]]; then
+    zle globalias
+    zle backward-delete-char
+  fi
   zle accept-line
 }
 zle -N globaliasaccept
