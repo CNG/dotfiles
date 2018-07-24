@@ -1,1 +1,6 @@
-SUBSYSTEMS=="usb", RUN+="/usr/bin/pkill -RTMIN+1 i3blocks" 
+# Following seems overly broad, lots of error messages earlier in boot
+# https://github.com/vivien/i3blocks-contrib/tree/master/usb
+# SUBSYSTEMS=="usb", RUN+="/usr/bin/pkill -RTMIN+1 i3blocks"
+
+# Trying following, adapted from 10-udisks-rules
+ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd*|sr", RUN+="/usr/bin/pkill -RTMIN+1 i3blocks" 

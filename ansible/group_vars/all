@@ -248,8 +248,9 @@ packages:
   # - cerebro
   - enscript
   - [ insync, insync-dolphin ]
-  - keybase-bin
+  - [ keybase-bin, keybase-gui ]
   - libreoffice-fresh
+  - copyq # clipboard manager
   - masterpdfeditor
   - pandoc
   - pdfgrep

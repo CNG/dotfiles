@@ -18,13 +18,13 @@ for file in ${(M)config_files:#*/plugins*}; do
   source $file
 done
 
-# Load Oh-My-Zsh configuration file
-source $HOME/.zsh/oh-my-zsh.zsh
-
 # Load all but env, completion and plugin files
 for file in ${${${config_files:#*/env*}:#*/completion*}:#*/plugins*}; do
   source $file
 done
+
+# Load Oh-My-Zsh configuration file
+source $HOME/.zsh/oh-my-zsh.zsh
 
 # Initialize autocomplete here so functions will load
 autoload -U compinit

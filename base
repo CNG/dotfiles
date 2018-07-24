@@ -27,7 +27,7 @@ mkfs.vfat -F32 $rootdevice"1"
 sgdisk $rootdevice -n=2:0:0
 cryptsetup luksFormat --type luks2 $rootdevice"2" # enter password
 cryptsetup luksAddKey $rootdevice"2" # enter password AS IF US KEYBOARD
-cryptsetup luksOpen $rootdevice"2" luks
+cryptsetup open --type luks $rootdevice"2" luks
 pvcreate /dev/mapper/luks
 vgcreate vg0 /dev/mapper/luks
 swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
