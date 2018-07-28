@@ -199,8 +199,8 @@ packages:
     # kde-gtk-config (optional) - GTK Theme configuration KCM
 
   base_aur:
-  - alacritty-scrollback-git
-  - alacritty-scrollback-terminfo-git
+  - alacritty-git
+  - alacritty-terminfo-git
   - zplug
   - miller
   - tmux-bash-completion

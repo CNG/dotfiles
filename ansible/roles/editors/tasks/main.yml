@@ -30,6 +30,7 @@
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }
     - { user: 'tpope', repo: 'vim-speeddating' }
+    - { user: 'christoomey', repo: 'vim-tmux-navigator' }
     # this looks interesting, but I am doing too much new stuff already
     # - { user: 'tpope', repo: 'vim-abolish' }
     - { user: 'tpope', repo: 'vim-commentary' }
