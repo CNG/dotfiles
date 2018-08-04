@@ -219,7 +219,7 @@ packages:
   - libguestfs # mount VMDKs, large install
   editors:
   - vi
-  - vim
+  - gvim # gvim required for clipboard/libX11 support
   - nano
   - sublime-text
   - typora

@@ -5,6 +5,9 @@ execute pathogen#infect()
 
 filetype plugin indent on
 
+" yanked text into and paste from global clipboard; requires gvim (libX11 support)
+set clipboard=unnamedplus
+
 "" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally#easier-split-navigations
 "" navigates splits without ^w first
 "nnoremap <C-J> <C-W><C-J>
@@ -16,16 +19,8 @@ filetype plugin indent on
 "set splitright
 
 
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-" open NERDTree automatically when vim starts up on opening a directory?
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-" close vim if the only window left open is a NERDTree?
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" enable mouse in NERDTree
-set mouse=a
-let g:NERDTreeMouseMode=3
+" allow dragging split borders
+set ttymouse=xterm2
 
 " prevent security exploits http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
 " set modelines=0
@@ -74,7 +69,6 @@ set wrap
 set linebreak
 " set textwidth=79
 set formatoptions=qrn1
-set colorcolumn=85
 
 " set formatoptions=ant
 " t: ensures text gets wrapped on textwidth
@@ -88,12 +82,12 @@ set nojoinspaces
 
 " setting both is "hybrid": relative except current line
 set number relativenumber
-let NERDTreeShowLineNumbers=0
 " Automatic toggling between line number modes
 " https://jeffkreeftmeijer.com/vim-number/
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufEnter,FocusGained,InsertLeave * if &ft!="nerdtree"|set relativenumber|endif
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
@@ -243,4 +237,27 @@ set noruler
 "set noshowcmd
 
 hi SpecialKey ctermbg=NONE guibg=NONE ctermfg=237
+
+
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+" open NERDTree automatically when vim starts up on opening a directory?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" enable mouse in NERDTree
+set mouse=a
+let g:NERDTreeMouseMode=3
+" Automatically delete the buffer of the file you just deleted with NerdTree
+let NERDTreeAutoDeleteBuffer=1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+autocmd FileType nerdtree setlocal norelativenumber
+let NERDTreeShowLineNumbers=0
+
+" set colorcolumn=85
+set colorcolumn=81
+highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
+match OverLength /\%121v.\+/
 
