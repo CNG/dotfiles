@@ -179,7 +179,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Always open some programs on specified workspace
 # assign [class="spotify"] $workspace8
 # https://community.spotify.com/t5/Desktop-Linux/WM-CLASS-window-property-on-Linux/td-p/1247042
-for_window [class="Spotify"] move to workspace $workspace8
+# for_window [class="Spotify"] move to workspace $workspace8
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
@@ -243,8 +243,8 @@ exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_
 
 exec_always --no-startup-id xrandr --dpi 108
 # typematic delay
-exec_always --no-startup-id xset r rate 200    50 # for X
-exec_always --no-startup-id kbdrate  -d 200 -r 50 # virtual console; redudant?
+exec_always --no-startup-id xset r rate 250    50 # for X
+exec_always --no-startup-id kbdrate  -d 250 -r 50 # virtual console; redudant?
 # wallpaper
 exec_always --no-startup-id $set_background
 # compositor, window transparency

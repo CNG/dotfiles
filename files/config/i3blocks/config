@@ -7,6 +7,9 @@ separator_block_width=10
 markup=pango
 interval=2
 
+[kbdrate]
+command=xset r rate 250 50 && printf ''
+interval=30
 
 [bandwidth3]
 command=~/.config/i3blocks-contrib/bandwidth3/bandwidth3 -t 1 -p 'if (rx) {printf "%'"'"' 5.f", rx};  if (tx && rx) {printf " "}; if (wx) {printf "%'"'"' 5.f", wx}; if (tx) {printf "\n"}' -u KB
