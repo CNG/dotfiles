@@ -1,0 +1,17 @@
+---
+- name: Install Arduino udev rules
+  command: curl -L https://github.com/adafruit/Trinket_Arduino_Linux/raw/master/99-adafruit-boards.rules | sed 's/dialout/uucp/g' > /etc/udev/rules.d/99-adafruit-boards.rules
+
+- name: Create system environment group
+  command: udevadm control --reload-rules
+  become: yes
+
+# started doing this but then decided to check this file into version control
+#- name: configure Arduino IDE
+#  lineinfile:
+#    dest: /home/{{ user.name }}/.arduino15/preferences.txt
+#    regexp: "{{ item.regexp }}"
+#    line: "{{ item.line }}"
+#  with_items:
+#    - { regexp: '^text/html=', line: 'text/html=browser.desktop' }
+

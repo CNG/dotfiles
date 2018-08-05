@@ -16,6 +16,7 @@
     - { role: bertvv.samba, tags: ['samba'] }
     - { role: archive, tags: ['archive'] }
     - { role: android, tags: ['android'] }
+    - { role: arduino, tags: ['arduino'] }
     - { role: bluetooth, tags: ['bluetooth'] }
     - { role: browsers, tags: ['browsers'] }
     - { role: cron, tags: ['cron'] }
