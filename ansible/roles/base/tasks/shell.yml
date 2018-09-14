@@ -63,3 +63,12 @@
   become: yes
   become_user: "{{ user.name }}"
 
+- name: Enable Tmux user service
+  systemd:
+    name: tmux
+    enabled: yes
+    state: started
+    user: yes
+    no_block: yes
+    daemon_reload: yes
+
