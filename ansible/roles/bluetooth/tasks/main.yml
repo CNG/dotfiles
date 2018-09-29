@@ -12,6 +12,13 @@
   notify:
     - restart pulse as user
 
+- name: Setup Bluetooth permissions
+  become: yes
+  copy:
+    src: 40-bluetooth.rules
+    dest: /etc/polkit-1/rules.d/40-bluetooth.rules
+    mode: 0644
+
 - name: Unblock the bluetooth service
   service:
     name: "rfkill-block@bluetooth.service"
