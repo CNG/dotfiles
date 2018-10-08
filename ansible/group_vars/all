@@ -264,6 +264,7 @@ packages:
   - grc # Colorize logfiles and command output
   - highlight
   - pygmentize # Python syntax highlighter
+  - jq 
   - htop
   - iftop
   - iotop
