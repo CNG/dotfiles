@@ -268,6 +268,7 @@ for_window [title="Event Tester"] floating enable # xev
 # for_window [class="(?i)zoom"] floating enable, move absolute position center
 for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable
+for_window [class="(?i)copyq"] floating enable
 for_window [class="(?i)gwenview"] floating enable
 for_window [class="(?i)guvcview"] floating enable
 for_window [class="(?i)pavucontrol"] floating enable move absolute position center
