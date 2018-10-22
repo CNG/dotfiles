@@ -52,4 +52,5 @@
     # Vim Airline
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
+    - { user: 'ambv', repo: 'black' }
 
