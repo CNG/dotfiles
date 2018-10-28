@@ -22,6 +22,7 @@
     - { role: cron, tags: ['cron'] }
     - { role: cups, tags: ['cups'] }
     - { role: developer, tags: ['developer'] }
+    - { role: docker, tags: ['docker'] }
     - { role: dotfiles, tags: ['dotfiles'] }
     - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }

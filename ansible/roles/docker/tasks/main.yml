@@ -1,0 +1,19 @@
+---
+- name: Install Docker
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - docker
+
+- name: Create user group
+  group:
+    name: "docker"
+    state: present
+
+- name: Add user to docker group
+  user:
+    name: "{{ user.name }}"
+    groups: docker
+    append: yes
