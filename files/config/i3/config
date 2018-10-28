@@ -82,6 +82,7 @@ bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 
 
 bindsym $mod+Return --release exec $term
 bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
+bindsym $mod+Shift+d exec xdotool type `~/notes/notes`
 bindsym $mod+i exec --no-startup-id /usr/bin/firefox
 bindsym $mod+f exec --no-startup-id nemo
 bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
