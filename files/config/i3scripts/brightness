@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# The instance option sets the control to report and configure
+CTRL="${BLOCK_INSTANCE:-$(xbacklight -list | head -n1)}"
+
+volume() {
+  value=$(printf "%.0f" $(xbacklight -getf $CTRL))
+  if ((value <= 1)); then
+    value=$(printf "%.1f" $(xbacklight -getf $CTRL))
+  fi
+  printf "%s" $value
+}
+
+# The first parameter sets the percent step to adjust brightness
+if (($(volume) <= 2)); then
+  DSTEP="${1:-0.1}"
+elif (($(volume) <= 10)); then
+  DSTEP="${1:-1}"
+elif (($(volume) <= 20)); then
+  DSTEP="${1:-2}"
+else
+  DSTEP="${1:-5}"
+fi
+
+if (($(volume) >= 20)); then
+  USTEP="${1:-5}"
+elif (($(volume) >= 10)); then
+  USTEP="${1:-2}"
+elif (($(volume) >= 1)); then
+  USTEP="${1:-1}"
+else
+  USTEP="${1:-0.1}"
+fi
+
+case $BLOCK_BUTTON in
+  1) xbacklight -set 100 -ctrl ${CTRL};; # click
+  3) xbacklight -set 0 -ctrl ${CTRL};; # right click, mute/unmute
+  5) xbacklight -inc ${USTEP} -ctrl ${CTRL};; # scroll up, increase
+  4) xbacklight -dec ${DSTEP} -ctrl ${CTRL};; # scroll down, decrease
+esac
+
+volume

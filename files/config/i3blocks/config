@@ -91,6 +91,14 @@ interval=15
 separator_block_width=20
 
 
+[brightness]
+color=#4ec2f7
+label=
+signal=10
+interval=once
+#instance=intel_backlight
+separator_block_width=20
+
 [volume]
 color=#FF8C00
 signal=10
