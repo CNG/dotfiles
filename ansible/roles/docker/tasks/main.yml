@@ -6,6 +6,7 @@
   become_user: aur_builder
   with_items:
     - docker
+    - docker-compose
 
 - name: Create user group
   group:
@@ -17,3 +18,10 @@
     name: "{{ user.name }}"
     groups: docker
     append: yes
+
+- name: Enable and start Docker
+  service:
+    name: docker.service
+    enabled: yes
+    state: started
+
