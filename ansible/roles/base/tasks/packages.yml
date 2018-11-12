@@ -1,9 +1,8 @@
 ---
 - name: Install universal base packages
   pacman:
-    name: "{{ item }}"
+    name: "{{ packages.base }}"
     state: present
-  with_flattened: "{{ packages.base }}"
 
 - name: Create pacman hook directory
   file:
@@ -18,7 +17,8 @@
 - name: Install AUR helper
   aur:
     name: aurman
-    use: internal
+    use: auto
+    skip_pgp_check: yes
   become: yes
   become_user: aur_builder
 
@@ -42,10 +42,9 @@
 
 - name: Install AUR base packages
   aur:
-    name: "{{ item }}"
+    name: "{{ packages.base_aur }}"
   become: yes
   become_user: aur_builder
-  with_flattened: "{{ packages.base_aur }}"
 
 - name: Push pacman cache cleanup service
   copy:
