@@ -20,6 +20,7 @@
     - { role: bluetooth, tags: ['bluetooth'] }
     - { role: browsers, tags: ['browsers'] }
     - { role: cron, tags: ['cron'] }
+    - { role: cpu, tags: ['cpu'] }
     - { role: cups, tags: ['cups'] }
     - { role: developer, tags: ['developer'] }
     - { role: docker, tags: ['docker'] }

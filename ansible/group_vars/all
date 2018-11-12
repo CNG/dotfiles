@@ -108,7 +108,7 @@ packages:
   - brother-hl3170cdw
   base:
   - base-devel
-  - intel-ucode
+  #- intel-ucode
   - tmux
   - [ git, hub ]
   - rsync
