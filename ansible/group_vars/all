@@ -139,13 +139,13 @@ packages:
   i3:
   - [ gnome-themes-extra, gtk-engines ] # fixed Spotify Gtk error
   - gwenview # best image viewer for KDE
-  - [ dolphin, dolphin-plugins ]
+  # - [ dolphin, dolphin-plugins ]
   - [ kwallet, kwalletmanager ]
   - ark # compresses/extract zip files from within dolphin
   - kfind
   - qlipper
   - scrot
-  - escrotum
+  - escrotum-git
   # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
   - [ nemo-git, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
   #- [ nemo-seahorse-nonautilus, gnome-keyring ]
@@ -154,8 +154,7 @@ packages:
   # also check out kde-applications-meta
   # - plasma-wayland-session # enable support for Wayland in Plasma
   - gwenview # best image viewer for KDE
-  - dolphin
-  - dolphin-plugins
+  - [ dolphin, dolphin-plugins ]
   - kwallet
   - kwalletmanager
   - ark # compresses/extract zip files from within dolphin
@@ -248,7 +247,8 @@ packages:
   # - cerebro
   - enscript
   - [ insync, insync-dolphin ]
-  - [ keybase-bin, keybase-gui ]
+  - keybase-bin
+  # - keybase-gui # non-Go version
   - libreoffice-fresh
   - copyq # clipboard manager
   - masterpdfeditor
@@ -256,7 +256,7 @@ packages:
   - pdfgrep
   - rescuetime
   - simple-scan
-  - visidata-git
+  - visidata
   developer:
   - ack
   - arduino
@@ -382,7 +382,7 @@ packages:
   - ttf-heuristica
   # extra:
   - adobe-base-14-fonts
-  - ttf-adobe-fonts
+  #- ttf-adobe-fonts
   - ttf-bookerly
   - ttf-contemporary
   - ttf-emojione-color

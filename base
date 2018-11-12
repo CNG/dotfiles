@@ -6,14 +6,15 @@
 set -o xtrace
 set -o errexit
 
-setuppartition=/dev/sdb2
+setuppartition=/dev/sdd2
 setupdir=/tmp/setupdir
 # rootdevice=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
-rootdevice=/dev/sda
+rootdevice=/dev/nvme0n1
 
-mkdir $setupdir
-mount $setuppartition $setupdir
-$setupdir/dotfiles/base
+mkdir -p $setupdir
+if ! findmnt $setupdir; then
+  mount $setuppartition $setupdir
+fi
 
 timedatectl set-ntp true
 
@@ -22,12 +23,12 @@ parted --script $rootdevice mklabel gpt
 partprobe
 # EFI
 sgdisk $rootdevice -n=1:0:+512M -t=1:ef00
-mkfs.vfat -F32 $rootdevice"1"
+mkfs.vfat -F32 $rootdevice"p1"
 # Encrypted root, swap
 sgdisk $rootdevice -n=2:0:0
-cryptsetup luksFormat --type luks2 $rootdevice"2" # enter password
-cryptsetup luksAddKey $rootdevice"2" # enter password AS IF US KEYBOARD
-cryptsetup open --type luks $rootdevice"2" luks
+cryptsetup luksFormat --type luks2 $rootdevice"p2" # enter password
+cryptsetup luksAddKey $rootdevice"p2" # enter password AS IF US KEYBOARD
+cryptsetup open --type luks $rootdevice"p2" luks
 pvcreate /dev/mapper/luks
 vgcreate vg0 /dev/mapper/luks
 swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
@@ -45,7 +46,7 @@ mkswap /dev/mapper/vg0-swap
 mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
 swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
 mkdir /mnt/boot
-mount $rootdevice"1" /mnt/boot
+mount $rootdevice"p1" /mnt/boot
 
 read -p "Continue? [y|n]" -n 1 -r
 echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi

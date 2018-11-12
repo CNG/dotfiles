@@ -12,7 +12,7 @@ hwclock --systohc --utc
 # Generate locale
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
-{ echo LANG=en_US.UTF-8; echo LC_ALL= } >> /etc/locale.conf
+{ echo LANG=en_US.UTF-8; echo LC_ALL=; } >> /etc/locale.conf
 
 echo KEYMAP=dvorak >> /etc/vconsole.conf
 
@@ -46,7 +46,7 @@ f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
-echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/sda2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw intel_pstate=no_hwp vsyscall=emulate" >> $f
+echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/nvme0n1p2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw vsyscall=emulate" >> $f
 
 # Exit new system and go into the cd shell
 exit

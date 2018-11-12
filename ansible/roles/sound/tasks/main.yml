@@ -1,18 +1,22 @@
 ---
 - name: Install alsa-utils
-  pacman: name=alsa-utils state=present
+  pacman:
+    name: alsa-utils
+    state: present
 
 - name: Install PulseAudio
-  pacman: name={{ item }} state=present
-  with_items:
+  pacman:
+    state: present
+    name:
       - pulseaudio
       - pulseaudio-alsa
       - pavucontrol
 
 - name: Switch output to newly connected devices
-  lineinfile: dest=/etc/pulse/default.pa
-              state=present
-              line="load-module module-switch-on-connect"
+  lineinfile:
+    dest: /etc/pulse/default.pa
+    state: present
+    line: "load-module module-switch-on-connect"
 
 # https://aur.archlinux.org/packages/pasystray-gtk3-git/
 # - name: Install pasystray
@@ -21,6 +25,7 @@
 #   become_user: aur_builder
 
 - name: Install pulseaudio-ctl
-  aur: name=pulseaudio-ctl
+  aur:
+    name: pulseaudio-ctl
   become: yes
   become_user: aur_builder

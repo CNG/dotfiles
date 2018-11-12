@@ -1,12 +1,14 @@
 ---
 - name: Install hunspell
-  pacman: name={{ item }} state=present
-  with_items:
-    - hunspell
-    - hunspell-en
+  pacman:
+    name:
+      - hunspell
+      - hunspell-en_US
+    state: present
 
 - name: Install aspell
-  pacman: name={{ item }} state=present
-  with_items:
-    - aspell
-    - aspell-en
+  pacman:
+    name:
+      - aspell
+      - aspell-en
+    state: present

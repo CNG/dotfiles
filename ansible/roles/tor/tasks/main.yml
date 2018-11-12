@@ -1,26 +1,34 @@
 ---
 - name: Install Tor
-  pacman: name={{ item }} state=present
-  with_items:
-    - tor
-    - torsocks
+  pacman:
+    state: present
+    name:
+      - tor
+      - torsocks
 
 - name: Set Tor to run as tor
-  lineinfile: dest=/etc/tor/torrc
-              regexp=^User
-              state=present
-              line="User tor"
+  lineinfile:
+    dest: /etc/tor/torrc
+    regexp: "^User"
+    state: present
+    line: "User tor"
 
 - name: Create Tor systemd unit file directory
-  file: path=/etc/systemd/system/tor.service.d state=directory
+  file:
+    path: /etc/systemd/system/tor.service.d
+    state: directory
 
 - name: Push Tor socket unit file
-  copy: src=tor-service-override.conf dest=/etc/systemd/system/tor.service.d/override.conf
+  copy:
+    src: tor-service-override.conf
+    dest: /etc/systemd/system/tor.service.d/override.conf
   notify:
     - reload systemd config
 
 - name: Verify Tor firejail local profile exists
-  file: path=/etc/firejail/tor.local state=touch
+  file:
+    path: /etc/firejail/tor.local
+    state: touch
 
 - name: Allow Tor firejail /dev access
   lineinfile:
@@ -28,21 +36,28 @@
     line: "ignore private-dev"
 
 - name: Enable and start Tor
-  service: name=tor enabled=yes state=started
+  service:
+    name: tor
+    enabled: yes
+    state: started
   when: tor.run_on == "all"
 
 - name: Remove Tor from trusted unit list
-  lineinfile: dest=/usr/local/etc/trusted_units
-              state=absent
-              line=tor.service
+  lineinfile:
+    dest: /usr/local/etc/trusted_units
+    state: absent
+    line: tor.service
   when: tor.run_on == "all"
 
 - name: Disable Tor
-  service: name=tor enabled=no
+  service:
+    name: tor
+    enabled: no
   when: tor.run_on == "trusted"
 
 - name: Add Tor to trusted unit list
-  lineinfile: dest=/usr/local/etc/trusted_units
-              state=present
-              line=tor.service
+  lineinfile:
+    dest: /usr/local/etc/trusted_units
+    state: present
+    line: tor.service
   when: tor.run_on == "trusted"
