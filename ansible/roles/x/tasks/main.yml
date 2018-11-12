@@ -1,10 +1,10 @@
 ---
-- name: Install Xorg
+- name: Install Xorg packages
   aur:
     name: "{{ item }}"
   become: yes
   become_user: aur_builder
-  with_flattened:
+  with_items:
     - xorg-server
     - xorg-xinit
     - xorg-xmodmap
@@ -19,7 +19,6 @@
     - srandrd
     - autocutsel
     - xvkbd # virtual keyboard, need binary for my xbindkeysrc paste command 
-    # - libva-intel-driver
 
 - name: Create user directories
   command: /usr/bin/xdg-user-dirs-update
@@ -36,7 +35,7 @@
     state: present
     line: 'XDG_DESKTOP_DIR="$HOME/"'
 
-- name: Enable middle-click scrolling
+- name: Enable middle click scrolling
   copy:
     src: 30-scroll.conf
     dest: /etc/X11/xorg.conf.d/30-scroll.conf
@@ -53,85 +52,79 @@
   failed_when: False
   changed_when: False
 
-# https://wiki.archlinux.org/index.php/intel_graphics
-# needed to delete this file to get displays to load, didn't investigate
-# - name: "Intel graphics: take advantage of some driver options"
-#   copy:
-#     src: 20-intel.conf
-#     dest: /etc/X11/xorg.conf.d/20-intel.conf
-#   when: nvidia_check.rc == 1
-
-- name: "Intel graphics: Kernel Mode Setting"
+- name: Intel setup
+  when: nvidia_check.rc == 0
   become: yes
-  lineinfile:
-    path: /etc/mkinitcpio.conf
-    regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
-    backrefs: yes
-    state: present
-    line: "MODULES=(\\1 {{item}})"
-  with_items:
-    - i915
+  block:
+  - name: "Intel graphics: kernel mode setting"
+    become: yes
+    lineinfile:
+      path: /etc/mkinitcpio.conf
+      regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+      backrefs: yes
+      state: present
+      line: "MODULES=(\\1 {{item}})"
+    with_items:
+      - i915
+  # Needed to delete this file to get displays to load, didn't investigate
+  # https://wiki.archlinux.org/index.php/intel_graphics
+  - name: "Intel graphics: take advantage of some driver options"
+    copy:
+      src: 20-intel.conf
+      dest: /etc/X11/xorg.conf.d/20-intel.conf
+  - name: "Intel graphics: Install packages"
+    aur:
+      name: "{{ item }}"
+    become_user: aur_builder
+    with_items:
+      - libva-intel-driver
+
+- name: NVIDIA setup
   when: nvidia_check.rc == 1
-
-- name: "NVIDIA graphics: direct rendering manager kernel mode setting"
   become: yes
-  lineinfile:
-    path: /etc/mkinitcpio.conf
-    regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
-    backrefs: yes
-    state: present
-    line: "MODULES=(\\1 {{item}})"
-  with_items:
-    - nvidia
-    - nvidia_modeset
-    - nvidia_uvm
-    - nvidia_drm
-  when: nvidia_check.rc == 0
-
-- name: "NVIDIA graphics: direct rendering manager kernel param"
-  become: yes
-  lineinfile:
-    path: /boot/loader/entries/arch.conf
-    regexp: "^options ((?:(?!{{item}}).)*)"
-    backrefs: yes
-    state: present
-    line: "options \\1 {{item}}"
-  with_items:
-    - nvidia-drm.modeset=1
-  when: nvidia_check.rc == 0
-
-- name: Install NVIDIA
-  aur:
-    name: "{{ item }}"
-  become: yes
-  become_user: aur_builder
-  with_items:
-    - nvidia
-    - cuda
-  when: nvidia_check.rc == 0
-
-- name: Install NVIDIA Pacman hook
-  become: yes
-  copy:
-    src: nvidia.hook
-    dest: /etc/pacman.d/hooks/nvidia.hook
-    mode: 0644
-  when: nvidia_check.rc == 0
-
-- name: Install NVIDIA config
-  become: yes
-  copy:
-    src: xorg.conf
-    dest: /etc/X11/xorg.conf.d/20-nvidia.conf
-    mode: 0644
-  when: nvidia_check.rc == 0
-
-- name: Remove Xorg config
-  become: yes
-  file:
-    state: absent
-    path: /etc/X11/xorg.conf
-  when: nvidia_check.rc == 0
+  block:
+  - name: "NVIDIA: direct rendering manager: kernel mode setting: add kernel modules"
+    lineinfile:
+      path: /etc/mkinitcpio.conf
+      regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+      backrefs: yes
+      state: present
+      line: "MODULES=(\\1 {{item}})"
+    with_items:
+      - nvidia
+      - nvidia_modeset
+      - nvidia_uvm
+      - nvidia_drm
+  - name: "NVIDIA: direct rendering manager: add kernel parameter"
+    lineinfile:
+      path: /boot/loader/entries/arch.conf
+      regexp: "^options ((?:(?!{{item}}).)*)"
+      backrefs: yes
+      state: present
+      line: "options \\1 {{item}}"
+    with_items:
+      - nvidia-drm.modeset=1
+  - name: "NVIDIA: Install Pacman hook"
+    copy:
+      src: nvidia.hook
+      dest: /etc/pacman.d/hooks/nvidia.hook
+      mode: 0644
+  - name: "NVIDIA: Remove default Xorg config"
+    file:
+      path: /etc/X11/xorg.conf
+      state: absent
+  - name: "NVIDIA: Install Xorg config overrides"
+    copy:
+      src: xorg.conf
+      dest: /etc/X11/xorg.conf.d/20-nvidia.conf
+      mode: 0644
+  - name: "NVIDIA: Install packages"
+    aur:
+      name: "{{ item }}"
+    become_user: aur_builder
+    with_items:
+      - nvidia
+      - cuda
 
 - name: Add user to video group
   user:
