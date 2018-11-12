@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# This script disables folding on GPUs being used with displays until the user
+# is idle.
+
+# TODO: Assumes slot 0 is CPU and the rest are GPUs
+
+
+CONFIG=${1:-/opt/fah/config.xml}
+[[ -w $CONFIG ]] || { echo >&2 "Cannot find Folding@Home config at $CONFIG.  Aborting."; exit 1; }
+
+if ! command -v nvidia-smi >/dev/null 2>&1; then exit 0; fi
+
+# We get idle millis with xprintidle, which seems default on Arch Linux
+if ! command -v xprintidle >/dev/null 2>&1; then exit 0; fi
+
+
+idle_check () {
+  # Return true (0) if idle more than $threshold milliseconds else false (1)
+
+  # Following two from https://stackoverflow.com/a/40288615/172602:
+  # Detect the name of the display in use
+  local display=":$(ls /tmp/.X11-unix/* | sed 's#/tmp/.X11-unix/X##' | head -n 1)"
+  # Detect the user using such display
+  local user=$(who | grep '('$display')' | awk '{print $1}')
+
+  # This cron-like environment needs $DISPLAY set for xprintidle
+  # Error if $DISPLAY not set: couldn't open display
+  # Error if not run as X session user: No protocol specified
+  export DISPLAY="$display"
+  su $user <<'EOF'
+  idle_time=$(xprintidle | bc)
+  screen_saver_timeout=$(xset q | grep -A2 'Screen Saver:' | grep -oP '(?<=timeout:  )(\d+)')
+  threshold_millis=${screen_saver_timeout}000
+  (( idle_time < threshold_millis )) && echo "no" || echo "yes"
+EOF
+}
+
+
+enable_gpu () {
+  local slot=$(( $1 + 1 ))
+  # echo "Enabling GPU $1 (FAH slot $slot) if it is disabled."
+  perl -0pi -e "s|(<slot id='$slot' type='GPU')>.*?</slot>|\1/>|s" "$config_copy"
+}
+
+
+disable_gpu () {
+  local slot=$(( $1 + 1 ))
+  # echo "Disabling GPU $1 (FAH slot $slot) if it is enabled."
+  perl -0pi -e "s|([ \t]*)(<slot id='$slot' type='GPU')/>|\1\2>\n\1\1<idle v='true'/>\n\1</slot>|" "$config_copy"
+}
+
+
+update_config () {
+  local idle=$1
+  nvidia-smi --query-gpu=index,display_mode --format=csv,noheader |
+  while read -r line; do
+    local gpu=$(echo $line | cut -d',' -f1)
+    if [[ $idle == "yes" || $(echo $line | cut -d',' -f2) == ' Disabled' ]]; then
+      # Enable detached GPUs, or when idle all GPUs
+      enable_gpu $gpu
+    else
+      disable_gpu $gpu
+    fi
+  done
+}
+
+
+main () {
+  local config_copy=$(mktemp /tmp/fah-idle-check.XXXXXX)
+  trap "rm -f $config_copy" 0 2 3 15
+  cp -a "$CONFIG" "$config_copy"
+
+  update_config $(idle_check)
+
+  if ! diff -q "$CONFIG" "$config_copy" > /dev/null; then
+    echo "Config was modified:"
+    diff "$CONFIG" "$config_copy"
+    cp -a "$config_copy" "$CONFIG" &&
+    systemctl restart foldingathome.service
+  fi
+}
+
+
+main

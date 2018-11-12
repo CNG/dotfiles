@@ -26,6 +26,7 @@
     - { role: dotfiles, tags: ['dotfiles'] }
     - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }
+    - { role: fah, tags: ['fah'], when: "desktop is defined" }
     - { role: filesystems, tags: ['filesystems'] }
     - { role: firejail, tags: ['firejail'] }
     - { role: fonts, tags: ['fonts'] }

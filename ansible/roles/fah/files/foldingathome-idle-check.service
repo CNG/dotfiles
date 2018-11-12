@@ -1,0 +1,9 @@
+[Unit]
+Description=Adjust compute power of Folding@Home based on idle state
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/fah-idle-check 
+
+[Install]
+WantedBy=multi-user.target

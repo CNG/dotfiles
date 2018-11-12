@@ -1,0 +1,6 @@
+---
+- name: restart foldingathome
+  service:
+    name: foldingathome
+    state: restarted
+  when: foldingathome is defined

@@ -224,13 +224,6 @@ packages:
   - typora
   office:
   # - okular # Ebook Reader, simple yet capable
-  # TODO: desktop only, not work
-  # - [ foldingathome-beta, fahcontrol-beta, fahviewer-beta, opencl-icd-loader, opencl-nvidia, cuda ]
-  #   --> Please cd to /opt/fah/ and execute ./FAHClient --configure
-  #   --> as root to configure your settings. If you are using systemd, 
-  #   --> then run "systemctl enable foldingathome.service" to enable
-  #   --> the folding service. If you would like join the Arch Linux
-  #   --> team, use team number 45032.  
   - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
   # Anki addons:
   # not yet Anki 2.1: 162313389 Power format pack

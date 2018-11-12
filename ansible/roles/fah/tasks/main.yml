@@ -1,0 +1,66 @@
+---
+- name: Install Folding@Home software
+  block:
+    - aur:
+        name: "{{ item }}"
+      with_items:
+        - foldingathome-beta
+        - fahcontrol-beta
+        - fahviewer-beta
+    - aur:
+        name: "{{ item }}"
+      with_items:
+        - opencl-icd-loader
+        - opencl-nvidia
+        - cuda
+      when: foldingathome.num_gpus is defined and foldingathome.num_gpus > 0
+  become: yes
+  become_user: aur_builder
+
+- name: Configure Folding@Home
+  template:
+    src: config.xml.j2
+    dest: /opt/fah/config.xml
+  become: yes
+
+- name: Install idle checker script
+  copy:
+    src: fah-idle-check
+    dest: "/usr/local/bin/fah-idle-check"
+    mode: 0755
+
+- name: Create service to run the idle checker script
+  copy:
+    src: foldingathome-idle-check.service
+    dest: /etc/systemd/system/foldingathome-idle-check.service
+    mode: 0644
+
+- name: Create timer to launch the idle checker service
+  copy:
+    src: foldingathome-idle-check.timer
+    dest: /etc/systemd/system/foldingathome-idle-check.timer
+    mode: 0644
+
+- name: Patch Folding@Home service to start idle timer
+  block:
+    - name: Create directory
+      file:
+        name: /etc/systemd/system/foldingathome.service.d
+        state: directory
+        mode: 0755
+    - name: Copy Systemd unit file
+      copy:
+        src: foldingathome.override.conf
+        dest: /etc/systemd/system/foldingathome.service.d/override.conf
+        mode: 0644
+      notify:
+        - reload systemd config
+        - reload foldingathome
+  become: yes
+
+- name: Enable and start Folding@Home service
+  service:
+    name: foldingathome
+    enabled: yes
+    state: started
+
