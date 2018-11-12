@@ -32,12 +32,12 @@
 # Immediately load the appropriate kvm vendor module.
 - name: load kvm module [intel]
   command: modprobe kvm_intel
-  when: is_intel|success
+  when: is_intel is success
   become: true
 
 - name: load kvm module [amd]
   command: modprobe kvm_amd
-  when: is_amd|success
+  when: is_amd is success
   become: true
 
 # List the appropriate kvm vendor module in
@@ -47,12 +47,12 @@
   copy:
     content: kvm_intel
     dest: /etc/modules-load.d/ooo_kvm.conf
-  when: is_intel|success
+  when: is_intel is success
   become: true
 
 - name: arrange for kvm module to load at boot [amd]
   copy:
     content: kvm_amd
     dest: /etc/modules-load.d/ooo_kvm.conf
-  when: is_amd|success
+  when: is_amd is success
   become: true

@@ -15,11 +15,9 @@
   become: yes
   become_user: aur_builder
   with_items:
-    - jdk9-openjdk
     - android-sdk
     - android-sdk-platform-tools
     - android-file-transfer
-    - fb-adb-git
 
 - name: Clone adb-sync repo
   git:

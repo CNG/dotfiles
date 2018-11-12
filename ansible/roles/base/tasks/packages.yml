@@ -1,8 +1,9 @@
 ---
 - name: Install universal base packages
   pacman:
-    name: "{{ packages.base }}"
+    name: "{{ item }}"
     state: present
+  with_flattened: "{{ packages.base }}"
 
 - name: Create pacman hook directory
   file:

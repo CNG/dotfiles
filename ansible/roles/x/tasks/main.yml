@@ -115,7 +115,7 @@
       state: absent
   - name: "NVIDIA: Install Xorg config overrides"
     copy:
-      src: xorg.conf
+      src: 20-nvidia.conf
       dest: /etc/X11/xorg.conf.d/20-nvidia.conf
       mode: 0644
   - name: "NVIDIA: Install packages"

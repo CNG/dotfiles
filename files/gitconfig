@@ -45,3 +45,5 @@
         # https://stackoverflow.com/questions/8337071/different-gitconfig-for-a-given-subdirectory
         # This makes mixing work and personal more explicit.
         useConfigOnly = true
+	name = Charlie Gorichanaz
+	email = charlie@gorichanaz.com

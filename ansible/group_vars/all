@@ -108,7 +108,6 @@ packages:
   - brother-hl3170cdw
   base:
   - base-devel
-  #- intel-ucode
   - tmux
   - [ git, hub ]
   - rsync
@@ -137,6 +136,7 @@ packages:
   # - units
   # - python-pipenv
   i3:
+  - feh  # Set background
   - [ gnome-themes-extra, gtk-engines ] # fixed Spotify Gtk error
   - gwenview # best image viewer for KDE
   # - [ dolphin, dolphin-plugins ]

@@ -23,7 +23,7 @@
   register: is_amd
 
 - name: AMD setup
-  when: is_amd|success
+  when: is_amd is success
   become: yes
   block:
     - name: Install AMD packages
@@ -36,7 +36,7 @@
       lineinfile:
         path: /boot/loader/entries/arch.conf
         line: "initrd /amd-ucode.img"
-        insertafter: "^linux /vmlinuz-linux$"s
+        insertafter: "^linux /vmlinuz-linux$"
         state: present
     - name: Remove Intel microcode image from boot config
       lineinfile:
@@ -45,7 +45,7 @@
         state: absent
 
 - name: Intel setup
-  when: is_intel|success
+  when: is_intel is success
   become: yes
   block:
     - name: Install Intel packages
@@ -58,7 +58,7 @@
       lineinfile:
         path: /boot/loader/entries/arch.conf
         line: "initrd /intel-ucode.img"
-        insertafter: "^linux /vmlinuz-linux$"s
+        insertafter: "^linux /vmlinuz-linux$"
         state: present
     - name: Remove AMD microcode image from boot config
       lineinfile:

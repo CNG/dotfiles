@@ -1,74 +1,67 @@
 ---
-- name: Install Bash
-  aur:
-    name: "{{ item }}"
-  with_items:
-    - bash
-    - bash-completion
-  become: yes
+- become: yes
   become_user: aur_builder
+  block:
+  - name: Install Bash
+    aur:
+      name: "{{ item }}"
+    with_items:
+      - bash
+      - bash-completion
+  - name: Install ZSH
+    aur:
+      name: "{{ item }}"
+    with_items:
+      - zsh
+      - zsh-completions
+      - zsh-syntax-highlighting
+      - zsh-theme-powerlevel9k
+      - oh-my-zsh-git
+      # - oh-my-zsh-powerline-theme-git
+      # - powerline-fonts-git # failed when plasma-integration tried to install ttf-hack
 
-- name: Install ZSH
-  aur:
-    name: "{{ item }}"
-  with_items:
-    - zsh
-    - zsh-completions
-    - zsh-syntax-highlighting
-    - zsh-theme-powerlevel9k
-    - oh-my-zsh-git
-    - archfetch
-    # - oh-my-zsh-powerline-theme-git
-    # - powerline-fonts-git # failed when plasma-integration tried to install ttf-hack
-  become: yes
-  become_user: aur_builder
-
-- name: Clone oh-my-zsh repo
-  git:
-    repo: "git://github.com/robbyrussell/oh-my-zsh.git"
-    dest: "/home/{{ user.name }}/.oh-my-zsh"
-    depth: 1
-    update: yes
-    accept_hostkey: yes
-  become: yes
+- become: yes
   become_user: "{{ user.name }}"
-
-- name: Clone  repo
-  git:
-    repo: "git://github.com/zdharma/history-search-multi-word.git"
-    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
-    depth: 1
-    update: yes
-    accept_hostkey: yes
-  become: yes
-  become_user: "{{ user.name }}"
-
-- name: Clone powerlevel9k repo
-  git:
-    repo: "git://github.com/bhilburn/powerlevel9k.git"
-    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel9k"
-    depth: 1
-    update: yes
-    accept_hostkey: yes
-  become: yes
-  become_user: "{{ user.name }}"
-
-- name: Install Tmux Plugin Manager
-  git:
-    repo: "git://github.com/tmux-plugins/tpm.git"
-    dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
-    depth: 1
-    update: yes
-    accept_hostkey: yes
-  become: yes
-  become_user: "{{ user.name }}"
-
-- name: Enable Tmux user service
-  systemd:
-    name: tmux
-    enabled: yes
-    state: started
-    user: yes
-    no_block: yes
-    daemon_reload: yes
-
+  block:
+  - name: Clone oh-my-zsh repo
+    git:
+      repo: "git://github.com/robbyrussell/oh-my-zsh.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Clone  repo
+    git:
+      repo: "git://github.com/zdharma/history-search-multi-word.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Clone powerlevel9k repo
+    git:
+      repo: "git://github.com/bhilburn/powerlevel9k.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel9k"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Install Tmux Plugin Manager
+    git:
+      repo: "git://github.com/tmux-plugins/tpm.git"
+      dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  # https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
+  - name: Register uid of {{ user.name }}
+    command: id -u {{ user.name }}
+    register: uid
+  - name: Enable Tmux user service
+    systemd:
+      name: tmux
+      enabled: yes
+      state: started
+      scope: user
+      no_block: yes
+      daemon_reload: yes
+    environment:
+      XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}
