@@ -1,10 +1,4 @@
 ---
-- name: Break Aurman tie
-  command: aurman -S --noconfirm --noedit --needed phonon-qt5-gstreamer phonon-qt5-vlc
-  become: yes
-  become_user: aur_builder
-  when: desktop == "i3"
-
 - name: Install desktop
   aur:
     name: "{{ item }}"
@@ -21,26 +15,26 @@
   notify:
     - reload systemd config
 
-# Not using following since i3
-
-# - set_fact:
-#     media_controls:
-#       # see https://specifications.freedesktop.org/mpris-spec/latest/Player_Interface.html
-#       - PlayPause
-#       - Next
-#       - Previous
-
-# - name: Create global media control scripts
-#   template:
-#     src: media-control.sh
-#     dest: "/usr/local/bin/media-control-{{ item }}.sh"
-#     mode: 0755
-#   with_items: "{{ media_controls }}"
-
-# - name: "Check whether ~/.config/kglobalshortcutsrc contains media control shortcuts"
-#   command: "awk '/=F[0-9]+,none,{{ item }}$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/kglobalshortcutsrc"
-#   with_items: "{{ media_controls }}"
-
-# - name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
-#   command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
-#   with_items: "{{ media_controls }}"
+- name: Global media control scripts
+  when: desktop != "i3"
+  block:
+    - name: >-
+        Use control names from
+        https://specifications.freedesktop.org/mpris-spec/latest/Player_Interface.html
+      set_fact:
+        media_controls:
+          - PlayPause
+          - Next
+          - Previous
+    - name: Create global media control scripts
+      template:
+        src: media-control.sh
+        dest: "/usr/local/bin/media-control-{{ item }}.sh"
+        mode: 0755
+      with_items: "{{ media_controls }}"
+    - name: "Check whether ~/.config/kglobalshortcutsrc contains media control shortcuts"
+      command: "awk '/=F[0-9]+,none,{{ item }}$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/kglobalshortcutsrc"
+      with_items: "{{ media_controls }}"
+    - name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
+      command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
+      with_items: "{{ media_controls }}"
