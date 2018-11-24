@@ -1,123 +1,44 @@
-# Configuration for Alacritty, the GPU enhanced terminal emulator
-
-
-# Any items in the `env` entry below will be added as
-# environment variables. Some entries may override variables
-# set by alacritty it self.
+# https://github.com/jwilm/alacritty/blob/master/alacritty.yml
 env:
-  # TERM env customization.
-  #
-  # If this property is not set, alacritty will set it to xterm-256color.
-  #
-  # Note that some xterm terminfo databases don't declare support for italics.
-  # You can verify this by checking for the presence of `smso` and `sitm` in
-  # `infocmp xterm-256color`.
   TERM: xterm-256color
-
 window:
-  # Window dimensions in character columns and lines
-  # Falls back to size specified by window manager if set to 0x0.
-  # (changes require restart)
   dimensions:
     columns: 0
     lines: 0
-
-  # Adds this many blank pixels of padding around the window
-  # Units are physical pixels; this is not DPI aware.
-  # (change requires restart)
   padding:
     x: 5
     y: 5
-
-  # Window decorations
-  # Setting this to false will result in window without borders and title bar.
-  decorations: false
-
-# Display tabs using this many cells (changes require restart)
+  decorations: none
+  start_maximized: false
+scrolling:
+  history: 0
+  multiplier: 0
+  faux_multiplier: 0
+  auto_scroll: false
 tabspaces: 8
-
-# When true, bold text is drawn using the bright variant of colors.
-draw_bold_text_with_bright_colors: true
-
-# Font configuration (changes require restart)
-#
-# Important font attributes like antialiasing, subpixel aa, and hinting can be
-# controlled through fontconfig. Specifically, the following attributes should
-# have an effect:
-#
-# * hintstyle
-# * antialias
-# * lcdfilter
-# * rgba
-#
-# For instance, if you wish to disable subpixel antialiasing, you might set the
-# rgba property to "none". If you wish to completely disable antialiasing, you
-# can set antialias to false.
-#
-# Please see these resources for more information on how to use fontconfig
-#
-# * https://wiki.archlinux.org/index.php/font_configuration#Fontconfig_configuration
-# * file:///usr/share/doc/fontconfig/fontconfig-user.html
 font:
-  # The normal (roman) font face to use.
   normal:
-    family: Input Mono # should be "Menlo" or something on macOS.
-    # Style can be specified to pick a specific face.
+    family: Input Mono
     style: Regular
-
-  # The bold font face
   bold:
-    family: Input Mono # should be "Menlo" or something on macOS.
-    # Style can be specified to pick a specific face.
+    family: Input Mono
     style: Bold
-
-  # The italic font face
   italic:
-    family: Input Mono # should be "Menlo" or something on macOS.
-    # Style can be specified to pick a specific face.
+    family: Input Mono
     style: Italic
-
-  # Point size of the font
-  size: 7.0
-
-  # Offset is the extra space around each character. offset.y can be thought of
-  # as modifying the linespacing, and offset.x as modifying the letter spacing.
+  size: 8.0
   offset:
     x: 0
     y: 0
-
-  # Glyph offset determines the locations of the glyphs within their cells with
-  # the default being at the bottom. Increase the x offset to move the glyph to
-  # the right, increase the y offset to move the glyph upward.
   glyph_offset:
     x: 0
     y: 0
-
-  # OS X only: use thin stroke font rendering. Thin strokes are suitable
-  # for retina displays, but for non-retina you probably want this set to
-  # false.
-  use_thin_strokes: false
-
-# Should display the render timer
 render_timer: false
-
-# Use custom cursor colors. If true, display the cursor in the cursor.foreground
-# and cursor.background colors, otherwise invert the colors of the cursor.
-custom_cursor_colors: false
-
-# Colors (Tomorrow Night Bright)
+draw_bold_text_with_bright_colors: true
 colors:
-  # Default colors
   primary:
     background: '0x00002c'
     foreground: '0xeaeaea'
-
-  # Colors the cursor will use if `custom_cursor_colors` is true
-  cursor:
-    text: '0xCCCCCC'
-    cursor: '0x1B1D1E'
-
-  # Normal colors
   normal:
     black:   '0x1B1D1E'
     red:     '0xFF0044'
@@ -127,8 +48,6 @@ colors:
     magenta: '0xAC0CB1'
     cyan:    '0xAE81FF'
     white:   '0xCCCCCC'
-
-  # Bright colors
   bright:
     black:   '0x808080'
     red:     '0xF92672'
@@ -138,112 +57,24 @@ colors:
     magenta: '0xD63AE1'
     cyan:    '0x66D9EF'
     white:   '0xF8F8F2'
-
-  # Dim colors (Optional)
-  # dim:
-  #   black:   '0x333333'
-  #   red:     '0xf2777a'
-  #   green:   '0x99cc99'
-  #   yellow:  '0xffcc66'
-  #   blue:    '0x6699cc'
-  #   magenta: '0xcc99cc'
-  #   cyan:    '0x66cccc'
-  #   white:   '0xdddddd'
-
-# Visual Bell
-#
-# Any time the BEL code is received, Alacritty "rings" the visual bell. Once
-# rung, the terminal background will be set to white and transition back to the
-# default background color. You can control the rate of this transition by
-# setting the `duration` property (represented in milliseconds). You can also
-# configure the transition function by setting the `animation` property.
-#
-# Possible values for `animation`
-# `Ease`
-# `EaseOut`
-# `EaseOutSine`
-# `EaseOutQuad`
-# `EaseOutCubic`
-# `EaseOutQuart`
-# `EaseOutQuint`
-# `EaseOutExpo`
-# `EaseOutCirc`
-# `Linear`
-#
-# To completely disable the visual bell, set its duration to 0.
-#
 visual_bell:
   animation: EaseOutExpo
-  duration: 0.5
-
-# Background opacity
+  duration: 5
 background_opacity: 0.6
-
-# Mouse bindings
-#
-# Currently doesn't support modifiers. Both the `mouse` and `action` fields must
-# be specified.
-#
-# Values for `mouse`:
-# - Middle
-# - Left
-# - Right
-# - Numeric identifier such as `5`
-#
-# Values for `action`:
-# - Paste
-# - PasteSelection
-# - Copy (TODO)
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
-
 mouse:
-  # Click settings
-  #
-  # The `double_click` and `triple_click` settings control the time
-  # alacritty should wait for accepting multiple clicks as one double
-  # or triple click.
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
-
-  # Faux Scrollback
-  #
-  # The `faux_scrollback_lines` setting controls the number
-  # of lines the terminal should scroll when the alternate
-  # screen buffer is active. This is used to allow mouse
-  # scrolling for applications like `man`.
-  #
-  # To disable this completely, set `faux_scrollback_lines` to 0.
-  faux_scrollback_lines: 1
-
+  hide_when_typing: false
+  faux_scrolling_lines: 1
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
 dynamic_title: true
-
-hide_cursor_when_typing: false
-
-# Style of the cursor
-#
-# Values for 'cursor_style':
-# - Block
-# - Underline
-# - Beam
-cursor_style: Underline
-
-# Live config reload (changes require restart)
+cursor:
+  style: Underline
+  unfocused_hollow: true
 live_config_reload: true
-
-# Shell
-#
-# You can set shell.program to the path of your favorite shell, e.g. /bin/fish.
-# Entries in shell.args are passed unmodified as arguments to the shell.
-#
-# shell:
-#   program: /bin/bash
-#   args:
-#     - --login
-
 # Key bindings
 #
 # Each binding is defined as an object with some properties. Most of the
