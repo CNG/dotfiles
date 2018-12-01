@@ -6,9 +6,6 @@ if [[ -a ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
-# Load main configuration file
-source $HOME/.zsh/config.zsh
-
 # Gather all config files in dictionary-like array
 typeset -U config_files # keep only one occurrence of each value
 config_files=($HOME/.zsh/config/***/*.zsh) # *** recurses, follows symlinks
@@ -25,6 +22,9 @@ done
 
 # Load Oh-My-Zsh configuration file
 source $HOME/.zsh/oh-my-zsh.zsh
+
+# Load main configuration file
+source $HOME/.zsh/config.zsh
 
 # Initialize autocomplete here so functions will load
 autoload -U compinit
