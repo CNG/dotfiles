@@ -5,6 +5,7 @@
 set -o xtrace
 set -o errexit
 
+hostname Charlie18c
 # Setup system clock
 ln -f -s /usr/share/zoneinfo/US/Pacific /etc/localtime
 hwclock --systohc --utc
