@@ -146,6 +146,7 @@ packages:
   - qlipper
   - scrot
   - escrotum-git
+  - [ breeze, breeze-icons ]
   # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
   - [ nemo-git, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
   #- [ nemo-seahorse-nonautilus, gnome-keyring ]
@@ -292,7 +293,10 @@ packages:
   - guvcview # webcam record
   - losslesscut # video trim
   - darktable
-  - [ digikam-without-akonadi-mediawiki-vkontakte, mariadb, kipi-plugins ]
+  - [ digikam, mariadb, kipi-plugins, qt5-imageformats, hugin ]
+  # Following not updated for opencv 4.0 yet
+  #
+  # - [ digikam-without-akonadi-mediawiki-vkontakte, mariadb, kipi-plugins, qt5-imageformats, hugin ]
   - entangle # camera tethering
   - flac2all
   - xsane-gimp
@@ -373,6 +377,9 @@ packages:
   - ttf-caladea
   - ttf-courier-prime
   - ttf-heuristica
+  - ttf-fira-sans
+  - ttf-fira-mono
+  - ttf-fira-code
   # extra:
   - adobe-base-14-fonts
   #- ttf-adobe-fonts
