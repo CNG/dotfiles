@@ -9,6 +9,7 @@
     # - { role: laptop, tags: ['laptop'] }
 
     - { role: desktop, tags: ['desktop'], when: "desktop is defined" }
+    - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
 
       #    - { role: work, tags: ['work'], when: work == "True" }

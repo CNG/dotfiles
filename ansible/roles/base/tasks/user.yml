@@ -27,7 +27,6 @@
       - plugdev
       - vboxusers
     append: yes
-  tags: base
 
 - name: Create user log dir
   file:

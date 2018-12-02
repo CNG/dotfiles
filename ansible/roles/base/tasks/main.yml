@@ -1,7 +1,11 @@
 ---
 - name: Report ansible_product_version
   debug:
-    msg: "ansible_product_version: {{ ansible_product_version }}"
+    msg: |
+      ansible_product_version: {{ ansible_product_version }}
+      ansible_product_name: {{ ansible_product_name }}
+      ansible_system_vendor: {{ ansible_system_vendor }}
+  tags: base
 
 - name: Copy pacman configuration file
   copy:
