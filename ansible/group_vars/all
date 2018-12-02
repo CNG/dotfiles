@@ -197,7 +197,6 @@ packages:
     # xdg-desktop-portal-kde
     # breeze-grub (optional) - Breeze theme for GRUB
     # kde-gtk-config (optional) - GTK Theme configuration KCM
-
   base_aur:
   - alacritty-git
   - alacritty-terminfo-git
