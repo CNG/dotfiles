@@ -15,7 +15,9 @@
     - xbindkeys
     - xdotool # for emulating 60% keyboard in i3 config
     - [ escrotum-git, python2-numpy ] # screenshots
-    - breeze-gtk # need to check if this gets what i want
+    - breeze-gtk  # need to check if this gets what i want
+    - acpilight  # provides xbacklight
+    - pacman-contrib  # required for arch-update.py i3block
 
 # - name: Verify default applications file exists
 #   file:
