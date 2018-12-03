@@ -4,7 +4,7 @@
 # Copyright 2014 Vivien Didelot <vivien@didelot.org>
 # Copyright 2017 Andrea Gomez <hi@daedra.ml>
 # Modified 2018 Charlie Gorichanaz @CNG
-# 
+#
 # Licensed under the terms of the GNU GPL v3, or any later version.
 #
 # This script is meant to use with i3blocks. It reads /sys/class/power_supply
@@ -20,10 +20,22 @@ use warnings;
 use utf8;
 binmode(STDOUT, ':utf8');
 
-my $laptop = system("ls /sys/class/power_supply/BAT* &> /dev/null");
+my $laptop = system("bash -c 'ls /sys/class/power_supply/BAT* &> /dev/null'");
 if($laptop != 0){
   exit(0);
 }
+
+# Some kernel versions provide energy_full and others charge_full
+my $measure = "energy";
+my $measure_test = system("bash -c 'ls /sys/class/power_supply/BAT*/${measure}_full &> /dev/null'");
+if($measure_test != 0){
+  $measure = "charge";
+  $measure_test = system("bash -c 'ls /sys/class/power_supply/BAT*/${measure}_full &> /dev/null'");
+  if($measure_test != 0){
+    exit(0);
+  }
+}
+
 
 my $energy_full;
 my $energy_now;
@@ -35,15 +47,16 @@ my $short_text;
 
 
 # Sum the energy_full for all batteries
-open (CAT, "ls /sys/class/power_supply/BAT*/energy_full | xargs awk '{s+=\$1} END {print s}' |") or die;
+open (CAT, qq[bash -c 'ls /sys/class/power_supply/BAT*/${measure}_full | xargs awk '"'"'{s+=\$1} END {print s}'"'" |]) or die;
 $energy_full = <CAT>;
+
 close(CAT);
 # Sum the energy_now for all batteries
-open (CAT, "ls /sys/class/power_supply/BAT*/energy_now | xargs awk '{s+=\$1} END {print s}' |") or die;
+open (CAT, qq[bash -c 'ls /sys/class/power_supply/BAT*/${measure}_now | xargs awk '"'"'{s+=\$1} END {print s}'"'" |]) or die;
 $energy_now = <CAT>;
 close(CAT);
 # Sort of get the status, favoring charging over discharging over unknown by order
-open (CAT, "ls /sys/class/power_supply/BAT*/status | xargs cat | sort | head -n1 | tr -d \\\\n |") or die;
+open (CAT, "bash -c 'ls /sys/class/power_supply/BAT*/status | xargs cat | sort | head -n1 | tr -d \\\\n' |") or die;
 $status = <CAT>;
 close(CAT);
 
@@ -65,6 +78,8 @@ if ($status eq 'Discharging') {
 } elsif ($status eq 'Charging') {
     $full_text .= "\x{f1e6}";
 } elsif ($status eq 'Unknown') {
+    $full_text .= "\x{f1e6}";
+} else {
     $full_text .= "\x{f1e6}";
 }
 

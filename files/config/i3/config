@@ -145,64 +145,53 @@ bindsym $mod+Ctrl+Shift+p gaps outer current minus 5
 gaps inner 25
 smart_gaps on
 
-# Name the workspaces
-set $workspace1 "1"
-set $workspace2 "2"
-set $workspace3 "3"
-set $workspace4 "4"
-set $workspace5 "5"
-set $workspace6 "6"
-set $workspace7 "7"
-set $workspace8 "8 ♬"
-
 # Switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace $workspace5
-bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace $workspace7
-bindsym $mod+8 workspace $workspace8
+bindsym $mod+0 workspace 0
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
-bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace $workspace7
-bindsym $mod+Shift+8 move container to workspace $workspace8
+bindsym $mod+Shift+0 move container to workspace 0
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
 
 # Always open some programs on specified workspace
-# assign [class="spotify"] $workspace8
-# https://community.spotify.com/t5/Desktop-Linux/WM-CLASS-window-property-on-Linux/td-p/1247042
-# for_window [class="Spotify"] move to workspace $workspace8
+# assign [class="spotify"] 8
+# for_window [class="Spotify"] move to workspace 8
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3 and end X session?' -b 'Yes' 'i3-msg exit'"
 
 # Resize window (you can also use the mouse for that)
 mode "resize"
 {
-        # Resize with the arrow keys
-        bindsym Left resize shrink width 2 px or 2 ppt
-        bindsym Down resize grow height 2 px or 2 ppt
-        bindsym Up resize shrink height 2 px or 2 ppt
-        bindsym Right resize grow width 2 px or 2 ppt
+  # Resize with the arrow keys
+  bindsym Left resize shrink width 2 px or 2 ppt
+  bindsym Down resize grow height 2 px or 2 ppt
+  bindsym Up resize shrink height 2 px or 2 ppt
+  bindsym Right resize grow width 2 px or 2 ppt
 
-        # Back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+  # Back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
@@ -226,7 +215,8 @@ client.placeholder          $magenta $magenta   $silver  $white
 bar
 {
   position top
-  status_command i3blocks
+  #status_command i3blocks
+  status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
   i3bar_command i3bar -t
   colors
   {
@@ -277,4 +267,7 @@ for_window [class="(?i)blueman-manager"] floating enable
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
 for_window [class="(?i)nemo-preview-start"] floating enable, resize set 3840 2160, move absolute position center
+
+for_window [class="(?i)anki" title="(?i)anki"] split vertical
+for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
 

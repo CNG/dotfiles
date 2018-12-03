@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # The instance option sets the control to report and configure
+# Note Arch package xorg-xbacklight lacks -list, use acpilight
 CTRL="${BLOCK_INSTANCE:-$(xbacklight -list | head -n1)}"
 
 volume() {
@@ -14,18 +15,18 @@ volume() {
 # The first parameter sets the percent step to adjust brightness
 if (($(volume) <= 2)); then
   DSTEP="${1:-0.1}"
-elif (($(volume) <= 10)); then
+elif (($(volume) <= 5)); then
   DSTEP="${1:-1}"
 elif (($(volume) <= 20)); then
-  DSTEP="${1:-2}"
-else
   DSTEP="${1:-5}"
+else
+  DSTEP="${1:-10}"
 fi
 
 if (($(volume) >= 20)); then
+  USTEP="${1:-10}"
+elif (($(volume) >= 5)); then
   USTEP="${1:-5}"
-elif (($(volume) >= 10)); then
-  USTEP="${1:-2}"
 elif (($(volume) >= 1)); then
   USTEP="${1:-1}"
 else
@@ -33,10 +34,10 @@ else
 fi
 
 case $BLOCK_BUTTON in
-  1) xbacklight -set 100 -ctrl ${CTRL};; # click
-  3) xbacklight -set 0 -ctrl ${CTRL};; # right click, mute/unmute
-  5) xbacklight -inc ${USTEP} -ctrl ${CTRL};; # scroll up, increase
-  4) xbacklight -dec ${DSTEP} -ctrl ${CTRL};; # scroll down, decrease
+  1) xbacklight -ctrl ${CTRL} -fps 33 -time 999 -set 100      ;;  # click
+  3) xbacklight -ctrl ${CTRL} -fps 33 -time 999 -set 0        ;;  # right click
+  5) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -inc ${USTEP} ;;  # scroll up
+  4) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -dec ${DSTEP} ;;  # scroll down
 esac
 
 volume

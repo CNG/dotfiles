@@ -3,7 +3,7 @@
 
 F5FPC=/usr/local/bin/f5fpc
 
-[[ -e $F5FPC ]] || exit 1
+[[ -e $F5FPC ]] || exit 0
 
 connected=0
 vpnstatus=$($F5FPC -i > /dev/null; echo $?)

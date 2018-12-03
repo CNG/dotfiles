@@ -1,0 +1,32 @@
+#!/bin/bash
+
+mapfile zones <<END
+America/Los_Angeles
+America/New_York
+Europe/Bucharest
+Europe/Minsk
+END
+
+#index=${1:-1}
+while read button; do echo $button; done
+
+#echo $1
+
+update () {
+  index=$((index+1))
+  (( index < ${#zones[@]} )) || index=0
+}
+
+#printf "%s %s " $index ${zones[$index]};
+#date 'TZ="'"${zones[$index]}"'" +<span font_weight="light" size="smaller" color="#FF8C00"><tt>%H</tt>:<tt>%M</tt><small>%Z%Z</small></span>'
+
+#trap update RTMIN+10
+
+
+#while true; do
+#  for zone in ${zones[@]}; do
+#    TZ="$zone" date '+<span font_weight="light" size="smaller" color="#FF8C00"><tt>%H</tt>:<tt>%M</tt><small>%Z</small></span>'
+#    sleep 1
+#  done
+#done
+
