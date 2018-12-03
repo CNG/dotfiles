@@ -71,7 +71,6 @@ color=#4ec2f7
 
 [root]
 command=~/.config/i3scripts/disk
-#command=exit 0
 label=
 instance=/
 interval=3600
