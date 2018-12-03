@@ -295,3 +295,15 @@ https://www.x.org/archive/X11R6.8.0/doc/xorg.conf.5.html
 
 Note: hex integer values must be prefixed with "0x", and octal values with "0". 
 ```
+
+
+### DPI
+
+xrandr --dpi 256  # not sure what this affects, not used by i3 anymore
+/etc/X11/xinitrc reads ~/.Xresources
+can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
+
+[Multiple monitors with different DPIs](https://www.reddit.com/r/archlinux/comments/5x2syg/multiple_monitors_with_different_dpis/
+[Switch from HiDPI monitor without restart the session](https://www.reddit.com/r/i3wm/comments/6ens2p/switch_from_hidpi_monitor_without_restart_the/)
+
+

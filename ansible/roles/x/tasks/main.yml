@@ -41,6 +41,14 @@
     dest: /etc/X11/xorg.conf.d/30-scroll.conf
   when: middle_click_scroll is defined and middle_click_scroll == True
 
+- name: Enable gestures
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - libinput-gestures
+
 - name: Enable natural scrolling
   copy:
     src: 31-scroll-direction.conf
