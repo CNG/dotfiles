@@ -4,5 +4,5 @@
 
 # Use Git’s colored diff when available
 
-git diff --no-index --color-words "$@";
+git diff --no-index --color-words -- "$@";
 
