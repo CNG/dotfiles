@@ -1,8 +1,12 @@
+#set $mod Mod4
+#set $modB Mod1
+# Mod1 = Alt, Mod4 = Win
 set $mod Mod1
 set $modB Mod4
+
 focus_follows_mouse no
 
-set $term --no-startup-id alacritty
+set $term alacritty
 set $stoprec --no-startup-id killall ffmpeg
 set $background /usr/share/backgrounds/taipei.jpg
 set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
@@ -77,26 +81,39 @@ bindsym $mod+Shift+n exec --no-startup-id "/usr/local/bin/monitor2 && $set_backg
 bindsym $modB+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 
-bindsym $mod+z exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
-bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 8 a2dp_sink && streams_to_sink"
+# completely forgot about the following, so maybe I don't need them
+#bindsym $mod+z       exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
+#bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 8 a2dp_sink && streams_to_sink"
 
-bindsym $mod+Return --release exec $term
-bindsym $mod+d exec rofi -show drun -opacity 10 -dpi 144
-bindsym $mod+Shift+d exec xdotool type `~/notes/notes`
-bindsym $mod+i exec --no-startup-id /usr/bin/firefox
-bindsym $mod+f exec --no-startup-id nemo
-bindsym $mod+Shift-m exec --no-startup-id vboxmanage startvm Hackintosh
-bindsym $mod+e exec --no-startup-id subl --new-window
-bindsym $mod+Shift+m exec --no-startup-id spotify --force-device-scale-factor=1.0
-bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=0.75
-#bindsym $mod+Shift+m exec --no-startup-id spotify --force-device-scale-factor=1.5
-#bindsym $mod+m exec --no-startup-id spotify --force-device-scale-factor=0.80
+bindsym $mod+Return  --release exec --no-startup-id $term
+bindsym $mod+c       exec --no-startup-id "$term -t calculator -e bc -q &!"
+bindsym $mod+d       exec --no-startup-id rofi -show drun -opacity 10 -dpi 144
+bindsym $mod+Shift+d exec --no-startup-id xdotool type `~/notes/notes`
+bindsym $mod+i       exec --no-startup-id /usr/bin/firefox
+bindsym $mod+f       exec --no-startup-id nemo
+bindsym $mod+Shift+m exec --no-startup-id vboxmanage startvm Hackintosh
+bindsym $mod+e       exec --no-startup-id subl --new-window
+bindsym $mod+m       exec --no-startup-id spotify --force-device-scale-factor=1.0
 
 bindsym $mod+Ctrl+e exec --no-startup-id /usr/bin/chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
 bindsym $mod+Ctrl+c exec --no-startup-id /usr/bin/chromium --app=https://fitbit.hipchat.com/chat/room/1633090
 bindsym $mod+Ctrl+w exec --no-startup-id /usr/bin/chromium --app=https://web.whatsapp.com
 bindsym $mod+Ctrl+f exec --no-startup-id /usr/bin/chromium --app=https://www.facebook.com/messages
-bindsym $mod+Ctrl+l exec --no-startup-id ~/.config/i3scripts/lock
+
+set $Locker ~/.config/i3scripts/lock && sleep 1
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Pause mode "$mode_system"
 
 set $shot_d $HOME/Pictures/%Y/%m
 set $shot_f screenshot_%F_%H%M%S.png
@@ -209,7 +226,7 @@ client.focused              $cyan    $cyan      $elegant $silver
 client.unfocused            $elegant $elegant   $cyan    $silver
 client.focused_inactive     $acqua   $acqua     $silver  $magenta
 client.urgent               $magenta $magenta   $silver  $magenta
-client.placeholder          $magenta $magenta   $silver  $white
+client.placeholder          $magenta $magenta   $silver  #ffffff
 
 # Start i3blocks to display a workspace bar
 bar
@@ -255,6 +272,7 @@ exec --no-startup-id rescuetime     # time use tracker
 exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 
 for_window [class="Yad"] floating enable
+for_window [title="Image Editor"] floating enable, fullscreen toggle # digikam
 for_window [title="Event Tester"] floating enable # xev
 # for_window [class="(?i)zoom"] floating enable, move absolute position center
 for_window [class="insync.py"] floating enable
@@ -262,11 +280,18 @@ for_window [class="(?i)vlc"] floating enable
 for_window [class="(?i)copyq"] floating enable
 for_window [class="(?i)gwenview"] floating enable
 for_window [class="(?i)guvcview"] floating enable
+for_window [title="^calculator$"] floating enable
+for_window [title="^calculator$"] resize set 1280 720
+for_window [title="^calculator$"] move absolute position center
 for_window [class="(?i)pavucontrol"] floating enable move absolute position center
 for_window [class="(?i)blueman-manager"] floating enable
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
-for_window [class="(?i)nemo-preview-start"] floating enable, resize set 3840 2160, move absolute position center
+
+# I hate Nemo Preview and none of this works
+#for_window [class="(?i)nemo-preview-start"] floating enable
+#for_window [class="(?i)nemo-preview-start"] resize set 3840 2160
+#for_window [class="(?i)nemo-preview-start"] move absolute position center
 
 for_window [class="(?i)anki" title="(?i)anki"] split vertical
 for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
