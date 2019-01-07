@@ -7,14 +7,20 @@ T='#ee00eeee'  # text
 W='#880000bb'  # wrong
 V='#bb00bbbb'  # verifying
 
-# Take a screenshot:
-scrot /tmp/lock.png
-
-# Create a blur on the shot:
-convert /tmp/lock.png -paint 5 /tmp/lock.png
+tempbg=/tmp/lock.png
+lockbg=$HOME/.config/windows.jpg
+if [[ -e $lockbg ]]; then
+  res=$(xdpyinfo | grep -oP 'dimensions: +[\dx]+' | grep -oP '[\dx]+')
+  convert $lockbg -resize "${res}!" $tempbg
+else
+  # Take a screenshot:
+  scrot $tempbg
+  # Create a blur on the shot:
+  convert $tempbg -paint 5 $tempbg
+fi
 
 i3lock \
---image=/tmp/lock.png \
+--image=$tempbg       \
 --insidevercolor=$C   \
 --ringvercolor=$V     \
 \
@@ -26,8 +32,8 @@ i3lock \
 --linecolor=$B        \
 --separatorcolor=$D   \
 \
---verifcolor=$T        \
---wrongcolor=$T        \
+--verifcolor=$T       \
+--wrongcolor=$T       \
 --timecolor=$T        \
 --datecolor=$T        \
 --layoutcolor=$T      \
@@ -35,7 +41,7 @@ i3lock \
 --bshlcolor=$W        \
 \
 # --screen 1            \
---blur 25              \
+--blur 25             \
 --clock               \
 # --indicator           \
 --timestr="%H:%M:%S"  \
