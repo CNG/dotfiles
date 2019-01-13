@@ -18,7 +18,7 @@ set $term alacritty
 bindsym $mod+Return  --release exec --no-startup-id $term
 bindsym $mod+c       exec --no-startup-id "$term -t calculator -e bc -q &!"
 bindsym $mod+d       exec --no-startup-id rofi -show drun -opacity 10 -dpi 144
-bindsym $mod+Shift+d exec --no-startup-id ~/projects/notes/notes -f ~/projects/dotfiles/private/notes.txt
+bindsym $mod+Shift+d exec --no-startup-id ~/projects/dotfiles/notes/notes -f ~/projects/dotfiles/private/notes.txt
 bindsym $mod+i       exec --no-startup-id /usr/bin/firefox
 bindsym $mod+f       exec --no-startup-id nemo
 bindsym $mod+Shift+m exec --no-startup-id vboxmanage startvm Hackintosh
