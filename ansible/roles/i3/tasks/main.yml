@@ -8,12 +8,12 @@
     - i3-gaps
     - i3blocks
     - i3lock-color-git
-    - rofi # menu
-    - playerctl # media player controls
-    - qt5ct # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    - rofi  # menu
+    - playerctl  # media player controls
+    - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
     - compton-tryone-git # better blur than compton
     - xbindkeys
-    - xdotool # for emulating 60% keyboard in i3 config
+    - xdotool  # for emulating 60% keyboard in i3 config
     - [ escrotum-git, python2-numpy ] # screenshots
     - breeze-gtk  # need to check if this gets what i want
     - acpilight  # provides xbacklight
@@ -32,6 +32,12 @@
 #     line: '[Default Applications]'
 #     insertbefore: BOF
 #     create: yes
+
+- name: Link i3blocks config file
+  file:
+    src: "/home/{{ user.name }}/.config/i3blocks/{{ ansible_hostname }}.config"
+    dest: "/home/{{ user.name }}/.config/i3blocks/config"
+    state: link
 
 - name: Install i3blocks-contrib scripts
   git:
@@ -62,25 +68,16 @@
     enabled: yes
     state: started
 
-# needs abstraction
-- name: Install screen toggling script
-  template:
-    src: monitor
-    dest: "/usr/local/bin/monitor"
-    mode: 0755
-  when: "'ThinkPad' in ansible_product_version"
-
-- name: Install screen toggling script 2
-  copy:
-    src: monitor2
-    dest: "/usr/local/bin/monitor2"
-    mode: 0755
-  when: "'ThinkPad' in ansible_product_version"
-
 - name: Install audio stream mover
   copy:
     src: streams_to_sink
     dest: "/usr/local/bin/streams_to_sink"
+    mode: 0755
+
+- name: Install screen switching script
+  copy:
+    src: monitor_switch
+    dest: "/usr/local/bin/monitor_switch"
     mode: 0755
 
 - name: Install screen mirroring
@@ -89,7 +86,7 @@
     dest: "/usr/local/bin/monitor_mirror"
     mode: 0755
 
-- name: Install display-setup-script
+- name: Install display-setup-script for X login
   copy:
     src: display-setup-script
     dest: "/usr/local/bin/display-setup-script"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # get info from xrandr
-connectedOutputs=$(xrandr | grep " connected" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
-activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/")
+connectedOutputs=$(xrandr | grep " connected" | sed -e "s/\([-A-Z0-9]\+\) connected.*/\1/")
+activeOutput=$(xrandr | grep -E " connected (primary )?[1-9]+" | sed -e "s/\([-A-Z0-9]\+\) connected.*/\1/")
 
 # initialize variables
 execute="xrandr "
