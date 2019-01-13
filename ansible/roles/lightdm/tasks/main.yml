@@ -67,13 +67,28 @@
     dest: /etc/lightdm/lightdm-webkit2-greeter.conf.d/50-modify-indicators.conf
     mode: 0644
 
-- name: Hide AUR user
-  # could also make aur_builder have ID<1000
+# Implementing via AccountsService instead
+# https://askubuntu.com/a/575390/354276
+# - name: Hide AUR user
+#   # could also make aur_builder have ID<1000
+#   lineinfile:
+#     path: /etc/lightdm/users.conf
+#     regexp: "^#? ?hidden-users *="
+#     state: present
+#     line: "hidden-users=nobody nobody4 noaccess aur_builder"
+
+- name: Hide AUR user, step 1
   lineinfile:
-    path: /etc/lightdm/users.conf
-    regexp: "^#? ?hidden-users *="
+    dest: /var/lib/AccountsService/users/aur_builder
     state: present
-    line: "hidden-users=nobody nobody4 noaccess aur_builder"
+    line: "[User]"
+    create: yes
+- name: Hide AUR user, step 2
+  lineinfile:
+    dest: /var/lib/AccountsService/users/aur_builder
+    state: present
+    line: SystemAccount=true
+    insertafter: '^[User]'
 
 # for lightdm-gtk-greeter only
 # - name: Hide user images
