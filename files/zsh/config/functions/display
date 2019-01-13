@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+# Was playing around, didn't get to the point of implementing the
+# actually useful feature I wanted yet.
+
+main () {
+
+  output=$(output ${2:-})
+  case "$1" in
+    higher) set_mode $output $(higher $output) ;;
+    lower)  set_mode $output $(lower $output)  ;;
+    info)   info ;;
+    help|-h|--help)
+      printf "Usage: $(basename $0) [ higher | lower | info ] output\n"
+      printf "\toutput\n\t\tName of output or number 0 to number of active outputs\n"
+      ;;
+    *) autorandr "$@" ;;
+  esac
+
+}
+
+output () {
+  output=${1:-0}
+  if [[ $output =~ ^[0-9]+$ ]]; then
+    # convert empty or int to named output
+    outputs=( $(active) )
+    count=${#outputs[@]}
+    if (( 0 > $output || $output >= $count )); then
+      echo "$output not 0 to $(( count - 1))"
+      exit 1
+    fi
+    output=${outputs[$output]}
+  fi
+  printf "$output"
+}
+
+XRANDR=$(xrandr)
+xrandr () {
+  printf "$XRANDR"
+}
+
+info () {
+  printf "Modes for $output\n"
+  printf "  current: $(current $output)\n"
+  printf "  higher: $(higher $output)\n"
+  printf "  lower: $(lower $output)\n"
+  printf "Active: $(active)\n"
+  printf "Inactive: $(inactive)\n"
+}
+
+active () {
+  xrandr | grep -oP '^\S+(?= connected (?:primary )?\d+)' | tr '\n' ' '
+}
+
+inactive () {
+  xrandr | grep -oP '^\S+(?= connected (?:primary )?\()' | tr '\n' ' '
+}
+
+set_mode () {
+  output=$1
+  mode=${2:-}
+  [[ -z $mode ]] && echo "No mode" && return
+  [[ $mode = $(current $output) ]] && echo "$output already set to $mode" && return
+  command xrandr --output $output --mode $mode
+}
+
+current () {
+  modes_for_output $1 | grep '*' | first_token
+}
+
+higher () {
+  modes_for_output $1 | grep -B1 '*' | grep -v '*' | first_token
+}
+
+lower () {
+  modes_for_output $1 | grep -A1 '*' | grep -v '*' | first_token
+}
+
+modes_for_output() {
+  xrandr |
+  grep -zoP "(?<=\n)$1.*\n(?:  .*\n)+" |
+  tr '\0' '\n' |
+  tail -n +2
+}
+
+first_token () {
+  read i
+  # strip leading spaces
+  i="${i#"${i%%[![:space:]]*}"}"
+  # print up to first space
+  printf "${i%% *}"
+}
+
+main "$@"
+
