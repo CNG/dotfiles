@@ -116,7 +116,7 @@ packages:
   - moreutils
   - dateutils
   - rsync
-  # - reflector
+  - reflector  # For pacman mirror ranking
   - bc
   # - ranger
   - strace
