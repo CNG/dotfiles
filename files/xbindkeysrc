@@ -44,6 +44,14 @@
 "flameshot gui -p ~/Pictures/$(date +%Y/%m)/"
    Alt + F4
 
+# Fix Spotify back/forward mouse buttons
+# Tip from user https://community.spotify.com/t5/user/viewprofilepage/user-id/21281327
+# Post at https://community.spotify.com/t5/Desktop-Windows/Desktop-Support-for-mouse-back-forward-button/m-p/4500063/highlight/true#M60007
+"xte 'keydown Alt_L' 'key Left' 'keyup Alt_L'"
+   b:8
+"xte 'keydown Alt_L' 'key Right' 'keyup Alt_L'"
+   b:9
+
 ##################################
 # End of xbindkeys configuration #
 ##################################
