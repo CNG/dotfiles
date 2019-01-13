@@ -133,6 +133,10 @@
     with_items:
       - nvidia
       - cuda
+  - name: "Intel graphics: make sure the config file is gone!"
+    file:
+      path: /etc/X11/xorg.conf.d/20-intel.conf
+      state: absent
 
 - name: Add user to video group
   user:

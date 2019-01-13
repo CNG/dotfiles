@@ -30,24 +30,12 @@ network:
     interval: 0
   trusted_uuidX:
 
-browser_choices:
-# - firefox -P default
-# - firefox -P work
-# - firewarden chromium
-# - tor-browser-en
-# - play
-# - qcode
-# - "| xclip -selection c"
-
 passwordless_sudo:
 - /usr/bin/openvpn*
 
 bootloader: grub
 
 fingerprint: True
-
-# tor:
-#   run_on: trusted
 
 localtime:
   run_on: all
@@ -57,31 +45,6 @@ nameservers:
 
 bluetooth:
   disable: False
-
-firejail:
-  blacklist:
-  - ~/.calendars
-  - ~/.config/vdirsyncer
-  - ~/.contacts
-  - ~/.keys
-  - ~/.mbsyncrc
-  - ~/.offlineimap
-  - ~/.offlineimaprc
-  - ~/.password-store
-  - ~/.vdirsyncer
-  - ~/library
-
-# cryptshot:
-#   - name: 
-#     uuid: 
-#     keyfile: 
-#     retain:
-#     - level: daily
-#       interval: 7
-#     - level: weekly
-#       interval: 6
-#     - level: monthly
-#       interval: 3
 
 journal:
   max_size: 5000M
@@ -118,28 +81,15 @@ packages:
   - rsync
   - reflector  # For pacman mirror ranking
   - bc
-  # - ranger
   - strace
   - lsof
   - sysstat
-  # - python-keyring
-  # - python-secretstorage
-  # - fabric
-  # - tig
   - ruby
   - go
-  # - pv
-  # - minicom
-  # - jq
-  # - python-docs
-  # - python2-docs
-  # - units
-  # - python-pipenv
   i3:
   - feh  # Set background
   - [ gnome-themes-extra, gtk-engines ] # fixed Spotify Gtk error
   - gwenview # best image viewer for KDE
-  # - [ dolphin, dolphin-plugins ]
   - [ kwallet, kwalletmanager ]
   - ark # compresses/extract zip files from within dolphin
   - kfind
@@ -241,7 +191,6 @@ packages:
   - enscript
   - [ insync, insync-dolphin ]
   - keybase-bin
-  # - keybase-gui # non-Go version
   - libreoffice-fresh
   - copyq # clipboard manager
   - masterpdfeditor
@@ -257,7 +206,7 @@ packages:
   - grc # Colorize logfiles and command output
   - highlight
   - pygmentize # Python syntax highlighter
-  - jq 
+  - jq
   - htop
   - iftop
   - iotop
@@ -282,8 +231,6 @@ packages:
   # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
   # - inkscape
   # - makemkv-cli
-  # - mcomix # image viewer for comic books
-  # - xfburn # CD/DVD burning tool
   - [ cdparanoia, abcde ] # CD track encoder
   - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
   - [ qt4, vlc ]
@@ -294,7 +241,6 @@ packages:
   - darktable
   - [ digikam, mariadb, kipi-plugins, qt5-imageformats, hugin ]
   # Following not updated for opencv 4.0 yet
-  #
   # - [ digikam-without-akonadi-mediawiki-vkontakte, mariadb, kipi-plugins, qt5-imageformats, hugin ]
   - entangle # camera tethering
   - flac2all
@@ -343,7 +289,6 @@ packages:
   - sshuttle
   - pdsh
   - wireshark-qt
-  # - wireshark-gtk
   - socat
   - nethogs
   - speedtest-cli

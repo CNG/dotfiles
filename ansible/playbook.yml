@@ -30,7 +30,7 @@
     - { role: editors, tags: ['editors'] }
     - { role: fah, tags: ['fah'], when: "desktop is defined" }
     - { role: filesystems, tags: ['filesystems'] }
-    - { role: firejail, tags: ['firejail'] }
+    # - { role: firejail, tags: ['firejail'] }
     - { role: fonts, tags: ['fonts'] }
     - { role: gnupg, tags: ['gnupg'] }
     # - { role: himawaripy, tags: ['himawaripy'], when: "himawaripy is defined" } # fetches picture of Earth
