@@ -7,3 +7,12 @@
 ! possibly need if remapping capslock:
 ! clear Lock
 ! maybe dont need if set caps:hyper in /etc/X11/xorg.conf.d/40-libinput-dvorak.conf
+
+! Using Space Bar as $mod is Life Changing
+! https://www.reddit.com/r/i3wm/comments/5zpz69/using_space_bar_as_mod_is_life_changing/
+! https://www.reddit.com/user/b_wright
+clear mod3
+clear mod4
+add mod3 = Hyper_L
+add mod4 = Super_L Super_R
+

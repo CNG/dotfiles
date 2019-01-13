@@ -1,6 +1,7 @@
+#set $mod Mod3
 set $mod Mod4
 set $modB Mod1
-# Mod1 = Alt, Mod4 = Win
+# Mod1 = Alt, Mod4 = Win, Mod3 = Hyper_L
 #set $mod Mod1
 #set $modB Mod4
 focus_follows_mouse no
@@ -37,7 +38,8 @@ bindsym $modB+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in 
 
 ### AUTOSTART PROGRAMS
 exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
-exec_always --no-startup-id xrandr --dpi 108
+# exec_always --no-startup-id xrandr --dpi 108
+exec_always --no-startup-id bash ~/.xprofile
 # typematic delay
 exec_always --no-startup-id xset r rate 350    50 # for X
 exec_always --no-startup-id kbdrate  -d 350 -r 50 # virtual console; redudant?
@@ -55,7 +57,10 @@ exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id copyq          # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
 exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
-
+# to enable space and modififier
+#exec --no-startup-id xmodmap -e "keycode 65 = Hyper_L"
+#exec --no-startup-id xmodmap -e "keycode any = space"
+#exec --no-startup-id xcape -e "Hyper_L=space"
 
 ### SETTINGS FOR SPECIFIC PROGRAMS
 for_window [class="Yad"] floating enable
@@ -261,9 +266,9 @@ bindsym $mod+Shift+Right move right
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 # Toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+p floating toggle
 # Change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+p focus mode_toggle
 
 
 ### WORKSPACES
