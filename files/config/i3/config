@@ -1,8 +1,8 @@
-#set $mod Mod4
-#set $modB Mod1
+set $mod Mod4
+set $modB Mod1
 # Mod1 = Alt, Mod4 = Win
-set $mod Mod1
-set $modB Mod4
+#set $mod Mod1
+#set $modB Mod4
 focus_follows_mouse no
 font pango: Fira Sans Regular 12
 # Hide titlebar
@@ -101,42 +101,45 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightnes
 bindsym $mod+ctrl+6           exec xbacklight -inc 5 # increase screen brightness
 bindsym $mod+ctrl+5           exec xbacklight -dec 5 # decrease screen brightness
 
-
-### OTHER KEYBOARD CHANGES
-# copy and paste with Vim like keys with Ctrl or capslock(mapped to hyper)
-bindsym Ctrl+y --release exec xdotool key --clearmodifiers Ctrl+c
-bindsym Ctrl+p --release exec xdotool key --clearmodifiers Ctrl+v
-bindsym mod4+y --release exec xdotool key --clearmodifiers Ctrl+c
-bindsym mod4+p --release exec xdotool key --clearmodifiers Ctrl+v
-bindsym mod4+x --release exec xdotool key --clearmodifiers Ctrl+x
-bindsym mod4+a --release exec xdotool key --clearmodifiers Ctrl+a
-# emulate 60% keyboard on the laptop
-# wish these would work without "--release" :-(
-bindsym mod4+g --release exec --no-startup-id xdotool key --clearmodifiers Prior
-bindsym mod4+r --release exec --no-startup-id xdotool key --clearmodifiers Next
-bindsym mod4+c --release exec --no-startup-id xdotool key --clearmodifiers Up
-bindsym mod4+h --release exec --no-startup-id xdotool key --clearmodifiers Left
-bindsym mod4+t --release exec --no-startup-id xdotool key --clearmodifiers Down
-bindsym mod4+n --release exec --no-startup-id xdotool key --clearmodifiers Right
-bindsym mod4+Shift+c --release exec --no-startup-id xdotool key --clearmodifiers Shift+Up
-bindsym mod4+Shift+h --release exec --no-startup-id xdotool key --clearmodifiers Shift+Left
-bindsym mod4+Shift+t --release exec --no-startup-id xdotool key --clearmodifiers Shift+Down
-bindsym mod4+Shift+n --release exec --no-startup-id xdotool key --clearmodifiers Shift+Right
-bindsym mod4+$mod+c focus up
-bindsym mod4+$mod+h focus left
-bindsym mod4+$mod+t focus down
-bindsym mod4+$mod+n focus right
-bindsym mod4+$mod+Shift+c move up
-bindsym mod4+$mod+Shift+h move left
-bindsym mod4+$mod+Shift+t move down
-bindsym mod4+$mod+Shift+n move right
-bindsym mod4+BackSpace --release exec xdotool key --clearmodifiers Delete
-bindsym mod4+apostrophe exec $Prev
-bindsym mod4+comma exec $Play
-bindsym mod4+period exec $Next
-bindsym mod4+o exec $LowerVolume
-bindsym mod4+e exec $RaiseVolume
-bindsym mod4+u exec $Mute
+# the following used assumption capslock key could be mapped to mod4 on laptop,
+# but since I want to use mod4 as the modkey now, I'll have to map capslock to
+# something else and remember where I set up that mapping...
+#
+# ### OTHER KEYBOARD CHANGES
+# # copy and paste with Vim like keys with Ctrl or capslock(mapped to hyper)
+# bindsym Ctrl+y --release exec xdotool key --clearmodifiers Ctrl+c
+# bindsym Ctrl+p --release exec xdotool key --clearmodifiers Ctrl+v
+# bindsym mod4+y --release exec xdotool key --clearmodifiers Ctrl+c
+# bindsym mod4+p --release exec xdotool key --clearmodifiers Ctrl+v
+# bindsym mod4+x --release exec xdotool key --clearmodifiers Ctrl+x
+# bindsym mod4+a --release exec xdotool key --clearmodifiers Ctrl+a
+# # emulate 60% keyboard on the laptop
+# # wish these would work without "--release" :-(
+# bindsym mod4+g --release exec --no-startup-id xdotool key --clearmodifiers Prior
+# bindsym mod4+r --release exec --no-startup-id xdotool key --clearmodifiers Next
+# bindsym mod4+c --release exec --no-startup-id xdotool key --clearmodifiers Up
+# bindsym mod4+h --release exec --no-startup-id xdotool key --clearmodifiers Left
+# bindsym mod4+t --release exec --no-startup-id xdotool key --clearmodifiers Down
+# bindsym mod4+n --release exec --no-startup-id xdotool key --clearmodifiers Right
+# bindsym mod4+Shift+c --release exec --no-startup-id xdotool key --clearmodifiers Shift+Up
+# bindsym mod4+Shift+h --release exec --no-startup-id xdotool key --clearmodifiers Shift+Left
+# bindsym mod4+Shift+t --release exec --no-startup-id xdotool key --clearmodifiers Shift+Down
+# bindsym mod4+Shift+n --release exec --no-startup-id xdotool key --clearmodifiers Shift+Right
+# bindsym mod4+$mod+c focus up
+# bindsym mod4+$mod+h focus left
+# bindsym mod4+$mod+t focus down
+# bindsym mod4+$mod+n focus right
+# bindsym mod4+$mod+Shift+c move up
+# bindsym mod4+$mod+Shift+h move left
+# bindsym mod4+$mod+Shift+t move down
+# bindsym mod4+$mod+Shift+n move right
+# bindsym mod4+BackSpace --release exec xdotool key --clearmodifiers Delete
+# bindsym mod4+apostrophe exec $Prev
+# bindsym mod4+comma exec $Play
+# bindsym mod4+period exec $Next
+# bindsym mod4+o exec $LowerVolume
+# bindsym mod4+e exec $RaiseVolume
+# bindsym mod4+u exec $Mute
 
 
 ### SCREENSHOTS
