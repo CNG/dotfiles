@@ -29,7 +29,7 @@ set ttymouse=xterm2
 " set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-" set expandtab
+set expandtab
 
 set encoding=utf-8
 set scrolloff=3
@@ -234,7 +234,7 @@ let g:bufferline_echo = 0
 " don't convert all strings to double quotes
 let g:black_skip_string_normalization = 1
 " run black on save
-" autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePre *.py execute ':Black'
 
 set noshowmode
 set noruler
@@ -264,5 +264,5 @@ let NERDTreeShowLineNumbers=0
 " set colorcolumn=85
 set colorcolumn=81
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
-match OverLength /\%121v.\+/
+" match OverLength /\%121v.\+/
 

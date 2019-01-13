@@ -159,7 +159,7 @@ bindsym $mod+ctrl+g gaps inner current plus 5
 bindsym $mod+Ctrl+Shift+g gaps outer current plus 5
 bindsym $mod+Ctrl+p gaps inner current minus 5
 bindsym $mod+Ctrl+Shift+p gaps outer current minus 5
-gaps inner 25
+#gaps inner 25
 smart_gaps on
 
 # Switch to workspace
