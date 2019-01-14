@@ -15,7 +15,12 @@ sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 { echo LANG=en_US.UTF-8; echo LC_ALL=; } >> /etc/locale.conf
 
-echo KEYMAP=dvorak >> /etc/vconsole.conf
+# Setup virtual console config (the Ctrl+Alt+F2, etc., one)
+f=/etc/vconsole.conf
+echo KEYMAP=dvorak >> $f
+# Next two enable larger font on small HiDPI screen, requires terminus-font pkg
+echo FONT=ter-p32n >> $f
+echo FONT_MAP=8859-2 >> $f
 
 echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
 echo -e "::1\tlocalhost" >> /etc/hosts
@@ -25,11 +30,16 @@ systemctl enable NetworkManager
 # Set password for root
 passwd
 
-# TODO: testing removing autodetect to help with USB keyboard in hub on boot
-
 # Configure mkinitcpio with modules needed for the initrd image
+# https://git.archlinux.org/mkinitcpio.git/tree/mkinitcpio.conf
+# the consolefont line is to allow larger font for HiDPS small screens
+# the keyboard lines are to prevent autodetect from pruning drivers too much
+# to be able to boot with a different keyboard than when initrd image built
 sed -i -e 's/^MODULES=()/MODULES=(ext4)/' \
-       -e '/^HOOKS/s/filesystems/encrypt lvm2 resume filesystems/' \
+       -e '/^HOOKS.*block filesystems/s/filesystems/encrypt lvm2 resume filesystems/' \
+       -e '/^HOOKS.*block encrypt/s/encrypt/keymap consolefont encrypt/' \
+       -e '/^HOOKS.*udev autodetect/s/ keyboard//' \
+       -e '/^HOOKS.*/s/autodetect/keyboard autodetect/' \
        /etc/mkinitcpio.conf
 
 # Regenerate initrd image
@@ -43,12 +53,15 @@ f=/boot/loader/loader.conf
 echo 'default arch' >> $f
 echo 'timeout 10' >> $f
 echo 'editor 1' >> $f
+# Enable larger text on tiny HiDPI screens (XPS 13)
+echo 'console-mode 2' >> $f
 
 # Create arch.conf
 f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
+# Could also deal with HiDPI small screen with video=1024x768
 echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/nvme0n1p2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw vsyscall=emulate" >> $f
 
 # Exit new system and go into the cd shell

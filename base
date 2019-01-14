@@ -53,8 +53,9 @@ echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 ||
 
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
 # Unless vim and zsh are desired these can be removed from the command. Dialog is needed by wifi-menu
+# terminus-font allows selecting larger font for small HiDPI screens
 # pacstrap /mnt base base-devel zsh vim git sudo efibootmgr dialog wpa_supplicant networkmanager
-pacstrap /mnt base base-devel efibootmgr dialog wpa_supplicant networkmanager
+pacstrap /mnt base base-devel efibootmgr dialog wpa_supplicant networkmanager terminus-font
 
 read -p "Continue? [y|n]" -n 1 -r
 echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
