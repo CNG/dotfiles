@@ -1,2 +1,7 @@
-[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
+# Use Spacebar as a Modifier
+spare_modifier="Hyper_L"
+xmodmap -e "keycode 65 = $spare_modifier"
+xmodmap -e "add Hyper_L = $spare_modifier" 2&>/dev/null
+xmodmap -e "keycode any = space"
+pgrep xcape || xcape -e "$spare_modifier=space"
 
