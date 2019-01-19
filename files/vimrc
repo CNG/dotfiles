@@ -280,11 +280,11 @@ set colorcolumn=81
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 " match OverLength /\%121v.\+/
 
-
 " Code folding (https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding)
 set foldmethod=indent
 set foldlevel=99
 " Enable folding with the spacebar
 nnoremap <space> za
 " show docstrings for folded code
-" let g:SimpylFold_docstring_preview=1
+let g:SimpylFold_docstring_preview=1
+

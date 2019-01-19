@@ -60,4 +60,8 @@
     - { user: 'ambv', repo: 'black' }
     # full path fuzzy file, buffer, mru, tag, ... finder
     - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
+    # better indent code folding (for Python)
+    - { user: 'tmhedberg', repo: 'SimpylFold' }
+    # recommended for SimplyFold, not required
+    - { user: 'Konfekt', repo: 'FastFold' }
 
