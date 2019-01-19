@@ -261,6 +261,10 @@ let NERDTreeDirArrows = 1
 autocmd FileType nerdtree setlocal norelativenumber
 let NERDTreeShowLineNumbers=0
 
+" Refresh both CtrlP and NERDTree (https://superuser.com/a/1137895/81094)
+nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
+
+
 " set colorcolumn=85
 set colorcolumn=81
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333

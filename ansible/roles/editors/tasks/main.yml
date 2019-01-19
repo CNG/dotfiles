@@ -58,4 +58,6 @@
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
     - { user: 'ambv', repo: 'black' }
+    # full path fuzzy file, buffer, mru, tag, ... finder
+    - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
 
