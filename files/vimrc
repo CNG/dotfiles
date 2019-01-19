@@ -3,6 +3,13 @@ source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 " runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
+" Use space as leader, disabling default "move right" first
+" https://stackoverflow.com/q/446269/172602
+" nnoremap <Space> <nop>
+" :let mapleader = " "
+" Could also try following
+" map <SPACE> <leader>
+
 filetype plugin indent on
 
 " yanked text into and paste from global clipboard; requires gvim (libX11 support)
@@ -101,6 +108,9 @@ augroup END
 set listchars=tab:→\ ,trail:~,extends:>,precedes:<
 " eol:$,tab:⇰\ ,space:\ ,trail:~,extends:>,precedes:<
 set list
+" Color Flag trailing whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " following from http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 " strip all trailing whitespace in the current file
@@ -270,3 +280,11 @@ set colorcolumn=81
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 " match OverLength /\%121v.\+/
 
+
+" Code folding (https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding)
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
+nnoremap <space> za
+" show docstrings for folded code
+" let g:SimpylFold_docstring_preview=1
