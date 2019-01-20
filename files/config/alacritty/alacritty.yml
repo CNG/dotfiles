@@ -68,6 +68,8 @@ mouse:
   triple_click: { threshold: 300 }
   hide_when_typing: false
   faux_scrolling_lines: 1
+  url:
+    launcher: xdg-open
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 dynamic_title: true
