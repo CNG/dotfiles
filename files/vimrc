@@ -4,6 +4,8 @@ source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 
+autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
+
 " Use space as leader, disabling default "move right" first
 " https://stackoverflow.com/q/446269/172602
 " nnoremap <Space> <nop>
