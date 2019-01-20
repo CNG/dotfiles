@@ -74,6 +74,7 @@ selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 dynamic_title: true
 cursor:
+  # style: Beam|Underline|[Block]
   style: Underline
   unfocused_hollow: true
 live_config_reload: true

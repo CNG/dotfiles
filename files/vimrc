@@ -3,6 +3,7 @@ source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 " runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
+
 " Use space as leader, disabling default "move right" first
 " https://stackoverflow.com/q/446269/172602
 " nnoremap <Space> <nop>
@@ -24,7 +25,6 @@ set clipboard=unnamedplus
 "" Open new split panes to right and bottom
 "set splitbelow
 "set splitright
-
 
 " allow dragging split borders
 set ttymouse=xterm2
@@ -225,15 +225,26 @@ let g:airline_theme='light'
 
 let g:solarized_termtrans = 1
 
-" set cursorline
-"nnoremap H :set cursorline! cursorcolumn!<CR>
-"hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-" hlight current line current window only
-" augroup CursorLine
-"     au!
-"     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"     au WinLeave * setlocal nocursorline
-" augroup END
+
+""" CURSOR HIGHLIGHTING
+" Highlight current column and row
+nnoremap H :set cursorline! cursorcolumn!<CR>
+" hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" highlight current line current window only
+" following makes this unneeded: set cursorline " cursorcolumn
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline " cursorcolumn
+  au WinLeave * setlocal nocursorline " nocursorcolumn
+augroup END
+" Block cursor when not insert mode, line in insert mode
+" https://github.com/jwilm/alacritty/pull/608#issuecomment-310610576
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+" If using underline in Alacritty, this results in block after Vim
+let &t_EI = "\<Esc>[0 q"
+
+
 " https://github.com/lifepillar/vim-solarized8.git
 " https://github.com/akracun/vitality.vim.git
 let g:vitality_tmux_can_focus = 1
