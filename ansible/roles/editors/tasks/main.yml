@@ -68,6 +68,9 @@
     # using autocomplete plugin "YouCompleteMe" via AUR package
     # vim-youcompleteme-git
     # - { user: 'Valloric', repo: 'YouCompleteMe' }
+    # YouCompeleteMe lacks function signatures in Python
+    # TODO: can't get this working
+    # - { user: 'Shougo', repo: 'echodoc' }
     # Git integration: :Gwrite, :Gmove, etc.
     - { user: 'tpope', repo: 'vim-fugitive' }
     # Tag sidebar
