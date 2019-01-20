@@ -331,3 +331,6 @@ let g:airline#extensions#ycm#warning_symbol = 'W:'
 let g:ycm_python_binary_path = 'python'
 
 
+
+nmap <F8> :TagbarToggle<CR>
+

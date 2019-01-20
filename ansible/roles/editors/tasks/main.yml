@@ -70,4 +70,6 @@
     # - { user: 'Valloric', repo: 'YouCompleteMe' }
     # Git integration: :Gwrite, :Gmove, etc.
     - { user: 'tpope', repo: 'vim-fugitive' }
+    # Tag sidebar
+    - { user: 'majutsushi', repo: 'tagbar'}
 
