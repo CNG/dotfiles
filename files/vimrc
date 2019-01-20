@@ -8,8 +8,8 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
 
 " Use space as leader, disabling default "move right" first
 " https://stackoverflow.com/q/446269/172602
-" nnoremap <Space> <nop>
-" :let mapleader = " "
+nnoremap <Space> <nop>
+let mapleader = " "
 " Could also try following
 " map <SPACE> <leader>
 
@@ -17,6 +17,13 @@ filetype plugin indent on
 
 " yanked text into and paste from global clipboard; requires gvim (libX11 support)
 set clipboard=unnamedplus
+
+
+" remap upper case saving and quitting to lower case
+command! WQ wq
+command! Wq wq
+command! W w
+command! Q q
 
 "" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally#easier-split-navigations
 "" navigates splits without ^w first
@@ -65,7 +72,7 @@ set laststatus=2
 set incsearch
 set showmatch
 set hlsearch
-nnoremap <leader><space> :noh<cr>
+nnoremap <leader>/ :noh<cr>
 " makes it easy to clear out a search by typing ,<space> (or \<space> ?)
 
 " nnoremap <tab> %
@@ -121,6 +128,8 @@ nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>ft Vatzf
 " imitates TextMates Ctrl+Q function to re-hardwrap paragraphs of text
 nnoremap <leader>q gqip
+" another rewrap
+nnoremap <leader>w gwap
 " reselect text that was just pasted
 nnoremap <leader>v V`]
 " nnoremap <C-h> <C-w>h
@@ -297,7 +306,8 @@ highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 set foldmethod=indent
 set foldlevel=99
 " Enable folding with the spacebar
-nnoremap <space> za
+nnoremap + za
+nnoremap = za
 " show docstrings for folded code
 let g:SimpylFold_docstring_preview=1
 
@@ -305,8 +315,10 @@ let g:SimpylFold_docstring_preview=1
 
 " autocomplete with YouCompleteMe
 " https://realpython.com/vim-and-python-a-match-made-in-heaven/#auto-complete
-"let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_autoclose_preview_window_after_insertion=1
+" Make preview window open on bottom, less jarring
+set splitbelow
+let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_autoclose_preview_window_after_insertion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "map gg  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " TODO: had set python2 to ON in PKGBUILD, see if default pkg install overrides
@@ -320,17 +332,40 @@ let g:ycm_extra_conf_vim_data = [
   \]
 let g:ycm_global_ycm_extra_conf = '~/.vim/global_extra_conf.py'
 " Vim Airline customizations for YouCompleteMe (not sure this is working)
-let g:airline#extensions#ycm#enabled = 1
+"let g:airline#extensions#ycm#enabled = 1
 " Shows number of errors and warnings in the current file detected by YCM.
-let g:airline#extensions#ycm#error_symbol = 'E:'
-let g:airline#extensions#ycm#warning_symbol = 'W:'
+"let g:airline#extensions#ycm#error_symbol = 'E:'
+"let g:airline#extensions#ycm#warning_symbol = 'W:'
 " Can delete next ones, using for testing
 " let g:ycm_auto_trigger = 0
-" let g:ycm_key_invoke_completion = "<C-Enter>"
-" let g:ycm_key_list_stop_completion = ['<C-Enter>', '(']
+let g:ycm_key_invoke_completion = "<C-Enter>"
+" let g:ycm_key_list_stop_completion = ['<C-Enter>']
 let g:ycm_python_binary_path = 'python'
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 
 
 nmap <F8> :TagbarToggle<CR>
+
+let g:jedi#show_call_signatures = 2
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#show_call_signatures_delay = 0
+
 
