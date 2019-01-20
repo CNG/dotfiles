@@ -59,9 +59,15 @@
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
     - { user: 'ambv', repo: 'black' }
     # full path fuzzy file, buffer, mru, tag, ... finder
+    # TODO: consider https://github.com/Shougo/denite.nvim
     - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
     # better indent code folding (for Python)
     - { user: 'tmhedberg', repo: 'SimpylFold' }
     # recommended for SimplyFold, not required
     - { user: 'Konfekt', repo: 'FastFold' }
+    # using autocomplete plugin "YouCompleteMe" via AUR package
+    # vim-youcompleteme-git
+    # - { user: 'Valloric', repo: 'YouCompleteMe' }
+    # Git integration: :Gwrite, :Gmove, etc.
+    - { user: 'tpope', repo: 'vim-fugitive' }
 
