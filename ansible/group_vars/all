@@ -169,7 +169,9 @@ packages:
   - libguestfs # mount VMDKs, large install
   editors:
   - vi
-  - gvim # gvim required for clipboard/libX11 support
+  - gvim  # gvim required for clipboard/libX11 support
+  - [ mono, vim-youcompleteme-git ]
+  - universal-ctags-git  # for tagbar Vim plugin
   - nano
   - sublime-text
   - typora
