@@ -60,7 +60,7 @@ colors:
 visual_bell:
   animation: EaseOutExpo
   duration: 5
-background_opacity: 0.6
+background_opacity: 0.8
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 mouse:
