@@ -239,7 +239,7 @@ let g:solarized_termtrans = 1
 
 """ CURSOR HIGHLIGHTING
 " Highlight current column and row
-nnoremap H :set cursorline! cursorcolumn!<CR>
+nnoremap <Leader>H :set cursorline! cursorcolumn!<CR>
 " hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 " highlight current line current window only
 " following makes this unneeded: set cursorline " cursorcolumn
