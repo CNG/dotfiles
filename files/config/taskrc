@@ -1,0 +1,11 @@
+# Taskwarrior program configuration file.
+
+data.location=~/GDrive/Projects/tasks
+
+verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,filter,unwait
+
+urgency.user.tag.idea.coefficient=-3.0
+urgency.user.tag.read.coefficient=-2.0
+
+include /usr/share/doc/task/rc/solarized-dark-256.theme
+
