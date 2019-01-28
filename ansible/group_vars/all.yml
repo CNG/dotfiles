@@ -70,11 +70,11 @@ roles:
   # - firejail
   # - unbound
   # - wormhole
-himawaripy:
-  run_time: 15min
-  run_boot_delay: 2min
-  run_on: all
-  flags: --auto-offset --level 4
+#himawaripy:
+#  run_time: 15min
+#  run_boot_delay: 2min
+#  run_on: all
+#  flags: --auto-offset --level 4
 
 packages:
 
