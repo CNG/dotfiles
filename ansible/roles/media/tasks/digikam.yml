@@ -1,0 +1,68 @@
+---
+- name: Install DigiKam and dependencies
+  when: digikam in packages.media
+  block:
+    - name: Install DigiKam and dependencies
+      aur:
+        name: "{{ item }}"
+      become: yes
+      become_user: aur_builder
+      with_items:
+        # Following not updated for opencv 4.0 yet
+        # - digikam-without-akonadi-mediawiki-vkontakte
+        - digikam
+        - mariadb
+        - kipi-plugins
+        - qt5-imageformats
+        - hugin
+    - name: First time setup MariaDB
+      command: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+      become: yes
+    - name: MySQL settings for digiKam
+      lineinfile:
+        dest: /etc/mysql/my.cnf
+        regexp: "^max_allowed_packet"
+        line: "max_allowed_packet = 16M"
+      become: yes
+    - name: Create MariaDB service conf directory
+      file:
+        path: /etc/systemd/system/mariadb.service.d
+        state: directory
+      become: yes
+    - name: digiKam MariaDB service config
+      copy:
+        src: unsafe.conf
+        dest: /etc/systemd/system/mariadb.service.d/unsafe.conf
+        mode: 0644
+      become: yes
+    - name: Enable MariaDB for digiKam
+      service:
+        name: mariadb
+        enabled: yes
+        state: started
+
+- name: Remove DigiKam and dependencies
+  when: digikam not in packages.media
+  become: yes
+  block:
+    - name: Disbale MariaDB service
+      service:
+        name: mariadb
+        enabled: no
+        state: stopped
+    - name: Remove MariaDB service conf directory
+      file:
+        path: /etc/systemd/system/mariadb.service.d
+        state: absent
+    - name: Remove DigiKam and dependencies
+      pacman:
+        name:
+          # Following not updated for opencv 4.0 yet
+          # - digikam-without-akonadi-mediawiki-vkontakte
+          - digikam
+          - mariadb
+          - kipi-plugins
+          - qt5-imageformats
+          - hugin
+        state: absent
+

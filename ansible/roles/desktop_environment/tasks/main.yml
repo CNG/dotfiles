@@ -1,10 +1,10 @@
 ---
-- name: Install desktop
+- name: Install desktop environment
   aur:
     name: "{{ item }}"
   become: yes
   become_user: aur_builder
-  with_items: "{{ packages[desktop] }}"
+  with_items: "{{ packages[desktop_enviroment] }}"
 
 - name: Fix Baloo (and more) inotify folder watch limit error
   become: yes
@@ -16,7 +16,7 @@
     - reload systemd config
 
 - name: Global media control scripts
-  when: desktop != "i3"
+  when: desktop_environment != "i3"
   block:
     - name: >-
         Use control names from

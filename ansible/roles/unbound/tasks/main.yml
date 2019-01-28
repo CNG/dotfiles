@@ -1,36 +1,91 @@
 ---
 - name: Install Unbound
-  pacman: name=unbound state=present
+  when: "'unbound' in roles"
+  block:
+  - name: Install Unbound
+    pacman:
+      name: unbound
+      state: present
+  - name: Push root hints
+    copy:
+      src: root.hints
+      dest: /etc/unbound/root.hints
+  - name: Copy Unbound configuration file
+    template:
+      src: unbound.conf.j2
+      dest: /etc/unbound/unbound.conf
+    notify:
+      - restart unbound
+  - name: Create Unbound systemd unit file directory
+    file:
+      path: /etc/systemd/system/unbound.service.d
+      state: directory
+  - name: Push Unbound socket unit file
+    copy:
+      src: unbound-service-override.conf
+      dest: /etc/systemd/system/unbound.service.d/override.conf
+    notify:
+      - reload systemd config
+      - restart unbound
+  - name: Remove Unbound systemd unit PID file line
+    lineinfile:
+      dest: /usr/lib/systemd/system/unbound.service
+      state: absent
+      line: "PIDFile: /run/unbound.pid"
+    notify:
+      - reload systemd config
+      - restart unbound
+  - name: Enable and start Unbound
+    service:
+      name: unbound.service
+      enabled: yes
+      state: started
+  - name: Configure resolvconf to use Unbound
+    lineinfile:
+      state: present
+      dest: /etc/resolvconf.conf
+      line: "name_servers: 127.0.0.1"
 
-- name: Push root hints
-  copy: src=root.hints dest=/etc/unbound/root.hints
-
-- name: Copy Unbound configuration file
-  template: src=unbound.conf.j2 dest=/etc/unbound/unbound.conf
-  notify:
-    - restart unbound
-
-- name: Create Unbound systemd unit file directory
-  file: path=/etc/systemd/system/unbound.service.d state=directory
-
-- name: Push Unbound socket unit file
-  copy: src=unbound-service-override.conf dest=/etc/systemd/system/unbound.service.d/override.conf
-  notify:
-    - reload systemd config
-    - restart unbound
-
-- name: Remove Unbound systemd unit PID file line
-  lineinfile: dest=/usr/lib/systemd/system/unbound.service
-              state=absent
-              line="PIDFile=/run/unbound.pid"
-  notify:
-    - reload systemd config
-    - restart unbound
-
-- name: Enable and start Unbound
-  service: name=unbound.service enabled=yes state=started
-
-- name: Configure resolvconf to use Unbound
-  lineinfile: dest=/etc/resolvconf.conf
-              state=present
-              line="name_servers=127.0.0.1"
+- name: Remove Unbound
+  when: "'unbound' not in roles"
+  block:
+  - name: Disable and stop Unbound
+    service:
+      name: unbound.service
+      enabled: no
+      state: stopped
+    check_mode: false
+    changed_when: false 
+  - name: Remove root hints
+    file:
+      dest: /etc/unbound/root.hints
+      state: absent
+  - name: Remove Unbound configuration file
+    file:
+      dest: /etc/unbound/unbound.conf
+      state: absent
+  - name: Remove Unbound systemd unit file directory
+    file:
+      path: /etc/systemd/system/unbound.service.d
+      state: absent
+  - name: Remove Unbound socket unit file
+    file:
+      dest: /etc/systemd/system/unbound.service.d/override.conf
+      state: absent
+    notify:
+      - reload systemd config
+  - name: Remove Unbound systemd unit file
+    file:
+      dest: /usr/lib/systemd/system/unbound.service
+      state: absent
+    notify:
+      - reload systemd config
+  - name: Remove Unbound
+    pacman:
+      name: unbound
+      state: absent
+  - name: Configure resolvconf to not use Unbound
+    lineinfile:
+      state: absent
+      dest: /etc/resolvconf.conf
+      line: "name_servers: 127.0.0.1"

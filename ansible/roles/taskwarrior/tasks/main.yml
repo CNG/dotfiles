@@ -1,11 +1,24 @@
 ---
 - name: Install taskwarrior
-  pacman: name=task state=present
+  when: "'task' in packages.office"
+  block:
+    - name: Install taskwarrior
+      pacman:
+        name: task
+        state: present
+    - name: Install timewarrior
+      pacman:
+        name: timew
+        state: present
+      notify:
+        - refresh holidays
 
-- name: Install timewarrior
-  pacman: name=timew state=present
-  notify:
-    - refresh holidays
-
-- name: Install taskopen
-  aur: name=taskopen
+- name: Remove taskwarrior
+  when: "'task' not in packages.office"
+  block:
+    - name: Remove taskwarrior
+      pacman:
+        name:
+          - task
+          - timew
+        state: absent

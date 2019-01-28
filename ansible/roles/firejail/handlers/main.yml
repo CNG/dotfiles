@@ -1,5 +1,6 @@
 ---
 - name: activate firejail profiles
+  when: "'firejail' in roles"
   command: /usr/local/bin/profile-activate
   become: yes
   become_user: "{{ user.name }}"

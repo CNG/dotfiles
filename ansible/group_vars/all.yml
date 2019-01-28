@@ -35,7 +35,7 @@ passwordless_sudo:
 
 bootloader: grub
 
-fingerprint: True
+fingerprint: False
 
 localtime:
   run_on: all
@@ -47,7 +47,7 @@ bluetooth:
   disable: False
 
 journal:
-  max_size: 5000M
+  max_size: 5G
 
 udisks:
   auto_mount: True
@@ -56,307 +56,295 @@ udisks:
 hostsctl:
   url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
 
+
+middle_click_scroll: True
+multitouch: True
+desktop_environment: i3
+
+# These roles clean up when disabled
+roles:
+  - dummy
+  # - rtorrent
+  # - mpv
+  # - mpd
+  # - firejail
+  # - unbound
+  # - wormhole
 himawaripy:
   run_time: 15min
   run_boot_delay: 2min
   run_on: all
   flags: --auto-offset --level 4
 
-middle_click_scroll: True
-multitouch: True
-desktop: i3
-
 packages:
-  printers:
-  - brother-hl3170cdw
+
   base:
-  - base-devel
-  - tmux
-  - [ git, hub ]
-  - rsync
-  - glances
-  - coreutils
-  - moreutils
-  - dateutils
-  - rsync
-  - reflector  # For pacman mirror ranking
-  - bc
-  - strace
-  - lsof
-  - sysstat
-  - ruby
-  - go
-  i3:
-  - feh  # Set background
-  - [ gnome-themes-extra, gtk-engines ] # fixed Spotify Gtk error
-  - gwenview # best image viewer for KDE
-  - [ kwallet, kwalletmanager ]
-  - ark # compresses/extract zip files from within dolphin
-  - kfind
-  - qlipper
-  - xcape  # Configure modifier keys to act as other keys when pressed and released on their own
-  - scrot
-  - escrotum-git
-  - [ breeze, breeze-icons ]
-  # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
-  - [ nemo-git, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
-  #- [ nemo-seahorse-nonautilus, gnome-keyring ]
-  plasma:
-  - plasma-meta
-  # also check out kde-applications-meta
-  # - plasma-wayland-session # enable support for Wayland in Plasma
-  - gwenview # best image viewer for KDE
-  - [ dolphin, dolphin-plugins ]
-  - kwallet
-  - kwalletmanager
-  - ark # compresses/extract zip files from within dolphin
-  - kfind
-  - kdialog
-  - konsole
-  - spectacle
-  - kio-extras
-  - kompare
-  # - yakuake # top-down terminal for KDE
-  - kde-gtk-config
-  # - sierrabreeze-kwin-decoration-git # mimic the OSX Sierra titlebar
-  - latte-dock
-  - numix-kde-theme-git
-  # plasma-meta includes:
-    # bluedevil
-    # breeze-gtk
-    # discover
-    # drkonqi
-    # kdeplasma-addons
-    # kgamma5
-    # kinfocenter
-    # kscreen
-    # ksshaskpass
-    # ksysguard
-    # kwallet-pam
-    # kwayland-integration
-    # kwrited
-    # oxygen
-    # plasma-desktop
-    # plasma-nm
-    # plasma-pa
-    # plasma-sdk
-    # plasma-vault
-    # plasma-workspace-wallpapers
-    # powerdevil
-    # sddm-kcm
-    # user-manager
-    # xdg-desktop-portal-kde
-    # breeze-grub (optional) - Breeze theme for GRUB
-    # kde-gtk-config (optional) - GTK Theme configuration KCM
+    - base-devel
+    - coreutils
+    - dateutils
+    - moreutils
+    - bc
+    - [ git, hub ]
+    - glances
+    - go
+    - kfind
+    - lsof
+    - reflector  # For pacman mirror ranking
+    - rsync
+    - ruby
+    - strace
+    - sysstat
+    - tmux
+
   base_aur:
-  - alacritty-git
-  - alacritty-terminfo-git
-  - zplug
-  - miller
-  - tmux-bash-completion
-  - myrepos
-  - ctmg
-  - imwheel
-  - neofetch
-  - python-systemd # Ansible log to journal
-  filesystem:
-  - dosfstools
-  - efibootmgr
-  - hfsprogs
-  - hfsutils
-  - ntfs-3g
-  - exfat-utils
-  - libguestfs # mount VMDKs, large install
-  editors:
-  - vi
-  - gvim  # gvim required for clipboard/libX11 support
-  - [ mono, vim-youcompleteme-git ]
-  - universal-ctags-git  # for tagbar Vim plugin
-  - nano
-  - sublime-text
-  - typora
-  office:
-  # - okular # Ebook Reader, simple yet capable
-  - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
-  # Anki addons:
-  # not yet Anki 2.1: 162313389 Power format pack
-  # 874215009 Advanced Browser
-  # 1672832404 Add note id
-  # 613684242 True retention
-  # 3491767031 Multi-column note editor
-  # 291119185 Batch Note Editing
-  # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
-  # 117604477 Dark Themes Fix for 2.0
-  - [ zathura-pdf-mupdf, zathura-ps ]
-  - archlinux-java-run
-  - automatic
-  # - cerebro
-  - enscript
-  - [ insync, insync-dolphin ]
-  - keybase-bin
-  - libreoffice-fresh
-  - copyq # clipboard manager
-  - masterpdfeditor
-  - pandoc
-  - pdfgrep
-  - rescuetime
-  - simple-scan
-  - visidata
-  - task  # TaskWarrior
+    - alacritty-git
+    - alacritty-terminfo-git
+    - ctmg
+    - imwheel
+    - miller
+    - myrepos
+    - neofetch
+    - python-systemd  # Ansible log to journal
+    - tmux-bash-completion
+    - zplug
+
   developer:
-  - ack
-  - arduino
-  - [ zopfli, pigz ] # 
-  - grc # Colorize logfiles and command output
-  - highlight
-  - pygmentize # Python syntax highlighter
-  - jq
-  - htop
-  - iftop
-  - iotop
-  - iputils
-  - linux-headers
-  - messengerfordesktop
-  - nfs-utils
-  - ntop
-  - qt5-webengine
-  - screen
-  - solaar
-  - sqlitebrowser
-  - sysstat
-  - tree
-  - vnstat
-  - wget
-  - wireless_tools
-  - rsnapshot
-  - vagrant
-  - command-not-found # may need to check if /etc/zsh/zprofile is sourced as it says it should be
-  media:
-  # - [xininfo-git, copyq-git, teiler-git ] # script for screenshots and screencasts
-  # - inkscape
-  # - makemkv-cli
-  - [ cdparanoia, abcde ] # CD track encoder
-  - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
-  - [ qt4, vlc ]
-  - [ zopfli, zopflipng ] # compression
-  - vdhcoapp # Video Downloadhelper companion app
-  - guvcview # webcam record
-  - losslesscut # video trim
-  - darktable
-  - [ digikam, mariadb, kipi-plugins, qt5-imageformats, hugin ]
-  # Following not updated for opencv 4.0 yet
-  # - [ digikam-without-akonadi-mediawiki-vkontakte, mariadb, kipi-plugins, qt5-imageformats, hugin ]
-  - entangle # camera tethering
-  - flac2all
-  - xsane-gimp
-  - iscan-plugin-gt-x820 # Epson V600 scanner
-  - flameshot
-  - flashplugin
-  - flite # lightweight speech synthesis engine
-  - fritzing
-  - libheif
-  - gpscorrelate
-  - gthumb
-  - handbrake
-  - imv # Image viewer for X11/Wayland
-  - kamoso # webcam recorder from KDE community
-  - kindleunpack
-  - mediainfo-gui
-  - pdfshuffler
-  - cava # visualizer
-  - spotify
-  - youtube-dl
-  # misc media codecs and helpers
-  - exiv2
-  - flac
-  - gst-libav
-  # error: failed to commit transaction (conflicting files)
-  # - gst-plugins-good
-  - lame
-  - opus-tools
-  - perl-image-exiftool
-  - x264
-  nettools:
-  - wmsystemtray
-  - trickle
-  - openvpn
-  - openssh
-  - mtr
-  - net-tools
-  - bind-tools
-  - whois
-  - gnu-netcat
-  - lftp
-  - nmap
-  - ngrep
-  - tcpdump
-  - sshuttle
-  - pdsh
-  - wireshark-qt
-  - socat
-  - nethogs
-  - speedtest-cli
-  - wondershaper-git
-  - bitmeter-os
-  - darkstat # packet sniffer
-  - bmon
-  # - gufw # GTK front-end for Ufw
+    - ack
+    - arduino
+    - command-not-found  # may need to check if /etc/zsh/zprofile is sourced as it says it should be
+    - grc  # Colorize logfiles and command output
+    - highlight
+    - htop
+    - iftop
+    - iotop
+    - iputils
+    - jq
+    - linux-headers
+    - nfs-utils
+    - ntop
+    - pygmentize  # Python syntax highlighter
+    - qt5-webengine
+    - rsnapshot
+    - screen
+    - solaar
+    - sqlitebrowser
+    - sysstat
+    - tree
+    - vagrant
+    - vnstat
+    - wget
+    - wireless_tools
+
+  editors:
+    - nano
+    - sublime-text
+    - typora
+    - vi
+    - gvim  # gvim required for clipboard/libX11 support
+    - [ mono, vim-youcompleteme-git ]
+    - universal-ctags-git  # for tagbar Vim plugin
+
+  filesystem:
+    - dosfstools
+    - efibootmgr
+    - exfat-utils
+    - hfsprogs
+    - hfsutils
+    - ntfs-3g
+    - libguestfs  # mount VMDKs, large install
+
   fonts:
-  # core:
-  - terminus-font
-  - cantarell-fonts
-  - noto-fonts
-  - ttf-dejavu
-  - ttf-liberation
-  - ttf-symbola
-  - gsfonts
-  - tex-gyre-fonts
-  - ttf-droid
-  - ttf-ubuntu-font-family
-  - ttf-inconsolata
-  #- ttf-signika
-  - ttf-quintessential
-  - ttf-oswald
-  - ttf-opensans
-  - ttf-merriweather-sans
-  - ttf-merriweather
-  # - ttf-impallari-cantora
-  - ttf-carlito
-  - ttf-caladea
-  - ttf-courier-prime
-  - ttf-heuristica
-  - ttf-fira-sans
-  - ttf-fira-mono
-  - ttf-fira-code
-  # extra:
-  - adobe-base-14-fonts
-  #- ttf-adobe-fonts
-  - ttf-bookerly
-  - ttf-contemporary
-  - ttf-emojione-color
-  - ttf-font-awesome-4
-  #- ttf-google-fonts-git
-  - ttf-input
-  - ttf-iosevka
-  - ttf-latex-xft-fonts
-  - ttf-mac-fonts
-  - ttf-montserrat
-  - ttf-noto-fonts-emoji-ib
-  - ttf-raleway
-  - ttf-spacemono
-  - ttf-tahoma
-  - ttf-fantasque-sans-mono
-  - ttf-fira-code
-  - ttf-nanum
+    # core:
+    - cantarell-fonts
+    - gsfonts
+    - noto-fonts
+    - terminus-font
+    - tex-gyre-fonts
+    - ttf-caladea
+    - ttf-carlito
+    - ttf-courier-prime
+    - ttf-dejavu
+    - ttf-droid
+    - ttf-fira-code
+    - ttf-fira-mono
+    - ttf-fira-sans
+    - ttf-heuristica
+    - ttf-inconsolata
+    - ttf-liberation
+    - ttf-merriweather
+    - ttf-merriweather-sans
+    - ttf-opensans
+    - ttf-oswald
+    - ttf-quintessential
+    - ttf-signika
+    - ttf-symbola
+    - ttf-ubuntu-font-family
+    # Validating source files with md5sums... Cantora_One.zip ... FAILED
+    # - ttf-impallari-cantora
+
+    # extra:
+    - adobe-base-14-fonts
+    - ttf-adobe-source-fonts
+    - ttf-bookerly
+    - ttf-contemporary
+    - ttf-emojione-color
+    - ttf-fantasque-sans-mono
+    - ttf-fira-code
+    - ttf-font-awesome-4
+    - ttf-google-fonts-git
+    - ttf-input
+    - ttf-iosevka
+    - ttf-latex-xft-fonts
+    - ttf-mac-fonts
+    - ttf-montserrat
+    - ttf-nanum
+    - ttf-noto-fonts-emoji-ib
+    - ttf-raleway
+    - ttf-spacemono
+    - ttf-tahoma
+
+  media:
+    - digikam
+    # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
+    # - inkscape
+    # - makemkv-cli
+    - [ cdparanoia, abcde ]  # CD track encoder
+    - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
+    - [ qt4, vlc ]
+    - [ zopfli, zopflipng ]  # compression
+    - vdhcoapp  # Video Downloadhelper companion app
+    - guvcview  # webcam record
+    - losslesscut  # video trim
+    - darktable
+    - entangle  # camera tethering
+    - gwenview  # best image viewer for KDE
+    - flac2all
+    - iscan-plugin-gt-x820  # Epson V600 scanner
+    - flashplugin
+    # - flite  # lightweight speech synthesis engine
+    - fritzing
+    - libheif
+    - gpscorrelate
+    - gthumb
+    - handbrake
+    # - imv  # Image viewer for X11/Wayland
+    - kamoso  # webcam recorder from KDE community
+    - kindleunpack
+    - mediainfo-gui
+    - cava  # sound visualizer
+    - spotify
+    - youtube-dl
+    # misc media codecs and helpers
+    - exiv2
+    - flac
+    - gst-libav
+    # error: failed to commit transaction (conflicting files)
+    # - gst-plugins-good
+    - lame
+    - opus-tools
+    - perl-image-exiftool
+    - x264
+
+  nettools:
+    - bind-tools
+    - bitmeter-os
+    - bmon
+    - darkstat  # packet sniffer
+    - gnu-netcat
+    # - gufw  # GTK front-end for Ufw
+    - lftp
+    - mtr
+    - net-tools
+    - nethogs
+    - ngrep
+    - nmap
+    - openssh
+    - openvpn
+    - pdsh
+    - socat
+    - speedtest-cli
+    - sshuttle
+    - tcpdump
+    - trickle
+    - whois
+    - wireshark-qt
+    - wmsystemtray
+    - wondershaper-git
+
+  office:
+    - archlinux-java-run
+    - automatic
+    # - cerebro
+    - copyq  # clipboard manager
+    - enscript
+    - [ insync, insync-nemo ]
+    - keybase-bin  # keybase.io encrypted chat, includes kbfs and keybase-gui
+    - libreoffice-fresh
+    - masterpdfeditor
+    # - okular  # Ebook Reader, simple yet capable
+    - pandoc
+    - pdfgrep
+    - rescuetime  # time tracker
+    - simple-scan
+    - task  # TaskWarrior
+    - visidata
+    - zathura-pdf-mupdf
+    - zathura-ps
+    - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
+    # Anki addons:
+    # not yet Anki 2.1: 162313389 Power format pack
+    # 874215009 Advanced Browser
+    # 1672832404 Add note id
+    # 613684242 True retention
+    # 3491767031 Multi-column note editor
+    # 291119185 Batch Note Editing
+    # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
+    # 117604477 Dark Themes Fix for 2.0
+
+  printers:
+    - brother-hl3170cdw
+
+  i3:
+    - feh  # Set background
+    - [ gnome-themes-extra, gtk-engines ]  # fixed Spotify Gtk error
+    - [ kwallet, kwalletmanager ]
+    - ark  # compresses/extract zip files from within dolphin
+    - xcape  # Configure modifier keys to act as other keys when pressed and released on their own
+    - scrot
+    - escrotum-git
+    - [ breeze, breeze-icons ]
+    # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
+    - [ nemo, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
+    #- [ nemo-seahorse-nonautilus, gnome-keyring ]
+
   gnome:
-  - ghex
-  - gloobus-preview
-  - gnome-specimen
-  - guake # top down terminal
-  - chrome-gnome-shell
-  - nemo-audio-tab
-  - nemo-emblems
-  - nemo-fileroller
-  - nemo-image-converter
-  - nemo-preview
-  - nemo-seahorse
+    - ghex
+    - gloobus-preview
+    - gnome-specimen
+    - guake  # top down terminal
+    - chrome-gnome-shell
+    - nemo-audio-tab
+    - nemo-emblems
+    - nemo-fileroller
+    - nemo-image-converter
+    - nemo-preview
+    - nemo-seahorse
+
+  plasma:
+    - plasma-meta
+    # also check out kde-applications-meta
+    # - plasma-wayland-session  # enable support for Wayland in Plasma
+    - [ dolphin, dolphin-plugins ]
+    - kwallet
+    - kwalletmanager
+    - ark  # compresses/extract zip files from within dolphin
+    - kdialog
+    - konsole
+    - spectacle
+    - kio-extras
+    - kompare
+    # - yakuake  # top-down terminal for KDE
+    - kde-gtk-config
+    # - sierrabreeze-kwin-decoration-git  # mimic the OSX Sierra titlebar
+    - latte-dock
+    - numix-kde-theme-git

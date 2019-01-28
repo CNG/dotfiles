@@ -13,86 +13,102 @@
     name: firefox
     state: present
 
-- name: Jail Firefox
-  file:
-    src: /usr/bin/firejail
-    dest: /usr/local/bin/firefox
-    state: link
-
-- name: Verify Firefox firejail local profile exists
-  file:
-    path: /etc/firejail/firefox.local
-    state: file
-
-- name: Restrict Firefox access to /etc
-  lineinfile:
-    dest: /etc/firejail/firefox.local
-    regexp: "^private-etc"
-    line: "private-etc firejail,passwd,group,hostname,hosts,nsswitch.conf,resolv.conf,gtk-2.0,gtk-3.0,fonts,mime.types,asound.conf,pulse,localtime"
-
 - name: Install Chromium
-  pacman: name=chromium state=present
+  pacman:
+    name: chromium
+    state: present
 
-- name: Jail Chromium
+- name: Install tor-browser-en
+  aur:
+    name: tor-browser-en
+    skip_pgp_check: yes
+  become: yes
+  become_user: aur_builder
+  tags:
+    - tor-browser
+    - aur
+
+- name: Verify mimeapps.list exists
   file:
-    src: /usr/bin/firejail
-    dest: /usr/local/bin/chromium
-    state: link
+    path: /etc/xdg/mimeapps.list
+    state: touch
 
-- name: Verify Chromium firejail local profile exists
-  file:
-    path: /etc/firejail/chromium.local
-    state: file
+- name: Setup browsers firejail
+  when: "'firejail' in roles"
+  block:
 
-- name: Restrict Chromium access to /etc
-  lineinfile:
-    dest: /etc/firejail/chromium.local
-    regexp: "^private-etc"
-    line: "private-etc firejail,passwd,group,hostname,hosts,nsswitch.conf,resolv.conf,gtk-2.0,gtk-3.0,fonts,mime.types,asound.conf,pulse,localtime"
+  - name: Jail Firefox
+    file:
+      src: /usr/bin/firejail
+      dest: /usr/local/bin/firefox
+      state: link
+  - name: Verify Firefox firejail local profile exists
+    file:
+      path: /etc/firejail/firefox.local
+      state: file
+  - name: Restrict Firefox access to /etc
+    lineinfile:
+      dest: /etc/firejail/firefox.local
+      regexp: "^private-etc"
+      line: "private-etc firejail,passwd,group,hostname,hosts,nsswitch.conf,resolv.conf,gtk-2.0,gtk-3.0,fonts,mime.types,asound.conf,pulse,localtime"
+
+  - name: Jail Chromium
+    file:
+      src: /usr/bin/firejail
+      dest: /usr/local/bin/chromium
+      state: link
+  - name: Verify Chromium firejail local profile exists
+    file:
+      path: /etc/firejail/chromium.local
+      state: file
+  - name: Restrict Chromium access to /etc
+    lineinfile:
+      dest: /etc/firejail/chromium.local
+      regexp: "^private-etc"
+      line: "private-etc firejail,passwd,group,hostname,hosts,nsswitch.conf,resolv.conf,gtk-2.0,gtk-3.0,fonts,mime.types,asound.conf,pulse,localtime"
+
+  - name: Jail tor-browser-en
+    file:
+      src: /usr/bin/firejail
+      dest: /usr/local/bin/tor-browser-en
+      state: link
+
+- name: Remove browsers firejail
+  when: "'firejail' not in roles"
+  block:
+
+  - name: Unjail Firefox
+    file:
+      path: /usr/local/bin/firefox
+      state: absent
+  - name: Remove Firefox firejail local profile
+    file:
+      path: /etc/firejail/firefox.local
+      state: absent
+
+  - name: Unjail Chromium
+    file:
+      path: /usr/local/bin/chromium
+      state: absent
+  - name: Remove Chromium firejail local profile
+    file:
+      path: /etc/firejail/chromium.local
+      state: absent
+
+  - name: Unjail tor-browser-en
+    file:
+      dest: /usr/local/bin/tor-browser-en
+      state: absent
+
 
 # - name: Install Pepper Flash
 #   pacman: name=pepper-flash state=present
-#   tags:
-#     - chromium
-
-# - name: Install tor-browser-en
-#   aur: name=tor-browser-en skip_pgp=yes
-#   tags:
-#     - tor-browser
-#     - aur
-
-# - name: Jail tor-browser-en
-#   file: src=/usr/bin/firejail
-#         dest=/usr/local/bin/tor-browser-en
-#         state=link
-#   tags:
-#     - tor-browser
-#     - firejail
-
 # - name: Push rofi browser chooser
 #   template: src=browser.sh.j2 dest=/usr/local/bin/browser mode=0755
-#   tags:
-#     - rofi
-#     - chooser
-
 # - name: Create local desktop application dir
 #   file: path=/usr/local/share/applications state=directory
-#   tags:
-#     - rofi
-#     - chooser
-
 # - name: Push rofi browser chooser desktop file
 #   copy: src=browser.desktop dest=/usr/local/share/applications/browser.desktop
-#   tags:
-#     - rofi
-#     - chooser
-
-# - name: Verify mimeapps.list exists
-#   file: path=/etc/xdg/mimeapps.list state=touch
-#   tags:
-#     - rofi
-#     - chooser
-
 # - name: Set rofi browser chooser as default application for relevant mimetypes
 #   lineinfile:
 #     dest: /etc/xdg/mimeapps.list
@@ -106,26 +122,13 @@
 #     - { regexp: '^application/xml=', line: 'application/xml=browser.desktop' }
 #     - { regexp: '^x-scheme-handler/http=', line: 'x-scheme-handler/http=browser.desktop' }
 #     - { regexp: '^x-scheme-handler/https=', line: 'x-scheme-handler/https=browser.desktop' }
-#   tags:
-#     - rofi
-#     - chooser
 
 # - name: Install surfraw
 #   pacman: name=surfraw state=present
-#   tags:
-#     - surfraw
-
 # - name: Configure surfraw browser
 #   lineinfile:
 #     dest: /etc/xdg/surfraw/conf
 #     regexp: '^def   SURFRAW_graphical_browser	'
 #     line: 'def   SURFRAW_graphical_browser	/usr/local/bin/browser'
-#   tags:
-#     - surfraw
-#     - chooser
-
 # - name: Push surfraw-rofi script
 #   copy: src=surfraw-rofi dest=/usr/local/bin/surfraw-rofi mode=0755
-#   tags:
-#     - surfraw
-#     - rofi

@@ -1,38 +1,92 @@
 ---
 - name: Install mpd
-  pacman: name=mpd state=present
+  when: "'mpd' in roles"
+  block:
+  - name: Install mpd
+    pacman:
+      name: mpd
+      state: present
+  - name: Push mpd service file
+    copy:
+      src: mpd.service
+      dest: /etc/systemd/user/mpd.service
+    notify:
+      - reload systemd config
+  - name: Install mpc
+    pacman:
+      name: mpc
+      state: present
+  - name: Install ncmpcpp
+    pacman:
+      name: ncmpcpp
+      state: present
+  - name: Setup mpd firejail
+    when: "'firejail' in roles"
+    block:
+    - name: Jail mpd
+      file:
+        src: /usr/bin/firejail
+        path: /usr/local/bin/mpd
+        state: link
+    - name: Verify mpd firejail local profile exists
+      file:
+        path: /etc/firejail/mpd.local
+        state: touch
+    - name: Set mpd firejail protocols
+      lineinfile:
+        dest: /etc/firejail/mpd.local
+        regexp: "^protocol"
+        line: "protocol unix,inet,inet6,netlink"
+    - name: Jail ncmpcpp
+      file:
+        src: /usr/bin/firejail
+        dest: /usr/local/bin/ncmpcpp
+        state: link
+    - name: Push ncmpcpp firejail profile
+      copy:
+        src: firejail/ncmpcpp.profile
+        dest: /usr/local/etc/firejail/ncmpcpp.profile
+      notify:
+        - activate firejail profiles
 
-- name: Jail mpd
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/mpd
-        state=link
+- name: Remove mpd
+  when: "'mpd' not in roles"
+  block:
+  - name: Remove mpd
+    pacman:
+      name: mpd
+      state: absent
+  - name: Remove mpd service file
+    file:
+      path: /etc/systemd/user/mpd.service
+      state: absent
+    notify:
+      - reload systemd config
+  - name: Remove mpc
+    pacman:
+      name: mpc
+      state: absent
+  - name: Remove ncmpcpp
+    pacman:
+      name: ncmpcpp
+      state: absent
 
-- name: Verify mpd firejail local profile exists
-  file: path=/etc/firejail/mpd.local state=touch
-
-- name: Set mpd firejail protocols
-  lineinfile:
-    dest: /etc/firejail/mpd.local
-    regexp: "^protocol"
-    line: "protocol unix,inet,inet6,netlink"
-
-- name: Push mpd service file
-  copy: src=mpd.service dest=/etc/systemd/user/mpd.service
-  notify:
-    - reload systemd config
-
-- name: Install mpc
-  pacman: name=mpc state=present
-
-- name: Install ncmpcpp
-  pacman: name=ncmpcpp state=present
-
-- name: Jail ncmpcpp
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/ncmpcpp
-        state=link
-
-- name: Push ncmpcpp firejail profile
-  copy: src=firejail/ncmpcpp.profile dest=/usr/local/etc/firejail/ncmpcpp.profile
-  notify:
-    - activate firejail profiles
+- name: Remove mpd firejail
+  when: "'firejail' not in roles"
+  block:
+  - name: Unjail mpd
+    file:
+      path: /usr/local/bin/mpd
+      state: absent
+  - name: Remove mpd firejail local profile
+    file:
+      path: /etc/firejail/mpd.local
+      state: absent
+  - name: Unjail ncmpcpp
+    file:
+      path: /usr/local/bin/ncmpcpp
+      state: absent
+  - name: Remove ncmpcpp firejail profile
+    file:
+      dest: /usr/local/etc/firejail/ncmpcpp.profile
+      state: absent

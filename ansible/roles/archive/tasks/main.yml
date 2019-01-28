@@ -1,13 +1,17 @@
 ---
 - name: Install archive utilities
-  pacman: name={{ item }} state=present
-  with_items:
-    - zip
-    - unzip
-    - p7zip
-    - unrar
-    - atool
-    - hashdeep
-    - par2cmdline
-    - ddrescue
-    - lesspipe
+  pacman:
+    state: present
+    name:
+      - zip
+      - unzip
+      - p7zip
+      - unrar
+      - atool
+      - hashdeep
+      - par2cmdline
+      - ddrescue
+      - lesspipe
+      - zopfli
+      - pigz  # parallel compression
+

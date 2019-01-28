@@ -1,13 +1,12 @@
 ---
 - name: Install TLP
   pacman:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
       - x86_energy_perf_policy
       - ethtool
       - tlp
       - tlp-rdw
+    state: present
 
 - name: Copy TLP configuration file
   copy:

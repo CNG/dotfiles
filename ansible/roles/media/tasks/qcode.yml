@@ -1,6 +1,11 @@
 ---
 - name: Install qrencode
-  pacman: name=qrencode state=present
+  pacman:
+    name: qrencode
+    state: present
 
 - name: Push qcode script
-  copy: src=qcode.sh dest=/usr/local/bin/qcode mode=0755
+  copy:
+    src: qcode.sh
+    dest: /usr/local/bin/qcode
+    mode: 0755

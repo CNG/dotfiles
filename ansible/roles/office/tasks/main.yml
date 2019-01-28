@@ -1,4 +1,13 @@
 ---
+- name: Remove keybase, keybase-gui, kbfs if keybase-bin
+  when: "'keybase-bin' in packages.office"
+  pacman:
+    name:
+      - kbfs
+      - keybase-gui
+      - keybase
+    state: absent
+
 - name: Install office tools
   aur:
     name: "{{ item }}"
@@ -6,40 +15,64 @@
   become_user: aur_builder
   with_flattened: "{{ packages.office }}"
 
-- name: Jail LibreOffice
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/libreoffice
-        state=link
-  when: "'libreoffice-fresh' in packages.office"
+- name: Setup office firejail
+  when: "'firejail' in roles"
+  block:
+  - name: Setup LibreOffice firejail
+    when: "'libreoffice-fresh' in packages.office"
+    block:
+    - name: Jail LibreOffice
+      file:
+        src: /usr/bin/firejail
+        path: /usr/local/bin/libreoffice
+        state: link
+    - name: Verify LibreOffice firejail local profile exists
+      file:
+        path: /etc/firejail/libreoffice.local
+        state: touch
+    - name: Restrict LibreOffice network access
+      lineinfile:
+        dest: /etc/firejail/libreoffice.local
+        regexp: "^net"
+        line: "net none"
+    - name: Restrict LibreOffice access to /etc
+      lineinfile:
+        dest: /etc/firejail/libreoffice.local
+        regexp: "^private-etc"
+        line: "private-etc firejail,libreoffice,fonts,passwd"
+  - name: Jail Zathura
+    when: "'zathura-pdf-mupdf' in packages.office"
+    file:
+      src: /usr/bin/firejail
+      path: /usr/local/bin/zathura
+      state: link
 
-- name: Verify LibreOffice firejail local profile exists
-  file: path=/etc/firejail/libreoffice.local state=touch
-  when: "'libreoffice-fresh' in packages.office"
+- name: Remove office firejail
+  when: "'firejail' not in roles"
+  block:
+  - name: Remove LibreOffice firejail
+    when: "'libreoffice-fresh' in packages.office"
+    block:
+    - name: Unjail LibreOffice
+      file:
+        path: /usr/local/bin/libreoffice
+        state: absent
+    - name: Remove LibreOffice firejail local profile
+      file:
+        path: /etc/firejail/libreoffice.local
+        state: absent
+  - name: Unjail Zathura
+    when: "'zathura-pdf-mupdf' in packages.office"
+    file:
+      path: /usr/local/bin/zathura
+      state: absent
 
-- name: Restrict LibreOffice network access
-  lineinfile:
-    dest: /etc/firejail/libreoffice.local
-    regexp: "^net"
-    line: "net none"
-  when: "'libreoffice-fresh' in packages.office"
-
-- name: Restrict LibreOffice access to /etc
-  lineinfile:
-    dest: /etc/firejail/libreoffice.local
-    regexp: "^private-etc"
-    line: "private-etc firejail,libreoffice,fonts,passwd"
-  when: "'libreoffice-fresh' in packages.office"
-
-# Destination /etc/xdg/mimeapps.list does not exist
-# - name: Set Zathura as default PDF viewer
-#   lineinfile: dest=/etc/xdg/mimeapps.list
-#               regexp=^application/pdf
-#               state=present
-#               line="application/pdf=zathura.desktop"
-#   when: "'zathura-pdf-mupdf' in packages.office"
-
-- name: Jail Zathura
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/zathura
-        state=link
+# TODO: Destination /etc/xdg/mimeapps.list does not exist
+- name: Set Zathura as default PDF viewer
   when: "'zathura-pdf-mupdf' in packages.office"
+  lineinfile:
+      dest: /etc/xdg/mimeapps.list
+      regexp: ^application/pdf
+      state: present
+      line: "application/pdf: zathura.desktop"
+

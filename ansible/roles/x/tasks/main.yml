@@ -43,11 +43,9 @@
 
 - name: Enable gestures
   aur:
-    name: "{{ item }}"
+    name: libinput-gestures
   become: yes
   become_user: aur_builder
-  with_items:
-    - libinput-gestures
 
 - name: Enable natural scrolling
   copy:
@@ -55,10 +53,9 @@
     dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
 
 - name: Check for NVIDIA graphics card
-  # On Thinkpad, nvidia_check.rc = 1, so install Intel
-  command: lspci -k | grep -i nvidia
+  shell: lspci -k | grep -i nvidia
   register: nvidia_check
-  failed_when: False
+  failed_when: "nvidia_check.rc == 2"
   changed_when: False
 
 - name: Intel setup
@@ -75,8 +72,7 @@
       line: "MODULES=(\\1 {{item}})"
     with_items:
       - i915
-  # Needed to delete this file to get displays to load, didn't investigate
-  # https://wiki.archlinux.org/index.php/intel_graphics
+    notify: rebuild linux
   - name: "Intel graphics: take advantage of some driver options"
     copy:
       src: 20-intel.conf
@@ -87,6 +83,39 @@
     become_user: aur_builder
     with_items:
       - libva-intel-driver
+  - name: "NVIDIA: Remove Xorg config overrides!"
+    file:
+      dest: /etc/X11/xorg.conf.d/20-nvidia.conf
+      state: absent
+  - name: "NVIDIA: direct rendering manager: kernel mode setting: remove kernel modules!"
+    become: yes
+    replace:
+      path: /etc/mkinitcpio.conf
+      regexp: "^(MODULES=.*) {{item}}(.*)"
+      replace: '\1\2'
+    with_items:
+      - nvidia
+      - nvidia_modeset
+      - nvidia_uvm
+      - nvidia_drm
+    notify: rebuild linux
+  - name: "NVIDIA: direct rendering manager: remove kernel parameter"
+    replace:
+      path: /boot/loader/entries/arch.conf
+      regexp: "^(options .*) {{item}}(.*)"
+      replace: '\1\2'
+    with_items:
+      - nvidia-drm.modeset=1
+  - name: "NVIDIA: Remove Pacman hook"
+    file:
+      path: /etc/pacman.d/hooks/nvidia.hook
+      state: absent
+  - name: "NVIDIA: Remove packages"
+    pacman:
+      state: absent
+      name:
+        - nvidia
+        - cuda
 
 - name: NVIDIA setup
   when: nvidia_check.rc == 0
@@ -104,6 +133,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
+    notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: add kernel parameter"
     lineinfile:
       path: /boot/loader/entries/arch.conf
@@ -134,10 +164,22 @@
     with_items:
       - nvidia
       - cuda
+  - name: "Intel graphics: remove kernel mode setting!"
+    become: yes
+    replace:
+      path: /etc/mkinitcpio.conf
+      regexp: '^(MODULES=.*) i915(.*)'
+      replace: '\1\2'
+    notify: rebuild linux
   - name: "Intel graphics: make sure the config file is gone!"
     file:
       path: /etc/X11/xorg.conf.d/20-intel.conf
       state: absent
+  - name: "Intel graphics: Remove packages"
+    pacman:
+      name: libva-intel-driver
+      state: absent
+
 
 - name: Add user to video group
   user:

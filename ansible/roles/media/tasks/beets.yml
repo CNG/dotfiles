@@ -1,20 +1,24 @@
 ---
 - name: Install beets and dependencies
-  pacman: name={{ item }} state=present
-  with_items:
-    - gst-libav
-    - gst-plugins-bad
-    - gst-plugins-good
-    - gst-plugins-ugly
-    - gst-python
-    - python-beautifulsoup4
-    - python-gobject
-    - python-pylast
-    - python-requests
-    - python-pyacoustid
-    - beets
-
-- name: Install mp3val
-  aur: name=mp3val
-  become: yes
-  become_user: aur_builder
+  when: beets in packages.media
+  block:
+  - name: Install beets and dependencies
+    pacman:
+      name:
+        - gst-libav
+        - gst-plugins-bad
+        - gst-plugins-good
+        - gst-plugins-ugly
+        - gst-python
+        - python-beautifulsoup4
+        - python-gobject
+        - python-pylast
+        - python-requests
+        - python-pyacoustid
+        - beets
+      state: present
+  - name: Install mp3val
+    aur:
+      name: mp3val
+    become: yes
+    become_user: aur_builder

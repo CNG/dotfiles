@@ -14,12 +14,12 @@
 # in `/proc/cpuinfo`.
 - name: check if Intel processor
   command: grep -q Intel /proc/cpuinfo
-  ignore_errors: true
+  ignore_errors: True
   register: is_intel
 
 - name: check if AMD processor
   command: grep -q AMD /proc/cpuinfo
-  ignore_errors: true
+  ignore_errors: True
   register: is_amd
 
 - name: AMD setup

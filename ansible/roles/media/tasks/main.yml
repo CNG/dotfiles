@@ -7,12 +7,21 @@
   with_flattened: "{{ packages.media }}"
 
 - name: Jail feh
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/feh
-        state=link
+  when: "'firejail' in roles"
+  file:
+    src: /usr/bin/firejail
+    path: /usr/local/bin/feh
+    state: link
+
+- name: Unjail feh
+  when: "'firejail' not in roles"
+  file:
+    path: /usr/local/bin/feh
+    state: absent
 
 - name: Install Metadata Anonymisation Toolkit and dependencies
-  aur: name={{ item }}
+  aur:
+    name: "{{ item }}"
   become: yes
   become_user: aur_builder
   with_items:
@@ -20,36 +29,7 @@
     - hachoir-parser
     - mat
 
-- name: First time setup MariaDB
-  command: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-  become: yes
-
-- name: MySQL settings for digiKam
-  lineinfile:
-    dest: /etc/mysql/my.cnf
-    regexp: "^max_allowed_packet"
-    line: "max_allowed_packet = 16M"
-  become: yes
-
-- name: Create MariaDB conf.d directory
-  file:
-    path: /etc/systemd/system/mariadb.service.d
-    state: directory
-  become: yes
-
-- name: digiKam MariaDB service config
-  copy:
-    src: unsafe.conf
-    dest: /etc/systemd/system/mariadb.service.d/unsafe.conf
-    mode: 0644
-  become: yes
-
-- name: Enable MariaDB for digiKam
-  service:
-    name: mariadb
-    enabled: yes
-    state: started
-
-# - import_tasks: beets.yml # the music geek's media organizer
+- import_tasks: beets.yml # the music geek's media organizer
+- import_tasks: digikam.yml
 - import_tasks: gimp.yml
 - import_tasks: qcode.yml

@@ -1,24 +1,57 @@
 ---
-- name: Install firejail
-  pacman: name=firejail state=present
+- debug:
+    var: roles
 
-- name: Install firewarden
-  aur: name=firewarden
-  become: yes
-  become_user: aur_builder
+- name: Add Firejail
+  when: "'firejail' in roles"
+  block:
+  - name: Install firejail
+    pacman:
+      name: firejail
+      state: present
+  - name: Install firewarden
+    aur:
+      name: firewarden
+    become: yes
+    become_user: aur_builder
+  - name: Install firejail profile update script
+    copy:
+      src: profile-activate.sh
+      dest: /usr/local/bin/profile-activate
+      mode: 0755
+  - name: Create firejail profile directory
+    file:
+      path: /usr/local/etc/firejail
+      state: directory
+  - name: Verify firejail globals file exists
+    file:
+      path: /etc/firejail/globals.local
+      state: file
+  - name: Add blacklist to globals
+    lineinfile:
+      dest: /etc/firejail/globals.local
+      state: present
+      line: "blacklist {{ item }}"
+    with_items: "{{ firejail.blacklist }}"
 
-- name: Install firejail profile update script
-  copy: src=profile-activate.sh dest=/usr/local/bin/profile-activate mode=0755
-
-- name: Create firejail profile directory
-  file: path=/usr/local/etc/firejail state=directory
-
-- name: Verify firejail globals file exists
-  file: path=/etc/firejail/globals.local state=file
-
-- name: Add blacklist to globals
-  lineinfile:
-    dest: /etc/firejail/globals.local
-    state: present
-    line: "blacklist {{ item }}"
-  with_items: "{{ firejail.blacklist }}"
+- name: Remove Firejail
+  when: "'firejail' not in roles"
+  block:
+  - name: Remove firejail, firewarden
+    pacman:
+      name:
+        - firejail
+        - firewarden
+      state: present
+  - name: Remove firejail profile update script
+    file:
+      path: /usr/local/bin/profile-activate
+      state: absent
+  - name: Remove firejail profile directory
+    file:
+      path: /usr/local/etc/firejail
+      state: absent
+  - name: Remove firejail globals file
+    file:
+      path: /etc/firejail/globals.local
+      state: absent

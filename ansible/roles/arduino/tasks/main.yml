@@ -1,6 +1,6 @@
 ---
 - name: Install Arduino udev rules
-  command: >
+  shell: >
     curl -L https://github.com/adafruit/Trinket_Arduino_Linux/raw/master/99-adafruit-boards.rules
     | sed 's/dialout/uucp/g'
     > /etc/udev/rules.d/99-adafruit-boards.rules

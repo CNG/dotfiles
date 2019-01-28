@@ -1,11 +1,38 @@
 ---
+
 - name: Install mpv
-  pacman: name=mpv state=present
+  when: "'mpv' in roles"
+  block:
+  - name: Install mpv
+    pacman:
+      name: mpv
+      state: present
+  - name: Jail mpv
+    when: "'firejail' in roles"
+    file:
+      src: /usr/bin/firejail
+      dest: /usr/local/bin/mpv
+      state: link
+  - name: Push play script
+    copy:
+      src: play.sh
+      dest: /usr/local/bin/play
+      mode: 0755
 
-- name: Jail mpv
-  file: src=/usr/bin/firejail
-        dest=/usr/local/bin/mpv
-        state=link
+- name: Remove mpv
+  when: "'mpv' not in roles"
+  block:
+  - name: Remove mpv
+    pacman:
+      name: mpv
+      state: absent
+  - name: Remove play script
+    file:
+      path: /usr/local/bin/play
+      state: absent
 
-- name: Push play script
-  copy: src=play.sh dest=/usr/local/bin/play mode=0755
+- name: Unjail mpv
+  when: "'firejail' not in roles"
+  file:
+    path: /usr/local/bin/mpv
+    state: absent
