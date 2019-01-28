@@ -22,9 +22,8 @@
 - name: Unjail GIMP
   when: "'firejail' not in roles"
   file:
-    src: /usr/bin/firejail
-    dest: /usr/local/bin/gimp
-    state: link
+    path: /usr/local/bin/gimp
+    state: absent
 
 - name: Install GIMP raw support
   pacman:
