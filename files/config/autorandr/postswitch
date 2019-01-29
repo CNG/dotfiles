@@ -1,5 +1,6 @@
 #!/bin/bash
 
 #xrandr --dpi 108
-~/.fehbg &
+$HOME/.fehbg &
+source $HOME/.xprofile
 

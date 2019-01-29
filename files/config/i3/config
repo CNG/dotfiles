@@ -184,6 +184,30 @@ mode "$mode_system" {
 bindsym $mod+Escape mode "$mode_system"
 
 
+### DISPLAY MANIPULATION
+bindsym $mod+Shift+n exec --no-startup-id "monitor_switch && $set_background"
+set $mode_display Mirror (c)ommon or (l)argest resolution; Extend (h)orizontally or (v)ertically; (s)witch (m)irror_2 1:CR 2:HR 3:CL 4:HL 5:Coff 6:Hoff
+mode "$mode_display" {
+    bindsym c exec --no-startup-id "autorandr common && $set_background", mode "default"
+    bindsym l exec --no-startup-id "autorandr clone-largest && $set_background", mode "default"
+    bindsym h exec --no-startup-id "autorandr horizontal && $set_background", mode "default"
+    bindsym v exec --no-startup-id "autorandr vertical && $set_background", mode "default"
+    bindsym m exec --no-startup-id "monitor_mirror && $set_background", mode "default"
+    bindsym s exec --no-startup-id "monitor_switch && $set_background", mode "default"
+    bindsym 1 exec --no-startup-id "xrandr --output DP-1 --mode 1920x1080 --right-of eDP-1 && $set_background", mode "default"
+    bindsym 2 exec --no-startup-id "xrandr --output HDMI-2 --mode 1920x1080 --right-of eDP-1 && $set_background", mode "default"
+    bindsym 3 exec --no-startup-id "xrandr --output DP-1 --mode 1920x1080 --left-of eDP-1 && $set_background", mode "default"
+    bindsym 4 exec --no-startup-id "xrandr --output HDMI-2 --mode 1920x1080 --left-of eDP-1 && $set_background", mode "default"
+    bindsym 5 exec --no-startup-id "xrandr --output DP-1 --off && $set_background", mode "default"
+    bindsym 6 exec --no-startup-id "xrandr --output HDMI-2 --off && $set_background", mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Ctrl+n mode "$mode_display"
+bindsym $mod+Shift+s mode "$mode_display"
+
+
 ### RESIZING
 mode "resize"
 {
@@ -295,11 +319,6 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
-
-
-### DISPLAY MANIPULATION
-bindsym $mod+Shift+s exec --no-startup-id "/usr/local/bin/monitor_mirror && $set_background"
-bindsym $mod+Shift+n exec --no-startup-id "/usr/local/bin/monitor_switch && $set_background"
 
 
 # Reload config or restart (preserves layout and session)
