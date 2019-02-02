@@ -84,7 +84,7 @@ packages:
     - dateutils
     - moreutils
     - bc
-    - [ git, hub ]
+    - [ git, hub, perl-term-readkey ]
     - glances
     - go
     - kfind

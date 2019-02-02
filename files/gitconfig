@@ -48,3 +48,5 @@
 [credential]
         helper = store
 
+[interactive]
+	singlekey = true
