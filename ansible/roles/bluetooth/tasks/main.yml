@@ -18,6 +18,17 @@
     dest: /etc/polkit-1/rules.d/40-bluetooth.rules
     mode: 0644
 
+- name: Create lp group
+  group:
+    name: lp
+    state: present
+
+- name: Add user to lp group
+  user:
+    name: "{{ user.name }}"
+    groups: lp
+    append: yes
+
 - name: Unblock the bluetooth service
   service:
     name: "rfkill-block@bluetooth.service"
