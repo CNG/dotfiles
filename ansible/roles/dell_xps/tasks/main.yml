@@ -9,3 +9,14 @@
     name: tpacpi-bat
     state: present
 
+- name: Install firmware update utility
+  pacman:
+    name: fwupd
+    state: present
+
+- name: Get firmware updates
+  command: fwupdmgr refresh
+
+- name: Update firmware
+  command: fwupdmgr update --force
+  become: yes
