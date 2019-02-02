@@ -9,7 +9,8 @@ font pango: Fira Sans Regular 12
 default_border pixel 2
 default_floating_border normal
 set $background /usr/share/backgrounds/taipei.jpg
-set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
+#set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
+set $set_background feh --bg-fill /usr/share/backgrounds/vim.jpg
 
 
 ### PROGRAM SHORTCUTS
