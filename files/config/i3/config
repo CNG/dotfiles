@@ -290,6 +290,10 @@ bindsym $mod+Shift+Left  move left
 bindsym $mod+Shift+Down  move down
 bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
+# toggle split direction for each window
+# https://github.com/i3/i3/issues/2106#issuecomment-343843244
+default_orientation vertical
+for_window [class="^"] split toggle
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 # Toggle tiling / floating
