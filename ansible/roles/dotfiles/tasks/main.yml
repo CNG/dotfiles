@@ -1,6 +1,7 @@
 ---
 - name: Install rcm
-  aur: name=rcm
+  aur:
+    name: rcm
   when: dotfiles is defined
   become: yes
   become_user: aur_builder
@@ -8,6 +9,7 @@
 # This would put the dotfiles in place for rcup to do its work
 # But till I have the repo set up, I need to manually put the
 # dotfiles in ~/projects/
+# This is extra confusing because I have the dotfiles in GDrive/Projects too
 - name: Clone user dotfiles
   git:
     repo: "{{ dotfiles.url }}"
@@ -36,31 +38,33 @@
     scope: global
     value: "{{ user.email }}"
 
-- name: Get device UUIDs
-  command: "ls /dev/disk/by-uuid"
-  register: ls_result
-  changed_when: False
-
-- set_fact:
-    uuids: "{{ ls_result.stdout_lines }}"
-
-- debug:
-    var: uuids
-    verbosity: 2
-- debug:
-    msg: "Looking for UUID {{ item.uuid }} in {{ uuids }}"
-    verbosity: 2
-  with_items: "{{ volumes }}"
-
 - name: Mount volumes
-  mount:
-    path: "{{ item.path }}"
-    src: "UUID={{ item.uuid }}"
-    fstype: auto
-    opts: "{{ item.opts }}"
-    state: mounted
-  with_items: "{{ volumes }}"
-  when: item.uuid in uuids
+  when: volumes is defined
+  block:
+  - name: Get device UUIDs
+    command: "ls /dev/disk/by-uuid"
+    register: ls_result
+    changed_when: False
+  - set_fact:
+      uuids: "{{ ls_result.stdout_lines }}"
+  - debug:
+      var: uuids
+      verbosity: 2
+  - name: Mount volumes
+    when: item.uuid in uuids
+    block:
+    - debug:
+        msg: "Looking for UUID {{ item.uuid }} in {{ uuids }}"
+        verbosity: 2
+      with_items: "{{ volumes }}"
+    - name: Mount volumes
+      mount:
+        path: "{{ item.path }}"
+        src: "UUID={{ item.uuid }}"
+        fstype: auto
+        opts: "{{ item.opts }}"
+        state: mounted
+      with_items: "{{ volumes }}"
 
 - name: Link private files
   file:
