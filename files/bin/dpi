@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Set X DPI settings
+
+# default 96
+DPI=${1:-96}
+CONF=$HOME/.Xresources
+
+if [[ $(xrdb -query | grep Xft.dpi | cut -f2) == $DPI ]]; then
+  echo "DPI already set to $DPI"
+else
+
+  echo "Setting DPI to $DPI"
+
+  # Store commandlines for open Firefox profiles and kill
+  # $ pgrep --list-full firefox
+  # 20169 /usr/lib/firefox/firefox --no-remote -P Work
+  # 29090 /usr/lib/firefox/firefox --no-remote -P default
+  firefoxes=$(pgrep --list-full firefox | cut -d' ' -f3-)
+  # --no-remote -P Work
+  # --no-remote -P default
+  ! pgrep firefox || pkill firefox
+
+  printf "%s\n" "Xft.dpi: $DPI" | xrdb -merge
+  xrandr --dpi $DPI
+  i3-msg restart
+
+  # Restore Firefoxes with profiles
+  while read -r opts; do
+    firefox $opts &
+  done <<< "$firefoxes"
+
+fi
+

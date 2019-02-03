@@ -19,7 +19,7 @@
   become_user: "{{ user.name }}"
 
 - name: Install user dotfiles
-  command: rcup -d /home/{{ user.name }}/{{ dotfiles.source }}/files {{ dotfiles.rcup_flags }}
+  command: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files {{ dotfiles.rcup_flags }}"
   when: dotfiles.source is defined
   become: yes
   become_user: "{{ user.name }}"

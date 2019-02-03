@@ -1,5 +1,14 @@
 # HiDPI
 
+Can change Firefox without logging out by restarting Firefox after running:
+
+    sed -i -e 's/Xft.dpi: 192/Xft.dpi: 96/g' ~/.Xresources \
+        && xrdb ~/.Xresources \
+        && i3-msg restart
+
+
+
+
 Multiples of 96 might be good. See current settings:
 
     xdpyinfo | grep dots

@@ -63,6 +63,7 @@ exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 #exec --no-startup-id xcape -e "Hyper_L=space"
 
 ### SETTINGS FOR SPECIFIC PROGRAMS
+for_window [class="(?i)firefox"] resize grow height 1 px or 1 ppt
 for_window [class="Yad"] floating enable
 for_window [title="Image Editor"] floating enable, fullscreen toggle # digikam
 for_window [title="Event Tester"] floating enable # xev

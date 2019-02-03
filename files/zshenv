@@ -1,5 +1,8 @@
 # .zshenv is always sourced, while .zshrc is only sourced in interactive shells
 
+typeset -U path
+path=(~/bin $path[@])
+
 # Put private environment definitions in ~/.zshenv.local
 # so they are ignored by Git and not inadvertently made public
 if [[ -a ~/.zshenv.local ]]; then
