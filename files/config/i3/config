@@ -89,8 +89,9 @@ for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
 
 ### BRIGHTNESS, AUDIO AND MEDIA CONTROLS
 # Default commands
-set $RaiseVolume --no-startup-id amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks 
-set $LowerVolume --no-startup-id amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
+#set $RaiseVolume --no-startup-id "amixer -q -D pulse sset Master 1%+ && sleep 0.1 &&amixer -q -D pulse sset Master 1%+ && sleep 0.1 &&amixer -q -D pulse sset Master 1%+ && sleep 0.1 &&amixer -q -D pulse sset Master 1%+ && sleep 0.1 &&    amixer -q -D pulse sset Master 1%+ && sleep 0.1 && pkill -RTMIN+10 i3blocks"
+set $RaiseVolume --no-startup-id "amixer -q -D pulse sset Master 1%+ && sleep 0.1 && amixer -q -D pulse sset Master 1%+ && sleep 0.1 && amixer -q -D pulse sset Master 1%+ && sleep 0.1 && amixer -q -D pulse sset Master 1%+ && sleep 0.1 &&    amixer -q -D pulse sset Master 1%+ && sleep 0.1 && pkill -RTMIN+10 i3blocks"
+set $LowerVolume --no-startup-id "amixer -q -D pulse sset Master 1%- && sleep 0.1 && amixer -q -D pulse sset Master 1%- && sleep 0.1 && amixer -q -D pulse sset Master 1%- && sleep 0.1 && amixer -q -D pulse sset Master 1%- && sleep 0.1 &&    amixer -q -D pulse sset Master 1%- && sleep 0.1 && pkill -RTMIN+10 i3blocks"
 set $Mute --no-startup-id amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 set $Next --no-startup-id playerctl next && pkill -RTMIN+10 i3blocks
 set $Prev --no-startup-id playerctl previous && pkill -RTMIN+10 i3blocks
