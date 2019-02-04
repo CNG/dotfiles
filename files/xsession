@@ -1,0 +1,12 @@
+# ~/.xprofile runs first, before xmodmap
+# ~/.xsession runs last in /etc/lightdm/Xsession
+
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+xset r rate 350    50
+xbindkeys
+xset -dpms
+
+# spacebar as modifier; depends on commands in ~/.Xmodmap
+if pgrep xcape; then pkill xcape; fi
+xcape -e "Super_R=space"

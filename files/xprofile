@@ -1,9 +1,0 @@
-# Use Spacebar as a Modifier
-spare_modifier="Hyper_L"
-xmodmap -d :0 -e "keycode 65 = $spare_modifier"
-xmodmap -d :0 -e "add Hyper_L = $spare_modifier" 2&>/dev/null
-xmodmap -d :0 -e "keycode any = space"
-pkill xcape
-xcape -e "$spare_modifier=space"
-export QT_QPA_PLATFORMTHEME=qt5ct
-

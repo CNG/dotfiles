@@ -1,19 +1,14 @@
-! scrolling: https://wiki.archlinux.org/index.php/xmodmap#Reverse_scrolling
-! reverse vertical, normal horizontal
-! pointer = 1 2 3 5 4 7 6 8 9 10 11 12
-! normal vertical, normal horizontal
-! pointer = 1 2 3 4 5 7 6 8 9 10 11 12
-
-! possibly need if remapping capslock:
-clear Lock
-keycode 66 = Control_L
-! maybe dont need if set caps:hyper in /etc/X11/xorg.conf.d/40-libinput-dvorak.conf
-
 ! Using Space Bar as $mod is Life Changing
 ! https://www.reddit.com/r/i3wm/comments/5zpz69/using_space_bar_as_mod_is_life_changing/
 ! https://www.reddit.com/user/b_wright
+! clear mods to separate the Supers and Hypers (default mixed)
 clear mod3
 clear mod4
 add mod3 = Hyper_L
 add mod4 = Super_L Super_R
-
+! TODO: consider removing Super_R once stable
+! make physical spacebar keycode 65 trigger Super_R
+keycode 65 = Super_R
+! make "space" get assigned to any open key so xcape can use it
+keycode any = space
+! then in i3 config: xcape -e "Super_R=space"

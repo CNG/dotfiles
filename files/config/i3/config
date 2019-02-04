@@ -1,9 +1,11 @@
-# Mod1 = Alt, Mod4 = Win/Super, Mod3 = Hyper
-set $mod Mod4
-set $alt Mod1
+set $alt mod1
+set $hyp mod3
+set $win mod4
+set $sup mod4
+set $mod mod4
 
 focus_follows_mouse no
-font pango: Fira Sans Regular 12
+font pango: Fira Sans Regular 16
 # Hide titlebar
 #default_border normal
 default_border pixel 2
@@ -37,20 +39,8 @@ bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {
 
 
 ### AUTOSTART PROGRAMS
-exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
-# exec_always --no-startup-id xrandr --dpi 108
-exec_always --no-startup-id bash ~/.xprofile
-# typematic delay
-exec_always --no-startup-id xset r rate 350    50 # for X
-exec_always --no-startup-id kbdrate  -d 350 -r 50 # virtual console; redudant?
-# wallpaper
-exec_always --no-startup-id $set_background
 # compositor, window transparency
 exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
-# I don't need this since set in xorg.conf.d, and it resets xmodmap
-# exec --no-startup-id setxkbmap dvorak
-exec --no-startup-id xbindkeys
-exec --no-startup-id xset -dpms
 exec --no-startup-id libinput-gestures-setup start
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id insync start   # GDrive manager
@@ -59,10 +49,10 @@ exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id copyq          # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
 exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
-# to enable space and modififier
-#exec --no-startup-id xmodmap -e "keycode 65 = Hyper_L"
-#exec --no-startup-id xmodmap -e "keycode any = space"
-#exec --no-startup-id xcape -e "Hyper_L=space"
+exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
+# wallpaper
+exec_always --no-startup-id $set_background
+
 
 ### SETTINGS FOR SPECIFIC PROGRAMS
 for_window [class="(?i)firefox"] resize grow height 1 px or 1 ppt
@@ -83,10 +73,6 @@ for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable
 for_window [class="(?i)anki" title="(?i)anki"] split vertical
 for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
-# I hate Nemo Preview and none of this works
-#for_window [class="(?i)nemo-preview-start"] floating enable
-#for_window [class="(?i)nemo-preview-start"] resize set 3840 2160
-#for_window [class="(?i)nemo-preview-start"] move absolute position center
 
 
 ### BRIGHTNESS, AUDIO AND MEDIA CONTROLS
@@ -107,48 +93,35 @@ bindsym XF86AudioPrev exec $Prev
 bindsym XF86AudioPlay exec $Play
 bindsym XF86MonBrightnessUp   exec xbacklight -inc 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
-bindsym $mod+ctrl+6           exec xbacklight -inc 5 # increase screen brightness
-bindsym $mod+ctrl+5           exec xbacklight -dec 5 # decrease screen brightness
 
-# the following used assumption capslock key could be mapped to mod4 on laptop,
-# but since I want to use mod4 as the modkey now, I'll have to map capslock to
-# something else and remember where I set up that mapping...
-#
-# ### OTHER KEYBOARD CHANGES
-# # copy and paste with Vim like keys with Ctrl or capslock(mapped to hyper)
-# bindsym Ctrl+y --release exec xdotool key --clearmodifiers Ctrl+c
-# bindsym Ctrl+p --release exec xdotool key --clearmodifiers Ctrl+v
-# bindsym mod4+y --release exec xdotool key --clearmodifiers Ctrl+c
-# bindsym mod4+p --release exec xdotool key --clearmodifiers Ctrl+v
-# bindsym mod4+x --release exec xdotool key --clearmodifiers Ctrl+x
-# bindsym mod4+a --release exec xdotool key --clearmodifiers Ctrl+a
-# # emulate 60% keyboard on the laptop
-# # wish these would work without "--release" :-(
-# bindsym mod4+g --release exec --no-startup-id xdotool key --clearmodifiers Prior
-# bindsym mod4+r --release exec --no-startup-id xdotool key --clearmodifiers Next
-# bindsym mod4+c --release exec --no-startup-id xdotool key --clearmodifiers Up
-# bindsym mod4+h --release exec --no-startup-id xdotool key --clearmodifiers Left
-# bindsym mod4+t --release exec --no-startup-id xdotool key --clearmodifiers Down
-# bindsym mod4+n --release exec --no-startup-id xdotool key --clearmodifiers Right
-# bindsym mod4+Shift+c --release exec --no-startup-id xdotool key --clearmodifiers Shift+Up
-# bindsym mod4+Shift+h --release exec --no-startup-id xdotool key --clearmodifiers Shift+Left
-# bindsym mod4+Shift+t --release exec --no-startup-id xdotool key --clearmodifiers Shift+Down
-# bindsym mod4+Shift+n --release exec --no-startup-id xdotool key --clearmodifiers Shift+Right
-# bindsym mod4+$mod+c focus up
-# bindsym mod4+$mod+h focus left
-# bindsym mod4+$mod+t focus down
-# bindsym mod4+$mod+n focus right
-# bindsym mod4+$mod+Shift+c move up
-# bindsym mod4+$mod+Shift+h move left
-# bindsym mod4+$mod+Shift+t move down
-# bindsym mod4+$mod+Shift+n move right
-# bindsym mod4+BackSpace --release exec xdotool key --clearmodifiers Delete
-# bindsym mod4+apostrophe exec $Prev
-# bindsym mod4+comma exec $Play
-# bindsym mod4+period exec $Next
-# bindsym mod4+o exec $LowerVolume
-# bindsym mod4+e exec $RaiseVolume
-# bindsym mod4+u exec $Mute
+
+### OTHER KEYBOARD CHANGES
+# emulate 60% keyboard on the laptop
+#bindsym $hyp+g --release exec --no-startup-id xdotool key --clearmodifiers Prior
+#bindsym $hyp+r --release exec --no-startup-id xdotool key --clearmodifiers Next
+#bindsym $hyp+c --release exec --no-startup-id xdotool key --clearmodifiers Up
+#bindsym $hyp+h --release exec --no-startup-id xdotool key --clearmodifiers Left
+#bindsym $hyp+t --release exec --no-startup-id xdotool key --clearmodifiers Down
+#bindsym $hyp+n --release exec --no-startup-id xdotool key --clearmodifiers Right
+#bindsym $hyp+Shift+c --release exec --no-startup-id xdotool key --clearmodifiers Shift+Up
+#bindsym $hyp+Shift+h --release exec --no-startup-id xdotool key --clearmodifiers Shift+Left
+#bindsym $hyp+Shift+t --release exec --no-startup-id xdotool key --clearmodifiers Shift+Down
+#bindsym $hyp+Shift+n --release exec --no-startup-id xdotool key --clearmodifiers Shift+Right
+#bindsym $hyp+$mod+c focus up
+#bindsym $hyp+$mod+h focus left
+#bindsym $hyp+$mod+t focus down
+#bindsym $hyp+$mod+n focus right
+#bindsym $hyp+$mod+Shift+c move up
+#bindsym $hyp+$mod+Shift+h move left
+#bindsym $hyp+$mod+Shift+t move down
+#bindsym $hyp+$mod+Shift+n move right
+#bindsym $hyp+BackSpace --release exec xdotool key --clearmodifiers Delete
+bindsym $hyp+apostrophe exec $Prev
+bindsym $hyp+comma exec $Play
+bindsym $hyp+period exec $Next
+bindsym $hyp+o exec $LowerVolume
+bindsym $hyp+e exec $RaiseVolume
+bindsym $hyp+u exec $Mute
 
 
 ### SCREENSHOTS

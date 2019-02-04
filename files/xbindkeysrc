@@ -1,10 +1,32 @@
 # xbindkeys configuration
 
+# emulate 60% keyboard on the laptop (Mod3 set to Hyper, Caps_Lock set to Hyper)
+# wish these would work without "Release" :-(
+"xdotool key Up"
+  Release + Mod3 + c
+"xdotool key Down"
+  Release + Mod3 + t
+"xdotool key Left"
+  Release + Mod3 + h
+"xdotool key Right"
+  Release + Mod3 + n
+# Shifted ones don't work as I expected, may need --clearmodifiers but
+# that seems to trigger Caps_Lock sometimes. Then I can't turn it off
+# unless I run "xdotool key Caps_Lock"
+# "xdotool key Shift+Up"
+#   Release + Mod3 + Shift + c
+# "xdotool key Shift+Down"
+#   Release + Mod3 + Shift + t
+# "xdotool key Shift+Left"
+#   Release + Mod3 + Shift + h
+# "xdotool key Shift+Right"
+#   Release + Mod3 + Shift + n
+
 # Fix Spotify back/forward mouse buttons
 # Tip from user https://community.spotify.com/t5/user/viewprofilepage/user-id/21281327
 # Post at https://community.spotify.com/t5/Desktop-Windows/Desktop-Support-for-mouse-back-forward-button/m-p/4500063/highlight/true#M60007
-"xte 'keydown Alt_L' 'key Left' 'keyup Alt_L'"
+"xdotool key Alt+Left"
    b:8
-"xte 'keydown Alt_L' 'key Right' 'keyup Alt_L'"
+"xdotool key Alt+Right"
    b:9
 
