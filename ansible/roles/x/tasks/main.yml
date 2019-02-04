@@ -98,7 +98,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
-    notify: rebuild linux
+    # TODO notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: remove kernel parameter"
     replace:
       path: /boot/loader/entries/arch.conf
@@ -170,7 +170,7 @@
       path: /etc/mkinitcpio.conf
       regexp: '^(MODULES=.*) i915(.*)'
       replace: '\1\2'
-    notify: rebuild linux
+    # TODO notify: rebuild linux
   - name: "Intel graphics: make sure the config file is gone!"
     file:
       path: /etc/X11/xorg.conf.d/20-intel.conf

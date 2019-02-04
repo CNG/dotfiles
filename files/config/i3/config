@@ -1,4 +1,4 @@
-# Mod1 = Alt, Mod4 = Win, Mod3 = Hyper_L
+# Mod1 = Alt, Mod4 = Win/Super, Mod3 = Hyper
 set $mod Mod4
 set $alt Mod1
 
@@ -51,6 +51,7 @@ exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawas
 # exec --no-startup-id setxkbmap dvorak
 exec --no-startup-id xbindkeys
 exec --no-startup-id xset -dpms
+exec --no-startup-id libinput-gestures-setup start
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id insync start   # GDrive manager
 exec --no-startup-id nm-applet      # network manager
@@ -281,9 +282,11 @@ bindsym $mod+Shift+f fullscreen toggle
 bindsym $mod+a focus parent
 bindsym $mod+h split h
 bindsym $mod+v split v
-bindsym $mod+s layout stacking
-bindsym $mod+t layout tabbed
-bindsym $mod+n layout toggle split
+# using --release on these to see if it helps with the space triggering by
+# accident
+bindsym $mod+s --release layout stacking
+bindsym $mod+t --release layout tabbed
+bindsym $mod+n --release layout toggle split
 bindsym $mod+Left  focus left
 bindsym $mod+Down  focus down
 bindsym $mod+Up    focus up

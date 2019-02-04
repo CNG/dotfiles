@@ -1,48 +1,4 @@
-# For the benefit of emacs users: -*- shell-script -*-
-###########################
-# xbindkeys configuration #
-###########################
-
-# Vim like copy-paste
-#"xclip -selection primary -o | xclip -selection clipboard -i"
-#   Control + y
-
-#"sh -c 'xclip -selection clipboard -o | xvkbd -xsendevent -file - 2>/dev/null'"
-#   Control + p
-
-# most of this handled in i3 now
-
-# Increase volume
-# "pulseaudio-ctl up"
-#    XF86AudioRaiseVolume
-
-# Decrease volume
-# "pulseaudio-ctl down"
-#    XF86AudioLowerVolume
-
-# Mute
-# "pulseaudio-ctl mute"
-#    XF86AudioMute
-
-# Next song
-# "playerctl next"
-#    XF86AudioNext
-
-# Previous song
-# "playerctl previous"
-#    XF86AudioPrev
-
-# Play/pause
-# "playerctl play-pause"
-#    XF86AudioPlay
-
-# Fullscreen screenshot
-"flameshot full -p ~/Pictures/$(date +%Y/%m)/"
-   Alt + F3
-
-# Region screenshot
-"flameshot gui -p ~/Pictures/$(date +%Y/%m)/"
-   Alt + F4
+# xbindkeys configuration
 
 # Fix Spotify back/forward mouse buttons
 # Tip from user https://community.spotify.com/t5/user/viewprofilepage/user-id/21281327
@@ -52,6 +8,3 @@
 "xte 'keydown Alt_L' 'key Right' 'keyup Alt_L'"
    b:9
 
-##################################
-# End of xbindkeys configuration #
-##################################

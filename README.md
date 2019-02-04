@@ -65,6 +65,15 @@ The "top level" configuration [`~/.zshenv`](./files/zshenv) is always loaded, ev
 
 My favorite plugin is [history-search-multi-word](https://github.com/zdharma/history-search-multi-word), which I have [installed with Ansible](https://github.com/CNG/dotfiles/blob/84a41f5b2515916c5d6796fa4fec43d33b829ef1/ansible/roles/base/tasks/shell.yml#L36) and [loaded via oh-my-zsh](https://github.com/CNG/dotfiles/blob/84a41f5b2515916c5d6796fa4fec43d33b829ef1/files/zsh/oh-my-zsh.zsh#L36).
 
+I'm not currently using [Vi mode in Zsh](https://dougblack.io/words/zsh-vi-mode.html)
+due to needing to reconcile conflicts:
+
+* [oh-my-zsh plugin vi-mode](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
+  wants to use `^h` but that's used by my Tmux/Vim plugin for navigation.
+* Need to specify `bindkey -v` before Oh-my-Zsh loads so history completion
+  plugin `^r` mapping is not overwritten.
+* Some more, needs to be investigated.
+
 ### Tmux
 
 Tmux [automatically starts with systemd](https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd). The user service file [`tmux.service`](files/config/systemd/user/tmux.service) is enabled via Ansible in [`roles/base/tasks/shell.yml`](https://github.com/CNG/dotfiles/commit/029480f10e8f5079afbe998c0d97cdea9c4c0455#diff-12436e6f240dedee578f3c83b113c3a9). 
