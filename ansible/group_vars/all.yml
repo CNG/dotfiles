@@ -141,7 +141,7 @@ packages:
     - typora
     - vi
     - gvim  # gvim required for clipboard/libX11 support
-    - [ mono, vim-youcompleteme-git ]
+    # not quite configured right - [ mono, vim-youcompleteme-git ]
     - universal-ctags-git  # for tagbar Vim plugin
 
   filesystem:
