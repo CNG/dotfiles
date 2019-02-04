@@ -1,4 +1,4 @@
-output DP1
+output DP2
 off
 
 output VIRTUAL1
@@ -6,8 +6,9 @@ off
 
 output eDP1
 mode 3840x2160
-pos 3840x1080
+pos 0x2160
 rate 60.00
+primary
 
 output DP1
 mode 3840x2160
