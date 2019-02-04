@@ -47,7 +47,8 @@ exec_always --no-startup-id kbdrate  -d 350 -r 50 # virtual console; redudant?
 exec_always --no-startup-id $set_background
 # compositor, window transparency
 exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
-exec --no-startup-id setxkbmap dvorak
+# I don't need this since set in xorg.conf.d, and it resets xmodmap
+# exec --no-startup-id setxkbmap dvorak
 exec --no-startup-id xbindkeys
 exec --no-startup-id xset -dpms
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
