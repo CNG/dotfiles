@@ -1,0 +1,81 @@
+# Custom Compose key mappings
+# https://wiki.debian.org/XCompose
+
+# Aso see "How can I find out if the ~/.XCompose file has loaded?"
+# https://unix.stackexchange.com/a/59989/39419
+
+# Took probably too many ideas from
+# https://gist.github.com/5310/9b98f8591f404b21d8c7e52739961070
+
+include "/usr/share/X11/locale/en_US.UTF-8/Compose"
+#include "%L"
+
+<Multi_key> <period> <period>		: "…"	U2026		# HORIZONTAL ELLIPSIS
+<Multi_key> <2> <period>	 	  : "‥"	U2025		# TWO DOT LEADER
+<Multi_key> <backslash> <space>		: "␣"	U2423		# OPEN BOX
+<Multi_key> <minus> <asciitilde> <minus> : "―" U2015 # HORIZONTAL BAR
+<Multi_key> <1> <n>	 	 : "­"  # EN DASH
+<Multi_key> <1> <m>	 	 : "—"  # EM DASH
+<Multi_key> <2> <m>	 	 : "⸺" U2E3A # TWO-EM DASH
+<Multi_key> <3> <m>	: "⸻" U2E3B # THREE-EM DASH
+<Multi_key> <space> <minus> : " — " # EM DASH surrounded by THIN SPACEs.
+
+# Quotation marks.
+<Multi_key> <l> <s>	: "‘"	U2018	# LEFT SINGLE QUOTATION MARK
+<Multi_key> <r> <s>	: "’"	U2019	# RIGHT SINGLE QUOTATION MARK
+<Multi_key> <l> <d>	: "“"	U201C	# LEFT DOUBLE QUOTATION MARK
+<Multi_key> <r> <d>	: "”"	U201D	# RIGHT DOUBLE QUOTATION MARK
+<Multi_key> <s> <l>	: "‚"	U201A	# SINGLE LOW-9 QUOTATION MARK
+<Multi_key> <d> <l>	: "„"	U201E	# DOUBLE LOW-9 QUOTATION MARK
+
+
+# Convenience shortcuts for quotation marks.
+<Multi_key> <space> <quotedbl>          : " “" # space followed by LEFT DOUBLE QUOTATION MARK
+<Multi_key> <quotedbl> <space>          : "” " # RIGHT DOUBLE QUOTATION MARK followed by space
+<Multi_key> <space> <apostrophe>        : " ‘" # space followed by LEFT SINGLE QUOTATION MARK
+# <apostrophe> <space> is just "’"
+<Multi_key> <n> <t> : "n’t"
+<Multi_key> <i> <m> : " I’m"
+<Multi_key> <v> <e> : "’ve"
+<Multi_key> <apostrophe> <s> : "’s"
+
+<Multi_key> <d> <a> <g>			: "†"	U2020		# DAGGER
+<Multi_key> <d> <d> <a> <g>		: "‡"	U2021		# DOUBLE DAGGER
+
+# We used to have THIN SPACE as <space> <apostrophe>, but now that’s remapped
+# to " ‘", for conveniently enclosing things in proper single-quotes.
+<Multi_key> <backslash> <comma>	: " "	U2009	# THIN SPACE
+
+#<Multi_key> <minus> <less>		: "←"	leftarrow	# LEFTWARDS ARROW
+<Multi_key> <minus> <asciicircum>	: "↑"	uparrow		# UPWARDS ARROW
+#<Multi_key> <minus> <greater>		: "→"	rightarrow	# RIGHTWARDS ARROW
+<Multi_key> <minus> <v>			: "↓"	downarrow	# DOWNWARDS ARROW
+<Multi_key> <less> <minus> <greater>	: "↔"	U2194 # LEFT RIGHT ARROW (kragen's)
+
+<Multi_key> <equal> <greater>		: "⇒"	U21D2		# RIGHTWARDS DOUBLE ARROW
+<Multi_key> <equal> <less>		: "⇐"	U21D0		# LEFTWARDS DOUBLE ARROW
+<Multi_key> <less> <minus> <equal> <greater> : "⇔" U21D4 # LEFT RIGHT DOUBLE ARROW
+<Multi_key> <equal> <Right> <Right>	: "⇒"	U21D2		# RIGHTWARDS DOUBLE ARROW
+<Multi_key> <equal> <Left> <Left>	: "⇐"	U21D0		# LEFTWARDS DOUBLE ARROW
+<Multi_key> <equal> <Left> <Right>	: "⇔"	U21D4	# LEFT RIGHT DOUBLE ARROW
+<Multi_key> <equal> <Right> <Left>	: "⇔"	U21D4	# LEFT RIGHT DOUBLE ARROW
+<Multi_key> <equal> <Up> <Up>		: "⇑"	U21D1	# UPWARDS DOUBLE ARROW
+<Multi_key> <equal> <Down> <Down>	: "⇓"	U21D3	# DOWNWARDS DOUBLE ARROW
+<Multi_key> <equal> <Up> <Down>		: "⇕"	U21D5	# UP DOWN DOUBLE ARROW
+<Multi_key> <equal> <Down> <Left>	: "⏎"	U23CE	# RETURN SYMBOL
+<Multi_key> <equal> <period> <equal>	: "⸎"	U2E0E		# EDITORIAL CORONIS
+<Multi_key> <Multi_key> <p> <a> <l> <m>	: "⸙"	U2E19		# PALM BRANCH
+
+<Multi_key> <plus> <plus> <less>        : "⋘"	U22D8		# VERY MUCH LESS-THAN
+<Multi_key> <plus> <plus> <greater>  	: "⋙"	U22D9		# VERY MUCH GREATER-THAN
+<Multi_key> <3> <greater> 		: "⋙"	U22D9		# VERY MUCH GREATER-THAN
+<Multi_key> <3> <less>	: "⋘"	U22D8	# VERY MUCH LESS-THAN
+
+<Multi_key> <at> <slash>	:	"✓"	U2713	# CHECK MARK
+<Multi_key> <at> <at> <slash>	:	"✔"	U2714	# HEAVY CHECK MARK
+<Multi_key> <at> <x>  		:	"✗"	U2717	# BALLOT X
+<Multi_key> <at> <at> <x>	:	"✘"	U2718	# HEAVY BALLOT X
+
+<Multi_key> <Multi_key> <r> <a> <d>	: "☢"	U2622		# RADIOACTIVE SIGN
+<Multi_key> <Multi_key> <b> <h>		: "☣"	U2623		# BIOHAZARD SIGN
+
