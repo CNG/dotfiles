@@ -12,23 +12,23 @@ else
 
   echo "Setting DPI to $DPI"
 
-  # Store commandlines for open Firefox profiles and kill
-  # $ pgrep --list-full firefox
-  # 20169 /usr/lib/firefox/firefox --no-remote -P Work
-  # 29090 /usr/lib/firefox/firefox --no-remote -P default
-  firefoxes=$(pgrep --list-full firefox | cut -d' ' -f3-)
-  # --no-remote -P Work
-  # --no-remote -P default
-  ! pgrep firefox || pkill firefox
+#  # Store commandlines for open Firefox profiles and kill
+#  # $ pgrep --list-full firefox
+#  # 20169 /usr/lib/firefox/firefox --no-remote -P Work
+#  # 29090 /usr/lib/firefox/firefox --no-remote -P default
+#  firefoxes=$(pgrep --list-full firefox | cut -d' ' -f3-)
+#  # --no-remote -P Work
+#  # --no-remote -P default
+#  ! pgrep firefox || pkill firefox
 
   printf "%s\n" "Xft.dpi: $DPI" | xrdb -merge
   xrandr --dpi $DPI
   i3-msg restart
 
-  # Restore Firefoxes with profiles
-  while read -r opts; do
-    firefox $opts &
-  done <<< "$firefoxes"
+#  # Restore Firefoxes with profiles
+#  while read -r opts; do
+#    firefox $opts &
+#  done <<< "$firefoxes"
 
 fi
 
