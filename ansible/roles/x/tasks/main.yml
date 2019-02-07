@@ -47,6 +47,11 @@
   become: yes
   become_user: aur_builder
 
+- name: Enable faster mouse
+  copy:
+    src: 50-mouse-acceleration.conf
+    dest: /etc/X11/xorg.conf.d/50-mouse-acceleration.conf
+
 - name: Enable natural scrolling
   copy:
     src: 31-scroll-direction.conf
