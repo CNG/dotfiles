@@ -28,7 +28,6 @@ network:
   spoof_mac: False
   conn_check:
     interval: 0
-  trusted_uuidX:
 
 passwordless_sudo:
 - /usr/bin/openvpn*
