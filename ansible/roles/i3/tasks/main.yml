@@ -92,6 +92,25 @@
     dest: "/usr/local/bin/display-setup-script"
     mode: 0755
 
+- name: Autounlock keyring on login 1a
+  lineinfile:
+    dest: /etc/pam.d/lightdm
+    state: present
+    regexp: "auth.*pam_gnome_keyring.so"
+    line: "auth        optional    pam_gnome_keyring.so"
+- name: Autounlock keyring on login 1b
+  lineinfile:
+    dest: /etc/pam.d/lightdm
+    state: present
+    regexp: "session.*pam_gnome_keyring.so"
+    line: "session     optional    pam_gnome_keyring.so auto_start"
+- name: Autounlock keyring on login 2
+  lineinfile:
+    dest: /etc/pam.d/passwd
+    state: present
+    line: "password	optional	pam_gnome_keyring.so"
+    create: no
+
 # Configure Samba
 - name: Copy Samba config
 #   copy:
