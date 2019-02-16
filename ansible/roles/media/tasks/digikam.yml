@@ -1,6 +1,6 @@
 ---
 - name: Install DigiKam and dependencies
-  when: digikam in packages.media
+  when: digikam is defined or digikam in packages.media
   block:
     - name: Install DigiKam and dependencies
       aur:
@@ -42,7 +42,7 @@
         state: started
 
 - name: Remove DigiKam and dependencies
-  when: digikam not in packages.media
+  when: digikam is not defined or digikam not in packages.media
   become: yes
   block:
     - name: Disbale MariaDB service
@@ -60,6 +60,8 @@
           # Following not updated for opencv 4.0 yet
           # - digikam-without-akonadi-mediawiki-vkontakte
           - digikam
+          - akonadi-contacts
+          - akonadi
           - mariadb
           - kipi-plugins
           - qt5-imageformats
