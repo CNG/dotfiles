@@ -89,6 +89,10 @@
     with_items:
       # - libva-intel-driver  # not sure why I had this one, I think I need media
       - intel-media-driver
+  - name: "Intel graphics: Install i915 kernel parameters"
+    copy:
+      src: i915.conf
+      dest: /etc/modprobe.d/i915.conf
   - name: "NVIDIA: Remove Xorg config overrides!"
     file:
       dest: /etc/X11/xorg.conf.d/20-nvidia.conf
@@ -170,6 +174,10 @@
     with_items:
       - nvidia
       - cuda
+  - name: "Intel graphics: Remove i915 kernel parameters"
+    file:
+      path: /etc/modprobe.d/i915.conf
+      state: absent
   - name: "Intel graphics: remove kernel mode setting!"
     become: yes
     replace:
