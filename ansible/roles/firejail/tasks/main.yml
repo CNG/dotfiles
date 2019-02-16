@@ -42,7 +42,7 @@
       name:
         - firejail
         - firewarden
-      state: present
+      state: absent
   - name: Remove firejail profile update script
     file:
       path: /usr/local/bin/profile-activate
