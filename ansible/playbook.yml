@@ -32,7 +32,7 @@
     - { role: dotfiles, tags: ['dotfiles'] }
     - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }
-    - { role: fah, tags: ['fah'], when: "desktop is defined" }
+    - { role: fah, tags: ['fah'], when: "foldingathome is defined" }
     - { role: filesystems, tags: ['filesystems'] }
     - { role: fonts, tags: ['fonts'] }
     - { role: gnupg, tags: ['gnupg'] }
