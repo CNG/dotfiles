@@ -6,5 +6,6 @@
 * `lsmod`: currently loaded
 * `modinfo NAME`
 * `modprobe -c`: detailed configuration of all modules
-* 
+* `modinfo -p i915`: list of all options along with short descriptions and default values
+* `systool -m i915 -av`: check which options are currently enabled
 

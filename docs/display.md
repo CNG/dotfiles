@@ -26,3 +26,10 @@ Brightness:
 
 `xrandr --output DP-1 --brightness .75`
 
+## Screen tearing
+
+Firefox setting: [`layers.acceleration.force-enabled`](about:config?filter=layers.acceleration.force-enabled)
+
+https://bugs.freedesktop.org/show_bug.cgi?id=96847#c1
+
+https://bbs.archlinux.org/viewtopic.php?id=229111
