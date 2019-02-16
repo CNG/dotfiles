@@ -106,7 +106,7 @@
     with_items:
       - i915
     notify: rebuild linux
-  - name: "Intel graphics: take advantage of some driver options"
+  - name: "Intel graphics: Xorg config (for TearFree, etc.)"
     copy:
       src: 20-intel.conf
       dest: /etc/X11/xorg.conf.d/20-intel.conf

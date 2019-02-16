@@ -4,7 +4,7 @@
     name: "{{ item }}"
   become: yes
   become_user: aur_builder
-  with_items: "{{ packages[desktop_enviroment] }}"
+  with_items: "{{ packages[desktop_environment] }}"
 
 - name: Fix Baloo (and more) inotify folder watch limit error
   become: yes
