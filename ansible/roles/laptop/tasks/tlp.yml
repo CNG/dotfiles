@@ -15,8 +15,11 @@
   notify:
     - restart tlp
 
+# per https://wiki.archlinux.org/index.php/TLP
 - name: Mask systemd radio service
   command: systemctl mask systemd-rfkill
+- name: Mask systemd radio socket
+  command: systemctl mask systemd-rfkill.socket
 
 - name: Enable TLP
   service:
