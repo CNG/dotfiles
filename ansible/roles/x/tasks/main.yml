@@ -57,6 +57,34 @@
     src: 31-scroll-direction.conf
     dest: /etc/X11/xorg.conf.d/31-scroll-direction.conf
 
+- name: Kernel module to enable controlling external monitor
+  copy:
+    src: i2c-dev.conf
+    dest: /etc/modules-load.d/i2c-dev.conf
+- name: Udev rule to enable controlling external monitor
+  copy:
+    src: 45-ddcutil-i2c.rules
+    dest: /etc/udev/rules.d/45-ddcutil-i2c.rules
+- name: Install ddcutil to control external monitor
+  aur:
+    name: ddcutil
+  become: yes
+  become_user: aur_builder
+
+# Alternatively, use ddcci-driver-linux-dkms to expose external monitors in sysfs.
+# Then load ddcci kernel module and use any backlight utility.
+# But this didn't seem to work. It added a ddcci backlight, but setting it
+# had no effect other than setting to 0 made laptop display turn off.
+# - name: Enable controlling external monitor
+#   copy:
+#     src: ddcci.conf
+#     dest: /etc/modules-load.d/ddcci.conf
+# - name: Install DDCI DKMS to control external monitor
+#   aur:
+#     name: ddcci-driver-linux-dkms  # to expose external monitors in sysfs
+#   become: yes
+#   become_user: aur_builder
+
 - name: Check for NVIDIA graphics card
   shell: lspci -k | grep -i nvidia
   register: nvidia_check
