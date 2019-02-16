@@ -87,7 +87,8 @@
       name: "{{ item }}"
     become_user: aur_builder
     with_items:
-      - libva-intel-driver
+      # - libva-intel-driver  # not sure why I had this one, I think I need media
+      - intel-media-driver
   - name: "NVIDIA: Remove Xorg config overrides!"
     file:
       dest: /etc/X11/xorg.conf.d/20-nvidia.conf
@@ -182,7 +183,9 @@
       state: absent
   - name: "Intel graphics: Remove packages"
     pacman:
-      name: libva-intel-driver
+      name:
+        - libva-intel-driver
+        - intel-media-driver
       state: absent
 
 
