@@ -52,6 +52,7 @@ exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
 # wallpaper
 exec_always --no-startup-id $set_background
+exec_always --no-startup-id bash ~/.xsession
 
 
 ### SETTINGS FOR SPECIFIC PROGRAMS
@@ -270,8 +271,8 @@ bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
 # toggle split direction for each window
 # https://github.com/i3/i3/issues/2106#issuecomment-343843244
-default_orientation vertical
-for_window [class="^"] split toggle
+# default_orientation vertical
+# for_window [class="^"] split toggle
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 # Toggle tiling / floating
