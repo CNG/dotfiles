@@ -3,8 +3,11 @@ Description=Start tmux in detached session
 
 [Service]
 Type=forking
+# without this, Tmux was apparently starting before systemd grabbed X session
+ExecStartPre=/bin/sleep 5
 ExecStart=/usr/bin/tmux new-session -s %u -d
 ExecStop=/usr/bin/tmux kill-session -t %u
+Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

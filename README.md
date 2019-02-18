@@ -76,9 +76,10 @@ due to needing to reconcile conflicts:
 
 ### Tmux
 
-Tmux [automatically starts with systemd](https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd). The user service file [`tmux.service`](files/config/systemd/user/tmux.service) is enabled via Ansible in [`roles/base/tasks/shell.yml`](https://github.com/CNG/dotfiles/commit/029480f10e8f5079afbe998c0d97cdea9c4c0455#diff-12436e6f240dedee578f3c83b113c3a9). 
-
-Then Zsh connects to Tmux automatically when I open a shell. The tmux oh-my-zsh plugin loads from [`~/.zsh/config/tmux/plugins.zsh`](./files/zsh/config/tmux/plugins.zsh) and gets configuration from [`~/.zsh/config/tmux/tmux.zsh`](./files/zsh/config/tmux/tmux.zsh), which specifies [`ZSH_TMUX_AUTOSTART=true`](https://github.com/robbyrussell/oh-my-zsh/blob/ff6b4c835be54a9529a88849b83284aee61a7126/plugins/tmux/tmux.plugin.zsh#L16) and [`ZSH_TMUX_FIXTERM=false`](https://github.com/robbyrussell/oh-my-zsh/blob/ff6b4c835be54a9529a88849b83284aee61a7126/plugins/tmux/tmux.plugin.zsh#L25).
+Tmux [automatically starts with systemd](https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd).
+The user service file [`tmux.service`](files/config/systemd/user/tmux.service) is enabled via Ansible in [`roles/base/tasks/shell.yml`](https://github.com/CNG/dotfiles/commit/029480f10e8f5079afbe998c0d97cdea9c4c0455#diff-12436e6f240dedee578f3c83b113c3a9).
+Then Zsh connects to Tmux automatically when I open a shell.
+The tmux oh-my-zsh plugin loads from [`~/.zsh/config/tmux/plugins.zsh`](./files/zsh/config/tmux/plugins.zsh).
 
 My Tmux config file [`~/tmux.conf`](./files/tmux.conf) sets up my main keyboard shortcuts and these plugins:
 
