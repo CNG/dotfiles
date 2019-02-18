@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Set up autolock based on lid and dock status
+#
+# If lid is open, turn off displays 10 seconds before locking.
+# If no external displays connected, also suspend after 10 minutes.
+#
+# TODO: Consider adding check for battery level or charging status.
+
+# Callbacks
+lock="$HOME/.config/i3scripts/lock"
+off="xset dpms force off"
+suspend="systemctl suspend"
+cmd=xautolock
+
+# Thresholds
+lockmins=5
+warnsecs=10
+killmins=15
+
+# Detected variables
+lid_state=$(grep -oE '\w+$' /proc/acpi/button/lid/LID0/state 2>/dev/null)
+num_displays=$(xrandr | grep " connected" | wc -l)
+
+logger () { echo "$@" | systemd-cat -t $(basename $0); }
+
+$cmd -exit  # Cancel any existing xautolock
+
+log="Lid $lid_state with $num_displays displays:"
+cmd+=" -time $lockmins -locker '$lock'"
+log+=" Lock after $lockmins inactive minutes"
+if [[ $lid_state == "closed" && $num_displays -eq 1 ]]; then
+  log+=" with no warning."
+else
+  cmd+=" -notify $warnsecs -notifier '$off'"
+  log+=" with $warnsecs seconds warning."
+fi
+if [[ $num_displays -eq 1 ]]; then
+  cmd+=" -detectsleep"
+  cmd+=" -killtime $killmins -killer '$suspend'"
+  log+=" Suspend $killmins minutes later."
+fi
+logger $log
+logger "cmdline: $cmd"
+eval "$cmd &"
+

@@ -106,6 +106,7 @@ packages:
     - python-systemd  # Ansible log to journal
     - tmux-bash-completion
     - zplug
+    - acpid
 
   developer:
     - ack

@@ -20,6 +20,11 @@
     - autocutsel
     - xvkbd # virtual keyboard, need binary for my xbindkeysrc paste command 
 
+- name: Remove default ACPI events file
+  file:
+    path: /etc/acpi/events/anything
+    state: absent
+
 - name: Create user directories
   command: /usr/bin/xdg-user-dirs-update
   become: yes

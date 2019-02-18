@@ -1,0 +1,92 @@
+#!/bin/bash
+
+: '
+Assumptions:
+  - $internal_devices lists the touchscreen, keyboard and touchpad (of XPS 9370)
+  - eDP-1 is the laptop screen
+
+'
+
+
+coproc acpi_listen
+trap 'kill $COPROC_PID' EXIT
+
+main () {
+  while read -u "${COPROC[0]}" -a event; do
+    handler "${event[@]}"
+  done
+}
+
+
+logger () {
+  echo "$@" | systemd-cat -t $(basename $0)
+}
+
+
+handler () {
+  case "$1" in
+    button/lid)
+
+      num_displays=$(xrandr | grep " connected" | wc -l)
+      internal_devices=(
+        "ELAN24EE:00 04F3:24EE"
+        "DELL07E6:00 06CB:76AF Touchpad"
+        "AT Translated Set 2 keyboard"
+      )
+      ~/bin/autolock  # TODO: ~/bin not on Bash path, only Zsh's
+      case "$3" in
+        close)
+          logger 'LID closed'
+          for device in "${internal_devices[@]}"; do xinput --disable "$device"; done
+          case $num_displays in
+            1) xset dpms force off ;;
+            *) xrandr --output eDP-1 --off ;;
+          esac
+          ;;
+        open)
+          logger 'LID opened'
+          for device in "${internal_devices[@]}"; do xinput --enable "$device"; done
+          case $num_displays in
+            1) xset dpms force on ;;
+            *) xrandr --output eDP-1 --auto ;;
+          esac
+          ;;
+      esac
+    ;;
+
+    button/power)
+      case "$2" in
+        PBTN|PWRF) ;;
+      esac
+      ;;
+    button/sleep)
+      case "$2" in
+        SLPB|SBTN) ;;
+      esac
+      ;;
+    ac_adapter)
+      case "$2" in
+        AC|ACAD|ADP0)
+          case "$4" in
+            00000000) ;; # AC unplugged
+            00000001) ;; # AC plugged
+          esac
+          ;;
+      esac
+      ;;
+    battery)
+      case "$2" in
+        BAT0)
+          case "$4" in
+            00000000) ;; # Battery online
+            00000001) ;; # Battery offline
+          esac
+          ;;
+      esac
+      ;;
+  esac
+}
+
+
+main "$@"
+

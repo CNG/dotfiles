@@ -15,3 +15,9 @@ xmodmap ~/.Xmodmap
 # spacebar as modifier; depends on commands in ~/.Xmodmap
 if pgrep xcape; then pkill xcape; fi
 xcape -e "Super_R=space"
+
+~/bin/autolock
+
+# custom script to handle lid open/close, maybe more
+if pgrep acpi_socket; then pkill acpi_socket; fi
+~/bin/acpi_socket &
