@@ -9,6 +9,12 @@
     name: tpacpi-bat
     state: present
 
+- name: Fix thermal throttling limits
+  aur:
+    name: lenovo-throttling-fix-git
+  become: yes
+  become_user: aur_builder
+
 - name: Install firmware update utility
   pacman:
     name: fwupd
