@@ -5,3 +5,9 @@ Some commands I keep needing to look up that don't fit in the other pages:
 * `rfkill list`: current status
 * `rfkill unblock wifi`: remove soft block (hard block means physical button)
 
+* `echo "×" | od -t x1`: show hex codes for characters
+* `echo "×" | od -xc --endian=big`: show hex codes for characters
+* `echo "×" | hexdump -C`: show hex codes for characters big endian
+* `xxd -b FILE | head | cut -b10-62`: show binary of file
+
+
