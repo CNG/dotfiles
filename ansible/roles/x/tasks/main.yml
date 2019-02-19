@@ -111,17 +111,22 @@
     with_items:
       - i915
     notify: rebuild linux
-  - name: "Intel graphics: Xorg config (for TearFree, etc.)"
-    copy:
-      src: 20-intel.conf
-      dest: /etc/X11/xorg.conf.d/20-intel.conf
-  - name: "Intel graphics: Install packages"
-    aur:
-      name: "{{ item }}"
-    become_user: aur_builder
-    with_items:
-      # - libva-intel-driver  # not sure why I had this one, I think I need media
-      - intel-media-driver
+
+  # No longer need this file using modesetting driver
+  #- name: "Intel graphics: Xorg config (for TearFree, etc.)"
+  #  copy:
+  #    src: 20-intel.conf
+  #    dest: /etc/X11/xorg.conf.d/20-intel.conf
+
+  # Not sure if need this one for hardware accel under modesetting.
+  #- name: "Intel graphics: Install packages"
+  #  aur:
+  #    name: "{{ item }}"
+  #  become_user: aur_builder
+  #  with_items:
+  #    # - libva-intel-driver  # not sure why I had this one, I think I need media
+  #    - intel-media-driver
+
   - name: "Intel graphics: Install i915 kernel parameters"
     copy:
       src: i915.conf
