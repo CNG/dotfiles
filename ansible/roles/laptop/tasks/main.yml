@@ -29,13 +29,6 @@
 - name: Enable and start lowbatt timer
   service: name=lowbatt.timer enabled=yes state=started
 
-- name: Install light
-  aur:
-    name: light-git
-  become: yes
-  become_user: aur_builder
-
-
 - name: Install multitouch drivers
   aur:
     name: "{{ item }}"
