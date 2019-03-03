@@ -54,6 +54,9 @@ handler () {
       esac
     ;;
 
+    # TODO: this hack is to prevent broken spacebar after display change
+    jack/videoout) $HOME/.xsession ;;
+
     button/power)
       case "$2" in
         PBTN|PWRF) ;;
