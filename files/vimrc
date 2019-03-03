@@ -313,59 +313,59 @@ let g:SimpylFold_docstring_preview=1
 
 
 
-" autocomplete with YouCompleteMe
-" https://realpython.com/vim-and-python-a-match-made-in-heaven/#auto-complete
-" Make preview window open on bottom, less jarring
-set splitbelow
-let g:ycm_autoclose_preview_window_after_completion=1
-" let g:ycm_autoclose_preview_window_after_insertion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"map gg  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" TODO: had set python2 to ON in PKGBUILD, see if default pkg install overrides
-let g:ycm_server_python_interpreter = "/usr/bin/python2"
-" Autodetect virtualenv with global_extra_conf.py
-let g:ycm_python_interpreter_path = ''
-let g:ycm_python_sys_path = []
-let g:ycm_extra_conf_vim_data = [
-  \  'g:ycm_python_interpreter_path',
-  \  'g:ycm_python_sys_path'
-  \]
-let g:ycm_global_ycm_extra_conf = '~/.vim/global_extra_conf.py'
-" Vim Airline customizations for YouCompleteMe (not sure this is working)
-"let g:airline#extensions#ycm#enabled = 1
-" Shows number of errors and warnings in the current file detected by YCM.
-"let g:airline#extensions#ycm#error_symbol = 'E:'
-"let g:airline#extensions#ycm#warning_symbol = 'W:'
-" Can delete next ones, using for testing
-" let g:ycm_auto_trigger = 0
-let g:ycm_key_invoke_completion = "<C-Enter>"
-" let g:ycm_key_list_stop_completion = ['<C-Enter>']
-let g:ycm_python_binary_path = 'python'
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-
-
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+" " autocomplete with YouCompleteMe
+" " https://realpython.com/vim-and-python-a-match-made-in-heaven/#auto-complete
+" " Make preview window open on bottom, less jarring
+" set splitbelow
+" let g:ycm_autoclose_preview_window_after_completion=1
+" " let g:ycm_autoclose_preview_window_after_insertion=1
+" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" "map gg  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" " TODO: had set python2 to ON in PKGBUILD, see if default pkg install overrides
+" let g:ycm_server_python_interpreter = "/usr/bin/python2"
+" " Autodetect virtualenv with global_extra_conf.py
+" let g:ycm_python_interpreter_path = ''
+" let g:ycm_python_sys_path = []
+" let g:ycm_extra_conf_vim_data = [
+"   \  'g:ycm_python_interpreter_path',
+"   \  'g:ycm_python_sys_path'
+"   \]
+" let g:ycm_global_ycm_extra_conf = '~/.vim/global_extra_conf.py'
+" " Vim Airline customizations for YouCompleteMe (not sure this is working)
+" "let g:airline#extensions#ycm#enabled = 1
+" " Shows number of errors and warnings in the current file detected by YCM.
+" "let g:airline#extensions#ycm#error_symbol = 'E:'
+" "let g:airline#extensions#ycm#warning_symbol = 'W:'
+" " Can delete next ones, using for testing
+" " let g:ycm_auto_trigger = 0
+" let g:ycm_key_invoke_completion = "<C-Enter>"
+" " let g:ycm_key_list_stop_completion = ['<C-Enter>']
+" let g:ycm_python_binary_path = 'python'
+" " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" 
+" 
+" " If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+" 
+" 
+" 
+" " make YCM compatible with UltiSnips (using supertab)
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+" 
+" " better key bindings for UltiSnipsExpandTrigger
+" let g:UltiSnipsExpandTrigger = "<tab>"
+" let g:UltiSnipsJumpForwardTrigger = "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 
 
 nmap <F8> :TagbarToggle<CR>
 
-let g:jedi#show_call_signatures = 2
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#show_call_signatures_delay = 0
+"let g:jedi#show_call_signatures = 2
+"let g:jedi#auto_vim_configuration = 0
+"let g:jedi#show_call_signatures_delay = 0
 
 
