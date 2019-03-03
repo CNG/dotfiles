@@ -38,3 +38,15 @@
 - name: Run sensors-detect
   command: sensors-detect --auto
   become: yes
+
+- name: Enable full Polkit logging
+  copy:
+    src: 00-log-access.rules
+    dest: /etc/polkit-1/rules.d/00-log-access.rules
+  become: yes
+
+- name: Enable Polkit without password
+  copy:
+    src: 49-nopasswd_global.rules
+    dest: /etc/polkit-1/rules.d/49-nopasswd_global.rules
+  become: yes
