@@ -1,16 +1,13 @@
-output DP2
+output DP-2
 off
 
-output VIRTUAL1
-off
-
-output eDP1
+output eDP-1
 mode 3840x2160
 pos 0x0
 primary
 rate 60.00
 
-output DP1
+output DP-1
 mode 1920x1080i
 pos 3840x0
 rate 30.00
