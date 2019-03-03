@@ -3,8 +3,8 @@
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-xset r rate 350    50
-xset -dpms
+xset r rate 400 40
+#xset -dpms
 
 if pgrep xbindkeys; then pkill xbindkeys; fi
 xbindkeys
@@ -19,5 +19,6 @@ xcape -e "Super_R=space"
 ~/bin/autolock
 
 # custom script to handle lid open/close, maybe more
-if pgrep acpi_socket; then pkill acpi_socket; fi
-~/bin/acpi_socket &
+if ! pgrep acpi_socket; then
+  ~/bin/acpi_socket &
+fi
