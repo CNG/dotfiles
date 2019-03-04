@@ -10,4 +10,4 @@ Some commands I keep needing to look up that don't fit in the other pages:
 * `echo "×" | hexdump -C`: show hex codes for characters big endian
 * `xxd -b FILE | head | cut -b10-62`: show binary of file
 
-
+* `xprop`
