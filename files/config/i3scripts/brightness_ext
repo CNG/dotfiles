@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This allows controlling the brightness of LG USB-C monitor
+# and maybe Dell 24" 4K
+
+
+level () {
+  printf "%.0f" $(ddcutil -d 1 getvcp 10 -t | cut -d' ' -f4)
+}
+
+lower () {
+  if (($1 <= 5)); then
+    amount=1
+  elif (($1 <= 20)); then
+    amount=5
+  else
+    amount=10
+  fi
+  printf "%s" $(($1 - $amount))
+}
+
+raise () {
+  if (($1 >= 20)); then
+    amount=10
+  elif (($1 >= 5)); then
+    amount=5
+  else
+    amount=1
+  fi
+  printf "%s" $(($1 + $amount))
+}
+
+case $BLOCK_BUTTON in
+  1) new=100 ;;  # left click
+  3) new=0   ;;  # right click
+  5) new=$(raise $(level)) ;;  # scroll up
+  4) new=$(lower $(level)) ;;  # scroll down
+esac
+
+if [[ -z $new ]] || (( $new > 100 )); then
+  level
+else
+  printf "%s" $new
+  ddcutil -d 1 setvcp 10 $new &
+fi
