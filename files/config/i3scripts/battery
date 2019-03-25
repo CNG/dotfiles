@@ -85,7 +85,7 @@ if ($status eq 'Discharging') {
 
 $short_text = $full_text;
 if ($percent == 100) {
-    $full_text .= sprintf(" %.0f", $percent);
+    # $full_text .= sprintf(" %.0f", $percent);
 } else {
     $full_text .= sprintf(" %.1f", $percent);
 }
