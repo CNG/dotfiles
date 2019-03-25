@@ -38,7 +38,10 @@ case $BLOCK_BUTTON in
 esac
 
 if [[ -z $new ]] || (( $new > 100 )); then
-  level
+  num_displays=$(xrandr | grep " connected" | wc -l)
+  if [[ $num_displays -gt 1 ]]; then
+    level
+  fi
 else
   printf "%s" $new
   ddcutil -d 1 setvcp 10 $new &
