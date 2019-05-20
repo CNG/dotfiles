@@ -1,0 +1,14 @@
+#!/bin/bash
+
+logger () {
+  echo "$@" | systemd-cat -t $(basename $0)
+}
+
+logger "Starting to listen for device changes..."
+while true; do
+  event=$(inotifywait -q -e create -e delete --exclude '.*tmp.*' /dev/input)
+  logger "Heard ${event}"
+  sleep 1
+  ~/.xsession
+done
+logger "Done listening for device changes..."

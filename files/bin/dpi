@@ -2,11 +2,13 @@
 
 # Set X DPI settings
 
-# default 96
-DPI=${1:-96}
+DPI=${1:-}
 CONF=$HOME/.Xresources
+CURRENT_DPI=$(xrdb -query | grep Xft.dpi | cut -f2)
 
-if [[ $(xrdb -query | grep Xft.dpi | cut -f2) == $DPI ]]; then
+if [[ -z $DPI ]]; then
+  echo "DPI is currently $CURRENT_DPI"
+elif [[ $CURRENT_DPI == $DPI ]]; then
   echo "DPI already set to $DPI"
 else
 

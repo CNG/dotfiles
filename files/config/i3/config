@@ -49,11 +49,12 @@ exec --no-startup-id nm-applet      # network manager
 exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id copyq          # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
-exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
+#exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
+#exec --no-startup-id ~/bin/on_device_change
 exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
 # wallpaper
 exec_always --no-startup-id $set_background
-exec_always --no-startup-id bash ~/.xsession
+# exec_always --no-startup-id bash ~/.xsession
 
 
 ### SETTINGS FOR SPECIFIC PROGRAMS

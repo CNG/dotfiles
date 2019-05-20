@@ -1,22 +1,36 @@
 # ~/.xprofile runs first, before xmodmap
 # ~/.xsession runs last in /etc/lightdm/Xsession
 
+logger () {
+  echo "$@" | systemd-cat -t $(basename $0)
+}
+
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 xset r rate 400 40
 #xset -dpms
 
-if pgrep xbindkeys; then pkill xbindkeys; fi
-xbindkeys
+libinput-gestures-setup start &
 
-if pgrep xmodmap; then pkill xmodmap; fi
+if ! pgrep imwheel; then
+  imwheel --buttons "45" &
+fi
+
+on_device_change &
+
+if pgrep xbindkeys; then pkill -9 xbindkeys; fi
+xbindkeys &
+
+if pgrep xmodmap; then pkill -9 xmodmap; fi
 xmodmap ~/.Xmodmap
 
 # spacebar as modifier; depends on commands in ~/.Xmodmap
-if pgrep xcape; then pkill xcape; fi
+logger "xcape: $(pgrep xcape | tr '\n' ' ')"
+if pgrep xcape; then pkill -9 xcape; fi
 xcape -e "Super_R=space"
+logger "xcape: $(pgrep xcape | tr '\n' ' ')"
 
-~/bin/autolock
+~/bin/autolock &
 
 # custom script to handle lid open/close, maybe more
 if ! pgrep acpi_socket; then
