@@ -9,7 +9,6 @@ window:
     x: 5
     y: 5
   decorations: none
-  start_maximized: false
 scrolling:
   history: 0
   multiplier: 0
@@ -24,9 +23,9 @@ font:
     family: Input Mono
     style: Bold
   italic:
-    family: Input Mono
+    family: Input Mono 188
     style: Italic
-  size: 6.0
+  size: 12.0
   offset:
     x: 0
     y: 0

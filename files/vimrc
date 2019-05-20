@@ -20,10 +20,10 @@ set clipboard=unnamedplus
 
 
 " remap upper case saving and quitting to lower case
-command! WQ wq
-command! Wq wq
-command! W w
-command! Q q
+" command! WQ wq
+" command! Wq wq
+" command! W w
+" command! Q q
 
 "" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally#easier-split-navigations
 "" navigates splits without ^w first
@@ -264,9 +264,10 @@ let g:bufferline_echo = 0
 
 " https://github.com/ambv/black
 " don't convert all strings to double quotes
-let g:black_skip_string_normalization = 1
+" let g:black_skip_string_normalization = 1
 " run black on save
-autocmd BufWritePre *.py execute ':Black'
+" autocmd BufWritePre *.py execute ':Black'
+command W :Black
 
 set noshowmode
 set noruler

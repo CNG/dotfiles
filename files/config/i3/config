@@ -32,7 +32,7 @@ bindsym $mod+Ctrl+e  exec --no-startup-id chromium --app=https://outlook.office3
 bindsym $mod+Ctrl+w  exec --no-startup-id chromium --app=https://web.whatsapp.com
 bindsym $mod+Ctrl+f  exec --no-startup-id chromium --app=https://www.facebook.com/messages
 # VPN
-bindsym $alt+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $alt+v       exec --no-startup-id "zsh -c 'fitbitvpn start split &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 # completely forgot about the following, so maybe I don't need them
 #bindsym $mod+z       exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
@@ -42,7 +42,7 @@ bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {
 ### AUTOSTART PROGRAMS
 # compositor, window transparency
 exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
-exec --no-startup-id libinput-gestures-setup start
+#exec --no-startup-id libinput-gestures-setup start
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id insync start   # GDrive manager
 exec --no-startup-id nm-applet      # network manager
@@ -64,6 +64,8 @@ for_window [title="Event Tester"] floating enable # xev
 for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable
 for_window [class="(?i)copyq"] floating enable
+for_window [class="(?i)evolution"] split horizontal
+# for_window [class="(?i)evolution" title="^Meeting"] floating enable
 for_window [class="(?i)zoom" title="Settings"] floating enable
 for_window [title="Zoom - Pro Account"] floating enable
 for_window [class="(?i)gwenview"] floating enable
@@ -72,6 +74,8 @@ for_window [title="^calculator$"] floating enable
 for_window [title="^calculator$"] resize set 1280 720
 for_window [title="^calculator$"] move absolute position center
 for_window [class="(?i)pavucontrol"] floating enable move absolute position center
+for_window [title="(?i)animation"] floating enable
+for_window [title="GNU Image Manipulation Program" class="animation-play"] floating enable
 for_window [class="(?i)blueman-manager"] floating enable
 for_window [class="(?i)gloobus-preview"] floating enable
 for_window [class="VirtualBox Machine"] floating enable

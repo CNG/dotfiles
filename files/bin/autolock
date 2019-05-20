@@ -14,9 +14,9 @@ suspend="systemctl suspend"
 cmd=xautolock
 
 # Thresholds
-lockmins=5
+lockmins=15
 warnsecs=10
-killmins=15
+killmins=30
 
 # Detected variables
 lid_state=$(grep -oE '\w+$' /proc/acpi/button/lid/LID0/state 2>/dev/null)

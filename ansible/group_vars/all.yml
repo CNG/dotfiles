@@ -94,6 +94,7 @@ packages:
     - strace
     - sysstat
     - tmux
+    - inotify-tools  # For inotifywait
 
   base_aur:
     - alacritty-git
