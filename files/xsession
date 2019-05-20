@@ -6,6 +6,9 @@ logger () {
 }
 
 export QT_QPA_PLATFORMTHEME=qt5ct
+# didn't test next two yet
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export QT_SCALE_FACTOR=1
 
 xset r rate 400 40
 #xset -dpms

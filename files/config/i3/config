@@ -79,7 +79,8 @@ for_window [title="(?i)animation"] floating enable
 for_window [title="GNU Image Manipulation Program" class="animation-play"] floating enable
 for_window [class="(?i)blueman-manager"] floating enable
 for_window [class="(?i)gloobus-preview"] floating enable
-for_window [class="VirtualBox Machine"] floating enable
+for_window [class="(?i)xsane" title="Warning|Error"] floating enable
+#for_window [class="VirtualBox Machine"] floating enable
 for_window [class="(?i)anki" title="(?i)anki"] split vertical
 for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
 

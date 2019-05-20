@@ -42,7 +42,8 @@
         state: started
 
 - name: Remove DigiKam and dependencies
-  when: digikam is not defined or digikam not in packages.media
+  when: digikam is not defined
+  #or digikam not in packages.media
   become: yes
   block:
     - name: Disbale MariaDB service
