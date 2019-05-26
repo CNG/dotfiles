@@ -22,13 +22,11 @@ main () {
   cd "$APP_ROOT"
 
   if ! pacman -Qi ansible > /dev/null; then
-    # I think we will just use Python 3 (python) right away
-    # sudo pacman -Syy --noconfirm python2-passlib ansible git
-    sudo pacman -Sy --noconfirm python ansible git
+    sudo pacman -Sy --noconfirm python-passlib ansible git
   fi
 
   cd ansible
-  git submodule init && git submodule update || true # ignore submodule issue i should fix
+  git submodule init && git submodule update || true # TODO: ignore submodule issue
 
   if [[ ! -f library/ansible-aur/aur.py ]]; then
     git clone https://github.com/kewlfft/ansible-aur.git library/ansible-aur
