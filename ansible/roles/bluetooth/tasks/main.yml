@@ -2,14 +2,20 @@
   pacman:
     state: present
     name:
-      - pulseaudio-bluetooth
-      - bluez
-      - bluez-libs
-      - bluez-utils
-      - bluez-firmware
-      - blueman
+      - libldac
+      - pulseaudio-modules-bt-git  # provides pulseaudio-bluetooth
+      - blueman  # requires bluez, blues-libs
   notify:
     - restart pulse as user
+
+- name: Auto-switch between HSP/HSF and A2DP
+  lineinfile:
+      dest: /etc/pulse/default.pa
+      regex: "^load-module module-bluetooth-policy"
+      state: present
+      line: "load-module module-bluetooth-policy auto_switch=2"
+  notify:
+  - restart pulse as user
 
 - name: Setup Bluetooth permissions
   become: yes
