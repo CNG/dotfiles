@@ -6,7 +6,6 @@
   become_user: aur_builder
   with_items:
     - net-tools
-    - qt4
     - virtualbox
     - virtualbox-guest-iso
     - virtualbox-host-dkms

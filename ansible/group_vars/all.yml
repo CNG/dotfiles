@@ -214,7 +214,7 @@ packages:
     # - makemkv-cli
     - [ cdparanoia, abcde ]  # CD track encoder
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
-    - [ qt4, vlc ]
+    - vlc
     - [ zopfli, zopflipng ]  # compression
     - vdhcoapp  # Video Downloadhelper companion app
     - guvcview  # webcam record
