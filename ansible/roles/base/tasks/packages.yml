@@ -4,6 +4,12 @@
     name: "{{ query('flattened', '{{ packages.base }}') }}"
     state: present
 
+- name: Push reflector update script
+  copy:
+    src: reflector-update.sh
+    dest: /usr/local/bin/reflector-update
+    mode: 0755
+
 - name: Create pacman hook directory
   file:
     path: "/etc/pacman.d/hooks"
