@@ -108,6 +108,9 @@ packages:
     - tmux-bash-completion
     - zplug
     - acpid
+    # Next two were on laptop only, adding here for consistency till I test why
+    - acpitool
+    - acpi_call-dkms
 
   developer:
     - ack
