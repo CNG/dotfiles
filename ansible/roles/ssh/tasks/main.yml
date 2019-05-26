@@ -79,7 +79,7 @@
   copy:
     src: "{{ ssh.user_key }}"
     dest: "/home/{{ user.name }}/.ssh/id_rsa"
-    mode: 600
+    mode: 0600
     owner: "{{ user.name }}"
     group: "{{ user.group }}"
   when: ssh.user_key is defined

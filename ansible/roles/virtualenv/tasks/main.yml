@@ -20,4 +20,4 @@
     path: /usr/local/env
     state: directory
     group: env
-    mode: 2775
+    mode: 02775
