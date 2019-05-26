@@ -11,9 +11,13 @@ ln -f -s /usr/share/zoneinfo/US/Pacific /etc/localtime
 hwclock --systohc --utc
 
 # Generate locale
-sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+# https://wiki.archlinux.org/index.php/Locale#LC_TIME:_date_and_time_format
+LANG=en_US.UTF-8
+TIME=en_DK.UTF-8
+{ echo $LANG UTF-8; echo $TIME UTF-8; } >> /etc/locale.gen
 locale-gen
-{ echo LANG=en_US.UTF-8; echo LC_ALL=; } >> /etc/locale.conf
+# I forgot the purpose of LC_ALL= here:
+{ echo LANG=$LANG; echo LC_TIME=$TIME; echo LC_ALL=; } >> /etc/locale.conf
 
 # Setup virtual console config (the Ctrl+Alt+F2, etc., one)
 f=/etc/vconsole.conf
