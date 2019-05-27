@@ -25,20 +25,20 @@
     path: /etc/acpi/events/anything
     state: absent
 
-- name: Create user directories
-  command: /usr/bin/xdg-user-dirs-update
-  become: yes
-  become_user: "{{ user.name }}"
+#- name: Create user directories
+#  command: /usr/bin/xdg-user-dirs-update
+#  become: yes
+#  become_user: "{{ user.name }}"
 
 # following should be replaced with `xdg-user-dirs-update --set DESKTOP ~`
-- name: Change desktop folder
-  become: yes
-  become_user: "{{ user.name }}"
-  lineinfile:
-    path: /home/{{ user.name }}/.config/user-dirs.dirs
-    regexp: "^XDG_DESKTOP_DIR="
-    state: present
-    line: 'XDG_DESKTOP_DIR="$HOME/"'
+#- name: Change desktop folder
+#  become: yes
+#  become_user: "{{ user.name }}"
+#  lineinfile:
+#    path: /home/{{ user.name }}/.config/user-dirs.dirs
+#    regexp: "^XDG_DESKTOP_DIR="
+#    state: present
+#    line: 'XDG_DESKTOP_DIR="$HOME/"'
 
 - name: Enable middle click scrolling
   copy:
@@ -110,7 +110,7 @@
       line: "MODULES=(\\1 {{item}})"
     with_items:
       - i915
-    notify: rebuild linux
+    # TODO: notify: rebuild linux
 
   # No longer need this file using modesetting driver
   #- name: "Intel graphics: Xorg config (for TearFree, etc.)"
@@ -146,7 +146,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
-    # TODO notify: rebuild linux
+    # TODO: notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: remove kernel parameter"
     replace:
       path: /boot/loader/entries/arch.conf

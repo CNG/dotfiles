@@ -97,6 +97,7 @@ packages:
     - inotify-tools  # For inotifywait
 
   base_aur:
+    - rust
     - alacritty-git
     - alacritty-terminfo-git
     - ctmg

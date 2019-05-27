@@ -55,13 +55,13 @@
   - name: Register uid of {{ user.name }}
     command: id -u {{ user.name }}
     register: uid
-  - name: Enable Tmux user service
-    systemd:
-      name: tmux
-      enabled: yes
-      state: started
-      scope: user
-      no_block: yes
-      daemon_reload: yes
-    environment:
-      XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}
+  #- name: Enable Tmux user service
+  #  systemd:
+  #    name: tmux
+  #    enabled: yes
+  #    state: started
+  #    scope: user
+  #    no_block: yes
+  #    #daemon_reload: yes
+  #  environment:
+  #    XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}
