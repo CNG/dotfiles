@@ -6,39 +6,34 @@
 set -o xtrace
 set -o errexit
 
-setuppartition=/dev/sdd2
-setupdir=/tmp/setupdir
-# rootdevice=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
-rootdevice=/dev/nvme0n1
-
-mkdir -p $setupdir
-if ! findmnt $setupdir; then
-  mount $setuppartition $setupdir
-fi
+# ROOTDEVICE=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
+ROOTDEVICE=/dev/mmcblk0
+HOSTNAME=Charlie18d
+SETUPDIR=/tmp/setup
 
 timedatectl set-ntp true
 
+# In case we are rerunning and need to clean up...
+swapoff -a
+umount ${ROOTDEVICE}* /mnt | true
+
 # Create partitions
-parted --script $rootdevice mklabel gpt
+parted --script $ROOTDEVICE mklabel gpt
 partprobe
 # EFI
-sgdisk $rootdevice -n=1:0:+512M -t=1:ef00
-mkfs.vfat -F32 $rootdevice"p1"
+sgdisk $ROOTDEVICE -n=1:0:+512M -t=1:ef00
+mkfs.vfat -F32 $ROOTDEVICE"p1"
 # Encrypted root, swap
-sgdisk $rootdevice -n=2:0:0
-cryptsetup luksFormat --type luks2 $rootdevice"p2" # enter password
-cryptsetup luksAddKey $rootdevice"p2" # enter password AS IF US KEYBOARD
-cryptsetup open --type luks $rootdevice"p2" luks
+sgdisk $ROOTDEVICE -n=2:0:0
+cryptsetup --batch-mode luksFormat --type luks2 $ROOTDEVICE"p2" # enter password
+cryptsetup luksAddKey $ROOTDEVICE"p2" # enter password AS IF US KEYBOARD
+cryptsetup open --type luks $ROOTDEVICE"p2" luks
 pvcreate /dev/mapper/luks
 vgcreate vg0 /dev/mapper/luks
 swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 swapsize=$(($swapsize/1000))"M"
 lvcreate --size $swapsize vg0 --name swap
 lvcreate -l +100%FREE vg0 --name root
-
-read -p "Continue? [y|n]" -n 1 -r
-echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
-
 mkfs.ext4 /dev/mapper/vg0-root
 mkswap /dev/mapper/vg0-swap
 
@@ -46,19 +41,13 @@ mkswap /dev/mapper/vg0-swap
 mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
 swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
 mkdir /mnt/boot
-mount $rootdevice"p1" /mnt/boot
-
-read -p "Continue? [y|n]" -n 1 -r
-echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+mount $ROOTDEVICE"p1" /mnt/boot
 
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
 # Unless vim and zsh are desired these can be removed from the command. Dialog is needed by wifi-menu
 # terminus-font allows selecting larger font for small HiDPI screens
 # pacstrap /mnt base base-devel zsh vim git sudo efibootmgr dialog wpa_supplicant networkmanager
 pacstrap /mnt base base-devel efibootmgr dialog wpa_supplicant networkmanager terminus-font
-
-read -p "Continue? [y|n]" -n 1 -r
-echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
 
 # 'install' fstab
 genfstab -pU /mnt >> /mnt/etc/fstab
@@ -67,15 +56,8 @@ echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 # Change relatime on all non-boot partitions to noatime (reduces wear if using an SSD)
 
 # Enter the new system
-cp -a $setupdir/dotfiles/base_include /mnt
-
-read -p "Continue? [y|n]" -n 1 -r
-echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
-
-arch-chroot /mnt ./base_include
-
-read -p "Continue? [y|n]" -n 1 -r
-echo; if [[ ! $REPLY =~ ^[Yy]$ ]]; then [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1; fi
+cp -a $SETUPDIR/dotfiles/base_include /mnt
+arch-chroot /mnt ./base_include ${ROOTDEVICE}p2 $HOSTNAME
 
 # Unmount all partitions
 umount -R /mnt

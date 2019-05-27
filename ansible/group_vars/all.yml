@@ -97,7 +97,7 @@ packages:
     - inotify-tools  # For inotifywait
 
   base_aur:
-    - rust
+    - rust  # For alacritty tie break in aurman
     - alacritty-git
     - alacritty-terminfo-git
     - ctmg
@@ -147,6 +147,7 @@ packages:
     - vi
     - gvim  # gvim required for clipboard/libX11 support
     # not quite configured right - [ mono, vim-youcompleteme-git ]
+    # needed to remove ctags by confirmation y/n:
     - universal-ctags-git  # for tagbar Vim plugin
 
   filesystem:

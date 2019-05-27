@@ -13,16 +13,26 @@ is now simplified for Linux in [`files`](files).
 
 # Installation
 
-1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
-   such as *Rackspace* and copy the `.iso` file link.
-1. `wget -O arch.iso
-   http://mirror.rackspace.com/archlinux/iso/2019.05.02/archlinux-2019.05.02-x86_64.iso`
-
 1. Create [Arch Linux USB installation media][media].
-1. Copy this repository to the media.
+  1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
+     such as *Rackspace* and copy the `.iso` file link.
+  1. `wget -O arch.iso
+     http://mirror.rackspace.com/archlinux/iso/2019.05.02/archlinux-2019.05.02-x86_64.iso`
 1. Boot from the media and run `lsblk`.
+
+mkdir -p /tmp/setup
+mount /dev/sda2 /tmp/setup | true
+# vim /tmp/setup/dotfiles/base
+/tmp/setup/dotfiles/base
+
+
+mmcblk0
+
+mkdir dotfiles/private/ansible/host_vars
+touch dotfiles/private/ansible/host_vars/archlinux
+
+
 1. Open [`base`](base) in a text editor.
-1. Set `setuppartition` to the `/dev/` address of the installation media.
 1. Set `rootdevice` to the `/dev/` path of the system drive. This might be the
    output of `lsblk -d -p -n -l -o NAME -e 7,11 | head -1`, such as
    `/dev/nvme0n1`.

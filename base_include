@@ -5,7 +5,10 @@
 set -o xtrace
 set -o errexit
 
-hostname Charlie18c
+CRYPTDEVICE=${1:-}
+HOSTNAME=${2:-}
+
+hostname $HOSTNAME
 # Setup system clock
 ln -f -s /usr/share/zoneinfo/US/Pacific /etc/localtime
 hwclock --systohc --utc
@@ -66,7 +69,7 @@ echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
 # Could also deal with HiDPI small screen with video=1024x768
-echo "options cryptdevice=UUID=$(blkid -o value -s UUID /dev/nvme0n1p2):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw vsyscall=emulate quiet mem_sleep_default=deep" >> $f
+echo "options cryptdevice=UUID=$(blkid -o value -s UUID $CRYPTDEVICE):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw vsyscall=emulate quiet mem_sleep_default=deep" >> $f
 
 # Exit new system and go into the cd shell
 exit

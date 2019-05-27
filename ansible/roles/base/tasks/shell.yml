@@ -55,6 +55,11 @@
   - name: Register uid of {{ user.name }}
     command: id -u {{ user.name }}
     register: uid
+
+  # On fresh install, failed with:
+  # failure 1 during daemon-reload: Failed to connect to bus: No such file or
+  # directory
+
   #- name: Enable Tmux user service
   #  systemd:
   #    name: tmux
@@ -62,6 +67,6 @@
   #    state: started
   #    scope: user
   #    no_block: yes
-  #    #daemon_reload: yes
+  #    daemon_reload: yes
   #  environment:
   #    XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}

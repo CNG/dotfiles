@@ -43,10 +43,13 @@
   when: user.log.dir is defined
 
 - name: Create AUR user
-  user: 
+  user:
     name: aur_builder
     group: wheel
+    password: "$1$salty$mESw5HXxgLa8HHTdZrG/7/"
+    update_password: on_create
 
+#TODO: still need to figure out what approach to use here
 - name: Put AUR user in sudoers
   lineinfile:
     path: /etc/sudoers.d/11-install-aur_builder
