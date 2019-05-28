@@ -69,6 +69,7 @@ for_window [class="(?i)evolution"] split horizontal
 # for_window [class="(?i)evolution" title="^Meeting"] floating enable
 for_window [class="(?i)zoom" title="Settings"] floating enable
 for_window [title="Zoom - Pro Account"] floating enable
+for_window [class="(?i)nm-connection-editor"] floating enable
 for_window [class="(?i)gwenview"] floating enable
 for_window [class="(?i)guvcview"] floating enable
 for_window [title="^calculator$"] floating enable

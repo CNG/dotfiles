@@ -13,24 +13,23 @@ is now simplified for Linux in [`files`](files).
 
 # Installation
 
-1. Create [Arch Linux USB installation media][media].
-  1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
-     such as *Rackspace* and copy the `.iso` file link.
-  1. `wget -O arch.iso
-     http://mirror.rackspace.com/archlinux/iso/2019.05.02/archlinux-2019.05.02-x86_64.iso`
+1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
+   such as *Rackspace* and copy the `.iso` file link.
+1. Insert USB stick and confirm path, such as `/dev/sda`.
+   Run command: `sudo make_media /dev/sda`
 1. Boot from the media and run `lsblk`.
+   MicroSD card might be `mmcblk0`.
+   Some of this code block will replace the next steps, still working on this:
 
-mkdir -p /tmp/setup
-mount /dev/sda2 /tmp/setup | true
-# vim /tmp/setup/dotfiles/base
-/tmp/setup/dotfiles/base
-
-
-mmcblk0
-
-mkdir dotfiles/private/ansible/host_vars
-touch dotfiles/private/ansible/host_vars/archlinux
-
+    ```
+    mkdir -p /tmp/setup
+    mount /dev/sda2 /tmp/setup | true
+    vim /tmp/setup/dotfiles/base
+    /tmp/setup/dotfiles/base
+    ...
+    mkdir dotfiles/private/ansible/host_vars
+    touch dotfiles/private/ansible/host_vars/archlinux
+    ```
 
 1. Open [`base`](base) in a text editor.
 1. Set `rootdevice` to the `/dev/` path of the system drive. This might be the
