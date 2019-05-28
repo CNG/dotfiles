@@ -99,17 +99,19 @@
   when: nvidia_check.rc == 1
   become: yes
   block:
-  - name: "Intel graphics: kernel mode setting"
-    become: yes
-    lineinfile:
-      path: /etc/mkinitcpio.conf
-      regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
-      backrefs: yes
-      state: present
-      line: "MODULES=(\\1 {{item}})"
-    with_items:
-      - i915
-    # TODO: notify: rebuild linux
+  # TODO: Do we just want to get rid of this or try to exclude the Dell? hmm.
+  # # This makes Dell XPS 9370 backlight control stop working
+  # - name: "Intel graphics: early kernel mode setting"
+  #   become: yes
+  #   lineinfile:
+  #     path: /etc/mkinitcpio.conf
+  #     regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+  #     backrefs: yes
+  #     state: present
+  #     line: "MODULES=(\\1 {{item}})"
+  #   with_items:
+  #     - i915
+  #   # TODO: notify: rebuild linux
 
   # No longer need this file using modesetting driver
   #- name: "Intel graphics: Xorg config (for TearFree, etc.)"
