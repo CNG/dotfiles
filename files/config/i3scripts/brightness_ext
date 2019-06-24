@@ -1,11 +1,33 @@
 #!/bin/bash
 
-# This allows controlling the brightness of LG USB-C monitor
-# and maybe Dell 24" 4K
+# This allows controlling the brightness of external monitors.
 
+#MFG="GSM"
+#MODEL="LG UltraFine"
+
+#MFG="DEL"
+#MODEL="DELL P2415Q"
+
+MODEL=${1:-}
+# 10 is brightness; 12 is contrast, which Dell panel supports
+VCP=${2:-10}
+
+detect_display () {
+  if [[ $MODEL ]]; then
+    if ! ddcutil --async detect | grep "$MODEL" > /dev/null; then
+      exit
+    fi
+  fi
+}
 
 level () {
-  printf "%.0f" $(ddcutil -d 1 getvcp 10 -t | cut -d' ' -f4)
+  if [[ $MODEL ]]; then
+    printf "%.0f" $(ddcutil --async --model "$MODEL" getvcp $VCP -t | cut -d' ' -f4)
+  elif [[ $MFG ]]; then
+    printf "%.0f" $(ddcutil --async --mfg "$MFG" getvcp $VCP -t | cut -d' ' -f4)
+  else
+    printf "%.0f" $(ddcutil --async --display 1 getvcp $VCP -t | cut -d' ' -f4)
+  fi
 }
 
 lower () {
@@ -35,6 +57,7 @@ case $BLOCK_BUTTON in
   3) new=0   ;;  # right click
   5) new=$(raise $(level)) ;;  # scroll up
   4) new=$(lower $(level)) ;;  # scroll down
+  *) detect_display ;;  # see if we can exit early
 esac
 
 if [[ -z $new ]] || (( $new > 100 )); then
@@ -44,5 +67,11 @@ if [[ -z $new ]] || (( $new > 100 )); then
   fi
 else
   printf "%s" $new
-  ddcutil -d 1 setvcp 10 $new &
+  if [[ $MODEL ]]; then
+    ddcutil --async --noverify --model "$MODEL" setvcp $VCP $new &
+  elif [[ $MFG ]]; then
+    ddcutil --async --noverify --mfg "$MFG" setvcp $VCP $new &
+  else
+    ddcutil --async --noverify --display 1 setvcp $VCP $new &
+  fi
 fi
