@@ -20,7 +20,7 @@
       become: yes
     - name: MySQL settings for digiKam
       lineinfile:
-        dest: /etc/mysql/my.cnf
+        dest: /etc/my.cnf
         regexp: "^max_allowed_packet"
         line: "max_allowed_packet = 16M"
       become: yes
