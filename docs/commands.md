@@ -18,3 +18,5 @@ Some commands I keep needing to look up that don't fit in the other pages:
 * `pacman -Qi qt4`: show packages that depend on, among other info.
 
 * `vim $(ack -l 'string')`
+
+* `ffmpeg -safe 0 -f concat -i <(find . -maxdepth 1 -type f -name '*.MP4' -printf "file '$PWD/%p'\n" | sort) -map_metadata 0 -c copy "concat_$(basename $(find . -maxdepth 1 -type f -name '*.MP4' -printf "%p" | sort | head -n1))"`
