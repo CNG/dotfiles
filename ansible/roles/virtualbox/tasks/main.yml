@@ -8,7 +8,11 @@
     - net-tools
     - virtualbox
     - virtualbox-guest-iso
-    - virtualbox-host-dkms
+    - virtualbox-host-modules-arch
+    # - virtualbox-host-dkms
+    # Arch wiki implies we need one only:
+    # * for `linux` kernel choose `virtualbox-host-modules-arch`
+    # * for other kernels choose `virtualbox-host-dkms`
     - virtualbox-ext-oracle
 
 - name: Add the user to vboxusers group
