@@ -36,8 +36,8 @@ fi
 case $BLOCK_BUTTON in
   1) xbacklight -ctrl ${CTRL} -fps 33 -time 999 -set 100      ;;  # click
   3) xbacklight -ctrl ${CTRL} -fps 33 -time 999 -set 0        ;;  # right click
-  5) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -inc ${USTEP} ;;  # scroll up
-  4) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -dec ${DSTEP} ;;  # scroll down
+  4) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -inc ${USTEP} ;;  # scroll up
+  5) xbacklight -ctrl ${CTRL} -fps 33 -time 333 -dec ${DSTEP} ;;  # scroll down
 esac
 
 volume
