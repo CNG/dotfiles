@@ -36,14 +36,23 @@ lower () {
   elif (($1 <= 20)); then
     amount=5
   else
-    amount=10
+    if [[ $VCP == 12 ]]; then
+      # 10 is too much for contrast
+      amount=5
+    else
+      amount=10
+    fi
   fi
   printf "%s" $(($1 - $amount))
 }
 
 raise () {
   if (($1 >= 20)); then
-    amount=10
+    if [[ $VCP == 12 ]]; then
+      amount=5
+    else
+      amount=10
+    fi
   elif (($1 >= 5)); then
     amount=5
   else
