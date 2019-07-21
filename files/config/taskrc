@@ -9,3 +9,6 @@ urgency.user.tag.read.coefficient=-2.0
 
 include /usr/share/doc/task/rc/solarized-dark-256.theme
 
+report.minimal.columns=id,description
+report.minimal.labels=id,description
+report.minimal.filter=limit:1 status:pending and +ACTIVE
