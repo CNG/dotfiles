@@ -10,7 +10,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export QT_SCALE_FACTOR=1
 
-xset r rate 400 40
+xset r rate 500 40
 #xset -dpms
 
 libinput-gestures-setup start &
