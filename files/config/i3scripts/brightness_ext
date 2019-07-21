@@ -64,8 +64,8 @@ raise () {
 case $BLOCK_BUTTON in
   1) new=100 ;;  # left click
   3) new=0   ;;  # right click
-  4) new=$(raise $(level)) ;;  # scroll up
-  5) new=$(lower $(level)) ;;  # scroll down
+  5) new=$(raise $(level)) ;;  # scroll up
+  4) new=$(lower $(level)) ;;  # scroll down
   *) detect_display ;;  # see if we can exit early
 esac
 
