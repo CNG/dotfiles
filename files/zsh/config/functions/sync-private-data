@@ -41,7 +41,7 @@ sync_crontab () {
   local user=${1:-$(whoami)}
   # not working for some reason, load file directly
   # sync-crontab $user # Zsh autoloaded function
-  ~/.zsh/functions/sync-crontab $user
+  ~/.zsh/config/functions/sync-crontab $user
   commit_if_untracked crontab_$(hostname)_$user "Initial $user crontab"
   commit_if_modified  crontab_$(hostname)_$user "Update $user crontab"
 }
