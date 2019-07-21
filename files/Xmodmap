@@ -8,7 +8,8 @@ add mod3 = Hyper_L
 add mod4 = Super_L Super_R
 ! TODO: consider removing Super_R once stable
 ! make physical spacebar keycode 65 trigger Super_R
-keycode 65 = Super_R
+!!!!disabling spacebar modifier to compare
+!!!!keycode 65 = Super_R
 ! make "space" get assigned to any open key so xcape can use it
-keycode any = space
+!!!!keycode any = space
 ! then in i3 config: xcape -e "Super_R=space"
