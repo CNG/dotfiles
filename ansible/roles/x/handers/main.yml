@@ -1,4 +1,6 @@
 ---
-- name: rebuild linux
+- name: restart paccache
+  service: name=paccache.timer state=restarted
+- name: rebuild-linux
   command: mkinitcpio -p linux
   become: yes
