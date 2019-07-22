@@ -111,6 +111,7 @@ scrollbar {
 }
 
 sidebar {
+   expand: false;
    background-color: @blackwidget;
 }
 
