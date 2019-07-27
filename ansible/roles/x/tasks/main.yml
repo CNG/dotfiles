@@ -99,19 +99,19 @@
   when: nvidia_check.rc == 1
   become: yes
   block:
-  - name: "Intel graphics: early kernel mode setting"
-    # This makes Dell XPS 9370 backlight control stop working
-    when: ansible_product_name == "XPS 13 9370"
-    become: yes
-    lineinfile:
-      path: /etc/mkinitcpio.conf
-      regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
-      backrefs: yes
-      state: present
-      line: "MODULES=(\\1 {{item}})"
-    with_items:
-      - i915
-    notify: rebuild-linux
+  # TODO: Do we just want to get rid of this or try to exclude the Dell? hmm.
+  # # This makes Dell XPS 9370 backlight control stop working
+  # - name: "Intel graphics: early kernel mode setting"
+  #   become: yes
+  #   lineinfile:
+  #     path: /etc/mkinitcpio.conf
+  #     regexp: "^MODULES=\\(((?:(?!{{item}}).)*)\\)"
+  #     backrefs: yes
+  #     state: present
+  #     line: "MODULES=(\\1 {{item}})"
+  #   with_items:
+  #     - i915
+  #   # TODO: notify: rebuild linux
 
   # No longer need this file using modesetting driver
   #- name: "Intel graphics: Xorg config (for TearFree, etc.)"
@@ -119,14 +119,14 @@
   #    src: 20-intel.conf
   #    dest: /etc/X11/xorg.conf.d/20-intel.conf
 
-  - name: "Intel graphics: Install packages"
-    aur:
-      name: "{{ item }}"
-    become_user: aur_builder
-    with_items:
-      - intel-media-driver
-      - libva-intel-driver  # VP9 8bit on Kaby Lake
-      # https://wiki.archlinux.org/index.php/Hardware_video_acceleration#Comparison_tables
+  # Not sure if need this one for hardware accel under modesetting.
+  #- name: "Intel graphics: Install packages"
+  #  aur:
+  #    name: "{{ item }}"
+  #  become_user: aur_builder
+  #  with_items:
+  #    # - libva-intel-driver  # not sure why I had this one, I think I need media
+  #    - intel-media-driver
 
   - name: "Intel graphics: Install i915 kernel parameters"
     copy:
@@ -147,7 +147,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
-    notify: rebuild-linux
+    # TODO: notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: remove kernel parameter"
     replace:
       path: /boot/loader/entries/arch.conf
@@ -182,7 +182,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
-    notify: rebuild-linux
+    notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: add kernel parameter"
     lineinfile:
       path: /boot/loader/entries/arch.conf
@@ -223,7 +223,7 @@
       path: /etc/mkinitcpio.conf
       regexp: '^(MODULES=.*) i915(.*)'
       replace: '\1\2'
-    notify: rebuild linux
+    # TODO notify: rebuild linux
   - name: "Intel graphics: make sure the config file is gone!"
     file:
       path: /etc/X11/xorg.conf.d/20-intel.conf
