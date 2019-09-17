@@ -50,7 +50,7 @@
     dest: /etc/cups/cups-pdf.conf
     regexp: "^#? ?Out "
     state: present
-    line: "Out ${HOME}/Downloads"
+    line: "Out ${HOME}/Documents/Downloads"
   notify: restart cups
 
 - name: Send CUPS logs to systemd journal
