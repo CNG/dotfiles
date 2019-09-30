@@ -20,6 +20,10 @@
   become: yes
   become_user: "{{ user.name }}"
 
+- name: Set .config ownership
+  command: "chown -R {{ user.name }}:{{ user.name}} /home/{{ user.name }}/.config"
+  become: yes
+
 - name: Install user dotfiles
   command: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files {{ dotfiles.rcup_flags }}"
   when: dotfiles.source is defined
