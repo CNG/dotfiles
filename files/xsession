@@ -10,7 +10,11 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 export QT_SCALE_FACTOR=1
 
-xset r rate 500 40
+# This definitely gets reset sometimes, possibly after connecting monitor/dock
+# or after suspend, but likely the former as I don't suspend often. It seemed to
+# be getting reset to the value in ansible/roles/lightdm/files/50-lightdm.conf
+xset r rate 444 44
+
 #xset -dpms
 
 libinput-gestures-setup start &

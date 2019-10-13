@@ -21,7 +21,7 @@ First, sync mirrors and install Ansible:
 Second, install and update the submodules:
 
     $ git submodule init && git submodule update
-    
+
 Run the playbook as root.
 
     # ansible-playbook -i localhost playbook.yml

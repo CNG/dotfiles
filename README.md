@@ -54,7 +54,17 @@ Xorg config, autorandr, mouse setup, graphics drivers
 
 [`ansible/roles/lightdm/tasks/main.yml`](ansible/roles/lightdm/tasks/main.yml): lightdm-webkit2-greeter + lightdm-webkit2-theme-material2
 
-[`/etc/lightdm/lightdm.conf.d/50-lightdm.conf`](https://github.com/CNG/dotfiles/blob/master/ansible/roles/lightdm/files/50-lightdm.conf): attempts to set key repeat and delay with `xserver-command=X -ardelay 150 -arinterval 50`. This does not always stick, so I also added it to my [i3 config](files/config/i3/config#L248) (`exec_always --no-startup-id xset r rate 250 50 # for X`).
+[`/etc/lightdm/lightdm.conf.d/50-lightdm.conf`][50-lightdm.conf]: attempts to
+set key repeat and delay with `xserver-command=X -ardelay 444 -arinterval 44`.
+This does not always stick, so I previously also added it to my [i3
+config](files/config/i3/config#L248) (`exec_always --no-startup-id xset r rate
+250 50 # for X`). I then tried moving some of those settings to `~/.xsession`,
+which I started executing after various events such as device changes. That was
+also not sticking somehow, so I need to do more testing. For now I've changed
+both to 444/44 because I realized 150 delay was too short and passwords were
+sometimes getting difficult to enter.
+
+[50-lightdm.conf]: https://github.com/CNG/dotfiles/blob/master/ansible/roles/lightdm/files/50-lightdm.conf
 
 ## TODO: i3 Window Manager
 
