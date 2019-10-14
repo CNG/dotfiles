@@ -38,3 +38,10 @@
     - name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
       command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
       with_items: "{{ media_controls }}"
+
+- name: Reduce saturation for Logitech Webcame C930e
+  become: yes
+  copy:
+    src: 99-logitech-webcam-c930.rules
+    dest: /etc/udev/rules.d/99-logitech-webcam-c930.rules
+
