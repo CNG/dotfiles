@@ -5,8 +5,8 @@
   roles:
     # these run as dependencies
     # - { role: base, tags: ['base'] }
-    # - { role: x, tags: ['x'] }
-    # - { role: laptop, tags: ['laptop'] }
+    - { role: x, tags: ['x'] }
+    - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name" }
     - { role: desktop_environment, tags: ['desktop_environment'], when: "desktop_environment is defined" }
 
     - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }

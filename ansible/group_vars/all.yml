@@ -318,6 +318,7 @@ packages:
     - [ kwallet, kwalletmanager ]
     - ark  # compresses/extract zip files from within dolphin
     - xcape  # Configure modifier keys to act as other keys when pressed and released on their own
+    - xorg-xinput
     - scrot
     - escrotum-git
     - [ breeze, breeze-icons ]
