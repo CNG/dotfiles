@@ -43,6 +43,11 @@ setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size excee
 #   like: git comm-[tab]
 setopt complete_aliases
 
+# Tell Zsh we aren't using ^S/^Q for pause/resume
+setopt noflowcontrol
+# But maybe need to disabled in terminal itself
+stty -ixon
+
 bindkey '^[^[[D' backward-word
 bindkey '^[^[[C' forward-word
 bindkey '^[[5D' beginning-of-line
