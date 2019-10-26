@@ -77,13 +77,6 @@ sometimes getting difficult to enter.
 * [`~/.config/i3blocks/config`](files/config/i3blocks/config)
 * [`~/.config/i3scripts`](files/config/i3scripts)
 
-### Qt
-
-`~/.config/qt5ct/qt5ct.conf` created by qt5ct and enabled by setting `export
-QT_QPA_PLATFORMTHEME=qt5ct` in `~/.xsession`. See [Configuration of Qt5 apps
-under environments other than KDE
-Plasma](https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma).
-
 ## Terminal: Alacritty, Zsh and Tmux
 
 ### Alacritty
