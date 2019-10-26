@@ -51,7 +51,8 @@ set encoding=utf-8
 set scrolloff=3
 set autoindent
 " default on in Vim: set showmode
-" default on in Vim: set showcmd
+" default on in Vim: but for some reason is not on for me now?: set showcmd
+set showcmd
 " complicated, research later: set hidden
 set wildmenu
 set wildmode=list:longest
