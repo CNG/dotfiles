@@ -29,6 +29,6 @@
   register: result
   changed_when: False
 - name: Update firmware
-  when: "'No upgrades' not in result.stderr or 'No updatable' in result.stderr"
+  when: "'No upgrades' not in result.stderr and 'No updatable' not in result.stderr"
   command: fwupdmgr update --force
   become: yes

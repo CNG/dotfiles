@@ -1,6 +1,6 @@
 ---
 - name: Install DigiKam and dependencies
-  when: digikam is defined and digikam in packages.media
+  when: digikam is defined
   block:
     - name: Install DigiKam and dependencies
       aur:
@@ -42,7 +42,7 @@
         state: started
 
 - name: Remove DigiKam and dependencies
-  when: digikam is not defined or digikam not in packages.media
+  when: digikam is not defined
   become: yes
   block:
     - name: Disable MariaDB service
