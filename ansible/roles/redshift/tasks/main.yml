@@ -52,9 +52,10 @@
     pacman:
       state: absent
       name:
-        - librsvg
-        - python-gobject
-        - python-xdg
+        # TODO: need to figure out way to use --asdeps on install
+        # - librsvg
+        # - python-gobject
+        # - python-xdg
         - redshift
   - name: Allow RedShift to access geoclue
     blockinfile:

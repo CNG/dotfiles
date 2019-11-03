@@ -1,5 +1,7 @@
 # ~/.xprofile runs first, before xmodmap
 # ~/.xsession runs last in /etc/lightdm/Xsession
+# errors logged to ~/.xsession-errors
+set -x
 
 logger () {
   echo "$@" | systemd-cat -t $(basename $0)
@@ -23,7 +25,11 @@ if ! pgrep imwheel; then
   imwheel --buttons "45" &
 fi
 
-on_device_change &
+# this was broken before, but not sure if i needed it or implemented differently
+# on_device_change &
+# OK commenting out might be getting triggered too much ~/bin/on_device_change &
+# $PATH is not fully set up here
+# printf "\$PATH is $PATH" 1>&2
 
 if pgrep xbindkeys; then pkill -9 xbindkeys; fi
 xbindkeys &

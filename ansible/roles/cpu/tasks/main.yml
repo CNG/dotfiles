@@ -4,6 +4,7 @@
   command: >
     awk -F: '/^flags/ {print $2; exit}' /proc/cpuinfo
   register: cpu_flags_cmd
+  changed_when: False
 
 # Extract the flags into a list variable named `cpu_flags`.
 - name: set cpu flags fact
@@ -13,17 +14,19 @@
 # Identify the processor manufacturer by looking for "Intel" or "AMD"
 # in `/proc/cpuinfo`.
 - name: check if Intel processor
-  command: grep -q Intel /proc/cpuinfo
-  ignore_errors: True
+  command: grep Intel /proc/cpuinfo
   register: is_intel
+  changed_when: False
+  failed_when: is_intel.rc > 1  # grep rc 1 not error
 
 - name: check if AMD processor
-  command: grep -q AMD /proc/cpuinfo
-  ignore_errors: True
+  command: grep AMD /proc/cpuinfo
   register: is_amd
+  changed_when: False
+  failed_when: is_amd.rc > 1  # grep rc 1 not error
 
 - name: AMD setup
-  when: is_amd is success
+  when: is_amd.rc == 0  # grep got matches
   become: yes
   block:
     - name: Install AMD packages
@@ -45,7 +48,7 @@
         state: absent
 
 - name: Intel setup
-  when: is_intel is success
+  when: is_intel.rc == 0  # grep got matches
   become: yes
   block:
     - name: Install Intel packages

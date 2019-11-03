@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --bg-fill '/usr/share/backgrounds/vim.jpg' 
+feh --no-fehbg --bg-fill '/usr/share/backgrounds/vim.jpg' 

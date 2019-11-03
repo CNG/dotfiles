@@ -6,6 +6,16 @@
   become_user: aur_builder
   with_items: "{{ packages[desktop_environment] }}"
 
+- name: Create plugdev user group
+  group:
+    name: plugdev
+    state: present
+- name: Add user to plugdev group
+  user:
+    name: "{{ user.name }}"
+    groups: plugdev
+    append: yes
+
 - name: Fix Baloo (and more) inotify folder watch limit error
   become: yes
   copy:

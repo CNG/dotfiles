@@ -17,9 +17,13 @@
 
 # per https://wiki.archlinux.org/index.php/TLP
 - name: Mask systemd radio service
-  command: systemctl mask systemd-rfkill
+  systemd:
+    name: systemd-rfkill
+    masked: yes
 - name: Mask systemd radio socket
-  command: systemctl mask systemd-rfkill.socket
+  systemd:
+    name: systemd-rfkill.socket
+    masked: yes
 
 - name: Enable TLP
   service:
@@ -30,3 +34,28 @@
   service:
     name: tlp-sleep
     enabled: yes
+
+# TODO: Limit this to specific laptops? Was in XPS before, maybe all Dell
+- name: Fix thermal throttling limits
+  block:
+    - name: Install throttled package
+      aur:
+        name: throttled
+      become: yes
+      become_user: aur_builder
+    - name: Enable throttling service
+      service:
+        name: lenovo_fix
+        enabled: yes
+        state: started
+
+- name: Install acpi_call for TLP battery functions
+  pacman:
+    name: acpi_call-dkms
+    state: present
+
+- name: Install tpacpi-bat
+  pacman:
+    name: tpacpi-bat
+    state: present
+

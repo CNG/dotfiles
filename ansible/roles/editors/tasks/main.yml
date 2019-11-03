@@ -49,7 +49,7 @@
     # Vim Airline
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
-    - { user: 'ambv', repo: 'black' }
+    - { user: 'psf', repo: 'black' }
     # full path fuzzy file, buffer, mru, tag, ... finder
     # TODO: consider https://github.com/Shougo/denite.nvim
     - { user: 'ctrlpvim', repo: 'ctrlp.vim' }

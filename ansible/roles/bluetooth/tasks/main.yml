@@ -1,10 +1,11 @@
 - name: Install bluetooth libraries and tools
-  pacman:
-    state: present
+  aur:
     name:
       - libldac
       - pulseaudio-modules-bt-git  # provides pulseaudio-bluetooth
       - blueman  # requires bluez, blues-libs
+  become: yes
+  become_user: aur_builder
   notify:
     - restart pulse as user
 

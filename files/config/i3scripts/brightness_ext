@@ -12,22 +12,29 @@ MODEL=${1:-}
 # 10 is brightness; 12 is contrast, which Dell panel supports
 VCP=${2:-10}
 
+logger () {
+  echo "$@" | systemd-cat -t $(basename $0)
+}
+
 detect_display () {
   if [[ $MODEL ]]; then
     if ! ddcutil --async detect | grep "$MODEL" > /dev/null; then
+      # logger "detect_display did not find ${MODEL} in $(ddcutil --async detect)\n\n"
       exit
     fi
   fi
 }
 
 level () {
+  local value
   if [[ $MODEL ]]; then
-    printf "%.0f" $(ddcutil --async --model "$MODEL" getvcp $VCP -t | cut -d' ' -f4)
+    value=$(ddcutil --async --model "$MODEL" getvcp $VCP -t | cut -d' ' -f4)
   elif [[ $MFG ]]; then
-    printf "%.0f" $(ddcutil --async --mfg "$MFG" getvcp $VCP -t | cut -d' ' -f4)
+    value=$(ddcutil --async --mfg "$MFG" getvcp $VCP -t | cut -d' ' -f4)
   else
-    printf "%.0f" $(ddcutil --async --display 1 getvcp $VCP -t | cut -d' ' -f4)
+    value=$(ddcutil --async --display 1 getvcp $VCP -t | cut -d' ' -f4)
   fi
+  printf " %.0f\n" $value
 }
 
 lower () {
@@ -68,14 +75,19 @@ case $BLOCK_BUTTON in
   4) new=$(lower $(level)) ;;  # scroll down
   *) detect_display ;;  # see if we can exit early
 esac
+if (( $new > 100 )); then
+  new=100
+fi
 
-if [[ -z $new ]] || (( $new > 100 )); then
+if [[ -z $new ]]; then
+  # just show current setting
   num_displays=$(xrandr | grep " connected" | wc -l)
   if [[ $num_displays -gt 1 ]]; then
     level
   fi
 else
-  printf "%s" $new
+  # or we are changing the setting
+  printf " %s\n" $new
   if [[ $MODEL ]]; then
     ddcutil --async --noverify --model "$MODEL" setvcp $VCP $new &
   elif [[ $MFG ]]; then

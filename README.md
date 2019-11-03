@@ -62,7 +62,14 @@ config](files/config/i3/config#L248) (`exec_always --no-startup-id xset r rate
 which I started executing after various events such as device changes. That was
 also not sticking somehow, so I need to do more testing. For now I've changed
 both to 444/44 because I realized 150 delay was too short and passwords were
-sometimes getting difficult to enter.
+sometimes getting difficult to enter
+
+OK I realized this is also set in a systemd service called `kbdrate` that I set
+up in [`ansible/roles/i3/tasks/main.yml`](ansible/roles/i3/tasks/main.yml) under
+"Create kbdrate service" based on the file
+[`ansible/roles/i3/files/kbdrate.service`](ansible/roles/i3/files/kbdrate.service).
+I need to look up what this effects; it might just be the console before logging
+in. 
 
 [50-lightdm.conf]: https://github.com/CNG/dotfiles/blob/master/ansible/roles/lightdm/files/50-lightdm.conf
 

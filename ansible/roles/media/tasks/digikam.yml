@@ -1,6 +1,6 @@
 ---
 - name: Install DigiKam and dependencies
-  when: digikam is defined or digikam in packages.media
+  when: digikam is defined and digikam in packages.media
   block:
     - name: Install DigiKam and dependencies
       aur:
@@ -42,15 +42,16 @@
         state: started
 
 - name: Remove DigiKam and dependencies
-  when: digikam is not defined
-  #or digikam not in packages.media
+  when: digikam is not defined or digikam not in packages.media
   become: yes
   block:
-    - name: Disbale MariaDB service
+    - name: Disable MariaDB service
       service:
         name: mariadb
         enabled: no
         state: stopped
+      register: service_result
+      failed_when: "service_result is failed and 'Could not find the requested service' not in service_result.msg"
     - name: Remove MariaDB service conf directory
       file:
         path: /etc/systemd/system/mariadb.service.d
@@ -65,7 +66,7 @@
           - akonadi
           - mariadb
           - kipi-plugins
-          - qt5-imageformats
+          # - qt5-imageformats  # 'qt5-imageformats' required by rapid-photo-downloader
           - hugin
         state: absent
 

@@ -1,6 +1,6 @@
 ---
 - name: Install beets and dependencies
-  when: beets in packages.media
+  when: "'beets' in packages.media"
   block:
   - name: Install beets and dependencies
     pacman:

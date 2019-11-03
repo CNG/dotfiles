@@ -67,12 +67,11 @@
       path: /usr/local/bin/zathura
       state: absent
 
-# TODO: Destination /etc/xdg/mimeapps.list does not exist
 - name: Set Zathura as default PDF viewer
   when: "'zathura-pdf-mupdf' in packages.office"
   lineinfile:
-      dest: /etc/xdg/mimeapps.list
-      regexp: ^application/pdf
-      state: present
-      line: "application/pdf: zathura.desktop"
+    dest: /etc/xdg/mimeapps.list
+    regexp: ^application/pdf
+    state: present
+    line: "application/pdf: zathura.desktop"
 

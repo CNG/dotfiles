@@ -1,44 +1,4 @@
 ---
-- name: Install universal base packages
-  pacman:
-    name: "{{ query('flattened', '{{ packages.base }}') }}"
-    state: present
-
-- name: Push reflector update script
-  copy:
-    src: reflector-update.sh
-    dest: /usr/local/bin/reflector-update
-    mode: 0755
-
-- name: Create pacman hook directory
-  file:
-    path: "/etc/pacman.d/hooks"
-    state: directory
-
-- name: Push pacman mirror list update hook
-  copy:
-    src: "mirrorlist.hook"
-    dest: "/etc/pacman.d/hooks/mirrorlist.hook"
-
-- name: Install AUR helper
-  aur:
-    name: aurman
-    use: auto
-    skip_pgp_check: yes
-  become: yes
-  become_user: aur_builder
-
-# This is redundant with dotfiles but here for ordering
-- name: Configure Aurman
-  blockinfile:
-    dest: "/home/{{ user.name }}/.config/aurman/aurman_config"
-    state: present
-    block: |
-      [miscellaneous]
-      no_sudo_loop
-    create: yes
-    mode: "u=rw,g=r,o=r"
-
 - name: Upgrade all packages
   aur:
     upgrade: yes
@@ -46,29 +6,29 @@
   become: yes
   become_user: aur_builder
 
+- name: Install universal base packages
+  pacman:
+    name: "{{ query('flattened', '{{ packages.base }}') }}"
+    state: present
+
 - name: Install AUR base packages
   aur:
     name: "{{ packages.base_aur }}"
   become: yes
   become_user: aur_builder
 
-- name: Push pacman cache cleanup service
-  copy:
-    src: "paccache.service"
-    dest: "/etc/systemd/system/paccache.service"
-  notify:
-    - reload systemd config
-
-- name: Push pacman cache cleanup timer
-  copy:
-    src: "paccache.timer"
-    dest: "/etc/systemd/system/paccache.timer"
-  notify:
-    - reload systemd config
-    - restart paccache
-
-- name: Enable and start pacman cache cleanup timer
-  service:
-    name: "paccache.timer"
-    enabled: yes
-    state: started
+- name: Install firmware update utility
+  pacman:
+    name: fwupd
+    state: present
+- name: Refresh firmware update metadata from remote server
+  command: fwupdmgr refresh
+  changed_when: False
+- name: Check if firmware updates available
+  command: fwupdmgr get-updates
+  register: result
+  changed_when: False
+- name: Update firmware
+  when: "'No upgrades' not in result.stderr"
+  command: fwupdmgr update --force
+  become: yes

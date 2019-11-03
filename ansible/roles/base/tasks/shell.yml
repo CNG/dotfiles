@@ -52,9 +52,10 @@
       update: yes
       accept_hostkey: yes
   # https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
-  - name: Register uid of {{ user.name }}
-    command: id -u {{ user.name }}
+  - name: "Register uid of {{ user.name }}"
+    command: "id -u {{ user.name }}"
     register: uid
+    changed_when: False
 
   # On fresh install, failed with:
   # failure 1 during daemon-reload: Failed to connect to bus: No such file or

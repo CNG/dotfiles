@@ -1,14 +1,4 @@
 ---
-# TODO: add user to these groups  in the relevent task they are made
-- name: Create user group
-  group:
-    name: "plugdev"
-    state: present
-- name: Create user group
-  group:
-    name: "vboxusers"
-    state: present
-
 - name: Create user group
   group:
     name: "{{ user.group }}"
@@ -18,14 +8,10 @@
   user:
     name: "{{ user.name }}"
     group: "{{ user.group }}"
-    password: "{{ user_password|password_hash('sha512') }}"
+    password: "{{ user.password|password_hash('sha512') }}"
     shell: "{{ user.shell }}"
     update_password: on_create
     uid: "{{ user.uid }}"
-    groups:
-      - uucp
-      - plugdev
-      - vboxusers
     append: yes
 
 - name: Create user log dir

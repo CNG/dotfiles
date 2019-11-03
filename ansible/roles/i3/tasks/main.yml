@@ -19,25 +19,13 @@
     - acpilight  # provides xbacklight
     - pacman-contrib  # required for arch-update.py i3block
 
-# - name: Verify default applications file exists
-#   file:
-#     path: /etc/xdg/mimeapps.list
-#     state: touch
-
-# https://github.com/ansible/ansible/issues/38219
-# - name: Verify header in default applications file
-#   lineinfile:
-#     dest: /etc/xdg/mimeapps.list
-#     state: present
-#     line: '[Default Applications]'
-#     insertbefore: BOF
-#     create: yes
-
-- name: Link i3blocks config file
-  file:
-    src: "/home/{{ user.name }}/.config/i3blocks/{{ ansible_hostname }}.config"
-    dest: "/home/{{ user.name }}/.config/i3blocks/config"
-    state: link
+- name: Verify header in default applications file
+  lineinfile:
+    dest: /etc/xdg/mimeapps.list
+    state: present
+    line: '[Default Applications]'
+    insertbefore: BOF
+    create: yes
 
 - name: Install i3blocks-contrib scripts
   git:
@@ -56,6 +44,7 @@
 - name: udevadm control --reload-rules
   command: "udevadm control --reload-rules"
   become: yes
+  changed_when: False
 
 - name: Create kbdrate service
   copy:
@@ -91,6 +80,11 @@
     src: display-setup-script
     dest: "/usr/local/bin/display-setup-script"
     mode: 0755
+
+- name: Push i3lock authentication file
+  template:
+    src: pam.d/i3lock.j2
+    dest: /etc/pam.d/i3lock
 
 - name: Autounlock keyring on login 1a
   lineinfile:

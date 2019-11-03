@@ -25,10 +25,11 @@
   become: yes
   become_user: aur_builder
 
-- name: Verify mimeapps.list exists
-  file:
-    path: /etc/xdg/mimeapps.list
-    state: touch
+- name: Ensure mimeapps.list exists
+  copy:
+    content: ""
+    dest: /etc/xdg/mimeapps.list
+    force: no
 
 - name: Setup browsers firejail
   when: "'firejail' in roles"

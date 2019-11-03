@@ -54,8 +54,8 @@
       name: unbound.service
       enabled: no
       state: stopped
-    check_mode: false
-    changed_when: false 
+    register: service_result
+    failed_when: "service_result is failed and 'Could not find the requested service' not in service_result.msg"
   - name: Remove root hints
     file:
       dest: /etc/unbound/root.hints

@@ -21,14 +21,30 @@
   become_user: "{{ user.name }}"
 
 - name: Set .config ownership
-  command: "chown -R {{ user.name }}:{{ user.name}} /home/{{ user.name }}/.config"
+  file:
+    dest: "{{ item }}"
+    owner: "{{ user.name}}"
+    group: "{{ user.name}}"
+    recurse: yes
+  with_items:
+    - "/home/{{ user.name }}/.config"
   become: yes
 
 - name: Install user dotfiles
-  command: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files {{ dotfiles.rcup_flags }}"
   when: dotfiles.source is defined
+  shell: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files -fv | grep -v '^identical'"
+  environment:
+    COPY_ALWAYS: "{{ dotfiles.files_to_copy_not_link }}"
   become: yes
   become_user: "{{ user.name }}"
+  register: result
+  changed_when: result.rc == 0  # grep got results
+  failed_when: result.rc > 1  # grep return 1 is not an error
+- name: "Made the following dotfiles changes:"
+  debug:
+    msg: "{{ result.stdout_lines }}"
+  when: result.rc == 0
+  changed_when: result.rc == 0  # grep got results
 
 - name: Set Github author name
   git_config:

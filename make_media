@@ -3,7 +3,7 @@ set -o xtrace
 set -o errexit
 
 DEV=${1:-/dev/sda}
-URL=http://mirror.rackspace.com/archlinux/iso/2019.05.02/archlinux-2019.05.02-x86_64.iso
+URL=${2:-http://mirror.rackspace.com/archlinux/iso/2019.09.01/archlinux-2019.09.01-x86_64.iso}
 
 # download Arch installer
 [[ -f arch.iso ]] || wget -O arch.iso $URL
@@ -17,8 +17,8 @@ mkfs.ext4 -F ${DEV}2
 # copy installation files to fat32 partition, dotfiles to ext4 partition
 mkdir -p /mnt/installer/{iso,install,extra}
 mount -o loop,ro arch.iso /mnt/installer/iso
-mount /dev/sda1 /mnt/installer/install
-mount /dev/sda2 /mnt/installer/extra
+mount ${DEV}1 /mnt/installer/install
+mount ${DEV}2 /mnt/installer/extra
 git clone https://github.com/CNG/dotfiles.git /mnt/installer/extra/dotfiles
 cp -a /mnt/installer/iso/* /mnt/installer/install
 sync

@@ -75,6 +75,8 @@
       name: tor
       enabled: no
       state: stopped
+    register: service_result
+    failed_when: "service_result is failed and 'Could not find the requested service' not in service_result.msg"
   - name: Install Tor
     pacman:
       state: absent

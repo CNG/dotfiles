@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+function close () {
+  pactl unload-module module-loopback
+  exit 0
+}
+
+trap close EXIT
+pactl load-module module-loopback latency_msec=1
+while true; do sleep 1; done
+

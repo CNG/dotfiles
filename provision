@@ -33,9 +33,15 @@ main () {
   fi
   ln -fs ansible-aur/aur.py library/aur
 
+  printf "Installing roles from Ansible Galaxy\n"
   sudo ansible-galaxy install -r requirements.yml
+  printf "Starting Ansible playbook\n"
   # sudo ansible-playbook -i local -K playbook.yml "$@"
-  sudo ansible-playbook -i $(hostname), -c local playbook.yml "$@"
+  dense=/usr/lib/python3.7/site-packages/ansible/plugins/callback/dense.py
+  if [[ -f $dense ]]; then
+    sudo sed -i 's/name + vt100.reset/self.task.get_name() + vt100.reset/' "$dense"
+  fi
+  sudo ansible-playbook -i $(hostname), -c local playbook.yml --diff "$@"
 
   trap - ERR
 }

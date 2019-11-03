@@ -1,11 +1,34 @@
 ---
-- name: Install Arduino udev rules
-  shell: >
-    curl -L https://github.com/adafruit/Trinket_Arduino_Linux/raw/master/99-adafruit-boards.rules
-    | sed 's/dialout/uucp/g'
-    > /etc/udev/rules.d/99-adafruit-boards.rules
+- name: Create uucp user group
+  group:
+    name: uucp
+    state: present
+- name: Add user to uucp group
+  user:
+    name: "{{ user.name }}"
+    groups: uucp
+    append: yes
 
-- name: Create system environment group
-  command: udevadm control --reload-rules
+
+- name: Check if Arduino udev rules already added
+  stat:
+    path: /etc/udev/rules.d/99-adafruit-boards.rules
+  register: stat_result
+  changed_when: False
+- name: Install Arduino udev rules
+  when: stat_result.stat.exists == False
   become: yes
+  block:
+    - name: Download rules
+      get_url:
+        url: https://github.com/adafruit/Trinket_Arduino_Linux/raw/master/99-adafruit-boards.rules
+        dest: /etc/udev/rules.d/99-adafruit-boards.rules
+        mode: 644
+    - name: Fix group in rules
+      replace:
+        regexp: dialout
+        replace: uucp
+        path: /etc/udev/rules.d/99-adafruit-boards.rules
+    - name: Reload udev rules
+      command: udevadm control --reload-rules
 

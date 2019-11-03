@@ -1,7 +1,7 @@
 ---
 - hosts: all
-  become: yes  # TODO
-  ignore_errors: yes  # TODO
+  # become: yes  # TODO
+  # ignore_errors: yes  # TODO
   roles:
     # these run as dependencies
     # - { role: base, tags: ['base'] }
@@ -96,7 +96,3 @@
     # - { role: weechat, tags: ['weechat'] }  # IRC
     # - { role: yubikey, tags: ['yubikey'] }
 
-
-  vars_prompt:
-    - name: user_password
-      prompt: "Enter desired user password"

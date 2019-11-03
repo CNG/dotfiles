@@ -1,0 +1,70 @@
+---
+- import_tasks: package_keys.yml
+
+- name: Copy pacman configuration file
+  copy:
+    src: pacman.conf
+    dest: /etc/pacman.conf
+
+- name: Push pacman cache cleanup service
+  copy:
+    src: "paccache.service"
+    dest: "/etc/systemd/system/paccache.service"
+  notify:
+    - reload systemd config
+
+- name: Push pacman cache cleanup timer
+  copy:
+    src: "paccache.timer"
+    dest: "/etc/systemd/system/paccache.timer"
+  notify:
+    - reload systemd config
+    - restart paccache
+
+- name: Enable and start pacman cache cleanup timer
+  service:
+    name: "paccache.timer"
+    enabled: yes
+    state: started
+
+- name: "Push pacman mirrors 'reflector' update script"
+  copy:
+    src: reflector-update.sh
+    dest: /usr/local/bin/reflector-update
+    mode: 0755
+
+- name: Create pacman hook directory
+  file:
+    path: "/etc/pacman.d/hooks"
+    state: directory
+
+- name: Push pacman mirror list update hook
+  copy:
+    src: "mirrorlist.hook"
+    dest: "/etc/pacman.d/hooks/mirrorlist.hook"
+
+- name: Refresh pacman mirrors
+  pacman:
+    update_cache: yes
+  changed_when: False
+
+# TODO: Confirm fresh install works with this before "Install universal base packages"
+- name: Install AUR helper
+  aur:
+    name: aurman
+    use: auto
+    skip_pgp_check: yes
+  become: yes
+  become_user: aur_builder
+
+# This is redundant with dotfiles but here for ordering
+- name: Configure Aurman
+  blockinfile:
+    dest: "/home/{{ user.name }}/.config/aurman/aurman_config"
+    state: present
+    block: |
+      [miscellaneous]
+      no_sudo_loop
+    create: yes
+    mode: "u=rw,g=r,o=r"
+

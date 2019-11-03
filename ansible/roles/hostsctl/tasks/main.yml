@@ -12,3 +12,4 @@
 
 - name: Update hostsctl
   command: hostsctl update
+  changed_when: False

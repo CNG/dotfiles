@@ -6,6 +6,8 @@ user:
   shell: /usr/bin/zsh
   layout: dvorak
   email:  charlie@gorichanaz.com
+  # be sure to change the password after first run
+  password: test
   log:
     dir: log
     rotate: 8
@@ -13,7 +15,7 @@ user:
 dotfiles:
   # url: git@github.com:CNG/dotfiles.git
   source: projects/dotfiles
-  rcup_flags: -f
+  files_to_copy_not_link: "htoprc Preferences.sublime-settings copyq.conf"
 
 ssh:
   port: 22
@@ -155,7 +157,8 @@ packages:
     - efibootmgr
     - exfat-utils
     - hfsprogs
-    - hfsutils
+    # no longer avail, check if still needed for mac migration
+    # - hfsutils
     - ntfs-3g
     - libguestfs  # mount VMDKs, large install
 
@@ -209,7 +212,6 @@ packages:
     - ttf-tahoma
 
   media:
-    - digikam
     # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
     # - inkscape
     # - makemkv-cli

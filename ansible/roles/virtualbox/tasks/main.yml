@@ -1,4 +1,14 @@
 ---
+- name: Create vboxusers group
+  group:
+    name: vboxusers
+    state: present
+- name: Add user to vboxusers group
+  user:
+    name: "{{ user.name }}"
+    groups: vboxusers
+    append: yes
+
 - name: Install VirtualBox, dependencies, extensions
   aur:
     name: "{{ item }}"
@@ -15,8 +25,3 @@
     # * for other kernels choose `virtualbox-host-dkms`
     - virtualbox-ext-oracle
 
-- name: Add the user to vboxusers group
-  user:
-    name: "{{ user.name }}"
-    groups: vboxusers
-    append: yes
