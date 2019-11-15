@@ -41,18 +41,18 @@
     - { user: 'tomasr', repo: 'molokai' }
     - { user: 'lifepillar', repo: 'vim-solarized8' }
     # SnipMate
-    - { user: 'tomtom', repo: 'tlib_vim' }
-    - { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
-    - { user: 'garbas', repo: 'vim-snipmate' }
+    #- { user: 'tomtom', repo: 'tlib_vim' }
+    #- { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
+    #- { user: 'garbas', repo: 'vim-snipmate' }
     # SnipMate optional, Ultisnips optional
-    - { user: 'honza', repo: 'vim-snippets' }
+    #- { user: 'honza', repo: 'vim-snippets' }
     # Vim Airline
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
     - { user: 'psf', repo: 'black' }
     # full path fuzzy file, buffer, mru, tag, ... finder
     # TODO: consider https://github.com/Shougo/denite.nvim
-    - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
+    # - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
     # better indent code folding (for Python)
     - { user: 'tmhedberg', repo: 'SimpylFold' }
     # recommended for SimplyFold, not required
@@ -60,14 +60,14 @@
     # using autocomplete plugin "YouCompleteMe" via AUR package
     # vim-youcompleteme-git
     # - { user: 'Valloric', repo: 'YouCompleteMe' }
-    - { user: 'ervandew', repo: 'supertab' }
+    # - { user: 'ervandew', repo: 'supertab' }
     # Git integration: :Gwrite, :Gmove, etc.
     - { user: 'tpope', repo: 'vim-fugitive' }
     # Tag sidebar
     - { user: 'majutsushi', repo: 'tagbar'}
     # Ultisnips, used by YouCompleteMe
-    - { user: 'SirVer', repo: 'ultisnips' }
+    # - { user: 'SirVer', repo: 'ultisnips' }
     # Trying another thing to maybe get signatures... which needs Jedi...
-    - { user: 'ColinKennedy', repo: 'vim-python-function-expander' }
-    - { user: 'davidhalter', repo: 'jedi-vim' }
+    # - { user: 'ColinKennedy', repo: 'vim-python-function-expander' }
+    # - { user: 'davidhalter', repo: 'jedi-vim' }
       #- { user: '', repo: '' }
