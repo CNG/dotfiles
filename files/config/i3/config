@@ -57,6 +57,13 @@ exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_
 exec_always --no-startup-id $set_background
 exec_always --no-startup-id bash ~/.xsession
 
+### SETTINGS FOR GENERIC POPUPS
+for_window [window_role="pop-up"]      floating enable
+for_window [window_role="bubble"]      floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"]      floating enable
+for_window [window_type="menu"]        floating enable
 
 ### SETTINGS FOR SPECIFIC PROGRAMS
 for_window [class="(?i)firefox"] resize grow height 1 px or 1 ppt
@@ -85,6 +92,7 @@ for_window [class="(?i)xsane" title="Warning|Error"] floating enable
 #for_window [class="VirtualBox Machine"] floating enable
 for_window [class="(?i)anki" title="(?i)anki"] split vertical
 for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
+for_window [title="(?i)OneASICS"] floating enable
 
 
 ### BRIGHTNESS, AUDIO AND MEDIA CONTROLS

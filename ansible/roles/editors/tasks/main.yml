@@ -41,11 +41,11 @@
     - { user: 'tomasr', repo: 'molokai' }
     - { user: 'lifepillar', repo: 'vim-solarized8' }
     # SnipMate
-    #- { user: 'tomtom', repo: 'tlib_vim' }
-    #- { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
-    #- { user: 'garbas', repo: 'vim-snipmate' }
+    # - { user: 'tomtom', repo: 'tlib_vim' }
+    # - { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
+    # - { user: 'garbas', repo: 'vim-snipmate' }
     # SnipMate optional, Ultisnips optional
-    #- { user: 'honza', repo: 'vim-snippets' }
+    # - { user: 'honza', repo: 'vim-snippets' }
     # Vim Airline
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
@@ -70,4 +70,4 @@
     # Trying another thing to maybe get signatures... which needs Jedi...
     # - { user: 'ColinKennedy', repo: 'vim-python-function-expander' }
     # - { user: 'davidhalter', repo: 'jedi-vim' }
-      #- { user: '', repo: '' }
+    # - { user: '', repo: '' }
