@@ -174,3 +174,9 @@ can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
 [Multiple monitors with different DPIs](https://www.reddit.com/r/archlinux/comments/5x2syg/multiple_monitors_with_different_dpis/
 [Switch from HiDPI monitor without restart the session](https://www.reddit.com/r/i3wm/comments/6ens2p/switch_from_hidpi_monitor_without_restart_the/)
 
+### TODO
+
+* Disable folding@home on main GPU upon input on i3lock screen (maybe piggy back
+  on media keys passthrough?), or at least upon unlocking (maybe pigging back on
+  display change script)
+* 
