@@ -24,6 +24,7 @@
   become_user: "{{ user.name }}"
   with_items:
     - { user: 'tpope', repo: 'vim-pathogen' }
+    # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }
     - { user: 'tpope', repo: 'vim-speeddating' }
@@ -31,15 +32,15 @@
     # this looks interesting, but I am doing too much new stuff already
     # - { user: 'tpope', repo: 'vim-abolish' }
     - { user: 'tpope', repo: 'vim-commentary' }
-    - { user: 'scrooloose', repo: 'nerdcommenter' }
+    # seems redundant with vim-commentary:
+    # - { user: 'scrooloose', repo: 'nerdcommenter' }
     - { user: 'Xuyuanp', repo: 'nerdtree-git-plugin' }
     - { user: 'scrooloose', repo: 'nerdtree' }
-    - { user: 'vim-scripts', repo: 'taglist.vim' }
+    # - { user: 'vim-scripts', repo: 'taglist.vim' }
     - { user: 'michaeljsmith', repo: 'vim-indent-object' }
     - { user: 'bronson', repo: 'vim-visual-star-search' }
     - { user: 'lifepillar', repo: 'vim-solarized8' }
     - { user: 'tomasr', repo: 'molokai' }
-    - { user: 'lifepillar', repo: 'vim-solarized8' }
     # SnipMate
     # - { user: 'tomtom', repo: 'tlib_vim' }
     # - { user: 'MarcWeber', repo: 'vim-addon-mw-utils' }
@@ -53,6 +54,7 @@
     # full path fuzzy file, buffer, mru, tag, ... finder
     # TODO: consider https://github.com/Shougo/denite.nvim
     # - { user: 'ctrlpvim', repo: 'ctrlp.vim' }
+    - { user: 'junegunn', repo: 'fzf.vim' }
     # better indent code folding (for Python)
     - { user: 'tmhedberg', repo: 'SimpylFold' }
     # recommended for SimplyFold, not required
@@ -61,8 +63,9 @@
     # vim-youcompleteme-git
     # - { user: 'Valloric', repo: 'YouCompleteMe' }
     # - { user: 'ervandew', repo: 'supertab' }
-    # Git integration: :Gwrite, :Gmove, etc.
+    # Git integration: :G, :Gwrite, :Gmove, etc.
     - { user: 'tpope', repo: 'vim-fugitive' }
+    - { user: 'tommcdo', repo: 'vim-fubitive' }  # Bitbucket support
     # Tag sidebar
     - { user: 'majutsushi', repo: 'tagbar'}
     # Ultisnips, used by YouCompleteMe
@@ -71,3 +74,10 @@
     # - { user: 'ColinKennedy', repo: 'vim-python-function-expander' }
     # - { user: 'davidhalter', repo: 'jedi-vim' }
     # - { user: '', repo: '' }
+    #
+    # TODO: check out https://github.com/terryma/vim-multiple-cursors
+    # TODO: check out https://github.com/w0rp/ale
+    #   ~/.vim/ftplugin/python.vim:
+    #   let b:ale_linters = ['pyflakes', 'flake8', 'pylint']
+    #   let b:ale_fixers = ['eslint']
+    #   let b:ale_fix_on_save = 1

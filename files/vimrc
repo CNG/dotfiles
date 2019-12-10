@@ -375,4 +375,5 @@ nmap <F8> :TagbarToggle<CR>
 "let g:jedi#auto_vim_configuration = 0
 "let g:jedi#show_call_signatures_delay = 0
 
-
+map ; :Files<CR>
+let g:fugitive_bitbucket_domains = ["source.fitbit.com"]
