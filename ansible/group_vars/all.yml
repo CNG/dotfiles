@@ -220,7 +220,7 @@ packages:
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - vlc
     - [ zopfli, zopflipng ]  # compression
-    - vdhcoapp  # Video Downloadhelper companion app
+    - vdhcoapp-bin  # Video Downloadhelper companion app
     - guvcview  # webcam record
     - losslesscut  # video trim
     - darktable
