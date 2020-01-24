@@ -12,8 +12,6 @@ window:
 scrolling:
   history: 0
   multiplier: 0
-  faux_multiplier: 0
-  auto_scroll: false
 tabspaces: 8
 font:
   normal:
