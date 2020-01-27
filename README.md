@@ -179,4 +179,6 @@ can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
 * Disable folding@home on main GPU upon input on i3lock screen (maybe piggy back
   on media keys passthrough?), or at least upon unlocking (maybe pigging back on
   display change script)
-* 
+* Document and automate solution for HDMI audio aggressive takeover
+  https://askubuntu.com/a/1127760/354276
+

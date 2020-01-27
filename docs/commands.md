@@ -21,11 +21,24 @@ Some commands I keep needing to look up that don't fit in the other pages:
   -printf "file '$PWD/%p'\n" | sort) -map_metadata 0 -c copy "concat_$(basename
   $(find . -maxdepth 1 -type f -name '*.MP4' -printf "%p" | sort | head -n1))"`
 
+## Formatting
+
+    # Identify /dev address with lsblk or fdisk -l
+    sudo fdisk /dev/sdg
+    # d: delete partitions (repeat till none)
+    # maybe only need if >2TB? g: new GPT disk label
+    # n: create partition, use defaults
+    # w: write and exit
+    # restart or unmount, use mount to find where mounted
+    sudo mkfs.ext4 /dev/sdg1
+
+Check disk performance: `sudo hdparm -Tt /dev/sda`
+
 ## Packages
 
 * Search to package name only with ERE `$ pacman -Ss '^vim-'`
 * Search already installed `-Qs`
-* Display extensive info `-i` or include backup files `-ii`
+* Display extensive info `-Qi`/`-Si` or include backup files `-ii`
 * List files installed by package `-Ql` or remote package `-Fl`
 * Verify files are present `-Qk` or more thoroughly `-Qkk`
 * Find package for file: `$ pacman -Qo /path/to/file_name`
