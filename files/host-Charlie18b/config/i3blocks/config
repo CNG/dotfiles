@@ -5,6 +5,11 @@ separator_block_width=20
 markup=pango
 interval=2
 
+[timewarrior]
+label=✎
+command=${HOME}/.config/i3/other-blocks/timewarrior
+interval=5
+
 [bandwidth3]
 command=~/.config/i3blocks-contrib/bandwidth3/bandwidth3 -t 1 -p 'if (rx) {printf "%'"'"' 5.f<small> </small>", rx};  if (tx && rx) {printf " "}; if (wx) {printf "%'"'"' 5.f<small> </small>", wx}; if (tx) {printf "\n"}' -u KB
 min_width='1,586 1,513'

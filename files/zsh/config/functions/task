@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 logger () {
-  echo -e "$(date --utc '+%Y-%m-%d %H:%M:%S')\t$@" | tee -a $HOME/timetracking.txt
+  echo -e "$(date --utc '+%Y-%m-%d %H:%M:%S')\t$@" | tee -a $HOME/GDrive/Main/Tracking/timetracking.txt
   echo "$@" | systemd-cat -t $(basename $0)
 }
 logger "$@"

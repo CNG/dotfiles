@@ -1,0 +1,39 @@
+#!/bin/bash
+# from https://github.com/paperManu/dotfiles/blob/master/i3/other-blocks/timewarrior
+
+# export TIMEWARRIORDB=~/ownCloud/tasks/timewarrior
+
+TIMEW_OUTPUT=$(timew | egrep "Tracking ")
+
+TASK=$(echo "${TIMEW_OUTPUT}" | sed 's/Tracking //')
+if [[ "${TASK}" == "" ]]; then
+    TASK="something"
+fi
+
+OUTPUT=""
+if [[ "${TIMEW_OUTPUT}" = "" ]]; then
+    OUTPUT="No current task -"
+else
+    OUTPUT="Doing: ${TASK} -"
+fi
+
+# Stop/continue task
+if [[ "${BLOCK_BUTTON}" == "3" ]]; then
+    if [[ "${TIMEW_OUTPUT}" != "" ]]; then
+        timew stop > /dev/null
+    else
+        timew continue > /dev/null
+    fi
+fi
+
+# Get total time today
+TIMEW_OUTPUT=$(timew day | egrep "Tracked " | sed 's/ *Tracked *//')
+
+# If nothing has been done today, do not show anything
+if [[ "${TIMEW_OUTPUT}" == "0:00:00" ]]; then
+    exit
+fi
+
+OUTPUT="${OUTPUT} ${TIMEW_OUTPUT}"
+
+echo ${OUTPUT}
