@@ -7,7 +7,7 @@ interval=2
 
 [timewarrior]
 label=✎
-command=${HOME}/.config/i3/other-blocks/timewarrior
+command=${HOME}/.config/i3scripts/timewarrior
 interval=5
 
 [bandwidth3]
