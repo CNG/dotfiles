@@ -79,6 +79,20 @@ label=
 signal=10
 interval=once
 
+[brightness_philips]
+command=~/.config/i3scripts/brightness_ext 'PHL 328E1'
+color=#4ec2f7
+label=
+signal=10
+interval=once
+
+[contrast_philips]
+command=~/.config/i3scripts/brightness_ext 'PHL 328E1' 12
+color=#4ec2f7
+label=
+signal=10
+interval=once
+
 [brightness_dell]
 command=~/.config/i3scripts/brightness_ext 'DELL P2415Q'
 color=#4ec2f7
