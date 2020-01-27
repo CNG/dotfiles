@@ -4,7 +4,7 @@ set $win mod4
 set $sup mod4
 set $mod mod4
 
-focus_follows_mouse no
+# focus_follows_mouse no
 font pango: Fira Sans Regular 16
 # Hide titlebar
 #default_border normal
