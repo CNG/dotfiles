@@ -1,6 +1,6 @@
 # Taskwarrior program configuration file.
 
-data.location=~/GDrive/Projects/tasks
+data.location=~/GDrive/Main/Tracking/tasks
 
 verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,filter,unwait
 
