@@ -19,11 +19,12 @@
 - import_tasks: shell.yml
 - import_tasks: journal.yml
 
-#- name: Setup provision command
-#  file:
-#    src: "/home/{{ user.name }}/{{ dotfiles.source }}/provision"
-#    dest: /usr/local/bin/provision
-#    state: link
+- name: Setup provision command
+  file:
+    src: "/home/{{ user.name }}/{{ dotfiles.source }}/provision"
+    dest: /usr/local/bin/provision
+    state: link
+  when: dotfiles.source is defined
 
 # Added this when troubleshooting irregular temp readings in i3 setup
 # https://wiki.archlinux.org/index.php/lm_sensors
