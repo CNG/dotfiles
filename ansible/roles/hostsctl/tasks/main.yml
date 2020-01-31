@@ -13,3 +13,8 @@
 - name: Update hostsctl
   command: hostsctl update
   changed_when: False
+
+- name: Unblock Google Analytics
+  command: hostsctl enable google-analytics.com www.google-analytics.com ssl.google-analytics.com
+  changed_when: False
+  become: yes
