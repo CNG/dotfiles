@@ -30,7 +30,7 @@
       depth: 1
       update: yes
       accept_hostkey: yes
-  - name: Clone  repo
+  - name: Clone repo
     git:
       repo: "git://github.com/zdharma/history-search-multi-word.git"
       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
@@ -51,6 +51,15 @@
       depth: 1
       update: yes
       accept_hostkey: yes
+  # Tmux plugins get installed from Tmux, so not sure when this would get
+  # overwritten
+  - name: Patch tmux-logging delay
+    lineinfile:
+      path: "/home/{{ user.name }}/.tmux/plugins/tmux-logging/scripts/check_tmux_version.sh"
+      regexp: 'local display_duration="5000"'
+      state: present
+      line: '             local display_duration="500"'
+
   # https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
   - name: "Register uid of {{ user.name }}"
     command: "id -u {{ user.name }}"
