@@ -45,3 +45,10 @@
     # [sudo] password for aur_builder:
     create: yes
     validate: 'visudo -cf %s'
+
+- name: Add user to games group
+  user:
+    name: "{{ user.name }}"
+    groups: games
+    append: yes
+
