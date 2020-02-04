@@ -16,6 +16,20 @@
     groups: plugdev
     append: yes
 
+# # TODO: Detect files present before deleting
+# # TODO: Figure out why Desktop gets recreated, again
+# - name: Delete unused home directory directories
+#   file:
+#     path: "/home/{{ user.name }}/{{ item }}"
+#     state: absent
+#   with_items:
+#     - Desktop
+#     - Documents
+#     - Public
+#     - Templates
+#     - Videos
+#   become: yes
+
 - name: Fix Baloo (and more) inotify folder watch limit error
   become: yes
   copy:
