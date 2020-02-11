@@ -5,15 +5,15 @@ separator_block_width=20
 markup=pango
 interval=2
 
-[timewarrior]
-label=✎
-command=${HOME}/.config/i3scripts/timewarrior
-interval=5
-
-[task]
-command=printf '<span size="smaller" color="#4ec2f7">%s</span>' "$(TASKRC=/home/cgorichanaz/.config/taskrc task rc.verbose:none minimal 2>/dev/null | head -4 | tail -1)"
-signal=10
-interval=once
+# [timewarrior]
+# label=✎
+# command=${HOME}/.config/i3scripts/timewarrior
+# interval=5
+# 
+# [task]
+# command=printf '<span size="smaller" color="#4ec2f7">%s</span>' "$(TASKRC=/home/cgorichanaz/.config/taskrc task rc.verbose:none minimal 2>/dev/null | head -4 | tail -1)"
+# signal=10
+# interval=once
 
 [bandwidth3]
 command=~/.config/i3blocks-contrib/bandwidth3/bandwidth3 -t 1 -p 'if (rx) {printf "%'"'"' 5.f<small> </small>", rx};  if (tx && rx) {printf " "}; if (wx) {printf "%'"'"' 5.f<small> </small>", wx}; if (tx) {printf "\n"}' -u KB

@@ -32,7 +32,63 @@ Some commands I keep needing to look up that don't fit in the other pages:
     # restart or unmount, use mount to find where mounted
     sudo mkfs.ext4 /dev/sdg1
 
+
+## Benchmarking
+
 Check disk performance: `sudo hdparm -Tt /dev/sda`
+
+`hdparm` should not be used to benchmark a RAID, because it provides very inconsistent results.
+
+* `sysbench --test=cpu run`
+* `sysbench --test=memory run`
+* `sysbench --test=fileio --file-test-mode=seqwr run`
+
+Or Geekbench
+
+    wget -qO- http://cdn.geekbench.com/Geekbench-5.1.0-Linux.tar.gz | sudo tar --transform 's/^Geekbench-5.1.0-Linux/geekbench/' -xvz -C /opt
+    /opt/geekbench/geekbench5
+    # https://browser.geekbench.com/v5/cpu/1186956
+
+
+
+## LVM
+
+* There is no "official" GUI tool for managing LVM volumes, but
+[`system-config-lvm`](https://aur.archlinux.org/packages/system-config-lvm/)
+covers most of the common operations.
+* `sudo pvdisplay -v -m` to see physical segments
+* `sudo vgdisplay` to see your free PE
+
+## RAID
+
+    sudo mdadm --detail /dev/md127
+
+If the device is being reused or re-purposed from an existing array, erase any
+old RAID configuration information:
+
+    sudo mdadm --misc --zero-superblock /dev/<drive>
+
+Note: It is possible to create a RAID directly on the raw disks (without
+partitions), but not recommended because it can cause problems when swapping
+a failed disk.
+
+If using RAID0, I guess there's no extra risk in creating RAID on raw disks?
+
+    sudo mdadm --create --verbose --level=0 --chunk=8K --raid-devices=3 /dev/md/docs /dev/sdc /dev/sdd /dev/sde
+
+Smaller chunk size (512 to 8K) good for larger average I/O requests, as you're
+reading from multiple disks at once. Larger chunk size above 64K good for
+smaller average I/O, as you're likelier to write an entire request to one disk.
+
+View progress:
+
+    cat /proc/mdstat
+
+stride (2) = chunk size (8K) / block size (4K)
+stripe width = number of data disks (3) * stride (2)
+
+    sudo mkfs.ext4 -v -L docs -m 0 -b 4096 -E stride=2,stripe-width=6 /dev/md126
+
 
 ## Packages
 

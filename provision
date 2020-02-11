@@ -41,7 +41,7 @@ main () {
   if [[ -f $dense ]]; then
     sudo sed -i 's/name + vt100.reset/self.task.get_name() + vt100.reset/' "$dense"
   fi
-  sudo ansible-playbook -i $(hostname), -c local playbook.yml --diff "$@"
+  sudo ansible-playbook -i $(cat /etc/hostname), -c local playbook.yml --diff "$@"
 
   trap - ERR
 }

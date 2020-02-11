@@ -53,9 +53,9 @@
         src: foldingathome.override.conf
         dest: /etc/systemd/system/foldingathome.service.d/override.conf
         mode: 0644
-      notify:
-        - reload systemd config
-        - reload foldingathome
+        #notify:
+        #- reload systemd config
+        #- reload foldingathome
   become: yes
 
 - name: Enable and start Folding@Home service

@@ -8,7 +8,7 @@ set -o errexit
 CRYPTDEVICE=${1:-}
 HOSTNAME=${2:-}
 
-hostname $HOSTNAME
+echo "$HOSTNAME" > /etc/hostname
 # Setup system clock
 ln -f -s /usr/share/zoneinfo/US/Pacific /etc/localtime
 hwclock --systohc --utc

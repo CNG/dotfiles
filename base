@@ -7,8 +7,8 @@ set -o xtrace
 set -o errexit
 
 # ROOTDEVICE=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
-ROOTDEVICE=/dev/mmcblk0
-HOSTNAME=Charlie18d
+ROOTDEVICE=/dev/nvme0n1
+HOSTNAME=Charlie20a
 SETUPDIR=/tmp/setup
 
 timedatectl set-ntp true
@@ -16,6 +16,7 @@ timedatectl set-ntp true
 # In case we are rerunning and need to clean up...
 swapoff -a
 umount ${ROOTDEVICE}* /mnt | true
+umount $ROOTDEVICE"p1" /mnt/boot | true
 
 # Create partitions
 parted --script $ROOTDEVICE mklabel gpt
@@ -40,14 +41,15 @@ mkswap /dev/mapper/vg0-swap
 # Mount the new system 
 mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
 swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
-mkdir /mnt/boot
+mkdir -p /mnt/boot
 mount $ROOTDEVICE"p1" /mnt/boot
 
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
 # Unless vim and zsh are desired these can be removed from the command. Dialog is needed by wifi-menu
 # terminus-font allows selecting larger font for small HiDPI screens
 # pacstrap /mnt base base-devel zsh vim git sudo efibootmgr dialog wpa_supplicant networkmanager
-pacstrap /mnt base base-devel efibootmgr dialog wpa_supplicant networkmanager terminus-font
+pacman -Sy archlinux-keyring
+pacstrap /mnt base linux linux-firmware lvm2 base-devel efibootmgr networkmanager terminus-font
 
 # 'install' fstab
 genfstab -pU /mnt >> /mnt/etc/fstab

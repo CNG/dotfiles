@@ -150,7 +150,7 @@ packages:
     - gvim  # gvim required for clipboard/libX11 support
     # not quite configured right - [ mono, vim-youcompleteme-git ]
     # needed to remove ctags by confirmation y/n:
-    - universal-ctags-git  # for tagbar Vim plugin
+    - universal-ctags  # for tagbar Vim plugin
     - fzf  # fuzzy finder
 
   filesystem:
@@ -299,9 +299,10 @@ packages:
     - visidata
     - zathura-pdf-mupdf
     - zathura-ps
-    - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki20-bin ]
+    - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki ]
     # Anki addons:
     # not yet Anki 2.1: 162313389 Power format pack
+    # but this has some funcs: 295889520 Mini Format Pack
     # 874215009 Advanced Browser
     # 1672832404 Add note id
     # 613684242 True retention

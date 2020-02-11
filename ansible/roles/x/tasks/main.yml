@@ -182,7 +182,7 @@
       - nvidia_modeset
       - nvidia_uvm
       - nvidia_drm
-    notify: rebuild linux
+    # TODO notify: rebuild linux
   - name: "NVIDIA: direct rendering manager: add kernel parameter"
     lineinfile:
       path: /boot/loader/entries/arch.conf

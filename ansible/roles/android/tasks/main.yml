@@ -16,6 +16,7 @@
   become: yes
   become_user: aur_builder
   with_items:
+    - jdk-openjdk
     - android-sdk
     - android-sdk-platform-tools
     - android-file-transfer
