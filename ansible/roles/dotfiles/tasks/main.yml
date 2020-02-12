@@ -20,16 +20,6 @@
   become: yes
   become_user: "{{ user.name }}"
 
-- name: Set .config ownership
-  file:
-    dest: "{{ item }}"
-    owner: "{{ user.name}}"
-    group: "{{ user.name}}"
-    recurse: yes
-  with_items:
-    - "/home/{{ user.name }}/.config"
-  become: yes
-
 - name: Install user dotfiles
   when: dotfiles.source is defined
   shell: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files -fv | grep -v '^identical'"
@@ -97,3 +87,21 @@
     - zshenv.local
     - gitconfig.local
     - ssh
+
+- name: Set user files ownership in case we created files as root
+  file:
+    path: "/home/{{ user.name }}"
+    owner: "{{ user.name}}"
+    group: "{{ user.name}}"
+    # set directories to 755, and files to 644
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: yes
+  become: yes
+
+# Shouldn't need this if .ssh is a link
+- name: Reduce permissions on .ssh keys
+  file:
+    path: "/home/{{ user.name }}/.ssh/{{ items }}"
+    mode: 0600
+  with_items: "{{ ssh_keys }}"
+  become: yes

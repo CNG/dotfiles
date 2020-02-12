@@ -11,33 +11,35 @@
     - xorg-xev
     - xorg-sessreg
     - xautomation
-    - xdg-user-dirs
     - sxhkd
     - unclutter
     - autorandr-git
     - srandrd
     - autocutsel
     - xvkbd # virtual keyboard, need binary for my xbindkeysrc paste command 
+- name: Remove packages previously installed by this config
+  pacman:
+    name:
+      - xdg-user-dirs
+    state: absent
+- name: Remove user directories if created previously
+  file:
+    path: /home/{{ user.name }}/{{ item }}
+    state: absent
+  with_items:
+    # commenting some out till we safely remove them
+    # - Documents
+    # - Downloads
+    - Music
+    # - Pictures
+    - Public
+    - Templates
+    - Videos
 
 - name: Remove default ACPI events file
   file:
     path: /etc/acpi/events/anything
     state: absent
-
-#- name: Create user directories
-#  command: /usr/bin/xdg-user-dirs-update
-#  become: yes
-#  become_user: "{{ user.name }}"
-
-# following should be replaced with `xdg-user-dirs-update --set DESKTOP ~`
-#- name: Change desktop folder
-#  become: yes
-#  become_user: "{{ user.name }}"
-#  lineinfile:
-#    path: /home/{{ user.name }}/.config/user-dirs.dirs
-#    regexp: "^XDG_DESKTOP_DIR="
-#    state: present
-#    line: 'XDG_DESKTOP_DIR="$HOME/"'
 
 - name: Enable middle click scrolling
   copy:

@@ -34,8 +34,6 @@ network:
 passwordless_sudo:
 - /usr/bin/openvpn*
 
-bootloader: grub
-
 fingerprint: False
 
 localtime:
@@ -157,11 +155,11 @@ packages:
     - dosfstools
     - efibootmgr
     - exfat-utils
-    - hfsprogs
+    # - hfsprogs
     # no longer avail, check if still needed for mac migration
     # - hfsutils
     - ntfs-3g
-    - libguestfs  # mount VMDKs, large install
+    # - libguestfs  # mount VMDKs, large install
 
   fonts:
     # core:
