@@ -7,6 +7,7 @@
 
 # Exit if any command returns nonzero or unset variable referenced.
 set -o errexit -o pipefail -o nounset
+set -x
 
 main () {
   # Next line assumes $DOTFILES/private is Git repository for private files
@@ -36,6 +37,9 @@ main () {
   )
 }
 
+logger () {
+  echo "$@" | systemd-cat -t $(basename $0)
+}
 
 sync_crontab () {
   local user=${1:-$(whoami)}
@@ -74,6 +78,7 @@ sync_zsh_history () {
   # possible false match if last command multiline (so update next time, ok)
   local last_merged=$(tail -n 1 "$merged")
   local last_localh=$(tail -n 1 "$localh")
+
   grep -Fq "$last_localh" "$splith" && grep -Fq "$last_merged" "$localh" &&
     return 0
 
@@ -86,23 +91,8 @@ sync_zsh_history () {
 
   # add local history to combined hosts repo history
   # sort (timestamp prepended lines) and remove duplicates
-  # sponge lets write out to input file
-  if [[ $(which sponge) ]]; then
-    command cat "$localh" $merged |
-      tr '\n' '\0' |
-      sed 's|\\\x00|\\\n|g' |
-      LC_ALL='C' sort -zu |
-      tr '\0' '\n' |
-      sponge $merged
-  else
-    echo "$(
-      command cat "$localh" $merged |
-        tr '\n' '\0' |
-        sed 's|\\\x00|\n|g' |
-        LC_ALL='C' sort -zu |
-        tr '\0' '\n'
-    )" > $merged
-  fi
+  command cat "$localh" >> "$merged"
+  clean_zsh_history "$merged"
 
   # commit and copy newly merged history to local Zsh history
   git add $merged $splith

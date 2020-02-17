@@ -1,6 +1,11 @@
 # https://github.com/jwilm/alacritty/blob/master/alacritty.yml
 env:
+  # Changing this from "alacritty" to "xterm-256color" is required to get 24 bit
+  # color working inside Tmux. (What do we lose?)
   TERM: xterm-256color
+  # OK let's try setting this in the env passed to Tmux instead, when I get
+  # a chance to review how I'm launching Tmux with SystemD etc.
+  # TERM: alacritty
 window:
   dimensions:
     columns: 0

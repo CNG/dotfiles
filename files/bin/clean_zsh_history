@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+"""
+local merged=zsh_history
+local splith=${merged}_$(hostname)
+local localh=$HOME/.$merged
+
+# proceed only if new last line in repo or local
+# possible false match if last command multiline (so update next time, ok)
+local last_merged=$(tail -n 1 "$merged")
+local last_localh=$(tail -n 1 "$localh")
+
+grep -Fq "$last_localh" "$splith" && grep -Fq "$last_merged" "$localh" &&
+  return 0
+
+# forgot why this is here
+touch $merged $splith
+
+# add new content (appears locally but not in repo) to host log in repo
+command diff --changed-group-format="%>" --unchanged-group-format="" \
+  $merged "$localh" >> $splith || true
+
+# add local history to combined hosts repo history
+# sort (timestamp prepended lines) and remove duplicates
+# sponge lets write out to input file
+command cat "$localh" $merged |
+  tr '\n' '\0' |
+  sed 's|\\\x00|\\\n|g' |
+  LC_ALL='C' sort -zu |
+  tr '\0' '\n' |
+  sponge $merged
+
+# commit and copy newly merged history to local Zsh history
+git add $merged $splith
+git commit -m "$(hostname) $merged$note"
+cmp --silent $merged "$localh" || cp -a $merged "$localh"
+"""
+import re
+import sys
+import codecs
+
+time_command_re = re.compile(r"^.*(\d{10}):0;(.+)", re.DOTALL)
+
+
+def time_command(line, timestamp=None):
+    """Return tuple of timestamp, command
+
+    Accounts for variation in history where formats were one of:
+        : 1411658802:0;ls ~/.ssh
+        1411658802:0;ls ~/.ssh
+    And for problems with the history file that led to things like:
+        : 1563089067:0;1521614360:0;[m: 1521611271:0;cls
+    """
+    match = time_command_re.match(line)
+    # print(line)
+    if match:
+        timestamp, command = match.groups()
+        # print(command)
+        if command.endswith("\x1b[m"):
+            command = command[:-3]
+        if "\x1b" in command:
+            return
+        return timestamp, command
+
+
+for filename in sys.argv[1:]:
+    print("Working on file: " + filename)
+    with codecs.open(filename, "r", encoding="utf-8", errors="ignore") as f:
+        command_separator = re.compile(r"(?<!\\)\n")
+        start_lines = command_separator.split(f.read())
+        print("Starting with lines: {}".format(len(start_lines)))
+        final_lines = []
+        for line in start_lines:
+            result = time_command(line)
+            if result:
+                final_lines.append(result)
+        # Remove duplicates but preserve order (3.7+)
+        final_lines = list(dict.fromkeys(final_lines).keys())
+        print("Ending with lines: {}".format(len(final_lines)))
+    with open(filename, "w") as f:
+        for line in sorted(final_lines):
+            f.write(": {}:0;{}\n".format(*line))

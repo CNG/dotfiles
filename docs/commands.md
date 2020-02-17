@@ -21,6 +21,39 @@ Some commands I keep needing to look up that don't fit in the other pages:
   -printf "file '$PWD/%p'\n" | sort) -map_metadata 0 -c copy "concat_$(basename
   $(find . -maxdepth 1 -type f -name '*.MP4' -printf "%p" | sort | head -n1))"`
 
+## Journal
+
+    journalctl --list-boots
+    journalctl --since "2 days ago"
+    journalctl --since "2015-06-26 23:15:00" --until "2015-06-26 23:20:00"
+    journalctl -u nginx.service -u mysql.service
+    journalctl --output short-monotonic  # more time precision
+    journalctl -b -1  -p "emerg".."crit"
+    journalctl _UID=$(id --user cgorichanaz)
+    # Show fields with
+    journalctl --output verbose
+    # or
+    man systemd.journal-fields
+    # Show existing entries for field name
+    journalctl -F _GID
+    journalctl /usr/bin/bash
+    journalctl -k  # or --dmesg, limit results to kernel only
+    journalctl --no-pager
+
+
+## Open files
+
+    $ sudo lsof | wc -l
+    lsof: WARNING: can't stat() fuse.gvfsd-fuse file system /run/user/1000/gvfs
+          Output information may be incomplete.
+    220699
+    
+    $ sudo sysctl fs.file-nr
+    fs.file-nr = 7936       0       9223372036854775807
+    
+    $ sudo sysctl fs.file-max
+    fs.file-max = 9223372036854775807
+
 ## Formatting
 
     # Identify /dev address with lsblk or fdisk -l

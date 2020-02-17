@@ -1,6 +1,7 @@
 # Vim things I always forget
 
-Fold: `zc` and `zo`, open all `zR`
+Fold: `za` toggles, `zc` closes and `zo` opens, open all `zR`
+I've mapped `+` and `=` to `za`, others suggest space.
 
 Navigate folds: `zj` and `zk`, `[z` and `]z`
 
@@ -20,6 +21,23 @@ Set date under cursor to current time: `d<C-A>` or `d<C-X>` for UTC
 Tag sidebar: \<F8\>
 
 * `p`: jump to definition but stay in sidebar
+
+Native tags: Run `!ctags -R .` to create local `tags` file. Then ^] navigates to
+definitions. Can move around and continue ^] and then use ^t to "go back up" to
+where you first ran ^].
+
+Autocomplete from:
+
+* ^n keywords in 'complete' (?)
+* ^x^] tags
+* ^x^f file names (completes paths, too, from root `/` or PWD)
+* ^x^n current file
+* ^x^i current and included files
+* ^x^o omni completion
+* ^x^k dictionary
+* ^x^t thesaurus
+* ^xs spelling
+
 
 Surround:
 

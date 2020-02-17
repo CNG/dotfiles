@@ -96,12 +96,12 @@
     # set directories to 755, and files to 644
     mode: "u=rwX,g=rX,o=rX"
     recurse: yes
+    follow: no
   become: yes
 
-# Shouldn't need this if .ssh is a link
 - name: Reduce permissions on .ssh keys
   file:
-    path: "/home/{{ user.name }}/.ssh/{{ items }}"
+    path: "/home/{{ user.name }}/.ssh/{{ item }}"
     mode: 0600
   with_items: "{{ ssh_keys }}"
   become: yes

@@ -2,6 +2,8 @@
 - hosts: all
   # become: yes  # TODO
   ignore_errors: yes  # TODO
+  vars_files:
+    - group_vars/all.private.yml
   roles:
     # these run as dependencies
     # - { role: base, tags: ['base'] }

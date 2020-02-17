@@ -18,6 +18,26 @@
   notify:
   - restart pulse as user
 
+- name: Stop switching audio to HDMI every time display wakes up, etc.
+  # https://askubuntu.com/a/228623/354276
+  lineinfile:
+    dest: /etc/pulse/default.pa
+    regex: "^load-module module-switch-on-port-available"
+    state: present
+    line: "# load-module module-switch-on-port-available"
+  notify:
+  - restart pulse as user
+
+- name: Try to prevent 1s silence at start audio to BT
+  # https://askubuntu.com/a/440787
+  lineinfile:
+    dest: /etc/pulse/default.pa
+    regex: "^load-module module-suspend-on-idle"
+    state: present
+    line: "# load-module module-suspend-on-idle"
+  notify:
+  - restart pulse as user
+
 - name: Setup Bluetooth permissions
   become: yes
   copy:

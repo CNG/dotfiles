@@ -83,7 +83,10 @@ packages:
     - dateutils
     - moreutils
     - bc
-    - [ git, hub, perl-term-readkey ]
+    - man-db
+    - man-pages
+    - logrotate
+    - [ git, git-lfs, hub, perl-term-readkey ]
     - glances
     - go
     - kfind

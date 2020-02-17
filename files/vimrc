@@ -3,8 +3,13 @@ source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 " runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
+filetype plugin indent on
 
+" Wow I need to document things better, were these still needed when I'm using
+" the plugin?
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
+" yanked text into and paste from global clipboard; requires gvim (libX11 support)
+set clipboard=unnamedplus
 
 " Use space as leader, disabling default "move right" first
 " https://stackoverflow.com/q/446269/172602
@@ -13,10 +18,7 @@ let mapleader = " "
 " Could also try following
 " map <SPACE> <leader>
 
-filetype plugin indent on
 
-" yanked text into and paste from global clipboard; requires gvim (libX11 support)
-set clipboard=unnamedplus
 
 
 " remap upper case saving and quitting to lower case
