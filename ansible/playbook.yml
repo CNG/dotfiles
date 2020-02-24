@@ -6,7 +6,7 @@
     - group_vars/all.private.yml
   roles:
     # these run as dependencies
-    # - { role: base, tags: ['base'] }
+    - { role: base, tags: ['base'] }
     - { role: x, tags: ['x'] }
     - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name" }
     - { role: desktop_environment, tags: ['desktop_environment'], when: "desktop_environment is defined" }
@@ -65,7 +65,7 @@
     - { role: mpv, tags: ['mpv'] }  # a free, open source, and cross-platform media player
     - { role: rtorrent, tags: ['rtorrent'] }
     - { role: taskwarrior, tags: ['taskwarrior'] }  # manages your to do list from the command line
-    - { role: tor, tags: ['tor'] }
+    # - { role: tor, tags: ['tor'] }
     - { role: wormhole, tags: ['wormhole'] }  # get things from one computer to another, safely
     - { role: unbound, tags: ['unbound'] }  # validating, recursive, and caching DNS resolver
 
