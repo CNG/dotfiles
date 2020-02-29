@@ -329,7 +329,8 @@ packages:
     - [ nemo, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
     - [ ffmpegthumbnailer, ffmpegthumbnailer-mp3 ]  # opt dept Nemo
     - lxappearance  # maybe, was trying to change GTK3 theme with this tool
-    - [ dolphin, dolphin-plugins ]  # This might be temporary, mem leak issues with Nemo
+    - [ dolphin, dolphin-plugins, insync-dolphin, dolphin-split-view-the-right-way ]  # This might be temporary, mem leak issues with Nemo
+    - [ klook-git, phonon-qt4-backend ]  # For Dolphin, huge install, testing
     - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
     #- [ nemo-seahorse-nonautilus, gnome-keyring ]
 
