@@ -102,7 +102,6 @@ packages:
   base_aur:
     - rust  # For alacritty tie break in aurman
     - alacritty-git
-    - alacritty-terminfo-git
     - ctmg
     - imwheel
     - miller
@@ -206,7 +205,6 @@ packages:
     - ttf-iosevka
     - ttf-latex-xft-fonts
     - ttf-mac-fonts
-    - ttf-montserrat
     - ttf-nanum
     - ttf-noto-fonts-emoji-ib
     - ttf-raleway
