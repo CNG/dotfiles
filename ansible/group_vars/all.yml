@@ -218,7 +218,7 @@ packages:
     - [ cdparanoia, abcde ]  # CD track encoder
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - vlc
-    - [ zopfli, zopflipng-git ]  # compression
+    - zopfli  # compression
     - vdhcoapp-bin  # Video Downloadhelper companion app
     - guvcview  # webcam record
     - losslesscut  # video trim
