@@ -187,7 +187,7 @@ packages:
     - ttf-oswald
     - ttf-quintessential
     - ttf-signika
-    - ttf-symbola
+    # error - ttf-symbola
     - ttf-ubuntu-font-family
     # Validating source files with md5sums... Cantora_One.zip ... FAILED
     # - ttf-impallari-cantora
@@ -200,7 +200,7 @@ packages:
     - ttf-fantasque-sans-mono
     - ttf-fira-code
     - ttf-font-awesome-4
-    - ttf-google-fonts-git
+    # conflict - ttf-google-fonts-git
     - ttf-input
     - ttf-iosevka
     - ttf-latex-xft-fonts
@@ -218,7 +218,7 @@ packages:
     - [ cdparanoia, abcde ]  # CD track encoder
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - vlc
-    - [ zopfli, zopflipng ]  # compression
+    - [ zopfli, zopflipng-git ]  # compression
     - vdhcoapp-bin  # Video Downloadhelper companion app
     - guvcview  # webcam record
     - losslesscut  # video trim

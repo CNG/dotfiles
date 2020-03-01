@@ -22,7 +22,9 @@
     name: fwupd
     state: present
 - name: Refresh firmware update metadata from remote server
-  command: fwupdmgr refresh
+  # --force because returns error (2) if recently refreshed:
+  # Firmware metadata last refresh: 3 minutes ago. Use --force to refresh again.
+  command: fwupdmgr refresh --force
   changed_when: False
 - name: Check if firmware updates available
   command: fwupdmgr get-updates

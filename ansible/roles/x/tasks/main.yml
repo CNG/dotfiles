@@ -188,10 +188,10 @@
   - name: "NVIDIA: direct rendering manager: add kernel parameter"
     lineinfile:
       path: /boot/loader/entries/arch.conf
-      regexp: "^options ((?:(?!{{item}}).)*)"
+      regexp: "^options((?:(?! {{item}}).)*)(?: {{item}})?(.*)"
       backrefs: yes
       state: present
-      line: "options \\1 {{item}}"
+      line: "options\\1 {{item}}\\2"
     with_items:
       - nvidia-drm.modeset=1
   - name: "NVIDIA: Install Pacman hook"
