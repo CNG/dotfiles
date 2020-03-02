@@ -18,7 +18,12 @@
     - name: First time setup MariaDB
       command: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
       become: yes
-    - name: MySQL settings for digiKam
+    - name: MySQL settings for digiKam 1
+      lineinfile:
+        dest: /etc/my.cnf
+        line: "[mysqld]"
+      become: yes
+    - name: MySQL settings for digiKam 2
       lineinfile:
         dest: /etc/my.cnf
         regexp: "^max_allowed_packet"
