@@ -17,7 +17,6 @@ window:
 scrolling:
   history: 0
   multiplier: 0
-tabspaces: 8
 font:
   normal:
     family: Input Mono
