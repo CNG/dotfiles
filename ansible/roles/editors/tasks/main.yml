@@ -82,3 +82,21 @@
     #   let b:ale_linters = ['pyflakes', 'flake8', 'pylint']
     #   let b:ale_fixers = ['eslint']
     #   let b:ale_fix_on_save = 1
+
+    # Vimwiki
+    - { user: 'vimwiki', repo: 'vimwiki', version: 'dev' }
+    #   TaskWarrior integration
+    #     Requires python-tasklib from AUR
+    - { user: 'tbabej', repo: 'taskwiki' }
+    #     Enables gridview:
+    - { user: 'farseer90718', repo: 'vim-taskwarrior' }
+    #     Adds color support in charts:
+    - { user: 'powerman', repo: 'vim-plugin-AnsiEsc' }
+
+- name: Install python-tasklib for TaskWarrior-Vimwiki integration
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - python-tasklib

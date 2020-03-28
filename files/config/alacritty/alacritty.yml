@@ -35,29 +35,6 @@ font:
   glyph_offset:
     x: 0
     y: 0
-draw_bold_text_with_bright_colors: true
-colors:
-  primary:
-    background: '0x00002c'
-    foreground: '0xeaeaea'
-  normal:
-    black:   '0x1B1D1E'
-    red:     '0xFF0044'
-    green:   '0x82B414'
-    yellow:  '0xFD971F'
-    blue:    '0x266C98'
-    magenta: '0xAC0CB1'
-    cyan:    '0xAE81FF'
-    white:   '0xCCCCCC'
-  bright:
-    black:   '0x808080'
-    red:     '0xF92672'
-    green:   '0xA6E22E'
-    yellow:  '0xE6DB74'
-    blue:    '0x7070F0'
-    magenta: '0xD63AE1'
-    cyan:    '0x66D9EF'
-    white:   '0xF8F8F2'
 visual_bell:
   animation: EaseOutExpo
   duration: 5
@@ -232,3 +209,128 @@ key_bindings:
   - { key: F10,      mods: Super,   chars: "\x1b[21;3~"                  }
   - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                  }
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                  }
+
+schemes:
+  # Colors (Solarized Light)
+  solarized_light: &light
+    # Default colors
+    primary:
+      background: '#fdf6e3' # base3
+      foreground: '#657b83' # base00
+
+    # Cursor colors
+    cursor:
+      text:   '#fdf6e3' # base3
+      cursor: '#657b83' # base00
+
+    # Normal colors
+    normal:
+      black:   '#073642' # base02
+      red:     '#dc322f' # red
+      green:   '#859900' # green
+      yellow:  '#b58900' # yellow
+      blue:    '#268bd2' # blue
+      magenta: '#d33682' # magenta
+      cyan:    '#2aa198' # cyan
+      white:   '#eee8d5' # base2
+
+    # Bright colors
+    bright:
+      black:   '#002b36' # base03
+      red:     '#cb4b16' # orange
+      green:   '#586e75' # base01
+      yellow:  '#657b83' # base00
+      blue:    '#839496' # base0
+      magenta: '#6c71c4' # violet
+      cyan:    '#93a1a1' # base1
+      white:   '#fdf6e3' # base3
+
+  # Colors (Solarized Dark)
+  solarized_dark: &dark
+    # Default colors
+    primary:
+      background: '#002b36' # base03
+      foreground: '#839496' # base0
+
+    # Cursor colors
+    cursor:
+      text:   '#002b36' # base03
+      cursor: '#839496' # base0
+
+    # Normal colors
+    normal:
+      black:   '#073642' # base02
+      red:     '#dc322f' # red
+      green:   '#859900' # green
+      yellow:  '#b58900' # yellow
+      blue:    '#268bd2' # blue
+      magenta: '#d33682' # magenta
+      cyan:    '#2aa198' # cyan
+      white:   '#eee8d5' # base2
+
+    # Bright colors
+    bright:
+      black:   '#586e75' # base01
+      red:     '#cb4b16' # orange
+      green:   '#586e75' # base01
+      yellow:  '#657b83' # base00
+      blue:    '#839496' # base0
+      magenta: '#6c71c4' # violet
+      cyan:    '#93a1a1' # base1
+      white:   '#fdf6e3' # base3
+
+  # Colors (Monokai Pro)
+  monokai_pro: &monokai_pro
+    # Default colors
+    primary:
+      background: '#2D2A2E'
+      foreground: '#FCFCFA'
+
+    # Normal colors
+    normal:
+      black:   '#403E41'
+      red:     '#FF6188'
+      green:   '#A9DC76'
+      yellow:  '#FFD866'
+      blue:    '#FC9867'
+      magenta: '#AB9DF2'
+      cyan:    '#78DCE8'
+      white:   '#FCFCFA'
+
+    # Bright colors
+    bright:
+      black:   '#727072'
+      red:     '#FF6188'
+      green:   '#A9DC76'
+      yellow:  '#FFD866'
+      blue:    '#FC9867'
+      magenta: '#AB9DF2'
+      cyan:    '#78DCE8'
+      white:   '#FCFCFA'
+
+
+  charlie_monokai: &charlie
+    primary:
+      background: '0x00002c'
+      foreground: '0xeaeaea'
+    normal:
+      black:   '0x1B1D1E'
+      red:     '0xFF0044'
+      green:   '0x82B414'
+      yellow:  '0xFD971F'
+      blue:    '0x266C98'
+      magenta: '0xAC0CB1'
+      cyan:    '0xAE81FF'
+      white:   '0xCCCCCC'
+    bright:
+      black:   '0x808080'
+      red:     '0xF92672'
+      green:   '0xA6E22E'
+      yellow:  '0xE6DB74'
+      blue:    '0x7070F0'
+      magenta: '0xD63AE1'
+      cyan:    '0x66D9EF'
+      white:   '0xF8F8F2'
+
+colors: *charlie
+draw_bold_text_with_bright_colors: false

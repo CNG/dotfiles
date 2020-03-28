@@ -1,24 +1,59 @@
-" For Pathogen, a package manager
+""" STARTUP
+
+" Start package manager (Pathogen)
 source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
-" runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 filetype plugin indent on
 
-" Wow I need to document things better, were these still needed when I'm using
-" the plugin?
-autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
-" yanked text into and paste from global clipboard; requires gvim (libX11 support)
-set clipboard=unnamedplus
+""" SHORTCUTS
 
-" Use space as leader, disabling default "move right" first
-" https://stackoverflow.com/q/446269/172602
-nnoremap <Space> <nop>
-let mapleader = " "
-" Could also try following
-" map <SPACE> <leader>
 
-" https://github.com/Konfekt/FastFold
+
+""" MAIN SETTINGS
+
+" not "on", "enable" for Solarized colors
+syntax enable
+
+
+" Following needed for Tmux at least if "set termguicolors".
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set background=dark
+set t_Co=256
+
+" following for 24-bit color in Alacritty
+" https://github.com/jwilm/alacritty/issues/109
+execute "set t_8f=\e[38;2;%lu;%lu;%lum"
+execute "set t_8b=\e[48;2;%lu;%lu;%lum"
+
+set termguicolors
+colorscheme solarized8_high
+
+
+""" PLUGIN SETTINGS
+
+let g:solarized_termtrans = 1
+
+
+"" Taskwiki
+let g:taskwiki_taskrc_location = "~/.config/taskrc"
+let g:taskwiki_markup_syntax = "markdown"
+
+"" Vimwiki
+let g:vimwiki_list = [{'path': '~/GDrive/Main/Notes/',
+                      \ 'syntax': 'markdown',
+                      \ 'ext': '.md',
+                      \ 'list_margin': 0,
+                      \ 'automatic_nested_syntaxes': 1 }]
+" hi VimwikiHeader1 guifg=#FF0000
+" hi VimwikiHeader2 guifg=#00FF00
+" hi VimwikiHeader3 guifg=#0000FF
+" hi VimwikiHeader4 guifg=#FF00FF
+" hi VimwikiHeader5 guifg=#00FFFF
+" hi VimwikiHeader6 guifg=#FFFF00
+
+"" FastFold: https://github.com/Konfekt/FastFold
 nmap zuz <Plug>(FastFoldUpdate)
 let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
@@ -35,6 +70,27 @@ let g:perl_fold_blocks = 1
 let g:r_syntax_folding = 1
 let g:rust_fold = 1
 let g:php_folding = 1
+
+""" TO BE ORGANIZED
+
+
+
+
+
+" Wow I need to document things better, were these still needed when I'm using
+" the plugin?
+autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
+" yanked text into and paste from global clipboard; requires gvim (libX11 support)
+set clipboard=unnamedplus
+
+" Use space as leader, disabling default "move right" first
+" https://stackoverflow.com/q/446269/172602
+nnoremap <Space> <nop>
+let mapleader = " "
+" Could also try following
+" map <SPACE> <leader>
+
+
 
 
 " remap upper case saving and quitting to lower case
@@ -96,9 +152,13 @@ nnoremap <leader>/ :noh<cr>
 
 " nnoremap <tab> %
 " vnoremap <tab> %
-" set spell
+set spell
+set spellcapcheck=
 set spelllang=en
 set spellfile=$HOME/.vim/spell/en.utf-8.add
+hi SpellBad guifg=orange
+" hi SpellCap guifg=green
+set mousemodel="popup"
 
 set wrap
 set linebreak
@@ -183,31 +243,14 @@ nmap <Leader>s :%s///g<left><left>
 cmap w!! w !sudo tee > /dev/null %
 
 
-" commenting out to enable transparent bg
-" set termguicolors
 let g:solarized_termtrans=1
 
 let g:airline_solarized_dark_text=1
 
-set background=dark
-" colorscheme solarized8
-colorscheme solarized8_high
-" comment because adde.e syntax enable for Solarized colors
-" syntax on
-syntax enable
 let g:solarized_term_italics = 1
 " colorscheme molokai
 " let g:molokai_original = 1
 
-" TODO: test
-" Following needed for Tmux
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" following for 24-bit color in Alacritty
-" https://github.com/jwilm/alacritty/issues/109
-execute "set t_8f=\e[38;2;%lu;%lu;%lum"
-execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '

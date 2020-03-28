@@ -7,7 +7,8 @@ verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,filter,un
 urgency.user.tag.idea.coefficient=-3.0
 urgency.user.tag.read.coefficient=-2.0
 
-include /usr/share/doc/task/rc/solarized-dark-256.theme
+#include /usr/share/doc/task/rc/solarized-dark-256.theme
+include /usr/share/doc/task/rc/dark-256.theme
 
 report.minimal.columns=id,description
 report.minimal.labels=id,description
