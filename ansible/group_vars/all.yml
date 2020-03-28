@@ -79,6 +79,8 @@ roles:
 #  flags: --auto-offset --level 4
 
 packages:
+  deprecated:
+    - zsh-theme-powerlevel10k
 
   base:
     - base-devel

@@ -1,4 +1,10 @@
 ---
+- name: Remove deprecated packages
+  pacman:
+    name: "{{ packages.deprecated }}"
+    state: absent
+  become: yes
+
 - name: Upgrade all packages
   aur:
     upgrade: yes

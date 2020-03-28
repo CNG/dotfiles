@@ -1,8 +1,5 @@
-# need to determine difference, but for now will clone git repo to oh-my-zsh
-# plugins dir instead
-#source /usr/share/zsh-theme-powerlevel9k/powerlevel9k.zsh-theme
 
-#ZSH_THEME="powerlevel9k/powerlevel9k"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
 
 DEFAULT_USER=$USER
 

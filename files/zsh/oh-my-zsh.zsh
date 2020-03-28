@@ -6,8 +6,7 @@ ZSH=$HOME/.oh-my-zsh
 #if [[ -z ${ZSH_THEME+x} ]]; then
 #ZSH_THEME="robbyrussell"
 #fi
-ZSH_THEME="powerlevel9k/powerlevel9k"
-#ZSH_THEME="powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"

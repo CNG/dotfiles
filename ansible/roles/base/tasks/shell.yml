@@ -15,10 +15,8 @@
       - zsh
       - zsh-completions
       - zsh-syntax-highlighting
-      - zsh-theme-powerlevel9k
       - oh-my-zsh-git
-      # - oh-my-zsh-powerline-theme-git
-      # - powerline-fonts-git # failed when plasma-integration tried to install ttf-hack
+      - ttf-meslo-nerd-font-powerlevel10k
 
 - become: yes
   become_user: "{{ user.name }}"
@@ -30,17 +28,17 @@
       depth: 1
       update: yes
       accept_hostkey: yes
-  - name: Clone repo
+  - name: Clone history-search-multi-word repo
     git:
       repo: "git://github.com/zdharma/history-search-multi-word.git"
       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
       depth: 1
       update: yes
       accept_hostkey: yes
-  - name: Clone powerlevel9k repo
+  - name: Clone powerlevel10k repo
     git:
-      repo: "git://github.com/bhilburn/powerlevel9k.git"
-      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel9k"
+      repo: "git://github.com/romkatv/powerlevel10k.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
       depth: 1
       update: yes
       accept_hostkey: yes
