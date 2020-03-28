@@ -1,20 +1,23 @@
 user:
-  name: cgorichanaz
-  fullname: "Charlie Gorichanaz"
+  fullname: "FIRST LAST"
+  name: USERNAME
+  group: USERNAME
+  email: EMAIL
   uid: 1000
-  group: cgorichanaz
   shell: /usr/bin/zsh
   layout: dvorak
-  email:  charlie@gorichanaz.com
   # be sure to change the password after first run
   password: test
   log:
     dir: log
     rotate: 8
 
+samba_log: /var/log/samba.log
+samba_log_size: 60000
+
 dotfiles:
-  # url: git@github.com:CNG/dotfiles.git
-  source: projects/dotfiles
+  git_url: "git://github.com/CNG/dotfiles.git"
+  path: dotfiles
   files_to_copy_not_link: "htoprc Preferences.sublime-settings copyq.conf"
 
 ssh:

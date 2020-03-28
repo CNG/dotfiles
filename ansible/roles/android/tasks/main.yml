@@ -24,16 +24,15 @@
 - name: Clone adb-sync repo
   git:
     repo: "git://github.com/google/adb-sync.git"
-    dest: "/home/{{ user.name }}/projects/adb-sync-git"
+    dest: "/opt/adb-sync-git"
     update: no
     accept_hostkey: yes
   become: yes
-  become_user: "{{ user.name }}"
 
 - name: Link adb-channel to bin
   file:
     path: "/usr/local/bin/{{ item }}"
-    src: "/home/{{ user.name }}/projects/adb-sync-git/{{ item }}"
+    src: "/opt/adb-sync-git/{{ item }}"
     state: link
     force: yes
   with_items:

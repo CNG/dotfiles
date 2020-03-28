@@ -8,12 +8,11 @@
 
 # This would put the dotfiles in place for rcup to do its work
 # But till I have the repo set up, I need to manually put the
-# dotfiles in ~/projects/
-# This is extra confusing because I have the dotfiles in GDrive/Projects too
+# dotfiles in ~/dotfiles
 - name: Clone user dotfiles
   git:
-    repo: "{{ dotfiles.url }}"
-    dest: "/home/{{ user.name }}/{{ dotfiles.source }}"
+    repo: "{{ dotfiles.git_url }}"
+    dest: "/home/{{ user.name }}/{{ dotfiles.path }}"
     accept_hostkey: yes
     update: no
   when: dotfiles.url is defined
@@ -21,8 +20,8 @@
   become_user: "{{ user.name }}"
 
 - name: Install user dotfiles
-  when: dotfiles.source is defined
-  shell: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.source }}/files -fv | grep -v '^identical'"
+  when: dotfiles.path is defined
+  shell: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.path }}/files -fv | grep -v '^identical'"
   environment:
     COPY_ALWAYS: "{{ dotfiles.files_to_copy_not_link }}"
   become: yes
@@ -79,7 +78,7 @@
 - name: Link private files
   file:
     path: "/home/{{ user.name }}/.{{ item }}"
-    src: "/home/{{ user.name }}/projects/dotfiles/private/{{ item }}"
+    src: "/home/{{ user.name }}/{{ dotfiles.path }}/private/{{ item }}"
     state: link
     force: yes
   with_items:
@@ -88,6 +87,7 @@
     - gitconfig.local
     - ssh
 
+# TODO this is still clunky, and work's Workspace is huge
 - name: Set user files ownership in case we created files as root
   file:
     path: "/home/{{ user.name }}"

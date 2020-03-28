@@ -19,16 +19,16 @@
 - import_tasks: shell.yml
 - import_tasks: journal.yml
 
+# On first run, path won't exist yet, but maybe we can still create link here
 - name: Setup provision command
   file:
-    src: "/home/{{ user.name }}/{{ dotfiles.source }}/provision"
+    src: "/home/{{ user.name }}/{{ dotfiles.path }}/provision"
     dest: /usr/local/bin/provision
     state: link
-  when: dotfiles.source is defined
+  when: dotfiles.path is defined
 
 # Added this when troubleshooting irregular temp readings in i3 setup
 # https://wiki.archlinux.org/index.php/lm_sensors
-
 - name: Run sensors-detect
   command: sensors-detect --auto
   become: yes

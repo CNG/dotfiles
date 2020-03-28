@@ -57,6 +57,7 @@
   become: yes
   become_user: aur_builder
 
+# TODO remove if we switch from aurman to yum
 # This is redundant with dotfiles but here for ordering
 - name: Configure Aurman
   blockinfile:

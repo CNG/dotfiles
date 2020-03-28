@@ -5,16 +5,26 @@
   vars_files:
     - group_vars/all.private.yml
   roles:
-    # these run as dependencies
+    # These run as dependencies, but I've been removing that since it's
+    # convenient to be able to run just these and I don't love running them
+    # twice.
     - { role: base, tags: ['base'] }
     - { role: x, tags: ['x'] }
-    - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name" }
-    - { role: desktop_environment, tags: ['desktop_environment'], when: "desktop_environment is defined" }
 
+    - {
+      role: desktop_environment,
+      tags: ['desktop_environment'],
+      when: "desktop_environment is defined"
+      }
+    - {
+      role: laptop,
+      tags: ['laptop'],
+      # TODO are there any Precision specific configs in laptop we should pull out?
+      when: "'Precision' in ansible_product_name or 'XPS' in ansible_product_name"
+      }
     - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
-    # - { role: aurora, tags: ['aurora']}
-    - { role: work, tags: ['work'], when: work }
+    - { role: work, tags: ['work'], when: "'work' in flags" }
 
     # TASK [bertvv.samba : Start Samba service(s)]
     # failed: [Charlie18b] (item=smbd) => {"changed": false, "item": "smbd", "msg": "Could not find the requested service smbd: host"}
@@ -34,12 +44,13 @@
     - { role: dotfiles, tags: ['dotfiles'] }
     - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }
-    - { role: fah, tags: ['fah'], when: "foldingathome is defined" }
+    - { role: fah, tags: ['fah'], when: "'foldingathome' in flags" }
     - { role: filesystems, tags: ['filesystems'] }
     - { role: fonts, tags: ['fonts'] }
     - { role: gnupg, tags: ['gnupg'] }
     - { role: hostsctl, tags: ['hostsctl'], when: "hostsctl is defined" }
-    - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }  # tiling window manager
+    # tiling window manager
+    - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
     - { role: lightdm, tags: ['lightdm'] }  # login manager
     - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
     - { role: media, tags: ['media'] }
@@ -47,8 +58,10 @@
     - { role: networkmanager, tags: ['networkmanager'] }
     - { role: ntp, tags: ['ntp'] }
     - { role: office, tags: ['office'] }
-    - { role: parcimonie, tags: ['parcimonie'], when: "tor is defined" }  # refreshes individual keys in your GnuPG keyring
-    - { role: redshift, tags: ['redshift'] }  # adjusts the color temperature of your screen according to your surroundings
+    # refreshes individual keys in your GnuPG keyring
+    - { role: parcimonie, tags: ['parcimonie'], when: "tor is defined" }
+    # adjusts the color temperature of your screen according to your surroundings
+    - { role: redshift, tags: ['redshift'] }
     - { role: screensaver, tags: ['screensaver'] }
     - { role: sound, tags: ['sound'] }
     - { role: spell, tags: ['spell'] }

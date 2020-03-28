@@ -32,7 +32,7 @@ main(){
 
   (($#>1)) && shift $((--OPTIND))
 
-  ROFI_MAGIC="-dmenu -i -config ~/projects/dotfiles/notes/rofi-config"
+  ROFI_MAGIC="-dmenu -i -config ~/dotfiles/notes/rofi-config"
 
   output=${1:-val}
 

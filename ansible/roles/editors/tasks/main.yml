@@ -20,6 +20,7 @@
     dest: "/home/{{ user.name }}/.vim/bundle/{{ item.repo }}"
     update: yes
     accept_hostkey: yes
+    version: "{{ item.version | default('HEAD') }}"
   become: yes
   become_user: "{{ user.name }}"
   with_items:
@@ -67,7 +68,7 @@
     - { user: 'tpope', repo: 'vim-fugitive' }
     - { user: 'tommcdo', repo: 'vim-fubitive' }  # Bitbucket support
     # Tag sidebar
-    - { user: 'majutsushi', repo: 'tagbar'}
+    - { user: 'majutsushi', repo: 'tagbar' }
     # Ultisnips, used by YouCompleteMe
     # - { user: 'SirVer', repo: 'ultisnips' }
     # Trying another thing to maybe get signatures... which needs Jedi...

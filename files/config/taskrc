@@ -1,6 +1,6 @@
 # Taskwarrior program configuration file.
 
-data.location=$DOTFILES/private/Tracking/tasks
+data.location=~/dotfiles/private/Tracking/tasks
 
 verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,filter,unwait
 

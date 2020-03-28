@@ -1,6 +1,6 @@
 ---
 - name: Install DigiKam and dependencies
-  when: digikam is defined
+  when: "'digikam' in flags"
   block:
     - name: Install DigiKam and dependencies
       aur:
@@ -47,7 +47,7 @@
         state: started
 
 - name: Remove DigiKam and dependencies
-  when: digikam is not defined
+  when: "'digikam' not in flags"
   become: yes
   block:
     - name: Disable MariaDB service
