@@ -53,6 +53,11 @@ command=date '+<span font_weight="light" size="smaller" color="#FF8C00"><tt>%H</
 interval=1
 separator_block_width=20
 
+#[time_local]
+#command=TZ='Asia/Taipei' date '+<span font_weight="light" size="smaller" color="#FF8C00"><tt>%H</tt>:<tt>%M</tt><small>%Z</small></span>'
+#interval=1
+#separator_block_width=20
+
 [home]
 command=~/.config/i3scripts/disk
 instance=/home/

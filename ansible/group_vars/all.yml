@@ -232,7 +232,7 @@ packages:
     - iscan-plugin-gt-x820  # Epson V600 scanner
     - flashplugin
     # - flite  # lightweight speech synthesis engine
-    - fritzing
+    # - fritzing  # Haven't used this is a while
     - libheif
     - gpscorrelate
     - gthumb

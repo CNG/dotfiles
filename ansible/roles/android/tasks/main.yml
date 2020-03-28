@@ -1,4 +1,6 @@
 ---
+# TODO: Am I still using any of these for any Android scripts?
+
 - name: Check if fb-adb is installed
   command: which fb-adb
   register: fbadb_check
