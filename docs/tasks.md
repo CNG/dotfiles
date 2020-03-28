@@ -6,14 +6,14 @@ for now. This setup is a bit weird.
 * `TASKRC`: Points to `~/.config/taskrc`, which is linked to these dotfiles.
 * `TIMEWARRIORDB`: Points to my Google Drive `Tracking/time` folder.
 
-`taskrc` points `data.location` to my Google Drive `Tracking/tasks` folder.
+`taskrc` points `data.location` to my Google Drive `Tracking/tasks` folder. Note this CAN use `~` shell metacharacter but apparently cannot use `$HOME` or my own environment variables I thought I was using previously here.
 
     $ cp -a $(pacman -Ql timew | grep on-modify | cut -d' ' -f2) ~/GDrive/Main/Tracking/tasks/hooks
     $ chmod +x ~/GDrive/Main/Tracking/tasks/hooks/on-modify.timewarrior
     $ cp -a $(pacman -Ql timew | grep totals.py | cut -d' ' -f2) ~/GDrive/Main/Tracking/time/extensions
     $ chmod +x ~/GDrive/Main/Tracking/time/extensions/totals.py
 
-I also previously threw a function at `files/zsh/config/functions/task`:
+I also previously threw a function at `files/zsh/config/functions/task`, but I have now removed it since I started also using TimeWarrior:
 
     echo -e "$(date --utc '+%Y-%m-%d %H:%M:%S')\t$@" | tee -a $HOME/GDrive/Main/Tracking/timetracking.txt
 
