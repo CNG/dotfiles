@@ -19,13 +19,14 @@ scrolling:
   multiplier: 0
 font:
   normal:
-    family: Input Mono
+    family: &family Input Mono
+    # family: &family MesloLGS NF
     style: Regular
   bold:
-    family: Input Mono
+    family: *family
     style: Bold
   italic:
-    family: Input Mono
+    family: *family
     style: Italic
   size: 12.0
   offset:
