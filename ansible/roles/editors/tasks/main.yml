@@ -93,6 +93,9 @@
     #     Adds color support in charts:
     - { user: 'powerman', repo: 'vim-plugin-AnsiEsc' }
 
+    # Jinja template syntax (using for Pelican static site generator)
+    - { user: 'lepture', repo: 'vim-jinja' }
+
 - name: Install python-tasklib for TaskWarrior-Vimwiki integration
   aur:
     name: "{{ item }}"

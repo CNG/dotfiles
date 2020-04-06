@@ -32,8 +32,8 @@ bindsym $mod+Ctrl+e  exec --no-startup-id chromium --app=https://outlook.office3
 bindsym $mod+Ctrl+w  exec --no-startup-id chromium --app=https://web.whatsapp.com
 bindsym $mod+Ctrl+f  exec --no-startup-id chromium --app=https://www.facebook.com/messages
 # VPN
-bindsym $alt+v       exec --no-startup-id "zsh -c 'fitbitvpn start split &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
-bindsym $alt+z       exec --no-startup-id "zsh -c 'fitbitvpn start sac &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $alt+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
+bindsym $alt+z       exec --no-startup-id "zsh -c 'fitbitvpn start full &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
 # completely forgot about the following, so maybe I don't need them
 #bindsym $mod+z       exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
