@@ -204,8 +204,7 @@ packages:
     - ttf-contemporary
     - ttf-fantasque-sans-mono
     - ttf-fira-code
-    # might want to replace with ttf-nerd-fonts-input
-    # - ttf-font-awesome-4
+    - ttf-font-awesome-4
     # conflict - ttf-google-fonts-git
     # - ttf-input  # Probably replacing with below but can't test due to 500
     # error
