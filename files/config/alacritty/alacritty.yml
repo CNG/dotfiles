@@ -187,7 +187,7 @@ key_bindings:
   - { key: Copy,                                 action: Copy           }
   - { key: L,         mods: Control,             action: ClearLogNotice }
   # Unknown mode ~Vi ??
-  - { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
+  # - { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
   - { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }
   - { key: PageDown,  mods: Shift,   mode: ~Alt, action: ScrollPageDown }
   - { key: Home,      mods: Shift,   mode: ~Alt, action: ScrollToTop,   }
@@ -239,7 +239,7 @@ key_bindings:
 
   - { key: V,        mods: Control|Shift,           action: Paste            }
   - { key: C,        mods: Control|Shift,           action: Copy             }
-  - { key: C,        mods: Control|Shift, mode: Vi, action: ClearSelection   }
+  # - { key: C,        mods: Control|Shift, mode: Vi, action: ClearSelection   }
   - { key: Insert,   mods: Shift,                   action: PasteSelection   }
   - { key: Key0,     mods: Control,                 action: ResetFontSize    }
   - { key: Equals,   mods: Control,                 action: IncreaseFontSize }
