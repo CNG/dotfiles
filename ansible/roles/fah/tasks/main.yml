@@ -35,24 +35,29 @@
     dest: /etc/systemd/system/foldingathome-idle-check.service
     mode: 0644
 
-- name: Create timer to launch the idle checker service
-  copy:
-    src: foldingathome-idle-check.timer
-    dest: /etc/systemd/system/foldingathome-idle-check.timer
-    mode: 0644
+# - name: Create timer to launch the idle checker service
+#   copy:
+#     src: foldingathome-idle-check.timer
+#     dest: /etc/systemd/system/foldingathome-idle-check.timer
+#     mode: 0644
 
 - name: Patch Folding@Home service to start idle timer
   block:
-    - name: Create directory
+    - name: Remove directory
       file:
         name: /etc/systemd/system/foldingathome.service.d
-        state: directory
+        state: absent
         mode: 0755
-    - name: Copy Systemd unit file
-      copy:
-        src: foldingathome.override.conf
-        dest: /etc/systemd/system/foldingathome.service.d/override.conf
-        mode: 0644
+        #- name: Create directory
+        # file:
+        # name: /etc/systemd/system/foldingathome.service.d
+        # state: directory
+        # mode: 0755
+        # - name: Copy Systemd unit file
+        # copy:
+        # src: foldingathome.override.conf
+        # dest: /etc/systemd/system/foldingathome.service.d/override.conf
+        # mode: 0644
         #notify:
         #- reload systemd config
         #- reload foldingathome
