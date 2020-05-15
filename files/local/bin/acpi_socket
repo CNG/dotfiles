@@ -33,7 +33,7 @@ handler () {
         "DELL07E6:00 06CB:76AF Touchpad"
         "AT Translated Set 2 keyboard"
       )
-      ~/bin/autolock  # TODO: ~/bin not on Bash path, only Zsh's
+      ~/.local/bin/autolock  # TODO: ~/bin not on Bash path, only Zsh's
       case "$3" in
         close)
           logger 'LID closed'

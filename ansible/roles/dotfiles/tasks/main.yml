@@ -21,7 +21,7 @@
 
 - name: Install user dotfiles
   when: dotfiles.path is defined
-  shell: "rcup -U bin -d /home/{{ user.name }}/{{ dotfiles.path }}/files -fv | grep -v '^identical'"
+  shell: "rcup -d /home/{{ user.name }}/{{ dotfiles.path }}/files -fv | grep -v '^identical'"
   environment:
     COPY_ALWAYS: "{{ dotfiles.files_to_copy_not_link }}"
   become: yes

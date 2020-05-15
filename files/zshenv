@@ -1,7 +1,11 @@
 # .zshenv is always sourced, while .zshrc is only sourced in interactive shells
 
+if which ruby >/dev/null && which gem >/dev/null; then
+  ruby_gems="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+fi
+
 typeset -U path
-path=(~/bin $path[@])
+path=(~/bin ~/.local/bin ${ruby_gems:-} $path[@])
 
 # Put private environment definitions in ~/.zshenv.local
 # so they are ignored by Git and not inadvertently made public
