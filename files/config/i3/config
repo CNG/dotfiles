@@ -146,7 +146,7 @@ bindsym $hyp+u exec $Mute
 
 ### SCREENSHOTS
 set $stoprec --no-startup-id killall ffmpeg
-set $shot_d $HOME/Pictures/%Y/%m
+set $shot_d $HOME/Sorting
 set $shot_f screenshot_%F_%H%M%S.png
 exec --no-startup-id mkdir -p `date +$shot_d`
 # select rectangle

@@ -80,7 +80,19 @@ roles:
 
 packages:
   deprecated:
+    # replaced
     - zsh-theme-powerlevel10k
+    # broken
+    - canta-icon-theme
+    - ttf-montserrat
+    - ttf-caladea
+    # haven't used lately
+    - fritzing
+    # other
+    - alacritty-terminfo-git
+    - xdg-user-dirs
+    - klook-git
+    - phonon-qt4-backend
 
   base:
     - base-devel
@@ -326,6 +338,7 @@ packages:
     - [ kwallet, kwalletmanager ]
     - ark  # compresses/extract zip files from within dolphin
     - xcape  # Configure modifier keys to act as other keys when pressed and released on their own
+    - xclip  # Used for Rofi cheatsheet/notes
     - xorg-xinput
     - scrot
     - escrotum-git
@@ -335,7 +348,10 @@ packages:
     - [ ffmpegthumbnailer, ffmpegthumbnailer-mp3 ]  # opt dept Nemo
     - lxappearance  # maybe, was trying to change GTK3 theme with this tool
     - [ dolphin, dolphin-plugins, insync-dolphin ]  # This might be temporary, mem leak issues with Nemo
-    - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
+    # canta-icon-theme stopped working, I don't recall if I actually needed it
+    # here...
+    # - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
+    - [ canta-gtk-theme, numix-circle-icon-theme-git ]
     #- [ nemo-seahorse-nonautilus, gnome-keyring ]
 
   gnome:

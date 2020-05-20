@@ -16,7 +16,7 @@ is now simplified for Linux in [`files`](files).
 1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
    such as *Rackspace* and copy the `.iso` file link.
 1. Insert USB stick and confirm path, such as `/dev/sda`.
-   Run command: `sudo make_media /dev/sda`
+   Run command: `sudo make_media /dev/sda URL`
 1. Boot from the media and run `lsblk`.
    MicroSD card might be `mmcblk0`.
    Some of this code block will replace the next steps, still working on this:

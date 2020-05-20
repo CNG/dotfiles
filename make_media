@@ -2,37 +2,56 @@
 set -o xtrace
 set -o errexit
 
-DEV=${1:-/dev/sda}
-URL=${2:-http://mirror.rackspace.com/archlinux/iso/2019.09.01/archlinux-2019.09.01-x86_64.iso}
+err_report () {
+  echo "Error on line $1"
+  rm -rf /mnt/installer
+  rm arch.iso
+}
 
-# download Arch installer
-[[ -f arch.iso ]] || wget -O arch.iso $URL
+clean_up () {
+  umount -l /mnt/installer/* | true
+  umount -f /mnt/installer/* | true
+  rm -rf /mnt/installer
+  rm arch.iso
+}
 
-# partition device: 1GiB fat32, remaining space as ext4
-parted --script $DEV mklabel gpt mkpart primary fat32 1MiB 1GiB set 1 boot on mkpart primary ext4 1GiB 100%
-partprobe
-mkfs.fat ${DEV}1
-mkfs.ext4 -F ${DEV}2
+main () {
+  trap 'err_report $LINENO' ERR
 
-# copy installation files to fat32 partition, dotfiles to ext4 partition
-mkdir -p /mnt/installer/{iso,install,extra}
-mount -o loop,ro arch.iso /mnt/installer/iso
-mount ${DEV}1 /mnt/installer/install
-mount ${DEV}2 /mnt/installer/extra
-git clone https://github.com/CNG/dotfiles.git /mnt/installer/extra/dotfiles
-cp -a /mnt/installer/iso/* /mnt/installer/install
-sync
+  YM=$(date "+%Y.%m")
 
-# change to boot by UUID so we can boot without making label match month name
-(
-  cd /mnt/installer/install/loader/entries
-  grep -v options archiso-x86_64.conf > temp
-  echo "options archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)" >> temp
-  mv temp archiso-x86_64.conf
-)
+  DEV=${1:-/dev/sda}
+  URL=${2:-http://mirror.rackspace.com/archlinux/iso/$YM.01/archlinux-$YM.01-x86_64.iso}
 
-# clean up
-umount -l /mnt/installer/*
-umount -f /mnt/installer/* | true  # don't fail here
-rm -rf /mnt/installer
-rm arch.iso
+  # download Arch installer
+  [[ -f arch.iso ]] || wget -O arch.iso $URL
+
+  # partition device: 1GiB fat32, remaining space as ext4
+  parted --script $DEV mklabel gpt mkpart primary fat32 1MiB 1GiB set 1 boot on mkpart primary ext4 1GiB 100%
+  partprobe
+  mkfs.fat ${DEV}1
+  mkfs.ext4 -F ${DEV}2
+
+  # copy installation files to fat32 partition, dotfiles to ext4 partition
+  mkdir -p /mnt/installer/{iso,install,extra}
+  mount -o loop,ro arch.iso /mnt/installer/iso
+  mount ${DEV}1 /mnt/installer/install
+  mount ${DEV}2 /mnt/installer/extra
+  git clone https://github.com/CNG/dotfiles.git /mnt/installer/extra/dotfiles
+  cp -a /mnt/installer/iso/* /mnt/installer/install
+  sync
+
+  # change to boot by UUID so we can boot without making label match month name
+  (
+    cd /mnt/installer/install/loader/entries
+    grep -v options archiso-x86_64.conf > temp
+    echo "options archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)" >> temp
+    mv temp archiso-x86_64.conf
+  )
+
+  trap - ERR
+  clean_up
+}
+
+main "$@"
+

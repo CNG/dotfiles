@@ -40,25 +40,14 @@ let g:solarized_termtrans = 1
 let g:taskwiki_taskrc_location = "~/.config/taskrc"
 let g:taskwiki_markup_syntax = "markdown"
 
-"" Vimwiki
-let g:vimwiki_list = [{'path': '~/GDrive/Main/Notes/',
-                      \ 'syntax': 'markdown',
-                      \ 'ext': '.md',
-                      \ 'list_margin': 0,
-                      \ 'automatic_nested_syntaxes': 1 }]
-" hi VimwikiHeader1 guifg=#FF0000
-" hi VimwikiHeader2 guifg=#00FF00
-" hi VimwikiHeader3 guifg=#0000FF
-" hi VimwikiHeader4 guifg=#FF00FF
-" hi VimwikiHeader5 guifg=#00FFFF
-" hi VimwikiHeader6 guifg=#FFFF00
-
 "" FastFold: https://github.com/Konfekt/FastFold
 nmap zuz <Plug>(FastFoldUpdate)
 let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
 let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 let g:markdown_folding = 1
+" visual context for fold
+set foldcolumn=2
 let g:tex_fold_enabled = 1
 let g:vimsyn_folding = 'af'
 let g:xml_syntax_folding = 1
@@ -71,9 +60,45 @@ let g:r_syntax_folding = 1
 let g:rust_fold = 1
 let g:php_folding = 1
 
+"" Vimwiki
+let g:vimwiki_list = [{'path': '~/GDrive/Main/Notes/',
+                      \ 'syntax': 'markdown',
+                      \ 'ext': '.md',
+                      \ 'list_margin': 0,
+                      \ 'automatic_nested_syntaxes': 1 }]
+" hi VimwikiHeader1 guifg=#FF0000
+" hi VimwikiHeader2 guifg=#00FF00
+" hi VimwikiHeader3 guifg=#0000FF
+" hi VimwikiHeader4 guifg=#FF00FF
+" hi VimwikiHeader5 guifg=#00FFFF
+" hi VimwikiHeader6 guifg=#FFFF00
+" let g:vimwiki_folding = 'custom'
+
+" https://github.com/vimwiki/vimwiki/issues/461
+" let g:vimwiki_folding='expr'
+" au FileType vimwiki set filetype=vimwiki.markdown
+" let g:vimwiki_global_ext = 0
+
+" let g:vimwiki_header_type = '#'     " set to '=' for wiki syntax
+
 """ TO BE ORGANIZED
 
+" Code folding (https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding)
+" set foldmethod=indent
+" set foldlevel=99
+" Enable folding with the spacebar
+" nnoremap + za
+" nnoremap = za
+" show docstrings for folded code
+let g:SimpylFold_docstring_preview=1
+set foldlevelstart=20
 
+
+
+" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
+" So we can copy, then visual select and paste over and over.
+" xnoremap p "_dP
+xnoremap <silent> p p:let @+=@0<CR>
 
 
 
@@ -369,17 +394,6 @@ nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
 set colorcolumn=81
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 " match OverLength /\%121v.\+/
-
-" Code folding (https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding)
-" set foldmethod=indent
-" set foldlevel=99
-" Enable folding with the spacebar
-nnoremap + za
-nnoremap = za
-" show docstrings for folded code
-let g:SimpylFold_docstring_preview=1
-set foldlevelstart=20
-
 
 
 " " autocomplete with YouCompleteMe
