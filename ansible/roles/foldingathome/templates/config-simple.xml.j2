@@ -1,0 +1,9 @@
+<!-- {{ ansible_managed }} -->
+<config>
+  <passkey v='{{ foldingathome.key }}'/>
+  <team v='{{ foldingathome.team  }}'/>
+  <user v='{{ foldingathome.user }}'/>
+  <smp value='true'/>
+  {% if foldingathome.num_gpus %}<gpu value='true'/>
+  {% endif %}
+</config>

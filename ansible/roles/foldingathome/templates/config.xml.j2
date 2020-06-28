@@ -3,8 +3,14 @@
   <!-- Folding Slot Configuration -->
   <client-type v='bigadv'/>
 
+  <!-- HTTP Server -->
+  <allow v='0.0.0.0/0'/>
+
   <!-- Network -->
   <proxy v=':8080'/>
+
+  <!-- Remote Command Server -->
+  <command-allow-no-pass v='0.0.0.0/0'/>
 
   <!-- User Information -->
   <passkey v='{{ foldingathome.key }}'/>
