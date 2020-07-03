@@ -24,6 +24,11 @@
   become: yes
   become_user: "{{ user.name }}"
   with_items:
+    # These three required for vim-codefmt
+    - { user: 'google', repo: 'vim-maktaba' }
+    - { user: 'google', repo: 'vim-codefmt' }
+    - { user: 'google', repo: 'vim-glaive' }
+
     # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }
@@ -50,7 +55,7 @@
     # Vim Airline
     - { user: 'vim-airline', repo: 'vim-airline' }
     - { user: 'vim-airline', repo: 'vim-airline-themes' }
-    - { user: 'psf', repo: 'black' }
+    # - { user: 'psf', repo: 'black' }
     # full path fuzzy file, buffer, mru, tag, ... finder
     # TODO: consider https://github.com/Shougo/denite.nvim
     # - { user: 'ctrlpvim', repo: 'ctrlp.vim' }

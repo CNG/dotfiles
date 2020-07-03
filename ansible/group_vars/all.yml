@@ -169,6 +169,7 @@ packages:
     # needed to remove ctags by confirmation y/n:
     - universal-ctags  # for tagbar Vim plugin
     - fzf  # fuzzy finder
+    - python-black  # vim-codefmt uses system "black"
 
   filesystem:
     - dosfstools

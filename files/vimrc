@@ -1,6 +1,15 @@
 """ STARTUP
 filetype plugin indent on
 
+" Not sure this is the way to do it but glaive#Install() doesn't exist here
+" Does Vim native package loading happen after .vimrc is parsed?
+packadd! vim-maktaba
+packadd! vim-glaive
+packadd! vim-codefmt
+call glaive#Install()
+Glaive codefmt plugin[mappings]
+command W :FormatCode
+
 """ SHORTCUTS
 
 
@@ -349,12 +358,8 @@ let g:vitality_tmux_can_focus = 1
 
 let g:bufferline_echo = 0
 
-" https://github.com/ambv/black
-" don't convert all strings to double quotes
-" let g:black_skip_string_normalization = 1
-" run black on save
-" autocmd BufWritePre *.py execute ':Black'
-command W :Black
+
+
 
 set noshowmode
 set noruler
