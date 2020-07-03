@@ -7,24 +7,23 @@
   with_items: "{{ packages.editors }}"
 
 
-- name: Make directory for Pathogen
+- name: Make directory for Vim plugins
   file:
-    name: /home/{{ user.name }}/.vim/bundle
+    name: /home/{{ user.name }}/.vim/pack/plugins/start
     state: directory
   become: yes
   become_user: "{{ user.name }}"
 
-- name: Install Pathogen and Vim plugins
+- name: Install Vim plugins
   git:
     repo: "git://github.com/{{ item.user }}/{{ item.repo }}.git"
-    dest: "/home/{{ user.name }}/.vim/bundle/{{ item.repo }}"
+    dest: "/home/{{ user.name }}/.vim/pack/plugins/start/{{ item.repo }}"
     update: yes
     accept_hostkey: yes
     version: "{{ item.version | default('HEAD') }}"
   become: yes
   become_user: "{{ user.name }}"
   with_items:
-    - { user: 'tpope', repo: 'vim-pathogen' }
     # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }

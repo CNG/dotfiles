@@ -1,9 +1,4 @@
 """ STARTUP
-
-" Start package manager (Pathogen)
-source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-
 filetype plugin indent on
 
 """ SHORTCUTS
