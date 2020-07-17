@@ -185,7 +185,7 @@ live_config_reload: true
 key_bindings:
   - { key: Paste,                                action: Paste          }
   - { key: Copy,                                 action: Copy           }
-  - { key: L,         mods: Control,             action: ClearLogNotice }
+  - { key: L,         mods: Shift|Control,       action: ClearLogNotice }
   # Unknown mode ~Vi ??
   # - { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }
   - { key: PageUp,    mods: Shift,   mode: ~Alt, action: ScrollPageUp,  }

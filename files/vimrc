@@ -391,7 +391,7 @@ nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
 
 
 " set colorcolumn=85
-set colorcolumn=81
+set colorcolumn=81,89
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 " match OverLength /\%121v.\+/
 

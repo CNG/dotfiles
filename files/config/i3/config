@@ -48,7 +48,8 @@ exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawas
 exec --no-startup-id insync start   # GDrive manager
 exec --no-startup-id nm-applet      # network manager
 exec --no-startup-id blueman-applet # bluetooth manager
-exec --no-startup-id copyq          # clipboard manager
+# Prefaced with QT_QPA_PLATFORMTHEME= per https://github.com/hluk/CopyQ/issues/1401 / https://sourceforge.net/p/qt5ct/tickets/77/
+exec --no-startup-id "QT_QPA_PLATFORMTHEME= copyq"  # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
 #exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 #exec --no-startup-id ~/bin/on_device_change
