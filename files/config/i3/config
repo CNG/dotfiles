@@ -42,7 +42,7 @@ bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {
 
 ### AUTOSTART PROGRAMS
 # compositor, window transparency
-exec --no-startup-id compton --config ~/.config/compton.conf --blur-method kawase --blur-strength 5
+exec --no-startup-id picom --config ~/.config/picom.conf
 #exec --no-startup-id libinput-gestures-setup start
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id insync start   # GDrive manager

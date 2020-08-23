@@ -79,7 +79,7 @@ in.
 * i3blocks
 * rofi
 * playerctl
-* compton-tryone-git
+* picom
 * [`~/.config/i3/config`](files/config/i3/config)
 * [`~/.config/i3blocks/config`](files/config/i3blocks/config)
 * [`~/.config/i3scripts`](files/config/i3scripts)
