@@ -2,8 +2,11 @@
   aur:
     name:
       - libldac
-      - pulseaudio-modules-bt-git  # provides pulseaudio-bluetooth
+      # As of 2020-09-14, needed to use testing/pulseaudio-bluetooth and testing/pulseaudio
+      - "testing/pulseaudio-bluetooth"
+      # - pulseaudio-modules-bt-git  # provides pulseaudio-bluetooth
       - blueman  # requires bluez, blues-libs
+      - bluez-utils
   become: yes
   become_user: aur_builder
   notify:
