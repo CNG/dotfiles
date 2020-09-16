@@ -75,18 +75,19 @@ case $BLOCK_BUTTON in
   4) new=$(lower $(level)) ;;  # scroll down
   *) detect_display ;;  # see if we can exit early
 esac
-if (( $new > 100 )); then
-  new=100
-fi
 
 if [[ -z $new ]]; then
   # just show current setting
   num_displays=$(xrandr | grep " connected" | wc -l)
-  if [[ $num_displays -gt 1 ]]; then
+  if [[ $num_displays -gt 0 ]]; then
+  # if [[ $num_displays -gt 1 ]]; then
     level
   fi
 else
   # or we are changing the setting
+  if (( $new > 100 )); then
+    new=100
+  fi
   printf " %s\n" $new
   if [[ $MODEL ]]; then
     ddcutil --async --noverify --model "$MODEL" setvcp $VCP $new &
