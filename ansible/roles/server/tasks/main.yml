@@ -1,0 +1,21 @@
+---
+- name: Install Nginx
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - nginx-mainline
+
+- name: Set worker processes
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    state: present
+    regexp: "worker_processes.*;"
+    line: "worker_processes	auto;"
+
+- name: Enable Nginx
+  service:
+    name: nginx.service
+    enabled: yes
+    state: started

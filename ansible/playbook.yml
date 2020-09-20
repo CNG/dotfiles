@@ -26,6 +26,7 @@
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
     - { role: work, tags: ['work'], when: "'work' in flags" }
     - { role: aurora, tags: ['aurora'], when: "'work' in flags" }
+    - { role: server, tags: ['server'], when: "'server' in flags" }
 
     # TASK [bertvv.samba : Start Samba service(s)]
     # failed: [Charlie18b] (item=smbd) => {"changed": false, "item": "smbd", "msg": "Could not find the requested service smbd: host"}
