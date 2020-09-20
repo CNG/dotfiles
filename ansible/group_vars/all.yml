@@ -237,6 +237,7 @@ packages:
     # - makemkv-cli
     - [ cdparanoia, abcde ]  # CD track encoder
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
+    - calibre  # e-book management
     - vlc
     - zopfli  # compression
     - vdhcoapp-bin  # Video Downloadhelper companion app

@@ -95,7 +95,6 @@
     # - { role: backitup, tags: ['backitup'] }
     # - { role: bitlbee, tags: ['bitlbee'] }  # console-based IRC to IM chatting gateway
     # - { role: borg, tags: ['borg'] }  # backup program with compression and authenticated encryption
-    # - { role: calibre, tags: ['calibre'] }  # Ebook management
     # - { role: cryptshot, tags: ['cryptshot'], when: "cryptshot is defined" }
     # - { role: formd, tags: ['formd'] }  # Markdown converter: inline-referenced
     # - { role: git-annex, tags: ['git-annex'], when: "gitannex is defined" }
