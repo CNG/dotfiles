@@ -27,7 +27,7 @@ fi
 
 # this was broken before, but not sure if i needed it or implemented differently
 # on_device_change &
-# OK commenting out might be getting triggered too much ~/bin/on_device_change &
+# OK commenting out might be getting triggered too much ~/.local/bin/on_device_change &
 # $PATH is not fully set up here
 # printf "\$PATH is $PATH" 1>&2
 
@@ -44,9 +44,9 @@ xmodmap ~/.Xmodmap
 #xcape -e "Super_R=space"
 #logger "xcape: $(pgrep xcape | tr '\n' ' ')"
 
-~/bin/autolock &
+~/.local/bin/autolock &
 
 # custom script to handle lid open/close, maybe more
 if ! pgrep acpi_socket; then
-  ~/bin/acpi_socket &
+  ~/.local/bin/acpi_socket &
 fi

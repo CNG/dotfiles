@@ -25,7 +25,7 @@ bindsym $mod+Shift+d exec --no-startup-id ~/dotfiles/notes/notes -f ~/dotfiles/p
 bindsym $mod+i       exec --no-startup-id firefox --no-remote -P Work
 bindsym $mod+Shift+i exec --no-startup-id firefox --no-remote -P Personal
 bindsym $mod+f       exec --no-startup-id nemo
-bindsym $mod+Shift+m exec --no-startup-id ~/bin/dnd
+bindsym $mod+Shift+m exec --no-startup-id ~/.local/bin/dnd
 bindsym $mod+e       exec --no-startup-id subl --new-window
 bindsym $mod+m       exec --no-startup-id spotify --force-device-scale-factor=1.0
 bindsym $mod+Ctrl+e  exec --no-startup-id chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
@@ -52,7 +52,7 @@ exec --no-startup-id blueman-applet # bluetooth manager
 exec --no-startup-id "QT_QPA_PLATFORMTHEME= copyq"  # clipboard manager
 exec --no-startup-id rescuetime     # time use tracker
 #exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
-#exec --no-startup-id ~/bin/on_device_change
+#exec --no-startup-id ~/.local/bin/on_device_change
 exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
 # wallpaper
 exec_always --no-startup-id $set_background

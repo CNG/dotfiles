@@ -5,7 +5,7 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 
 typeset -U path
-path=(~/bin ~/.local/bin ${ruby_gems:-} $path[@])
+path=(~/.local/bin ${ruby_gems:-} $path[@])
 
 # Put private environment definitions in ~/.zshenv.local
 # so they are ignored by Git and not inadvertently made public

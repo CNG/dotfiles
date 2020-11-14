@@ -181,7 +181,6 @@ can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
   display change script)
 * Document and automate solution for HDMI audio aggressive takeover
   https://askubuntu.com/a/1127760/354276
-* Standardize `~/bin` considering https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html and discussion at https://askubuntu.com/a/14536/354276 .
 * Find place to document "Open In" for work:
   * Download latest linux.zip from https://github.com/andy-portmen/native-client/releases
   * Run install.sh
