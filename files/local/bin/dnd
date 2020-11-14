@@ -7,9 +7,9 @@ if [[ $? = 1 ]]; then
 fi
 
 if [[ $state == "false" || ${1:-x} == "on" ]]; then
-  notify-send -t 200 -i info "Notifications disabled" --icon=dialog-information
+  notify-send -t 800 -i info "Notifications disabled" --icon=dialog-information
   xfconf-query --channel xfce4-notifyd --property /do-not-disturb --set true
 else
   xfconf-query --channel xfce4-notifyd --property /do-not-disturb --set false
-  notify-send -t 200 -i info "Notifications enabled" --icon=dialog-information
+  notify-send -t 800 -i info "Notifications enabled" --icon=dialog-information
 fi

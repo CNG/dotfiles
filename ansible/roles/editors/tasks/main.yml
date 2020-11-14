@@ -29,6 +29,8 @@
     - { user: 'google', repo: 'vim-codefmt' }
     - { user: 'google', repo: 'vim-glaive' }
 
+    - { user: 'wellle', repo: 'context.vim' }
+
     # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }

@@ -143,6 +143,7 @@ packages:
     - iotop
     - iputils
     - jq
+    - yq
     - linux-headers
     - nfs-utils
     - ntop
