@@ -142,6 +142,7 @@ packages:
     - iftop
     - iotop
     - iputils
+    - usbutils  # provides lsusb
     - jq
     - yq
     - linux-headers
