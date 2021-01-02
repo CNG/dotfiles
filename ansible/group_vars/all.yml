@@ -307,7 +307,7 @@ packages:
     # - cerebro
     - copyq  # clipboard manager
     - enscript
-    - [ insync, insync-nemo ]
+    - [ insync, insync-dolphin ]
     - keybase-bin  # keybase.io encrypted chat, includes kbfs and keybase-gui
     - libreoffice-fresh
     - masterpdfeditor
@@ -346,8 +346,6 @@ packages:
     - scrot
     - escrotum-git
     - [ breeze, breeze-icons ]
-    # nemo-media-columns https://github.com/linuxmint/nemo-extensions/issues/272
-    - [ nemo, nemo-audio-tab, nemo-emblems, nemo-fileroller, nemo-image-converter, nemo-preview, nemo-qml-plugin-dbus-git ]
     - [ ffmpegthumbnailer, ffmpegthumbnailer-mp3 ]  # opt dept Nemo
     - lxappearance  # maybe, was trying to change GTK3 theme with this tool
     - [ dolphin, dolphin-plugins, insync-dolphin, kdegraphics-thumbnailers, kimageformats, qt5-imageformats, resvg, ffmpegthumbs, kdesdk-thumbnailers, raw-thumbnailer, taglib ]  # This might be temporary, mem leak issues with Nemo
@@ -355,7 +353,6 @@ packages:
     # here...
     # - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
     - [ canta-gtk-theme, numix-circle-icon-theme-git ]
-    #- [ nemo-seahorse-nonautilus, gnome-keyring ]
 
   gnome:
     - ghex
