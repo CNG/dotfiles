@@ -62,8 +62,6 @@
     - { role: office, tags: ['office'] }
     # refreshes individual keys in your GnuPG keyring
     - { role: parcimonie, tags: ['parcimonie'], when: "tor is defined" }
-    # adjusts the color temperature of your screen according to your surroundings
-    - { role: redshift, tags: ['redshift'] }
     - { role: screensaver, tags: ['screensaver'] }
     - { role: sound, tags: ['sound'] }
     - { role: spell, tags: ['spell'] }

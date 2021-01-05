@@ -46,6 +46,7 @@ exec --no-startup-id picom --config ~/.config/picom.conf
 #exec --no-startup-id libinput-gestures-setup start
 # exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
 exec --no-startup-id insync start   # GDrive manager
+exec --no-startup-id redshift       # blue light reduction at night
 exec --no-startup-id nm-applet      # network manager
 exec --no-startup-id blueman-applet # bluetooth manager
 # Prefaced with QT_QPA_PLATFORMTHEME= per https://github.com/hluk/CopyQ/issues/1401 / https://sourceforge.net/p/qt5ct/tickets/77/
