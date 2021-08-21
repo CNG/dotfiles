@@ -315,7 +315,6 @@ packages:
     # - okular  # Ebook Reader, simple yet capable
     - pandoc
     - pdfgrep
-    - rescuetime2  # time tracker
     - simple-scan
     - task  # TaskWarrior
     - visidata
