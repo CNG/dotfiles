@@ -185,3 +185,6 @@ can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
   * Download latest linux.zip from https://github.com/andy-portmen/native-client/releases
   * Run install.sh
   * Install FF extension https://addons.mozilla.org/en-US/firefox/addon/open-in-chrome-browser/
+* Encode desktop file limits after testing per https://serverfault.com/a/48820
+  and https://wiki.archlinux.org/index.php/Limits.conf
+* Migrate FAH config to /etc/foldingathome/config.xml

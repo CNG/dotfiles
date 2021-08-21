@@ -31,6 +31,8 @@
 
     - { user: 'wellle', repo: 'context.vim' }
 
+    - { user: 'michal-h21', repo: 'vim-zettel' }
+
     # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
     - { user: 'tpope', repo: 'vim-surround' }
@@ -71,10 +73,10 @@
     # - { user: 'Valloric', repo: 'YouCompleteMe' }
     # - { user: 'ervandew', repo: 'supertab' }
     # Git integration: :G, :Gwrite, :Gmove, etc.
-    - { user: 'tpope', repo: 'vim-fugitive' }
-    - { user: 'tommcdo', repo: 'vim-fubitive' }  # Bitbucket support
+    # - { user: 'tpope', repo: 'vim-fugitive' }
+    # - { user: 'tommcdo', repo: 'vim-fubitive' }  # Bitbucket support
     # Tag sidebar
-    - { user: 'majutsushi', repo: 'tagbar' }
+    # - { user: 'majutsushi', repo: 'tagbar' }
     # Ultisnips, used by YouCompleteMe
     # - { user: 'SirVer', repo: 'ultisnips' }
     # Trying another thing to maybe get signatures... which needs Jedi...
@@ -93,11 +95,11 @@
     - { user: 'vimwiki', repo: 'vimwiki', version: 'dev' }
     #   TaskWarrior integration
     #     Requires python-tasklib from AUR
-    - { user: 'tbabej', repo: 'taskwiki' }
+    # - { user: 'tbabej', repo: 'taskwiki' }
     #     Enables gridview:
-    - { user: 'farseer90718', repo: 'vim-taskwarrior' }
+    # - { user: 'farseer90718', repo: 'vim-taskwarrior' }
     #     Adds color support in charts:
-    - { user: 'powerman', repo: 'vim-plugin-AnsiEsc' }
+    # - { user: 'powerman', repo: 'vim-plugin-AnsiEsc' }
 
     # Jinja template syntax (using for Pelican static site generator)
     - { user: 'lepture', repo: 'vim-jinja' }

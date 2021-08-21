@@ -93,7 +93,6 @@ for_window [class="(?i)xsane" title="Warning|Error"] floating enable
 #for_window [class="VirtualBox Machine"] floating enable
 for_window [class="(?i)anki" title="(?i)anki"] split vertical
 for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
-for_window [title="(?i)OneASICS"] floating enable
 
 
 ### BRIGHTNESS, AUDIO AND MEDIA CONTROLS

@@ -37,6 +37,8 @@ colorscheme solarized8_high
 
 """ PLUGIN SETTINGS
 
+let g:zettel_fzf_command = "fzf"
+
 let g:solarized_termtrans = 1
 
 

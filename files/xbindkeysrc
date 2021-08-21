@@ -22,6 +22,11 @@
 # "xdotool key Shift+Right"
 #   Release + Mod3 + Shift + n
 
+# This doesn't quite work, need to do more testing
+# Make tilde work on Anne Pro II keyboard like it does on Pok3r
+"xdotool key asciitilde"
+  Shift + Escape
+
 # Fix Spotify back/forward mouse buttons
 # Tip from user https://community.spotify.com/t5/user/viewprofilepage/user-id/21281327
 # Post at https://community.spotify.com/t5/Desktop-Windows/Desktop-Support-for-mouse-back-forward-button/m-p/4500063/highlight/true#M60007
