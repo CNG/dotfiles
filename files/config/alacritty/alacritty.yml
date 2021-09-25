@@ -15,6 +15,7 @@ window:
     y: 5
   decorations: none
   dynamic_title: true
+  opacity: 0.8
 scrolling:
   history: 0
   multiplier: 0
@@ -33,7 +34,6 @@ font:
 bell:
   animation: EaseOutExpo
   duration: 5
-background_opacity: 0.8
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 mouse:
@@ -41,8 +41,6 @@ mouse:
   triple_click: { threshold: 300 }
   hide_when_typing: false
   faux_scrolling_lines: 1
-  url:
-    launcher: xdg-open
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 cursor:
@@ -243,8 +241,7 @@ key_bindings:
   - { key: Insert,   mods: Shift,                   action: PasteSelection   }
   - { key: Key0,     mods: Control,                 action: ResetFontSize    }
   - { key: Equals,   mods: Control,                 action: IncreaseFontSize }
-  - { key: Add,      mods: Control,                 action: IncreaseFontSize }
-  - { key: Subtract, mods: Control,                 action: DecreaseFontSize }
+  - { key: Plus,      mods: Control,                 action: IncreaseFontSize }
   - { key: Minus,    mods: Control,                 action: DecreaseFontSize }
 
 schemes:
