@@ -16,7 +16,7 @@ clean_up () {
 }
 
 main () {
-  trap 'err_report $LINENO' ERR
+  trap 'err_report $LINENO' ERR INT TERM
 
   YM=$(date "+%Y.%m")
 
