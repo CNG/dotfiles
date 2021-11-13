@@ -11,6 +11,8 @@ err_report () {
 clean_up () {
   umount -l /mnt/installer/* | true
   umount -f /mnt/installer/* | true
+  umount ${DEV}1 | true
+  umount ${DEV}2 | true
   rm -rf /mnt/installer
   rm arch.iso
 }
@@ -26,6 +28,9 @@ main () {
   # download Arch installer
   [[ -f arch.iso ]] || wget -O arch.iso $URL
 
+  # Protect against "Error: Partition(s) on /dev/sdg are being used."
+  # which might happen if we canceled due to a super slow download, etc.
+  dd if=/dev/zero of=$DEV bs=512 count=1024
   # partition device: 1GiB fat32, remaining space as ext4
   parted --script $DEV mklabel gpt mkpart primary fat32 1MiB 1GiB set 1 boot on mkpart primary ext4 1GiB 100%
   partprobe
