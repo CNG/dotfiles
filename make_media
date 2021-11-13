@@ -38,21 +38,16 @@ main () {
   mkfs.ext4 -F ${DEV}2
 
   # copy installation files to fat32 partition, dotfiles to ext4 partition
-  mkdir -p /mnt/installer/{iso,install,extra}
-  mount -o loop,ro arch.iso /mnt/installer/iso
+  mkdir -p /mnt/installer/{install,extras}
   mount ${DEV}1 /mnt/installer/install
-  mount ${DEV}2 /mnt/installer/extra
-  git clone https://github.com/CNG/dotfiles.git /mnt/installer/extra/dotfiles
-  cp -a /mnt/installer/iso/* /mnt/installer/install
+  bsdtar -x --exclude=syslinux/ -f arch.iso -C /mnt/installer/install
+  mount ${DEV}2 /mnt/installer/extras
+  git clone https://github.com/CNG/dotfiles.git /mnt/installer/extras/dotfiles
   sync
 
   # change to boot by UUID so we can boot without making label match month name
-  (
-    cd /mnt/installer/install/loader/entries
-    grep -v options archiso-x86_64.conf > temp
-    echo "options archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)" >> temp
-    mv temp archiso-x86_64.conf
-  )
+  find /mnt/installer/install/loader/entries -name "*.conf" | \
+    xargs sed -E -i "s|archisolabel=\S+|archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)|"
 
   trap - ERR
   clean_up
