@@ -22,8 +22,7 @@ bindsym $mod+Shift+Return --release exec --no-startup-id $term -e bash
 bindsym $mod+c       exec --no-startup-id "$term -t calculator -e bc -l -q &!"
 bindsym $mod+d       exec --no-startup-id rofi -show drun -opacity 10 -dpi 144
 bindsym $mod+Shift+d exec --no-startup-id ~/dotfiles/notes/notes -f ~/dotfiles/private/notes.txt
-bindsym $mod+i       exec --no-startup-id firefox --no-remote -P Work
-bindsym $mod+Shift+i exec --no-startup-id firefox --no-remote -P Personal
+bindsym $mod+i exec --no-startup-id firefox --no-remote -P Personal
 bindsym $mod+f       exec --no-startup-id nemo
 bindsym $mod+Shift+m exec --no-startup-id ~/.local/bin/dnd
 bindsym $mod+e       exec --no-startup-id subl --new-window
