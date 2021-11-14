@@ -51,6 +51,7 @@ Steps to boot from live USB key.
 nraet.fo ekrpat
 cryptsetup open --type luks /dev/nvme0n1p2 luks
 mount /dev/mapper/forbidden-root /mnt
+mount /dev/nvme0n1p1 /mnt/boot
 iwctl --passphrase passphrase station device connect SSID
 arch-chroot /mnt
 mkinitcpio -p linux
