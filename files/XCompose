@@ -19,6 +19,7 @@
 #include "/usr/share/X11/locale/en_US.UTF-8/Compose"
 include "%L"
 
+<Multi_key> <n> <n>				: "ñ"
 <Multi_key> <period> <period>				: "……"		U2026	# HORIZONTAL ELLIPSIS
 <Multi_key> <2> <period>					: "‥"		U2025	# TWO DOT LEADER
 <Multi_key> <backslash> <space>				: "␣"		U2423	# OPEN BOX
