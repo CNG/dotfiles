@@ -5,17 +5,31 @@
   become: yes
   become_user: aur_builder
   with_items:
-    - nginx-mainline
+    - nginx
+    - certbot-nginx
 
-- name: Set worker processes
-  lineinfile:
-    dest: /etc/nginx/nginx.conf
-    state: present
-    regexp: "worker_processes.*;"
-    line: "worker_processes	auto;"
-
-- name: Enable Nginx
+- name: Enable and start Nginx
   service:
-    name: nginx.service
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: Create service to run the idle checker script
+  copy:
+    src: certbot.service
+    dest: /etc/systemd/system/certbot.service
+    mode: 0644
+
+- name: Create timer to launch the certbot renew service
+  copy:
+    src: certbot.timer
+    dest: /etc/systemd/system/certbot.timer
+    mode: 0644
+  notify:
+    - reload systemd config
+
+- name: Enable Certbox Timer
+  service:
+    name: certbot.timer
     enabled: yes
     state: started
