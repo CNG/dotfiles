@@ -461,3 +461,12 @@ nmap <F8> :TagbarToggle<CR>
 
 map ; :Files<CR>
 let g:fugitive_bitbucket_domains = ["source.fitbit.com"]
+
+
+
+
+
+
+
+
+

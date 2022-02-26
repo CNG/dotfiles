@@ -31,7 +31,8 @@
 
     - { user: 'wellle', repo: 'context.vim' }
 
-    - { user: 'michal-h21', repo: 'vim-zettel' }
+    # Commenting out till I re-lookup what this does...
+    # - { user: 'michal-h21', repo: 'vim-zettel' }
 
     # remaps . in a way that plugins can tap into it:
     - { user: 'tpope', repo: 'vim-repeat' }
