@@ -208,10 +208,7 @@ packages:
     - ttf-oswald
     - ttf-quintessential
     - ttf-signika
-    # error - ttf-symbola
     - ttf-ubuntu-font-family
-    # Validating source files with md5sums... Cantora_One.zip ... FAILED
-    # - ttf-impallari-cantora
 
     # extra:
     - adobe-base-14-fonts
@@ -221,15 +218,11 @@ packages:
     - ttf-fantasque-sans-mono
     - ttf-fira-code
     - ttf-font-awesome-4
-    # conflict - ttf-google-fonts-git
-    # - ttf-input  # Probably replacing with below but can't test due to 500
-    # error
     - ttf-nerd-fonts-input
     - ttf-iosevka
     - ttf-latex-xft-fonts
     - ttf-mac-fonts
     - ttf-nanum
-    - ttf-noto-fonts-emoji-ib
     - ttf-raleway
     - ttf-spacemono
     - ttf-tahoma
@@ -281,8 +274,6 @@ packages:
     - bitmeter-os
     - bmon
     - darkstat  # packet sniffer
-    - gnu-netcat
-    # - gufw  # GTK front-end for Ufw
     - lftp
     - mtr
     - net-tools

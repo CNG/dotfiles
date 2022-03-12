@@ -30,7 +30,7 @@
       accept_hostkey: yes
   - name: Clone history-search-multi-word repo
     git:
-      repo: "git://github.com/zdharma/history-search-multi-word.git"
+      repo: "git://github.com/robobenklein/zdharma-history-search-multi-word.git"
       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
       depth: 1
       update: yes

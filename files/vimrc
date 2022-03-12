@@ -37,9 +37,6 @@ colorscheme solarized8_high
 
 """ PLUGIN SETTINGS
 
-" Sometimes underscores trigger bad italics, at least don't let them disappear
-let g:markdown_syntax_conceal = 0
-
 
 let g:zettel_fzf_command = "fzf"
 
@@ -72,6 +69,8 @@ let g:rust_fold = 1
 let g:php_folding = 1
 
 " Not using Vimwiki right now...
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+let g:markdown_minlines = 100
 "" Vimwiki
 " let g:vimwiki_list = [{'path': '~/GDrive/Main/Notes/',
 "                       \ 'syntax': 'markdown',

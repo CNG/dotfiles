@@ -24,8 +24,8 @@
       }
     - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
     - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
-    - { role: work, tags: ['work'], when: "'work' in flags" }
-    - { role: aurora, tags: ['aurora'], when: "'work' in flags" }
+    # - { role: work, tags: ['work'], when: "'work' in flags" }
+    # - { role: aurora, tags: ['aurora'], when: "'work' in flags" }
     - { role: server, tags: ['server'], when: "'server' in flags" }
 
     # TASK [bertvv.samba : Start Samba service(s)]
