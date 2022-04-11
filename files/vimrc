@@ -71,26 +71,6 @@ let g:php_folding = 1
 " Not using Vimwiki right now...
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_minlines = 100
-"" Vimwiki
-" let g:vimwiki_list = [{'path': '~/GDrive/Main/Notes/',
-"                       \ 'syntax': 'markdown',
-"                       \ 'ext': '.md',
-"                       \ 'list_margin': 0,
-"                       \ 'automatic_nested_syntaxes': 1 }]
-" hi VimwikiHeader1 guifg=#FF0000
-" hi VimwikiHeader2 guifg=#00FF00
-" hi VimwikiHeader3 guifg=#0000FF
-" hi VimwikiHeader4 guifg=#FF00FF
-" hi VimwikiHeader5 guifg=#00FFFF
-" hi VimwikiHeader6 guifg=#FFFF00
-" let g:vimwiki_folding = 'custom'
-
-" https://github.com/vimwiki/vimwiki/issues/461
-" let g:vimwiki_folding='expr'
-" au FileType vimwiki set filetype=vimwiki.markdown
-" let g:vimwiki_global_ext = 0
-
-" let g:vimwiki_header_type = '#'     " set to '=' for wiki syntax
 
 """ TO BE ORGANIZED
 
@@ -402,53 +382,6 @@ set colorcolumn=81,89
 highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
 " match OverLength /\%121v.\+/
 
-
-" " autocomplete with YouCompleteMe
-" " https://realpython.com/vim-and-python-a-match-made-in-heaven/#auto-complete
-" " Make preview window open on bottom, less jarring
-" set splitbelow
-" let g:ycm_autoclose_preview_window_after_completion=1
-" " let g:ycm_autoclose_preview_window_after_insertion=1
-" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" "map gg  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" " TODO: had set python2 to ON in PKGBUILD, see if default pkg install overrides
-" let g:ycm_server_python_interpreter = "/usr/bin/python2"
-" " Autodetect virtualenv with global_extra_conf.py
-" let g:ycm_python_interpreter_path = ''
-" let g:ycm_python_sys_path = []
-" let g:ycm_extra_conf_vim_data = [
-"   \  'g:ycm_python_interpreter_path',
-"   \  'g:ycm_python_sys_path'
-"   \]
-" let g:ycm_global_ycm_extra_conf = '~/.vim/global_extra_conf.py'
-" " Vim Airline customizations for YouCompleteMe (not sure this is working)
-" "let g:airline#extensions#ycm#enabled = 1
-" " Shows number of errors and warnings in the current file detected by YCM.
-" "let g:airline#extensions#ycm#error_symbol = 'E:'
-" "let g:airline#extensions#ycm#warning_symbol = 'W:'
-" " Can delete next ones, using for testing
-" " let g:ycm_auto_trigger = 0
-" let g:ycm_key_invoke_completion = "<C-Enter>"
-" " let g:ycm_key_list_stop_completion = ['<C-Enter>']
-" let g:ycm_python_binary_path = 'python'
-" " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" 
-" 
-" " If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-" 
-" 
-" 
-" " make YCM compatible with UltiSnips (using supertab)
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-" let g:SuperTabDefaultCompletionType = '<C-n>'
-" 
-" " better key bindings for UltiSnipsExpandTrigger
-" let g:UltiSnipsExpandTrigger = "<tab>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 
 

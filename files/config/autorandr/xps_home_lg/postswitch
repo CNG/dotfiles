@@ -1,4 +1,0 @@
-#!/bin/bash
-$HOME/bin/dpi 96
-source $HOME/.xsession
-

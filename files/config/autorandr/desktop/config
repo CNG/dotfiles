@@ -8,13 +8,13 @@ output DP-1
 off
 output DP-2
 off
+output DP-3
+off
 output DP-5
 off
-output DP-3
-mode 3840x2160
-pos 0x0
-rate 60.00
 output DP-4
+crtc 0
 mode 3840x2160
 pos 0x0
 rate 60.00
+x-prop-non_desktop 0

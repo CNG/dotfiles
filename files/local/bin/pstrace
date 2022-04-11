@@ -1,3 +1,0 @@
-#!/bin/bash
-
-ps auxw | grep $1 | awk '{print"-p " $2}' | xargs strace -f

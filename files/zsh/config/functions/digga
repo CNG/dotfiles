@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# https://github.com/mathiasbynens/dotfiles/blob/master/.functions
-
-# Run `dig` and display the most useful info
-
-dig +nocmd "$1" any +multiline +noall +answer;

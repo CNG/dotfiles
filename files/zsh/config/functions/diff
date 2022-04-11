@@ -1,8 +1,0 @@
-# https://github.com/mathiasbynens/dotfiles/blob/master/.functions
-
-#!/usr/bin/env bash
-
-# Use Git’s colored diff when available
-
-git diff --no-index --color-words -- "$@";
-

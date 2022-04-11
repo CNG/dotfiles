@@ -5,6 +5,9 @@ set -o errexit
 err_report () {
   echo "Error on line $1"
   rm -rf /mnt/installer
+  # TODO: prev can fail with:
+  # rm: cannot remove '/mnt/installer/extras': Device or resource busy
+  # rm: cannot remove '/mnt/installer/install': Device or resource busy
   rm arch.iso
 }
 
@@ -42,7 +45,9 @@ main () {
   mount ${DEV}1 /mnt/installer/install
   bsdtar -x --exclude=syslinux/ -f arch.iso -C /mnt/installer/install
   mount ${DEV}2 /mnt/installer/extras
-  git clone https://github.com/CNG/dotfiles.git /mnt/installer/extras/dotfiles
+  # TODO: Used to cleaning Git clone here, but also have private dotfiles repo,
+  # and Git auth is not as easy now with passwords gone, so just copy the existing
+  cp -a ../dotfiles /mnt/installer/extras/dotfiles
   sync
 
   # change to boot by UUID so we can boot without making label match month name

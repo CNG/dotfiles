@@ -47,7 +47,7 @@ is now simplified for Linux in [`files`](files).
 Steps to boot from live USB key.
 
 ```
-# Run loadkeys dvorak on QWERTY keyboard
+# Run loadkeys dvorak on Dvorak keyboard
 nraet.fo ekrpat
 cryptsetup open --type luks /dev/nvme0n1p2 luks
 mount /dev/mapper/forbidden-root /mnt

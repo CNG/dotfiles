@@ -1,3 +1,5 @@
+# TODO: Check if this is used or interferes with work
+
 # could also use systemd service, see
 # https://wiki.archlinux.org/index.php/SSH_keys#Keychain
 if ! pgrep -u "$USER" ssh-agent > /dev/null; then
