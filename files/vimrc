@@ -1,54 +1,202 @@
-""" STARTUP
-filetype plugin indent on
+"""" STARTUP
 
-" Not sure this is the way to do it but glaive#Install() doesn't exist here
-" Does Vim native package loading happen after .vimrc is parsed?
-packadd! vim-maktaba
-packadd! vim-glaive
-packadd! vim-codefmt
+" Autoinstall and then setup vim-plug
+" Need to run :PlugInstall to update
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
+Plug 'google/vim-maktaba' | Plug 'google/vim-glaive' | Plug 'google/vim-codefmt'
+Plug 'lifepillar/vim-solarized8'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' } | Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'bronson/vim-visual-star-search'
+Plug 'wellle/context.vim'
+Plug 'tpope/vim-commentary'  " gcc, gc, gcap, ...
+
+" Python
+Plug 'michaeljsmith/vim-indent-object'  " ai, ii indentation object
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }  " better indent code folding (for Python)
+Plug 'Konfekt/FastFold'  " recommended for SimplyFold, not required
+" Folds only updated when saving, closing or opening folds (zo, za, zc, etc...)
+" moving or operating fold-wise (zj,zk,[z,]z) or typing `zuz` in normal mode
+
+" Jinja template syntax (using for Pelican static site generator)
+Plug 'lepture/vim-jinja', { 'for': 'jinja' }
+call plug#end()
+
+" Code formatting
+" https://github.com/google/vim-codefmt#configuring-formatters
 call glaive#Install()
 Glaive codefmt plugin[mappings]
 command W :FormatCode
 
-""" SHORTCUTS
+autocmd BufWritePost .vimrc source %
 
-
-
-""" MAIN SETTINGS
-
-" not "on", "enable" for Solarized colors
-syntax enable
-
+"""" COLORS
 
 " Following needed for Tmux at least if "set termguicolors".
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
 set t_Co=256
-
-" following for 24-bit color in Alacritty
-" https://github.com/jwilm/alacritty/issues/109
-execute "set t_8f=\e[38;2;%lu;%lu;%lum"
-execute "set t_8b=\e[48;2;%lu;%lu;%lum"
-
 set termguicolors
+
+" TODO test: " Also might need this for Alacritty?, https://github.com/jwilm/alacritty/issues/109
+"if exists('+termguicolors')
+"  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+"  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+"  set termguicolors
+"endif
+
+" Solarized
 colorscheme solarized8_high
 
 
-""" PLUGIN SETTINGS
+"""" SHORTCUTS
+
+let mapleader = " "
+nnoremap <leader>/ :noh<cr>
+" search & replace the selected text, e.g. v3e (visually select 3 words) * (search) and :%s//REPL/g
+nmap <Leader>s :%s///g<left><left>
+" Allow saving of files as sudo when I forgot to start vim using sudo, https://stackoverflow.com/a/7078429/172602
+cmap w!! w !sudo tee > /dev/null %
+" Allow pasting text more than once
+" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
+xnoremap <silent> p p:let @+=@0<CR>
+" following from http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+" strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+" fold tag
+nnoremap <leader>ft Vatzf
+" imitates TextMates Ctrl+Q function to re-hardwrap paragraphs of text
+nnoremap <leader>q gqip
+" another rewrap
+nnoremap <leader>w gwap
+" reselect text that was just pasted
+nnoremap <leader>v V`]
 
 
-let g:zettel_fzf_command = "fzf"
+"""" SETTINGS
 
-let g:solarized_termtrans = 1
+set mouse=a
+" allow dragging split borders
+set ttymouse=xterm2
+" yanked text into and paste from global clipboard; requires gvim (libX11 support)
+set clipboard=unnamedplus
 
 
-" Not using Taskwiki right now...
-" "" Taskwiki
-" let g:taskwiki_taskrc_location = "~/.config/taskrc"
-" let g:taskwiki_markup_syntax = "markdown"
+set number
 
-"" FastFold: https://github.com/Konfekt/FastFold
+
+" see http://vimdoc.sourceforge.net/htmldoc/options.html#%27tabstop%27
+" set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+set encoding=utf-8
+set scrolloff=3
+set autoindent
+set wildmenu
+set wildmode=list:longest
+set visualbell
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+" set undofile
+
+" allows extending a selection with right click
+set mousemodel="popup"
+
+set wrap
+set linebreak
+" set textwidth=79
+set formatoptions=qrn1
+" set formatoptions=ant
+" t: ensures text gets wrapped on textwidth
+" a: turns on real-time reformatting as you edit
+set textwidth=80
+set wrapmargin=0
+
+" don't do two spaces after sentences
+set nojoinspaces
+
+" set ignorecase
+" set smartcase
+" set gdefault
+set incsearch
+set showmatch
+set hlsearch
+
+set spell
+set spellcapcheck=
+set spelllang=en
+set spellfile=$HOME/.vim/spell/en.utf-8.add
+hi SpellBad guifg=orange
+
+" prevent security exploits
+set modelines=0
+
+" Highlight current column and row
+nnoremap <Leader>H :set cursorline! cursorcolumn!<CR>
+" hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" highlight current line current window only
+" following makes this unneeded: set cursorline " cursorcolumn
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline " cursorcolumn
+  au WinLeave * setlocal nocursorline " nocursorcolumn
+augroup END
+
+set colorcolumn=81,89
+highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
+match OverLength /\%121v.\+/
+
+" Block cursor when not insert mode, line in insert mode
+" https://github.com/jwilm/alacritty/pull/608#issuecomment-310610576
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+" If using underline in Alacritty, this results in block after Vim
+let &t_EI = "\<Esc>[0 q"
+
+" Show < or > when characters are not displayed on the left or right.
+set listchars=tab:→\ ,trail:~,extends:>,precedes:<
+set list
+" Color Flag trailing whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"" setting both is "hybrid": relative except current line
+"" set number relativenumber
+"" removing relativenumber from next line, seems to still work due to autocmd
+"" below.. but I'll try disabling totally for a while
+"set number
+"" " Automatic toggling between line number modes
+"" " https://jeffkreeftmeijer.com/vim-number/
+"" augroup numbertoggle
+""   autocmd!
+""   " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+""   autocmd BufEnter,FocusGained,InsertLeave * if &ft!="nerdtree"|set relativenumber|endif
+""   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"" augroup END
+
+
+"""" PLUGIN SETTINGS
+
+" tmhedberg/SimpylFold
+let g:SimpylFold_docstring_preview=1
+" https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding
+"" set foldmethod=indent
+"" set foldlevel=99
+set foldlevelstart=20
+
+" Konfekt/FastFold
 nmap zuz <Plug>(FastFoldUpdate)
 let g:fastfold_savehook = 1
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
@@ -68,212 +216,32 @@ let g:r_syntax_folding = 1
 let g:rust_fold = 1
 let g:php_folding = 1
 
-" Not using Vimwiki right now...
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
-let g:markdown_minlines = 100
+" Nerdtree
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+" open NERDTree automatically when vim starts up on opening a directory?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeMouseMode=3
+" Automatically delete the buffer of the file you just deleted with NerdTree
+let NERDTreeAutoDeleteBuffer=1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+autocmd FileType nerdtree setlocal norelativenumber
+let NERDTreeShowLineNumbers=0
+" Refresh both CtrlP and NERDTree (https://superuser.com/a/1137895/81094)
+" nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
 
-""" TO BE ORGANIZED
-
-" Code folding (https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding)
-" set foldmethod=indent
-" set foldlevel=99
-" Enable folding with the spacebar
-" nnoremap + za
-" nnoremap = za
-" show docstrings for folded code
-let g:SimpylFold_docstring_preview=1
-set foldlevelstart=20
-
-
-
-" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
-" So we can copy, then visual select and paste over and over.
-" xnoremap p "_dP
-xnoremap <silent> p p:let @+=@0<CR>
-
-
-
-" Wow I need to document things better, were these still needed when I'm using
-" the plugin?
-autocmd VimLeave * call system("xclip -selection clipboard -i", getreg('+'))
-" yanked text into and paste from global clipboard; requires gvim (libX11 support)
-set clipboard=unnamedplus
-
-" Use space as leader, disabling default "move right" first
-" https://stackoverflow.com/q/446269/172602
-nnoremap <Space> <nop>
-let mapleader = " "
-" Could also try following
-" map <SPACE> <leader>
-
-
-
-
-" remap upper case saving and quitting to lower case
-" command! WQ wq
-" command! Wq wq
-" command! W w
-" command! Q q
-
-"" https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally#easier-split-navigations
-"" navigates splits without ^w first
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
-"nnoremap <C-L> <C-W><C-L>
-"nnoremap <C-H> <C-W><C-H>
-"" Open new split panes to right and bottom
-"set splitbelow
-"set splitright
-
-" allow dragging split borders
-set ttymouse=xterm2
-
-" prevent security exploits http://lists.alioth.debian.org/pipermail/pkg-vim-maintainers/2007-June/004020.html
-" set modelines=0
-
-" see http://vimdoc.sourceforge.net/htmldoc/options.html#%27tabstop%27
-" set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-
-set encoding=utf-8
-set scrolloff=3
-set autoindent
-" default on in Vim: set showmode
-" default on in Vim: but for some reason is not on for me now?: set showcmd
-set showcmd
-" complicated, research later: set hidden
-set wildmenu
-set wildmode=list:longest
-set visualbell
-set ttyfast
-set ruler
-set backspace=indent,eol,start
-set laststatus=2
-" set undofile
-
-" Need to better understand what crazy Vim regex Losh is talking about
-" nnoremap / /\v
-" vnoremap / /\v
-
-" set ignorecase
-" set smartcase
-" set gdefault
-set incsearch
-set showmatch
-set hlsearch
-nnoremap <leader>/ :noh<cr>
-" makes it easy to clear out a search by typing ,<space> (or \<space> ?)
-
-" nnoremap <tab> %
-" vnoremap <tab> %
-set spell
-set spellcapcheck=
-set spelllang=en
-set spellfile=$HOME/.vim/spell/en.utf-8.add
-hi SpellBad guifg=orange
-" hi SpellCap guifg=green
-set mousemodel="popup"
-
-set wrap
-set linebreak
-" set textwidth=79
-set formatoptions=qrn1
-
-" set formatoptions=ant
-" t: ensures text gets wrapped on textwidth
-" a: turns on real-time reformatting as you edit
-
-set textwidth=80
-set wrapmargin=0
-
-" don't do two spaces after sentences
-set nojoinspaces
-
-" setting both is "hybrid": relative except current line
-" set number relativenumber
-" removing relativenumber from next line, seems to still work due to autocmd
-" below.. but I'll try disabling totally for a while
-set number
-" " Automatic toggling between line number modes
-" " https://jeffkreeftmeijer.com/vim-number/
-" augroup numbertoggle
-"   autocmd!
-"   " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-"   autocmd BufEnter,FocusGained,InsertLeave * if &ft!="nerdtree"|set relativenumber|endif
-"   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-" augroup END
-
-
-" Show < or > when characters are not displayed on the left or right.
-" set list listchars=precedes:<,extends:>
-" Same, but also show tabs and trailing spaces.
-" set listchars=tab:>-,trail:.,precedes:<,extends:>
-" set listchars=tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<
-" set listchars=trail:~,extends:>,precedes:<
-set listchars=tab:→\ ,trail:~,extends:>,precedes:<
-" eol:$,tab:⇰\ ,space:\ ,trail:~,extends:>,precedes:<
-set list
-" Color Flag trailing whitespace
-highlight BadWhitespace ctermbg=red guibg=darkred
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" following from http://stevelosh.com/blog/2010/09/coming-home-to-vim/
-" strip all trailing whitespace in the current file
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-" fold tag
-nnoremap <leader>ft Vatzf
-" imitates TextMates Ctrl+Q function to re-hardwrap paragraphs of text
-nnoremap <leader>q gqip
-" another rewrap
-nnoremap <leader>w gwap
-" reselect text that was just pasted
-nnoremap <leader>v V`]
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
-" open window and switch to it
-nnoremap <leader>w <C-w>v<C-w>l
-
-" need to consider the following
-" from http://vim.wikia.com/wiki/Simplifying_regular_expressions_using_magic_and_no-magic
-nnoremap / /\v
-vnoremap / /\v
-cnoremap %s/ %smagic/
-" commented out bc conflict
-"cnoremap \>s/ \>smagic/
-nnoremap :g/ :g/\v
-nnoremap :g// :g//
-" This does not work with `:g` and interferes somewhat with Vim's search-history behavior
-" see http://stackoverflow.com/a/23021259/1858225
-" An alternative solution is to use this plugin: http://www.vim.org/scripts/script.php?script_id=4849
-
-" https://stackoverflow.com/questions/1276403/simple-vim-commands-you-wish-youd-known-earlier#comment29598087_1295244
-" search & replace the selected text, e.g. v3e (visually select 3 words) * (search) and :%s//REPL/g
-nmap <Leader>s :%s///g<left><left>
-
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-" https://stackoverflow.com/a/7078429/172602
-cmap w!! w !sudo tee > /dev/null %
-
-
-let g:solarized_termtrans=1
-
-let g:airline_solarized_dark_text=1
-
-let g:solarized_term_italics = 1
-" colorscheme molokai
-" let g:molokai_original = 1
-
-
+" vim-airline
+let g:airline_theme='light'
+let g:airline_highlighting_cache = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_powerline_fonts = 1
-
 let g:airline_detect_spell=0
 let g:airline_mode_map = {
     \ '__' : '-',
@@ -288,117 +256,8 @@ let g:airline_mode_map = {
     \ 'S'  : 'S',
     \ '^S' : 'S',
     \ }
-
-"  variable names                default contents
-"  ----------------------------------------------------------------------------
-"  let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
 let g:airline_section_b = ''
-"  let g:airline_section_b       (hunks, branch)[*]
-"  let g:airline_section_c       (bufferline or filename)
-"  let g:airline_section_gutter  (readonly, csv)
-"  let g:airline_section_x       (tagbar, filetype, virtualenv)
-"  let g:airline_section_y       (fileencoding, fileformat)
 let g:airline_section_y = ''
-"  let g:airline_section_z       (percentage, line number, column number)
-"  let g:airline_section_error   (ycm_error_count, syntastic-err, eclim)
-"  let g:airline_section_warning (ycm_warning_count, syntastic-warn, whitespace)
-
-  " [*] This section needs at least the fugitive extension or else
-  "     it will remain empty
-  "
-  " here is an example of how you could replace the branch indicator with
-  " the current working directory (limited to 10 characters),
-  " followed by the filename.
-"  let g:airline_section_b = '%-0.10{getcwd()}'
-"  let g:airline_section_c = '%t'
-
-" let g:airline_theme='molokai'
-
-let g:airline_theme='light'
-" let g:airline_solarized_bg='dark'
-
-let g:solarized_termtrans = 1
-
-
-""" CURSOR HIGHLIGHTING
-" Highlight current column and row
-nnoremap <Leader>H :set cursorline! cursorcolumn!<CR>
-" hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-" highlight current line current window only
-" following makes this unneeded: set cursorline " cursorcolumn
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline " cursorcolumn
-  au WinLeave * setlocal nocursorline " nocursorcolumn
-augroup END
-" Block cursor when not insert mode, line in insert mode
-" https://github.com/jwilm/alacritty/pull/608#issuecomment-310610576
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-" If using underline in Alacritty, this results in block after Vim
-let &t_EI = "\<Esc>[0 q"
-
-
-" https://github.com/lifepillar/vim-solarized8.git
-" https://github.com/akracun/vitality.vim.git
-let g:vitality_tmux_can_focus = 1
-
-let g:bufferline_echo = 0
-
-
-
-
 set noshowmode
 set noruler
-"set laststatus=0
-"set noshowcmd
-
-hi SpecialKey ctermbg=NONE guibg=NONE ctermfg=237
-
-
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-" open NERDTree automatically when vim starts up on opening a directory?
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-" close vim if the only window left open is a NERDTree?
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" enable mouse in NERDTree
-set mouse=a
-let g:NERDTreeMouseMode=3
-" Automatically delete the buffer of the file you just deleted with NerdTree
-let NERDTreeAutoDeleteBuffer=1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-autocmd FileType nerdtree setlocal norelativenumber
-let NERDTreeShowLineNumbers=0
-
-" Refresh both CtrlP and NERDTree (https://superuser.com/a/1137895/81094)
-nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
-
-
-" set colorcolumn=85
-set colorcolumn=81,89
-highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
-" match OverLength /\%121v.\+/
-
-
-
-
-nmap <F8> :TagbarToggle<CR>
-
-"let g:jedi#show_call_signatures = 2
-"let g:jedi#auto_vim_configuration = 0
-"let g:jedi#show_call_signatures_delay = 0
-
-map ; :Files<CR>
-let g:fugitive_bitbucket_domains = ["source.fitbit.com"]
-
-
-
-
-
-
-
-
 
