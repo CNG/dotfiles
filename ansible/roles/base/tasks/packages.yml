@@ -1,42 +1,19 @@
 ---
 - name: Remove deprecated packages
-  pacman:
+  apt:
     name: "{{ packages.deprecated }}"
     state: absent
   become: yes
 
-- name: Upgrade all packages
-  aur:
-    upgrade: yes
-    skip_installed: no
+- name: Update all packages to their latest version
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes
   become: yes
-  become_user: aur_builder
 
 - name: Install universal base packages
-  pacman:
+  apt:
     name: "{{ query('flattened', '{{ packages.base }}') }}"
     state: present
 
-- name: Install AUR base packages
-  aur:
-    name: "{{ packages.base_aur }}"
-  become: yes
-  become_user: aur_builder
-
-- name: Install firmware update utility
-  pacman:
-    name: fwupd
-    state: present
-- name: Refresh firmware update metadata from remote server
-  # --force because returns error (2) if recently refreshed:
-  # Firmware metadata last refresh: 3 minutes ago. Use --force to refresh again.
-  command: fwupdmgr refresh --force
-  changed_when: False
-- name: Check if firmware updates available
-  command: fwupdmgr get-updates
-  register: result
-  changed_when: False
-- name: Update firmware
-  when: "'No upgrades' not in result.stderr and 'No updatable' not in result.stderr"
-  command: fwupdmgr update --force
-  become: yes

@@ -11,6 +11,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
 
+# auto update causing errors accessing ~/.git/config
+DISABLE_AUTO_UPDATE=true
 DISABLE_UPDATE_PROMPT=true
 
 # Uncomment following line if you want to disable colors in ls

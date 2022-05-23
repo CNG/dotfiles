@@ -1,4 +1,8 @@
 ---
+- name: Install keymaps, fonts, charset maps for kbd
+  apt:
+    name: console-data
+
 - name: Enable dvorak for XOrg libinput
   copy:
     src: 40-libinput-dvorak.conf
@@ -7,21 +11,14 @@
 - name: Add control-caps dvorak keymap
   copy:
     src: dvorak-cc.map.gz
-    dest: /usr/share/kbd/keymaps/i386/dvorak-cc.map.gz
+    dest: /usr/share/keymaps/i386/dvorak/dvorak-cc.kmap.gz
 
 - name: Set key layout in vconsole
   lineinfile:
     dest: /etc/vconsole.conf
     regexp: "^KEYMAP="
     state: present
-    line: "KEYMAP={{ user.layout }}"
-
-- name: Set key layout in vconsole
-  lineinfile:
-    dest: /etc/vconsole.conf
-    regexp: "^KEYMAP="
-    state: present
-    line: "KEYMAP={{ user.layout }}"
+    line: "KEYMAP={{ user.layout }}-cc"
 
 # do we need anything in /etc/default/keyboard?
 ### XKBMODEL="pc105,pc105"

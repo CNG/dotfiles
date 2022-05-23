@@ -5,14 +5,11 @@ set $sup mod4
 set $mod mod4
 
 # focus_follows_mouse no
-font pango: Fira Sans Regular 16
+font pango: MesloLGS NF Regular 16
 # Hide titlebar
 #default_border normal
 default_border pixel 2
 default_floating_border normal
-set $background /usr/share/backgrounds/taipei.jpg
-#set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
-set $set_background feh --bg-fill /usr/share/backgrounds/vim.jpg
 
 
 ### PROGRAM SHORTCUTS
@@ -22,42 +19,33 @@ bindsym $mod+Shift+Return --release exec --no-startup-id $term -e bash
 bindsym $mod+c       exec --no-startup-id "$term -t calculator -e bc -l -q &!"
 bindsym $mod+d       exec --no-startup-id rofi -show drun -opacity 10 -dpi 144
 bindsym $mod+Shift+d exec --no-startup-id ~/dotfiles/notes/notes -f ~/dotfiles/private/notes.txt
-bindsym $mod+i       exec --no-startup-id firefox --no-remote -P Work
+bindsym $mod+i       exec --no-startup-id chrome
 bindsym $mod+Shift+i exec --no-startup-id firefox --no-remote -P Personal
-bindsym $mod+f       exec --no-startup-id nemo
+# bindsym $mod+f       exec --no-startup-id nemo
 bindsym $mod+Shift+m exec --no-startup-id ~/.local/bin/dnd
 bindsym $mod+e       exec --no-startup-id subl --new-window
 bindsym $mod+m       exec --no-startup-id spotify --force-device-scale-factor=1.0
-bindsym $mod+Ctrl+e  exec --no-startup-id chromium --app=https://outlook.office365.com/owa/\?realm\=fitbit.com
-bindsym $mod+Ctrl+w  exec --no-startup-id chromium --app=https://web.whatsapp.com
-bindsym $mod+Ctrl+f  exec --no-startup-id chromium --app=https://www.facebook.com/messages
-# VPN
-bindsym $alt+v       exec --no-startup-id "zsh -c 'fitbitvpn start &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
-bindsym $alt+z       exec --no-startup-id "zsh -c 'fitbitvpn start full &'; for i in {1..39}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
-bindsym $alt+Shift+v exec --no-startup-id "zsh -c 'fitbitvpn stop &'; for i in {1..10}; do pkill -RTMIN+10 i3blocks; sleep 1; done"
-# completely forgot about the following, so maybe I don't need them
-#bindsym $mod+z       exec --no-startup-id "pacmd set-card-profile 8 headset_head_unit && streams_to_sink && zoom"
-#bindsym $mod+Shift+z exec --no-startup-id "pkill zoom && pacmd set-card-profile 8 a2dp_sink && streams_to_sink"
 
 
 ### AUTOSTART PROGRAMS
+# XDG autostart mechanism
+exec dex -ae i3
+# exec /usr/share/goobuntu-indicator/goobuntu_indicator.py
+
 # compositor, window transparency
-exec --no-startup-id picom --config ~/.config/picom.conf
-#exec --no-startup-id libinput-gestures-setup start
-# exec --no-startup-id trickle -u 1024 -d 10240 insync start # GDrive manager
-exec --no-startup-id insync start   # GDrive manager
+# exec --no-startup-id picom --config ~/.config/picom.conf
+# exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id redshift       # blue light reduction at night
-exec --no-startup-id nm-applet      # network manager
-exec --no-startup-id blueman-applet # bluetooth manager
+# exec --no-startup-id nm-applet      # network manager
+# exec --no-startup-id blueman-applet # bluetooth manager
 # Prefaced with QT_QPA_PLATFORMTHEME= per https://github.com/hluk/CopyQ/issues/1401 / https://sourceforge.net/p/qt5ct/tickets/77/
-exec --no-startup-id "QT_QPA_PLATFORMTHEME= copyq"  # clipboard manager
-exec --no-startup-id rescuetime     # time use tracker
+
+# exec --no-startup-id "QT_QPA_PLATFORMTHEME= copyq"  # clipboard manager
 #exec --no-startup-id imwheel --buttons "45" # modify scroll speed per app
 #exec --no-startup-id ~/.local/bin/on_device_change
-exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
+# exec_always --no-startup-id autorandr `autorandr --detected | head -n1` && $set_background
 # wallpaper
-exec_always --no-startup-id $set_background
-exec_always --no-startup-id bash ~/.xsession
+# exec_always --no-startup-id $set_background
 
 ### SETTINGS FOR GENERIC POPUPS
 for_window [window_role="pop-up"]      floating enable
@@ -260,14 +248,6 @@ bar
 }
 
 
-### GAPS
-#gaps inner 25
-smart_gaps on
-# Keybindings to add and remove i3-gaps:
-bindsym $mod+ctrl+g gaps inner current plus 5
-bindsym $mod+Ctrl+Shift+g gaps outer current plus 5
-bindsym $mod+Ctrl+p gaps inner current minus 5
-bindsym $mod+Ctrl+Shift+p gaps outer current minus 5
 
 
 ### WINDOW MANIPULATION
@@ -331,3 +311,12 @@ bindsym $mod+Shift+0 move container to workspace 10
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym Ctrl+Shift+r exec --no-startup-id bash ~/.xsession
+
+
+
+
+mode "passthrough" {
+    bindsym $mod+$alt+l mode "default"
+}
+
+bindsym $mod+$alt+l mode "passthrough"

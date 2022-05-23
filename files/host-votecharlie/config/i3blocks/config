@@ -1,0 +1,83 @@
+command=~/.config/i3scripts/$BLOCK_NAME
+align=left
+separator=false
+separator_block_width=20
+markup=pango
+interval=2
+
+[bandwidth3]
+command=~/.config/i3blocks-contrib/bandwidth3/bandwidth3 -t 1 -p 'if (rx) {printf "%'"'"' 5.f<small> </small>", rx};  if (tx && rx) {printf " "}; if (wx) {printf "%'"'"' 5.f<small> </small>", wx}; if (tx) {printf "\n"}' -u KB
+min_width='1,586 1,513'
+interval=persist
+align=right
+separator_block_width=50
+color=#f92672
+
+[mediaplayer]
+instance=spotify
+interval=5
+signal=10
+color=#8CE000
+separator_block_width=20
+
+
+[time]
+command=date -u '+<small><tt>%Y</tt>-<tt>%m</tt>-<tt>%d</tt></small> <tt>%H</tt>:<tt>%M</tt>:<tt>%S</tt> '
+color=#8CE000
+interval=1
+separator_block_width=0
+
+[time_local]
+command=date '+<span font_weight="light" size="smaller" color="#FF8C00"><tt>%H</tt>:<tt>%M</tt><small>%Z</small></span>'
+interval=1
+separator_block_width=20
+
+[home]
+command=~/.config/i3scripts/disk
+instance=/home/
+label=
+interval=3600
+color=#4ec2f7
+
+[temperature]
+color=#4ec2f7
+min_width=' 44°C'
+
+[battery]
+interval=15
+
+[brightness]
+color=#4ec2f7
+label=
+signal=10
+interval=once
+
+[brightness_philips]
+command=~/.config/i3scripts/brightness_ext 'PHL 328E1'
+color=#4ec2f7
+label=
+signal=10
+interval=once
+
+[contrast_philips]
+command=~/.config/i3scripts/brightness_ext 'PHL 328E1' 12
+color=#4ec2f7
+label=
+signal=10
+interval=once
+
+
+[brightness_lg]
+command=~/.config/i3scripts/brightness_ext 'LG UltraFine'
+color=#aec2f7
+label=
+signal=10
+interval=once
+
+
+[volume]
+color=#FF8C00
+signal=10
+interval=once
+instance=Master
+

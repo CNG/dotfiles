@@ -1,4 +1,0 @@
----
-- name: rebuild linux
-  command: mkinitcpio -p linux
-  become: yes

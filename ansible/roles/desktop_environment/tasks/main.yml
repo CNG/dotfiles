@@ -1,67 +1,32 @@
 ---
 - name: Install desktop environment
-  aur:
-    name: "{{ item }}"
+  apt:
+    name: "{{ packages[desktop_environment] }}"
   become: yes
-  become_user: aur_builder
-  with_items: "{{ packages[desktop_environment] }}"
 
-- name: Create plugdev user group
-  group:
-    name: plugdev
-    state: present
-- name: Add user to plugdev group
-  user:
-    name: "{{ user.name }}"
-    groups: plugdev
-    append: yes
-
-# # TODO: Detect files present before deleting
-# # TODO: Figure out why Desktop gets recreated, again
-# - name: Delete unused home directory directories
-#   file:
-#     path: "/home/{{ user.name }}/{{ item }}"
-#     state: absent
-#   with_items:
-#     - Desktop
-#     - Documents
-#     - Public
-#     - Templates
-#     - Videos
-#   become: yes
-
-- name: Fix Baloo (and more) inotify folder watch limit error
-  become: yes
-  copy:
-    src: 40-max-user-watches.conf
-    dest: /etc/sysctl.d/40-max-user-watches.conf
-    mode: 0644
-  notify:
-    - reload systemd config
-
-- name: Global media control scripts
-  when: desktop_environment != "i3"
-  block:
-    - name: >-
-        Use control names from
-        https://specifications.freedesktop.org/mpris-spec/latest/Player_Interface.html
-      set_fact:
-        media_controls:
-          - PlayPause
-          - Next
-          - Previous
-    - name: Create global media control scripts
-      template:
-        src: media-control.sh
-        dest: "/usr/local/bin/media-control-{{ item }}.sh"
-        mode: 0755
-      with_items: "{{ media_controls }}"
-    - name: "Check whether ~/.config/kglobalshortcutsrc contains media control shortcuts"
-      command: "awk '/=F[0-9]+,none,{{ item }}$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/kglobalshortcutsrc"
-      with_items: "{{ media_controls }}"
-    - name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
-      command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
-      with_items: "{{ media_controls }}"
+# - name: Global media control scripts
+#   when: desktop_environment != "i3"
+#   block:
+#     - name: >-
+#         Use control names from
+#         https://specifications.freedesktop.org/mpris-spec/latest/Player_Interface.html
+#       set_fact:
+#         media_controls:
+#           - PlayPause
+#           - Next
+#           - Previous
+#     - name: Create global media control scripts
+#       template:
+#         src: media-control.sh
+#         dest: "/usr/local/bin/media-control-{{ item }}.sh"
+#         mode: 0755
+#       with_items: "{{ media_controls }}"
+#     - name: "Check whether ~/.config/kglobalshortcutsrc contains media control shortcuts"
+#       command: "awk '/=F[0-9]+,none,{{ item }}$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/kglobalshortcutsrc"
+#       with_items: "{{ media_controls }}"
+#     - name: "Check whether ~/.config/khotkeysrc contains media control shortcuts"
+#       command: "awk '/^CommandURL=\\/usr\\/local\\/bin\\/media-control-{{ item }}.sh$/ {rc = 1; print $NF}; END { exit !rc }' /home/{{ user.name }}/.config/khotkeysrc"
+#       with_items: "{{ media_controls }}"
 
 - name: Reduce saturation for Logitech Webcame C930e
   become: yes

@@ -21,20 +21,12 @@ main () {
   trap 'err_report $LINENO' ERR
   cd "$APP_ROOT"
 
-  if ! pacman -Qi ansible > /dev/null; then
-    sudo pacman -Sy --noconfirm python-passlib ansible git
+  if ! which ansible > /dev/null; then
+    sudo apt install ansible git
   fi
 
   cd ansible
-  git submodule init && git submodule update || true # TODO: ignore submodule issue
 
-  if [[ ! -f library/ansible-aur/aur.py ]]; then
-    git clone https://github.com/kewlfft/ansible-aur.git library/ansible-aur
-  fi
-  ln -fs ansible-aur/aur.py library/aur
-
-  printf "Installing roles from Ansible Galaxy\n"
-  sudo ansible-galaxy install -r requirements.yml
   printf "Starting Ansible playbook\n"
   # sudo ansible-playbook -i local -K playbook.yml "$@"
   dense=/usr/lib/python3.7/site-packages/ansible/plugins/callback/dense.py

@@ -1,0 +1,16 @@
+---
+- name: Download fonts
+  get_url:
+    url: "https://github.com/romkatv/powerlevel10k-media/raw/master/{{ item|urlencode() }}"
+    dest: "/usr/local/google/home/{{ user.name }}/.local/share/fonts/{{ item }}"
+    mode: "0666"
+  with_items:
+    # From https://github.com/romkatv/powerlevel10k#manual-font-installation
+    - "MesloLGS NF Regular.ttf"
+    - "MesloLGS NF Bold.ttf"
+    - "MesloLGS NF Italic.ttf"
+    - "MesloLGS NF Bold Italic.ttf"
+
+# Google Earth https://groups.google.com/a/google.com/g/eos3d-team/c/u4FLhIYElgY/m/VwgQcxX1CAAJ
+# Doing so reveals a "permalink" (to the extent that anything we do is "permanent") to the current Linux amd64 release: https://dl.google.com/earth/client/current/google-earth-pro-stable_current_amd64.deb
+# So I guess the only "special" thing you need to know is "sudo dpkg -i ...".

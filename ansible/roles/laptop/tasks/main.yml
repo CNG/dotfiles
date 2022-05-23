@@ -1,55 +1,55 @@
 ---
-- import_tasks: tlp.yml
+# - import_tasks: tlp.yml
 
 
-- name: Copy brightness udev rules
-  copy:
-    src: backlight.rules
-    dest: /etc/udev/rules.d/backlight.rules
+# - name: Copy brightness udev rules
+#   copy:
+#     src: backlight.rules
+#     dest: /etc/udev/rules.d/backlight.rules
 
 
-- name: Copy logind configuration file
-  copy:
-    src: logind.conf
-    dest: /etc/systemd/logind.conf
+# - name: Copy logind configuration file
+#   copy:
+#     src: logind.conf
+#     dest: /etc/systemd/logind.conf
 
 
-- name: Push low battery warning script
-  copy:
-    src: lowbatt.sh
-    dest: /usr/local/bin/lowbatt
-    mode: 0755
+# - name: Push low battery warning script
+#   copy:
+#     src: lowbatt.sh
+#     dest: /usr/local/bin/lowbatt
+#     mode: 0755
 
-- name: Push low battery warning service file
-  template:
-    src: lowbatt.service.j2
-    dest: /etc/systemd/system/lowbatt.service
-  notify:
-    - reload systemd config
+# - name: Push low battery warning service file
+#   template:
+#     src: lowbatt.service.j2
+#     dest: /etc/systemd/system/lowbatt.service
+#   notify:
+#     - reload systemd config
 
-- name: Push low battery timer file
-  template:
-    src: lowbatt.timer.j2
-    dest: /etc/systemd/system/lowbatt.timer
-  notify:
-    - reload systemd config
-    - restart lowbatt
+# - name: Push low battery timer file
+#   template:
+#     src: lowbatt.timer.j2
+#     dest: /etc/systemd/system/lowbatt.timer
+#   notify:
+#     - reload systemd config
+#     - restart lowbatt
 
-- name: Enable and start lowbatt timer
-  service:
-    name: lowbatt.timer
-    enabled: yes
-    state: started
+# - name: Enable and start lowbatt timer
+#   service:
+#     name: lowbatt.timer
+#     enabled: yes
+#     state: started
 
-- name: Install power utils
-  aur:
-    name: "{{ item }}"
-  become: yes
-  become_user: aur_builder
-  with_items:
-    - powertop
-    - powerstat-git
-    - battery-stats-git
+# - name: Install power utils
+#   aur:
+#     name: "{{ item }}"
+#   become: yes
+#   become_user: aur_builder
+#   with_items:
+#     - powertop
+#     - powerstat-git
+#     - battery-stats-git
 
 
 - name: Copy touchpad configuration file
@@ -58,23 +58,17 @@
     dest: /etc/X11/xorg.conf.d/30-touchpad.conf
 
 - name: Install multitouch drivers
-  aur:
-    name: "{{ item }}"
+  apt:
+    name: xserver-xorg-input-mtrack
   become: yes
-  become_user: aur_builder
-  with_items:
-    - xf86-input-mtrack-git
-  when: multitouch is defined and multitouch == True
 
 - name: Add user to input group, for mtrack
   user:
     name: "{{ user.name }}"
     groups: input
     append: yes
-  when: multitouch is defined and multitouch == True
 
 - name: Enable multitouch trackpad
   copy:
     src: 10-mtrack.conf
     dest: /etc/X11/xorg.conf.d/10-mtrack.conf
-  when: multitouch is defined and multitouch == True

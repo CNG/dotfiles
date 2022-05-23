@@ -1,388 +1,89 @@
 user:
-  fullname: "FIRST LAST"
-  name: USERNAME
-  group: USERNAME
-  email: EMAIL
-  uid: 1000
-  shell: /usr/bin/zsh
+  name: votecharlie
   layout: dvorak
-  # be sure to change the password after first run
-  password: test
-  log:
-    dir: log
-    rotate: 8
-
-samba_log: /var/log/samba.log
-samba_log_size: 60000
 
 dotfiles:
   git_url: "git://github.com/CNG/dotfiles.git"
   path: dotfiles
   files_to_copy_not_link: "htoprc Preferences.sublime-settings copyq.conf"
 
-ssh:
-  port: 22
-  # user_key: /root/id_rsa
-  enable_sshd: True
+# udisks:
+#   auto_mount: True
+#   shared_mount: True
 
-gnupg:
-  enable_agent: True
-  emulate_ssh: True
-
-network:
-  spoof_mac: False
-  conn_check:
-    interval: 0
-
-passwordless_sudo:
-- /usr/bin/openvpn*
-
-fingerprint: False
-
-localtime:
-  run_on: all
-
-nameservers:
-- 1.1.1.1
-
-bluetooth:
-  disable: False
-
-journal:
-  max_size: 5G
-
-udisks:
-  auto_mount: True
-  shared_mount: True
-
-hostsctl:
-  url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-
-
-middle_click_scroll: True
-multitouch: True
 desktop_environment: i3
-
-# These roles clean up when disabled
-roles:
-  - dummy
-  # - rtorrent
-  # - mpv
-  # - mpd
-  # - firejail
-  # - unbound
-  # - wormhole
-#himawaripy:
-#  run_time: 15min
-#  run_boot_delay: 2min
-#  run_on: all
-#  flags: --auto-offset --level 4
 
 packages:
   deprecated:
-    # replaced
-    - zsh-theme-powerlevel10k
-    # broken
-    - canta-icon-theme
-    - ttf-montserrat
-    - ttf-caladea
-    # haven't used lately
     - fritzing
-    # other
-    - alacritty-terminfo-git
-    - xdg-user-dirs
-    - klook-git
-    - phonon-qt4-backend
 
   base:
-    - base-devel
-    - coreutils
-    - dateutils
-    - moreutils
-    - bc
-    - man-db
-    - man-pages
-    - logrotate
-    - [ git, git-lfs, hub, perl-term-readkey ]
-    - glances
-    - go
-    - kfind
-    - lsof
-    - reflector  # For pacman mirror ranking
-    - rsync
-    - ruby
-    - strace
-    - sysstat
-    - tmux
-    - inotify-tools  # For inotifywait
-
-  base_aur:
-    - rust  # For alacritty tie break in aurman
-    - alacritty-git
-    - ctmg
+    - [ git, git-lfs ]
+    # - glances
+    # - go
     - imwheel
-    - miller
-    - myrepos
-    - neofetch
-    - python-systemd  # Ansible log to journal
-    - tmux-bash-completion
     - zplug
-    - acpid
-    # Next two were on laptop only, adding here for consistency till I test why
-    - acpitool
-    - acpi_call-dkms
+    # - acpid
     - redshift  # blue light reduction
-
-  developer:
-    - ack
-    - arduino
-    - command-not-found  # may need to check if /etc/zsh/zprofile is sourced as it says it should be
+    - rcm
+    - taskwarrior
+    - spotify-client
+    - silversearcher-ag  # better grep
     - grc  # Colorize logfiles and command output
     - highlight
     - htop
-    - iftop
-    - iotop
-    - iputils
-    - usbutils  # provides lsusb
+    # - iftop
+    # - iotop
+    # - iputils
     - jq
-    - yq
-    - linux-headers
-    - nfs-utils
-    - ntop
-    - pygmentize  # Python syntax highlighter
-    - qt5-webengine
-    - rsnapshot
-    - screen
-    - solaar
-    - sqlitebrowser
-    - sysstat
-    - tree
-    - vagrant
-    - vnstat
-    - wget
-    - wireless_tools
-
-  editors:
-    - nano
-    - sublime-text
-    - typora
-    - vi
-    - gvim  # gvim required for clipboard/libX11 support
-    # not quite configured right - [ mono, vim-youcompleteme-git ]
-    # needed to remove ctags by confirmation y/n:
-    - universal-ctags  # for tagbar Vim plugin
+    # - ntop
+    # - sysstat
+    # - vnstat
     - fzf  # fuzzy finder
-    - python-black  # vim-codefmt uses system "black"
-
-  filesystem:
-    - dosfstools
-    - efibootmgr
-    - exfat-utils
-    # - hfsprogs
-    # no longer avail, check if still needed for mac migration
-    # - hfsutils
-    - ntfs-3g
-    # - libguestfs  # mount VMDKs, large install
-
-  fonts:
-    # core:
-    - cantarell-fonts
-    - gsfonts
-    - noto-fonts
-    - terminus-font
-    - tex-gyre-fonts
-    - ttf-caladea
-    - ttf-carlito
-    - ttf-courier-prime
-    - ttf-dejavu
-    - ttf-droid
-    - ttf-fira-code
-    - ttf-fira-mono
-    - ttf-fira-sans
-    - ttf-heuristica
-    - ttf-inconsolata
-    - ttf-liberation
-    - ttf-merriweather
-    - ttf-merriweather-sans
-    - ttf-opensans
-    - ttf-oswald
-    - ttf-quintessential
-    - ttf-signika
-    # error - ttf-symbola
-    - ttf-ubuntu-font-family
-    # Validating source files with md5sums... Cantora_One.zip ... FAILED
-    # - ttf-impallari-cantora
-
-    # extra:
-    - adobe-base-14-fonts
-    - ttf-adobe-source-fonts
-    - ttf-bookerly
-    - ttf-contemporary
-    - ttf-fantasque-sans-mono
-    - ttf-fira-code
-    - ttf-font-awesome-4
-    # conflict - ttf-google-fonts-git
-    # - ttf-input  # Probably replacing with below but can't test due to 500
-    # error
-    - ttf-nerd-fonts-input
-    - ttf-iosevka
-    - ttf-latex-xft-fonts
-    - ttf-mac-fonts
-    - ttf-nanum
-    - ttf-noto-fonts-emoji-ib
-    - ttf-raleway
-    - ttf-spacemono
-    - ttf-tahoma
+    - copyq  # clipboard manager
+    # - enscript
+    # - pandoc
+    - taskwarrior
+    - keychain  # keychain manager for openssh
+    - google-cloud-sdk
+    - google-sublime-text
 
   media:
-    # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
-    # - inkscape
-    # - makemkv-cli
-    - [ cdparanoia, abcde ]  # CD track encoder
-    - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
-    - calibre  # e-book management
+    # - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - vlc
-    - zopfli  # compression
-    - vdhcoapp-bin  # Video Downloadhelper companion app
-    - guvcview  # webcam record
-    - losslesscut  # video trim
-    - darktable
-    - entangle  # camera tethering
-    - gwenview  # best image viewer for KDE
-    - flac2all
-    - iscan-plugin-gt-x820  # Epson V600 scanner
-    - flashplugin
-    # - flite  # lightweight speech synthesis engine
-    # - fritzing  # Haven't used this is a while
-    - libheif
-    - gpscorrelate
-    - gthumb
-    - handbrake
-    # - imv  # Image viewer for X11/Wayland
-    - kamoso  # webcam recorder from KDE community
-    - kindleunpack
-    - mediainfo-gui
-    - cava  # sound visualizer
-    - spotify
-    - youtube-dl
-    # misc media codecs and helpers
-    - exiv2
-    - flac
-    - gst-libav
-    # error: failed to commit transaction (conflicting files)
-    # - gst-plugins-good
-    - lame
-    - perl-image-exiftool
-    - x264
-    - [ kdenlive, recordmydesktop ]
-
-  nettools:
-    - bind-tools
-    - bitmeter-os
-    - bmon
-    - darkstat  # packet sniffer
-    - gnu-netcat
-    # - gufw  # GTK front-end for Ufw
-    - lftp
-    - mtr
-    - net-tools
-    - nethogs
-    - ngrep
-    - nmap
-    - openssh
-    - openvpn
-    - pdsh
-    - socat
-    - speedtest-cli
-    - sshuttle
-    - tcpdump
-    - trickle
-    - whois
-    - wireshark-qt
-    - wmsystemtray
-    - wondershaper-git
-
-  office:
-    - archlinux-java-run
-    - automatic
-    # - cerebro
-    - copyq  # clipboard manager
-    - enscript
-    - [ insync, insync-dolphin ]
-    - keybase-bin  # keybase.io encrypted chat, includes kbfs and keybase-gui
-    - libreoffice-fresh
-    - masterpdfeditor
-    # - okular  # Ebook Reader, simple yet capable
-    - pandoc
-    - pdfgrep
-    - rescuetime2  # time tracker
-    - simple-scan
-    - task  # TaskWarrior
-    - visidata
-    - zathura-pdf-mupdf
-    - zathura-ps
-    - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki ]
-    # Anki addons:
-    # not yet Anki 2.1: 162313389 Power format pack
-    # but this has some funcs: 295889520 Mini Format Pack
-    # 874215009 Advanced Browser
-    # 1672832404 Add note id
-    # 613684242 True retention
-    # 3491767031 Multi-column note editor
-    # 291119185 Batch Note Editing
-    # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
-    # 117604477 Dark Themes Fix for 2.0
-
-  printers:
-    - brother-hl3170cdw
+    # - zopfli  # compression
+    # - vdhcoapp-bin  # Video Downloadhelper companion app
+    # - guvcview  # webcam record
+    # - gwenview  # best image viewer for KDE
+    # - flac2all
+    # - iscan-plugin-gt-x820  # Epson V600 scanner
+    # - libheif
+    # - gthumb
+    # - handbrake
+    # - mediainfo-gui
+    # - youtube-dl
+    # # misc media codecs and helpers
+    # - exiv2
+    # - flac
+    # - gst-libav
+    # - lame
+    # - perl-image-exiftool
+    # - x264
+    # - [ kdenlive, recordmydesktop ]
 
   i3:
+    - dex  # load autostarts
+    - i3
+    - i3blocks
+    - xautolock
     - feh  # Set background
-    - [ gnome-themes-extra, gtk-engines ]  # fixed Spotify Gtk error
-    - [ kwallet, kwalletmanager ]
-    - ark  # compresses/extract zip files from within dolphin
-    - xcape  # Configure modifier keys to act as other keys when pressed and released on their own
+    - xinput
+    # - scrot
+    - rofi  # menu
     - xclip  # Used for Rofi cheatsheet/notes
-    - xorg-xinput
-    - scrot
-    - escrotum-git
-    - [ breeze, breeze-icons ]
-    - [ ffmpegthumbnailer, ffmpegthumbnailer-mp3 ]  # opt dept Nemo
-    - lxappearance  # maybe, was trying to change GTK3 theme with this tool
-    - [ dolphin, dolphin-plugins, insync-dolphin, kdegraphics-thumbnailers, kimageformats, qt5-imageformats, resvg, ffmpegthumbs, kdesdk-thumbnailers, raw-thumbnailer, taglib ]  # This might be temporary, mem leak issues with Nemo
-    # canta-icon-theme stopped working, I don't recall if I actually needed it
-    # here...
-    # - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
-    - [ canta-gtk-theme, numix-circle-icon-theme-git ]
+    - playerctl  # media player controls
+    # - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    - xbindkeys
+    - xdotool  # for emulating 60% keyboard in i3 config
+    # - xbacklight
 
-  gnome:
-    - ghex
-    - gloobus-preview
-    - gnome-specimen
-    - guake  # top down terminal
-    - chrome-gnome-shell
-    - nemo-audio-tab
-    - nemo-emblems
-    - nemo-fileroller
-    - nemo-image-converter
-    - nemo-preview
-    - nemo-seahorse
-
-  plasma:
-    - plasma-meta
-    # also check out kde-applications-meta
-    # - plasma-wayland-session  # enable support for Wayland in Plasma
-    - [ dolphin, dolphin-plugins ]
-    - kwallet
-    - kwalletmanager
-    - ark  # compresses/extract zip files from within dolphin
-    - kdialog
-    - konsole
-    - spectacle
-    - kio-extras
-    - kompare
-    # - yakuake  # top-down terminal for KDE
-    - kde-gtk-config
-    # - sierrabreeze-kwin-decoration-git  # mimic the OSX Sierra titlebar
-    - latte-dock
-    - numix-kde-theme-git
