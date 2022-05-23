@@ -1,15 +1,7 @@
-! Using Space Bar as $mod is Life Changing
-! https://www.reddit.com/r/i3wm/comments/5zpz69/using_space_bar_as_mod_is_life_changing/
-! https://www.reddit.com/user/b_wright
+! 2022: I don't totally remember what this was for
 ! clear mods to separate the Supers and Hypers (default mixed)
 clear mod3
 clear mod4
 add mod3 = Hyper_L
 add mod4 = Super_L Super_R
 ! TODO: consider removing Super_R once stable
-! make physical spacebar keycode 65 trigger Super_R
-!!!!disabling spacebar modifier to compare
-!!!!keycode 65 = Super_R
-! make "space" get assigned to any open key so xcape can use it
-!!!!keycode any = space
-! then in i3 config: xcape -e "Super_R=space"

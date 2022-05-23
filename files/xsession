@@ -26,24 +26,11 @@ if ! pgrep imwheel; then
   imwheel --buttons "45" &
 fi
 
-# this was broken before, but not sure if i needed it or implemented differently
-# on_device_change &
-# OK commenting out might be getting triggered too much ~/.local/bin/on_device_change &
-# $PATH is not fully set up here
-# printf "\$PATH is $PATH" 1>&2
-
 if pgrep xbindkeys; then pkill -9 xbindkeys; fi
 xbindkeys &
 
 if pgrep xmodmap; then pkill -9 xmodmap; fi
 xmodmap ~/.Xmodmap
-
-#!!!!disabling spacebar modifier to compare
-# spacebar as modifier; depends on commands in ~/.Xmodmap
-#logger "xcape: $(pgrep xcape | tr '\n' ' ')"
-#if pgrep xcape; then pkill -9 xcape; fi
-#xcape -e "Super_R=space"
-#logger "xcape: $(pgrep xcape | tr '\n' ' ')"
 
 ~/.local/bin/autolock &
 

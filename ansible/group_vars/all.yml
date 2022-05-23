@@ -168,9 +168,6 @@ packages:
     - typora
     - vi
     - gvim  # gvim required for clipboard/libX11 support
-    # not quite configured right - [ mono, vim-youcompleteme-git ]
-    # needed to remove ctags by confirmation y/n:
-    - universal-ctags  # for tagbar Vim plugin
     - fzf  # fuzzy finder
     - python-black  # vim-codefmt uses system "black"
 
