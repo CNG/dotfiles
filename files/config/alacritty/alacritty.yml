@@ -37,10 +37,7 @@ bell:
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 mouse:
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
   hide_when_typing: false
-  faux_scrolling_lines: 1
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 cursor:

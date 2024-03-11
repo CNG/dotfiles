@@ -69,6 +69,7 @@ for_window [window_type="menu"]        floating enable
 for_window [class="(?i)firefox"] resize grow height 1 px or 1 ppt
 for_window [class="Yad"] floating enable
 for_window [title="Image Editor"] floating enable, fullscreen toggle # digikam
+for_window [class="(?i)firefox" title="Page Info.*"] floating enable # Image info dialog
 for_window [title="Event Tester"] floating enable # xev
 for_window [class="insync.py"] floating enable
 for_window [class="(?i)vlc"] floating enable

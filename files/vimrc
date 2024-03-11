@@ -85,7 +85,9 @@ nnoremap <leader>v V`]
 
 set mouse=a
 " allow dragging split borders
-set ttymouse=xterm2
+" Needed to comment out ttymouse=xterm2 2023-02-27 on desktop to get clicking in
+" Vim to start working again.
+"set ttymouse=xterm2
 " yanked text into and paste from global clipboard; requires gvim (libX11 support)
 set clipboard=unnamedplus
 
