@@ -8,8 +8,11 @@ set -o errexit
 
 # ROOTDEVICE=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
 ROOTDEVICE=/dev/nvme0n1
-HOSTNAME=Charlie20a
+HOSTNAME=Charlie24
 SETUPDIR=/tmp/setup
+WIFI_SSID=NinePinesGuqin
+
+iwctl station wlan0 connect $WIFI_SSID
 
 timedatectl set-ntp true
 
@@ -22,28 +25,32 @@ umount $ROOTDEVICE"p1" /mnt/boot | true
 parted --script $ROOTDEVICE mklabel gpt
 partprobe
 # EFI
-sgdisk $ROOTDEVICE -n=1:0:+512M -t=1:ef00
+sgdisk --new=0:0:+512M --typecode=1:ef00 $ROOTDEVICE
+sgdisk --change-name=1:EFI $ROOTDEVICE
 mkfs.vfat -F32 $ROOTDEVICE"p1"
+# Windows
+sgdisk --new=0:0:+100G $ROOTDEVICE
 # Encrypted root, swap
-sgdisk $ROOTDEVICE -n=2:0:0
-cryptsetup --batch-mode luksFormat --type luks2 $ROOTDEVICE"p2" # enter password
-cryptsetup luksAddKey $ROOTDEVICE"p2" # enter password AS IF US KEYBOARD
-cryptsetup open --type luks $ROOTDEVICE"p2" luks
+sgdisk --new=0:0:0 $ROOTDEVICE
+cryptsetup --batch-mode luksFormat --type luks2 $ROOTDEVICE"p3" # enter password
+cryptsetup luksAddKey $ROOTDEVICE"p3" # enter password AS IF US KEYBOARD
+cryptsetup open --type luks $ROOTDEVICE"p3" luks
 pvcreate /dev/mapper/luks
-vgcreate vg0 /dev/mapper/luks
+vgcreate linux /dev/mapper/luks
 swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
 swapsize=$(($swapsize/1000))"M"
-lvcreate --size $swapsize vg0 --name swap
-lvcreate -l +100%FREE vg0 --name root
-mkfs.ext4 /dev/mapper/vg0-root
-mkswap /dev/mapper/vg0-swap
+lvcreate --size $swapsize linux --name swap
+lvcreate -l +100%FREE linux --name root
+mkfs.ext4 /dev/mapper/linux-root
+mkswap /dev/mapper/linux-swap
 
 # Mount the new system 
-mount /dev/mapper/vg0-root /mnt # /mnt is the installed system
-swapon /dev/mapper/vg0-swap # Not needed but a good thing to test
+mount /dev/mapper/linux-root /mnt # /mnt is the installed system
+swapon /dev/mapper/linux-swap # Not needed but a good thing to test
 mkdir -p /mnt/boot
 mount $ROOTDEVICE"p1" /mnt/boot
 
+sed -i '/Parallel/c\ParallelDownloads = 50' /etc/pacman.conf
 # Install the system also includes stuff needed for starting wifi when first booting into the newly installed system
 # Unless vim and zsh are desired these can be removed from the command. Dialog is needed by wifi-menu
 # terminus-font allows selecting larger font for small HiDPI screens

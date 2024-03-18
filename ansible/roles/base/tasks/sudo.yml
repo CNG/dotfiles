@@ -10,9 +10,9 @@
     groups: wheel
     append: yes
 
-- name: Copy sudo configuration
+- name: Copy sudo wheel group configuration
   template:
-    src: sudoers.j2
-    dest: /etc/sudoers
+    src: sudo_wheel.j2
+    dest: /etc/sudoers.d/01_wheel
     mode: 0440
     validate: 'visudo -cf %s'

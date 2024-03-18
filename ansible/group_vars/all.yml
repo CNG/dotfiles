@@ -1,142 +1,92 @@
 user:
-  fullname: "FIRST LAST"
-  name: USERNAME
-  group: USERNAME
-  email: EMAIL
+  name: cgorichanaz
+  fullname: Charlie Gorichanaz
+  group: cgorichanaz
+  email:  charlie@gorichanaz.com
   uid: 1000
+  gid: 1000
   shell: /usr/bin/zsh
   layout: dvorak
-  # be sure to change the password after first run
-  password: test
+  # # be sure to change the password after first run
+  # password: test
   log:
     dir: log
     rotate: 8
-
-samba_log: /var/log/samba.log
-samba_log_size: 60000
-
 dotfiles:
   git_url: "git://github.com/CNG/dotfiles.git"
   path: dotfiles
-  files_to_copy_not_link: "htoprc Preferences.sublime-settings copyq.conf"
+  files_to_copy_not_link: "htoprc Preferences.sublime-settings"
+ssh_keys:
+  - cng1408
+  - cng1408s
+  - id_rsa
 
+# hostsctl:
+#   url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+
+journal:
+  max_size: 5G
 ssh:
   port: 22
   # user_key: /root/id_rsa
   enable_sshd: True
-
-gnupg:
-  enable_agent: True
-  emulate_ssh: True
-
-network:
-  spoof_mac: False
-  conn_check:
-    interval: 0
-
-passwordless_sudo:
-- /usr/bin/openvpn*
-
-fingerprint: False
-
-localtime:
-  run_on: all
-
-nameservers:
-- 1.1.1.1
-
-bluetooth:
-  disable: False
-
-journal:
-  max_size: 5G
-
 udisks:
   auto_mount: True
   shared_mount: True
 
-hostsctl:
-  url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+desktop_environment: sway
+flags:
+  - dummyflag
+  - digikam
+  # - server
 
 
-middle_click_scroll: True
-multitouch: True
-desktop_environment: i3
 
-# These roles clean up when disabled
-roles:
-  - dummy
-  # - rtorrent
-  # - mpv
-  # - mpd
-  # - firejail
-  # - unbound
-  # - wormhole
-#himawaripy:
-#  run_time: 15min
-#  run_boot_delay: 2min
-#  run_on: all
-#  flags: --auto-offset --level 4
+
+# TODO
+
+# samba_log: /var/log/samba.log
+# samba_log_size: 60000
+# gnupg:
+#   enable_agent: True
+#   emulate_ssh: True
+# network:
+#   spoof_mac: False
+#   conn_check:
+#     interval: 0
+# fingerprint: False
+# localtime:
+#   run_on: all
+# nameservers:
+# - 1.1.1.1
+# middle_click_scroll: True
+# multitouch: True
+
+
 
 packages:
   deprecated:
-    # replaced
-    - zsh-theme-powerlevel10k
-    # broken
-    - canta-icon-theme
-    - ttf-montserrat
-    - ttf-caladea
-    # haven't used lately
-    - fritzing
-    # other
-    - alacritty-terminfo-git
-    - xdg-user-dirs
-    - klook-git
-    - phonon-qt4-backend
-
   base:
     - base-devel
+    - man-db
+    - man-pages
+    - reflector  # For pacman mirror ranking
+    - tmux
+    - git
+    - rsync
     - coreutils
     - dateutils
     - moreutils
     - bc
-    - man-db
-    - man-pages
-    - logrotate
-    - [ git, git-lfs, hub, perl-term-readkey ]
-    - glances
-    - go
-    - kfind
-    - lsof
-    - reflector  # For pacman mirror ranking
-    - rsync
     - ruby
+    - go
+    # - kfind
+    - lsof
     - strace
     - sysstat
-    - tmux
-    - inotify-tools  # For inotifywait
-
-  base_aur:
-    - rust  # For alacritty tie break in aurman
-    - alacritty-git
-    - ctmg
-    - imwheel
-    - miller
-    - myrepos
-    - neofetch
-    - python-systemd  # Ansible log to journal
-    - tmux-bash-completion
-    - zplug
-    - acpid
-    # Next two were on laptop only, adding here for consistency till I test why
-    - acpitool
-    - acpi_call-dkms
-    - redshift  # blue light reduction
-
-  developer:
-    - ack
-    - arduino
-    - command-not-found  # may need to check if /etc/zsh/zprofile is sourced as it says it should be
+    # - inotify-tools  # For inotifywait
+    # - ack
+    # - command-not-found  # may need to check if /etc/zsh/zprofile is sourced as it says it should be
     - grc  # Colorize logfiles and command output
     - highlight
     - htop
@@ -146,115 +96,142 @@ packages:
     - usbutils  # provides lsusb
     - jq
     - yq
-    - linux-headers
+    # - linux-headers
     - nfs-utils
-    - ntop
-    - pygmentize  # Python syntax highlighter
-    - qt5-webengine
-    - rsnapshot
-    - screen
-    - solaar
+    # - ntop
+    # - pygmentize  # Python syntax highlighter
+    # - qt5-webengine
+    # - rsnapshot
+    # - screen
+    # - solaar
     - sqlitebrowser
-    - sysstat
     - tree
-    - vagrant
-    - vnstat
+    # - vagrant
+    # - vnstat
     - wget
-    - wireless_tools
+    # - wireless_tools
+    - firefox
+
+
+  base_aur:
+    - alacritty
+    - google-chrome
+    - upd72020x-fw  # resolve missing firmware warning xhci_pci
+    # - ctmg
+    # - imwheel
+    # - miller
+    # - myrepos
+    # - neofetch
+    # - python-systemd  # Ansible log to journal
+    # - tmux-bash-completion
+    # - zplug
+    # - acpid
+    # # Next two were on laptop only, adding here for consistency till I test why
+    # - acpitool
+    # - acpi_call-dkms
+    # - redshift  # blue light reduction
 
   editors:
     - nano
     - sublime-text
-    - typora
     - vi
-    - gvim  # gvim required for clipboard/libX11 support
-    - fzf  # fuzzy finder
-    - python-black  # vim-codefmt uses system "black"
+    - vim
+    # - gvim  # gvim (then don't need vim) required for clipboard/libX11 support
+    # - fzf  # fuzzy finder
+    # - python-black  # vim-codefmt uses system "black"
 
   filesystem:
     - dosfstools
-    - efibootmgr
-    - exfat-utils
+    - ntfs-3g
+    # - efibootmgr
+    # - exfat-utils
     # - hfsprogs
     # no longer avail, check if still needed for mac migration
     # - hfsutils
-    - ntfs-3g
     # - libguestfs  # mount VMDKs, large install
+    # - exfatprogs
+    # - gparted
+    # - udftools
 
   fonts:
-    # core:
+    # - ttf-nerd-fonts-input  # checksum issue, ugh
+    - ttf-opensans
+    - adobe-base-14-fonts
+    - adobe-source-code-pro-fonts
+    - ttf-adobe-source-fonts
+    - ttf-fira-code
+    - ttf-fira-mono
+    - ttf-fira-sans
+    - ttf-font-awesome-4
+    - ttf-tahoma
+    - ttf-ubuntu-font-family
+  _TODO_fonts:
     - cantarell-fonts
     - gsfonts
     - noto-fonts
     - terminus-font
     - tex-gyre-fonts
+    - ttc-iosevka
+    - ttc-iosevka-aile
+    - ttc-iosevka-ss08
+    - ttf-bitstream-charter
+    - ttf-bookerly
     - ttf-caladea
     - ttf-carlito
+    - ttf-contemporary
+    - ttf-cooper-hewitt
     - ttf-courier-prime
     - ttf-dejavu
     - ttf-droid
-    - ttf-fira-code
-    - ttf-fira-mono
-    - ttf-fira-sans
-    - ttf-heuristica
-    - ttf-inconsolata
-    - ttf-liberation
-    - ttf-merriweather
-    - ttf-merriweather-sans
-    - ttf-opensans
-    - ttf-oswald
-    - ttf-quintessential
-    - ttf-signika
-    - ttf-ubuntu-font-family
-
-    # extra:
-    - adobe-base-14-fonts
-    - ttf-adobe-source-fonts
-    - ttf-bookerly
-    - ttf-contemporary
     - ttf-fantasque-sans-mono
-    - ttf-fira-code
-    - ttf-font-awesome-4
-    - ttf-nerd-fonts-input
+    - ttf-heuristica
+    - ttf-ibm-plex
+    - ttf-inconsolata
     - ttf-iosevka
     - ttf-latex-xft-fonts
+    - ttf-liberation
     - ttf-mac-fonts
+    - ttf-merriweather
+    - ttf-merriweather-sans
+    - ttf-mplus-git
     - ttf-nanum
+    - ttf-oswald
+    - ttf-quintessential
     - ttf-raleway
+    - ttf-signika
     - ttf-spacemono
-    - ttf-tahoma
 
   media:
+    - iscan-plugin-gt-x820  # Epson V600 scanner
+    - vlc
+    - vdhcoapp-bin  # Video Downloadhelper companion app
+    - guvcview  # webcam record
+    - gwenview  # best image viewer for KDE
+    - libheif
+    - spotify
+    - youtube-dl
+    - mediainfo-gui
+    - handbrake
+  media_extra:
     # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
     # - inkscape
     # - makemkv-cli
     - [ cdparanoia, abcde ]  # CD track encoder
     - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - calibre  # e-book management
-    - vlc
-    - zopfli  # compression
-    - vdhcoapp-bin  # Video Downloadhelper companion app
-    - guvcview  # webcam record
     - losslesscut  # video trim
     - darktable
     # - entangle  # camera tethering
-    - gwenview  # best image viewer for KDE
     - flac2all
-    - iscan-plugin-gt-x820  # Epson V600 scanner
     - flashplugin
     # - flite  # lightweight speech synthesis engine
     # - fritzing  # Haven't used this is a while
-    - libheif
     - gpscorrelate
     - gthumb
-    - handbrake
     # - imv  # Image viewer for X11/Wayland
     - kamoso  # webcam recorder from KDE community
     - kindleunpack
-    - mediainfo-gui
     - cava  # sound visualizer
-    - spotify
-    - youtube-dl
     # misc media codecs and helpers
     - exiv2
     - flac
@@ -266,7 +243,11 @@ packages:
     - x264
     - [ kdenlive, recordmydesktop ]
 
-  nettools:
+  networking:
+    - nmap
+    - tcpdump
+    - trickle
+  networking_extra:
     - bind-tools
     - bitmeter-os
     - bmon
@@ -276,28 +257,25 @@ packages:
     - net-tools
     - nethogs
     - ngrep
-    - nmap
     - openssh
     - openvpn
     - pdsh
     - socat
     - speedtest-cli
     - sshuttle
-    - tcpdump
-    - trickle
     - whois
     - wireshark-qt
     - wmsystemtray
     - wondershaper-git
 
   office:
+    - copyq  # clipboard manager
+  _TODO_office:
     - archlinux-java-run
     - automatic
     # - cerebro
-    - copyq  # clipboard manager
     - enscript
     - [ insync, insync-dolphin ]
-    - keybase-bin  # keybase.io encrypted chat, includes kbfs and keybase-gui
     - libreoffice-fresh
     - masterpdfeditor
     # - okular  # Ebook Reader, simple yet capable
@@ -323,7 +301,33 @@ packages:
   printers:
     - brother-hl3170cdw
 
-  i3:
+
+  sway:
+    - pipewire-jack
+    - sway
+    - mako
+    - swaybg
+    - swayidle
+    - swaylock
+    - waybar
+    - j4-dmenu-desktop
+    - bemenu
+    - xorg-xwayland
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-wlr
+    - otf-font-awesome
+    - wdisplays
+    - brightnessctl
+    - ddcci-driver-linux-dkms
+    - grim
+    - slurp
+    - wlsunset
+    # - rofi  # menu
+    # req by waybar - playerctl  # media player controls
+    - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+
+
+  _TODO_i3:
     - feh  # Set background
     - [ gnome-themes-extra, gtk-engines ]  # fixed Spotify Gtk error
     - [ kwallet, kwalletmanager ]
@@ -342,34 +346,5 @@ packages:
     # - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
     - [ canta-gtk-theme, numix-circle-icon-theme-git ]
 
-  gnome:
-    - ghex
-    - gloobus-preview
-    - gnome-specimen
-    - guake  # top down terminal
-    - chrome-gnome-shell
-    - nemo-audio-tab
-    - nemo-emblems
-    - nemo-fileroller
-    - nemo-image-converter
-    - nemo-preview
-    - nemo-seahorse
-
   plasma:
-    - plasma-meta
-    # also check out kde-applications-meta
-    # - plasma-wayland-session  # enable support for Wayland in Plasma
-    - [ dolphin, dolphin-plugins ]
-    - kwallet
-    - kwalletmanager
-    - ark  # compresses/extract zip files from within dolphin
-    - kdialog
-    - konsole
-    - spectacle
-    - kio-extras
-    - kompare
-    # - yakuake  # top-down terminal for KDE
-    - kde-gtk-config
-    # - sierrabreeze-kwin-decoration-git  # mimic the OSX Sierra titlebar
-    - latte-dock
-    - numix-kde-theme-git
+    - TODO

@@ -1,0 +1,61 @@
+[include]
+        path = ~/.gitconfig.local
+[hub]
+        protocol = https
+[alias]
+        co = checkout
+        promote = !~/.zsh/functions/git-promote
+        wtf     = !~/.zsh/functions/git-wtf
+        rank-contributors = !~/.zsh/functions/git-rank-contributors
+        count   = !git shortlog -sn
+        # https://zarino.co.uk/post/git-set-upstream/
+        unstage = reset HEAD
+        undo-commit = reset --soft HEAD^
+        poh = push origin HEAD
+        pulloh = pull origin HEAD
+        setup = !git branch --set-upstream-to=origin/$(git symbolic-ref --short HEAD)
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+        ui = true
+[core]
+        excludesfile = ~/.gitignore
+        editor = vim
+[rebase]
+        autosquash = true
+        autoStash = true
+[apply]
+        whitespace = nowarn
+[mergetool]
+        keepBackup = false
+[difftool]
+        prompt = false
+[diff]
+        renameLimit = 3000
+[help]
+        autocorrect = 1
+[push]
+        # Update branch with same name on receiving end
+        default = current
+[pull]
+        rebase = true
+[user]
+        # Require setting user.name and email per-repo
+        # https://stackoverflow.com/questions/8337071/different-gitconfig-for-a-given-subdirectory
+        # This makes mixing work and personal more explicit.
+        useConfigOnly = true
+        name = Charlie Gorichanaz
+        email = cgorichanaz@fitbit.com
+[credential]
+        helper = store
+
+[interactive]
+	singlekey = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main

@@ -1,0 +1,59 @@
+---
+- name: Install Tor
+  when: tor is defined
+  block:
+  - name: Install Tor
+    pacman:
+      state: present
+      name:
+        - tor
+        - torsocks
+  - name: Set Tor to run as tor
+    lineinfile:
+      dest: /etc/tor/torrc
+      regexp: "^User"
+      state: present
+      line: "User tor"
+  - name: Create Tor systemd unit file directory
+    file:
+      path: /etc/systemd/system/tor.service.d
+      state: directory
+  - name: Push Tor socket unit file
+    copy:
+      src: tor-service-override.conf
+      dest: /etc/systemd/system/tor.service.d/override.conf
+    notify:
+      - reload systemd config
+  - name: Enable and start Tor
+    service:
+      name: tor
+      enabled: yes
+      state: started
+    when: tor.run_on == "all"
+
+- name: Remove Tor
+  when: tor is not defined
+  block:
+  - name: Disable and stop Tor
+    service:
+      name: tor
+      enabled: no
+      state: stopped
+    register: service_result
+    failed_when: "service_result is failed and 'Could not find the requested service' not in service_result.msg"
+  - name: Uninstall Tor
+    pacman:
+      state: absent
+      name:
+        - tor
+        - torsocks
+  - name: Remove Tor config
+    file:
+      path: /etc/tor
+      state: absent
+  - name: Remove Tor systemd unit file directory
+    file:
+      path: /etc/systemd/system/tor.service.d
+      state: absent
+    notify:
+      - reload systemd config

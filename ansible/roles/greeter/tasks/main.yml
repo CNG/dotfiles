@@ -1,0 +1,116 @@
+---
+- name: Install GreetD and ReGreet
+  pacman:
+    name:
+      - greetd-regreet
+    state: present
+  become: yes
+
+- name: Enable GreetD to start upon boot
+  service:
+    name: greetd
+    enabled: yes
+    # state: started
+
+# - name: Create background dir
+#   file:
+#     path: /usr/share/backgrounds
+#     state: directory
+
+# - name: Push greeter background
+#   copy:
+#     src: taipei.jpg
+#     dest: /usr/share/backgrounds/taipei.jpg
+#     mode: 0666
+
+# - name: Create user avatars dir
+#   file:
+#     path: /var/lib/AccountsService/users
+#     state: directory
+
+# - name: Push user avatar
+#   copy:
+#     src: cgorichanaz.png
+#     dest: /var/lib/AccountsService/users/cgorichanaz
+#     mode: 0666
+
+# - name: Create LightDM settings directory
+#   file:
+#     name: /etc/lightdm/lightdm.conf.d
+#     state: directory
+#     mode: 0755
+
+- name: Create Sway config file
+  copy:
+    src: sway-config
+    dest: /etc/greetd/sway-config
+    mode: 0644
+
+- name: Set greeter default session command
+  lineinfile:
+    dest: /etc/greetd/config.toml
+    state: present
+    regexp: "command = .*"
+    line: 'command = "sway --config /etc/greetd/sway-config"'
+- name: Set greeter default session user
+  lineinfile:
+    dest: /etc/greetd/config.toml
+    state: present
+    regexp: "user = .*"
+    line: 'user = "greeter"'
+
+# - name: Create LightDM greeter settings directory
+#   file:
+#     name: /etc/lightdm/lightdm-webkit2-greeter.conf.d
+#     state: directory
+#     mode: 0755
+
+# - name: Specify LightDM greeter settings
+#   copy:
+#     src: 50-lightdm-greeter.conf
+#     dest: /etc/lightdm/lightdm-webkit2-greeter.conf.d/50-lightdm-greeter.conf
+#     mode: 0644
+
+# - name: Specify LightDM greeter keyboard settings
+#   copy:
+#     src: 50-modify-indicators.conf
+#     dest: /etc/lightdm/lightdm-webkit2-greeter.conf.d/50-modify-indicators.conf
+#     mode: 0644
+
+# Implementing via AccountsService instead
+# https://askubuntu.com/a/575390/354276
+# - name: Hide AUR user
+#   # could also make aur_builder have ID<1000
+#   lineinfile:
+#     path: /etc/lightdm/users.conf
+#     regexp: "^#? ?hidden-users *="
+#     state: present
+#     line: "hidden-users=nobody nobody4 noaccess aur_builder"
+
+# - name: Hide AUR user, step 1
+#   lineinfile:
+#     dest: /var/lib/AccountsService/users/aur_builder
+#     state: present
+#     line: "[User]"
+#     create: yes
+# - name: Hide AUR user, step 2
+#   lineinfile:
+#     dest: /var/lib/AccountsService/users/aur_builder
+#     state: present
+#     line: SystemAccount=true
+#     insertafter: '^[User]'
+
+# for lightdm-gtk-greeter only
+# - name: Hide user images
+#   lineinfile:
+#     dest: /etc/lightdm/lightdm-webkit2-greeter.conf
+#     regexp: "^#? ?hide-user-image *="
+#     state: present
+#     line: "hide-user-image   = true"
+
+# - name: Force LightDM greeter theme
+#   lineinfile:
+#     dest: /usr/share/xgreeters/lightdm-webkit2-greeter.desktop
+#     regexp: "^Exec="
+#     state: present
+#     line: "Exec=env GTK_THEME=Adwaita:dark lightdm-webkit2-greeter"

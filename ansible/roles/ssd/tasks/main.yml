@@ -1,19 +1,19 @@
 ---
-- name: Install hdparm
-  pacman:
-    name: hdparm
-    state: present
+# hdparmm is required and only works for checking TRIM on SATA SSDs
+# - name: Install hdparm
+#   pacman:
+#     name: hdparm
+#     state: present
 
-- name: Check for TRIM support
-  shell: "hdparm -I /dev/sda | grep TRIM"
-  register: hdparm
-  ignore_errors: True
-  failed_when: hdparm.rc > 1  # grep rc 1 is not error
-  changed_when: False
+# - name: Check for TRIM support
+#   shell: "hdparm -I /dev/sda | grep TRIM"
+#   register: hdparm
+#   ignore_errors: True
+#   failed_when: hdparm.rc > 1  # grep rc 1 is not error
+#   changed_when: False
 
 - name: Enable and start weekly filesystem TRIM timer
   service:
     name: fstrim.timer
     enabled: yes
     state: started
-  when: hdparm.rc == 0

@@ -23,7 +23,7 @@
   when: dotfiles.path is defined
   shell: "rcup -d /home/{{ user.name }}/{{ dotfiles.path }}/files -fv | grep -v '^identical'"
   environment:
-    COPY_ALWAYS: "{{ dotfiles.files_to_copy_not_link }}"
+    COPY_ALWAYS: "{{ dotfiles.files_to_copy_not_link | default('') }}"
   become: yes
   become_user: "{{ user.name }}"
   register: result
@@ -105,3 +105,10 @@
     mode: 0600
   with_items: "{{ ssh_keys }}"
   become: yes
+
+# TODO find place for this
+- name: Reduce saturation for Logitech Webcame C930e
+  become: yes
+  copy:
+    src: 99-logitech-webcam-c930.rules
+    dest: /etc/udev/rules.d/99-logitech-webcam-c930.rules

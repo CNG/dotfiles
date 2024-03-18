@@ -7,10 +7,14 @@
       ansible_system_vendor: {{ ansible_system_vendor }}
   tags: base
 
-- name: Set the hostname
-  hostname:
-    name: "{{ hostname }}"
-  when: hostname is defined
+# On first run, path won't exist yet, but maybe we can still create link here
+- name: Setup provision command
+  file:
+    src: "/home/{{ user.name }}/{{ dotfiles.path }}/provision"
+    dest: /usr/local/bin/provision
+    state: link
+    force: yes
+  when: dotfiles.path is defined
 
 - import_tasks: user.yml
 - import_tasks: package_manager_setup.yml
@@ -19,29 +23,21 @@
 - import_tasks: shell.yml
 - import_tasks: journal.yml
 
-# On first run, path won't exist yet, but maybe we can still create link here
-- name: Setup provision command
-  file:
-    src: "/home/{{ user.name }}/{{ dotfiles.path }}/provision"
-    dest: /usr/local/bin/provision
-    state: link
-  when: dotfiles.path is defined
+# # Added this when troubleshooting irregular temp readings in i3 setup
+# # https://wiki.archlinux.org/index.php/lm_sensors
+# - name: Run sensors-detect
+#   command: sensors-detect --auto
+#   become: yes
+#   changed_when: False
 
-# Added this when troubleshooting irregular temp readings in i3 setup
-# https://wiki.archlinux.org/index.php/lm_sensors
-- name: Run sensors-detect
-  command: sensors-detect --auto
-  become: yes
-  changed_when: False
+# - name: Enable full Polkit logging
+#   copy:
+#     src: 00-log-access.rules
+#     dest: /etc/polkit-1/rules.d/00-log-access.rules
+#   become: yes
 
-- name: Enable full Polkit logging
-  copy:
-    src: 00-log-access.rules
-    dest: /etc/polkit-1/rules.d/00-log-access.rules
-  become: yes
-
-- name: Enable Polkit without password
-  copy:
-    src: 49-nopasswd_global.rules
-    dest: /etc/polkit-1/rules.d/49-nopasswd_global.rules
-  become: yes
+# - name: Enable Polkit without password
+#   copy:
+#     src: 49-nopasswd_global.rules
+#     dest: /etc/polkit-1/rules.d/49-nopasswd_global.rules
+#   become: yes

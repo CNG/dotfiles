@@ -14,67 +14,67 @@
     with_items:
       - zsh
       - zsh-completions
-      - zsh-syntax-highlighting
-      - oh-my-zsh-git
-      - ttf-meslo-nerd-font-powerlevel10k
+      # - zsh-syntax-highlighting
+      # - oh-my-zsh-git
+      # - ttf-meslo-nerd-font-powerlevel10k
 
-- become: yes
-  become_user: "{{ user.name }}"
-  block:
-  - name: Clone oh-my-zsh repo
-    git:
-      repo: "git://github.com/robbyrussell/oh-my-zsh.git"
-      dest: "/home/{{ user.name }}/.oh-my-zsh"
-      depth: 1
-      update: yes
-      accept_hostkey: yes
-  - name: Clone history-search-multi-word repo
-    git:
-      repo: "git://github.com/robobenklein/zdharma-history-search-multi-word.git"
-      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
-      depth: 1
-      update: yes
-      accept_hostkey: yes
-  - name: Clone powerlevel10k repo
-    git:
-      repo: "git://github.com/romkatv/powerlevel10k.git"
-      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
-      depth: 1
-      update: yes
-      accept_hostkey: yes
-  - name: Install Tmux Plugin Manager
-    git:
-      repo: "git://github.com/tmux-plugins/tpm.git"
-      dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
-      depth: 1
-      update: yes
-      accept_hostkey: yes
-  # Tmux plugins get installed from Tmux, so not sure when this would get
-  # overwritten
-  - name: Patch tmux-logging delay
-    lineinfile:
-      path: "/home/{{ user.name }}/.tmux/plugins/tmux-logging/scripts/check_tmux_version.sh"
-      regexp: 'local display_duration="5000"'
-      state: present
-      line: '             local display_duration="500"'
+# - become: yes
+#   become_user: "{{ user.name }}"
+#   block:
+#   - name: Clone oh-my-zsh repo
+#     git:
+#       repo: "git://github.com/robbyrussell/oh-my-zsh.git"
+#       dest: "/home/{{ user.name }}/.oh-my-zsh"
+#       depth: 1
+#       update: yes
+#       accept_hostkey: yes
+#   - name: Clone history-search-multi-word repo
+#     git:
+#       repo: "git://github.com/robobenklein/zdharma-history-search-multi-word.git"
+#       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
+#       depth: 1
+#       update: yes
+#       accept_hostkey: yes
+#   - name: Clone powerlevel10k repo
+#     git:
+#       repo: "git://github.com/romkatv/powerlevel10k.git"
+#       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
+#       depth: 1
+#       update: yes
+#       accept_hostkey: yes
+#   - name: Install Tmux Plugin Manager
+#     git:
+#       repo: "git://github.com/tmux-plugins/tpm.git"
+#       dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
+#       depth: 1
+#       update: yes
+#       accept_hostkey: yes
+#   # Tmux plugins get installed from Tmux, so not sure when this would get
+#   # overwritten
+#   - name: Patch tmux-logging delay
+#     lineinfile:
+#       path: "/home/{{ user.name }}/.tmux/plugins/tmux-logging/scripts/check_tmux_version.sh"
+#       regexp: 'local display_duration="5000"'
+#       state: present
+#       line: '             local display_duration="500"'
 
-  # https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
-  - name: "Register uid of {{ user.name }}"
-    command: "id -u {{ user.name }}"
-    register: uid
-    changed_when: False
+#   # https://github.com/ansible/ansible/issues/27631#issuecomment-356730416
+#   - name: "Register uid of {{ user.name }}"
+#     command: "id -u {{ user.name }}"
+#     register: uid
+#     changed_when: False
 
-  # On fresh install, failed with:
-  # failure 1 during daemon-reload: Failed to connect to bus: No such file or
-  # directory
+#   # On fresh install, failed with:
+#   # failure 1 during daemon-reload: Failed to connect to bus: No such file or
+#   # directory
 
-  #- name: Enable Tmux user service
-  #  systemd:
-  #    name: tmux
-  #    enabled: yes
-  #    state: started
-  #    scope: user
-  #    no_block: yes
-  #    daemon_reload: yes
-  #  environment:
-  #    XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}
+#   #- name: Enable Tmux user service
+#   #  systemd:
+#   #    name: tmux
+#   #    enabled: yes
+#   #    state: started
+#   #    scope: user
+#   #    no_block: yes
+#   #    daemon_reload: yes
+#   #  environment:
+#   #    XDG_RUNTIME_DIR: /run/user/{{uid.stdout}}

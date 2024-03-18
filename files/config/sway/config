@@ -1,0 +1,306 @@
+include /etc/sway/config.d/*
+
+input * {
+	xkb_layout "us,us"
+	xkb_variant "dvorak,"
+	xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
+}
+
+# TODO do I need this
+# input <identifier> xkb_model "pc101"
+# input <identifier> repeat_delay 300
+# input <identifier> repeat_rate 30
+
+exec mako
+exec waybar
+
+output * bg #000000 solid_color
+output eDP-1 scale 1.5
+
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+}
+
+
+
+set $alt mod1
+set $hyp mod3
+set $win mod4
+set $sup mod4
+set $mod mod4
+
+
+
+# focus_follows_mouse no
+font pango: Fira Sans Regular 16
+# Hide titlebar
+#default_border normal
+default_border pixel 2
+default_floating_border normal
+set $background /usr/share/backgrounds/taipei.jpg
+#set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
+set $set_background feh --bg-fill /usr/share/backgrounds/vim.jpg
+
+
+### PROGRAM SHORTCUTS
+set $term alacritty
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $term -e bash
+bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
+bindsym $mod+d exec BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
+bindsym $mod+i       exec firefox
+bindsym $mod+f       exec dolphin
+bindsym $mod+Shift+e exec sway exit
+bindsym $mod+Shift+m exec ~/.local/bin/dnd
+bindsym $mod+e       exec subl --new-window
+bindsym $mod+m       exec spotify --force-device-scale-factor=1.0
+
+
+### AUTOSTART PROGRAMS
+# exec trickle -u 1024 -d 10240 insync start # GDrive manager
+exec insync start   # GDrive manager
+exec wlsunset -l 37.8 -L -122.3  # blue light reduction at night
+exec nm-applet      # network manager
+exec blueman-applet # bluetooth manager
+# Prefaced with QT_QPA_PLATFORMTHEME= per https://github.com/hluk/CopyQ/issues/1401 / https://sourceforge.net/p/qt5ct/tickets/77/
+# exec "QT_QPA_PLATFORMTHEME= copyq"  # clipboard manager
+#exec imwheel --buttons "45" # modify scroll speed per app
+#exec ~/.local/bin/on_device_change
+#exec_always autorandr `autorandr --detected | head -n1` && $set_background
+# wallpaper
+#exec_always $set_background
+#exec_always bash ~/.xsession
+
+### SETTINGS FOR GENERIC POPUPS
+for_window [window_role="pop-up"]      floating enable
+for_window [window_role="bubble"]      floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"]      floating enable
+for_window [window_type="menu"]        floating enable
+
+### SETTINGS FOR SPECIFIC PROGRAMS
+for_window [class="(?i)firefox"] resize grow height 1 px or 1 ppt
+for_window [class="Yad"] floating enable
+for_window [title="Image Editor"] floating enable, fullscreen toggle # digikam
+for_window [class="(?i)firefox" title="Page Info.*"] floating enable # Image info dialog
+for_window [title="Event Tester"] floating enable # xev
+for_window [class="insync.py"] floating enable
+for_window [class="(?i)vlc"] floating enable
+for_window [class="(?i)copyq"] floating enable
+for_window [class="(?i)evolution"] split horizontal
+# for_window [class="(?i)evolution" title="^Meeting"] floating enable
+for_window [class="(?i)zoom" title="Settings"] floating enable
+for_window [title="Zoom - Pro Account"] floating enable
+for_window [class="(?i)nm-connection-editor"] floating enable
+for_window [class="(?i)gwenview"] floating enable
+for_window [class="(?i)guvcview"] floating enable
+for_window [title="^calculator$"] floating enable
+for_window [title="^calculator$"] resize set 1280 720
+for_window [title="^calculator$"] move absolute position center
+for_window [class="(?i)pavucontrol"] floating enable move absolute position center
+for_window [title="(?i)animation"] floating enable
+for_window [title="GNU Image Manipulation Program" class="animation-play"] floating enable
+for_window [class="(?i)blueman-manager"] floating enable
+for_window [class="(?i)gloobus-preview"] floating enable
+for_window [class="(?i)xsane" title="Warning|Error"] floating enable
+#for_window [class="VirtualBox Machine"] floating enable
+for_window [class="(?i)anki" title="(?i)anki"] split vertical
+for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
+for_window [shell="xwayland"] title_format "[XWayland] %title"
+
+
+### BRIGHTNESS, AUDIO AND MEDIA CONTROLS
+bindsym --locked XF86MonBrightnessUp   exec brightnessctl set 5%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previos
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+
+
+### OTHER KEYBOARD CHANGES
+# emulate 60% keyboard on the laptop
+bindsym $hyp+apostrophe exec $Prev
+bindsym $hyp+comma exec $Play
+bindsym $hyp+period exec $Next
+bindsym $hyp+o exec $LowerVolume
+bindsym $hyp+e exec $RaiseVolume
+bindsym $hyp+u exec $Mute
+
+
+### SCREENSHOTS
+set $stoprec killall ffmpeg
+set $shot_d $HOME/Sorting
+set $shot_f screenshot_%F_%H%M%S.png
+exec mkdir -p `date +$shot_d`
+# select rectangle
+bindsym Print     exec escrotum --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+# full window
+bindsym Shift+Print exec scrot --focused $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+# full screen
+bindsym Ctrl+Shift+Print exec scrot      $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+# ImageMagick import util too slow for screenshots
+# bindsym Print exec import `date +$shot_d/$shot_f`
+# bindsym $mod+Print exec import -window root `date +$shot_d/$shot_f`
+# escrotum sometimes screws up transparency, may need to redo sometimes
+# scrot --select leaves border artifacts in image, also requires --release
+# bindsym Print --release exec--no-startup-id  scrot --select $shot_f -e "mv \$f $shot_d && notify-send $shot_d/\$f"
+
+
+### SCREEN LOCK, SUSPEND, SHUTDOWN
+set $Locker ~/.config/i3scripts/lock && sleep 1
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec $Locker, mode "default"
+    bindsym e exec i3-msg exit, mode "default"
+    #bindsym s exec $Locker && systemctl suspend, mode "default"
+    #bindsym h exec $Locker && systemctl hibernate, mode "default"
+    bindsym s exec systemctl suspend, mode "default"
+    bindsym h exec systemctl hibernate, mode "default"
+    bindsym r exec systemctl reboot, mode "default"
+    bindsym Shift+s exec systemctl poweroff -i, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Escape mode "$mode_system"
+
+
+### DISPLAY MANIPULATION
+bindsym $mod+Shift+n exec "monitor_switch && $set_background"
+set $mode_display Mirror (c)ommon or (l)argest resolution; Extend (h)orizontally or (v)ertically; (s)witch (m)irror_2 1:CR 2:HR 3:CL 4:HL 5:Coff 6:Hoff
+mode "$mode_display" {
+    bindsym c exec "autorandr common && $set_background", mode "default"
+    bindsym l exec "autorandr clone-largest && $set_background", mode "default"
+    bindsym h exec "autorandr horizontal && $set_background", mode "default"
+    bindsym v exec "autorandr vertical && $set_background", mode "default"
+    bindsym m exec "monitor_mirror && $set_background", mode "default"
+    bindsym s exec "monitor_switch && $set_background", mode "default"
+    bindsym 1 exec "xrandr --output DP-1 --mode 1920x1080 --right-of eDP-1 && $set_background", mode "default"
+    bindsym 2 exec "xrandr --output HDMI-2 --mode 1920x1080 --right-of eDP-1 && $set_background", mode "default"
+    bindsym 3 exec "xrandr --output DP-1 --mode 1920x1080 --left-of eDP-1 && $set_background", mode "default"
+    bindsym 4 exec "xrandr --output HDMI-2 --mode 1920x1080 --left-of eDP-1 && $set_background", mode "default"
+    bindsym 5 exec "xrandr --output DP-1 --off && $set_background", mode "default"
+    bindsym 6 exec "xrandr --output HDMI-2 --off && $set_background", mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Ctrl+n mode "$mode_display"
+bindsym $mod+Shift+s mode "$mode_display"
+
+
+### RESIZING
+mode "resize"
+{
+  # Resize with the arrow keys
+  bindsym Left resize shrink width 2 px or 2 ppt
+  bindsym Down resize grow height 2 px or 2 ppt
+  bindsym Up resize shrink height 2 px or 2 ppt
+  bindsym Right resize grow width 2 px or 2 ppt
+
+  # Back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+### COLORS
+set $cyan    #00afd7
+set $acqua   #007089
+set $wine    #72003e
+set $magenta #af005f
+set $orange  #ff8700
+set $silver  #e4e4e4
+set $elegant #00002ccc
+# Set some nice colors      border   background text     indicator
+client.focused              $cyan    $cyan      $elegant $silver
+client.unfocused            $elegant $elegant   $cyan    $silver
+client.focused_inactive     $acqua   $acqua     $silver  $magenta
+client.urgent               $magenta $magenta   $silver  $magenta
+client.placeholder          $magenta $magenta   $silver  #ffffff
+
+
+### STATUS BAR
+#bar
+#{
+#  position top
+#  #status_command i3blocks
+#  #status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
+#  colors
+#  {
+#                        # Border  # Background  # Text
+#    focused_workspace   $silver   $silver       $elegant
+#    active_workspace    $elegant  $elegant      $orange
+#    inactive_workspace  $elegant  $elegant      $cyan
+#    urgent_workspace    $acqua    $acqua        $silver
+#    background          $elegant
+#  }
+#  tray_padding 6
+#}
+
+
+### WINDOW MANIPULATION
+bindsym $mod+o open
+bindsym $mod+q kill
+bindsym $mod+Shift+f fullscreen toggle
+bindsym $mod+a focus parent
+bindsym $mod+h split h
+bindsym $mod+v split v
+# using --release on these to see if it helps with the space triggering by
+# accident
+bindsym $mod+s --release layout stacking
+bindsym $mod+t --release layout tabbed
+bindsym $mod+n --release layout toggle split
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+# toggle split direction for each window
+# https://github.com/i3/i3/issues/2106#issuecomment-343843244
+# default_orientation vertical
+# for_window [class="^"] split toggle
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+# Toggle tiling / floating
+bindsym $mod+Shift+p floating toggle
+# Change focus between tiling / floating windows
+bindsym $mod+p focus mode_toggle
+
+
+### WORKSPACES
+# Switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+
+bindsym $mod+Shift+r reload

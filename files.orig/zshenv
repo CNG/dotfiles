@@ -1,0 +1,25 @@
+# .zshenv is always sourced, while .zshrc is only sourced in interactive shells
+
+if which ruby >/dev/null && which gem >/dev/null; then
+  ruby_gems="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+fi
+
+typeset -U path
+path=(/usr/bin/vendor_perl ~/.local/bin ${ruby_gems:-} $path[@])
+
+# Put private environment definitions in ~/.zshenv.local
+# so they are ignored by Git and not inadvertently made public
+if [[ -a ~/.zshenv.local ]]; then
+  source ~/.zshenv.local
+fi
+
+# Gather all config files in dictionary-like array
+typeset -U config_files # keep only one occurrence of each value
+config_files=($HOME/.zsh/***/*.zsh) # *** recurses, follows symlinks
+
+# Load env files
+for file in ${(M)config_files:#*/env*}; do
+  source $file
+done
+
+unset config_files

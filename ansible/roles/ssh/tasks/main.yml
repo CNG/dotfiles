@@ -8,83 +8,74 @@
   template:
     src: sshd_config.j2
     dest: /etc/ssh/sshd_config
-
-- name: Create OpenSSH systemd unit file directory
-  file:
-    path: /etc/systemd/system/sshd.socket.d
-    state: directory
-
-- name: Push OpenSSH socket unit file
-  template:
-    src: sshd-socket-override.conf.j2
-    dest: /etc/systemd/system/sshd.socket.d/override.conf
   notify:
-    - reload systemd config
     - restart sshd
 
 - name: Enable and start OpenSSH
   service:
-    name: sshd.socket
+    name: sshd.service
     enabled: yes
     state: started
-  when: ssh.enable_sshd == True
+  when: ssh.enable_sshd is defined and ssh.enable_sshd == True
 
 - name: Disable and stop OpenSSH
   service:
-    name: sshd.socket
+    name: sshd.service
     enabled: no
     state: stopped
-  when: ssh.enable_sshd == False
+  when: ssh.enable_sshd is defined and ssh.enable_sshd == False
 
 - name: Install sshfs
   pacman:
     name: sshfs
     state: present
 
-- name: Install autossh
-  pacman:
-    name: autossh
-    state: present
+# TODO 
 
-- name: Copy fuse configuration file
-  copy:
-    src: fuse.conf
-    dest: /etc/fuse.conf
+# - name: Install autossh
+#   pacman:
+#     name: autossh
+#     state: present
 
-- name: Install keychain
-  pacman:
-    name: keychain
-    state: present
+# - name: Copy fuse configuration file
+#   copy:
+#     src: fuse.conf
+#     dest: /etc/fuse.conf
 
-- name: Install x11-ask-pass
-  pacman:
-    name: x11-ssh-askpass
-    state: present
+# - name: Install keychain
+#   pacman:
+#     name: keychain
+#     state: present
 
-- name: Export SSH_ASKPASS environment variable
-  lineinfile:
-    dest: /etc/profile
-    state: present
-    line: "export SSH_ASKPASS=\"/usr/lib/ssh/x11-ssh-askpass\""
+# - name: Install x11-ask-pass
+#   pacman:
+#     name: x11-ssh-askpass
+#     state: present
 
-- name: Make directory for user SSH key
-  file:
-    path: /home/{{ user.name }}/.ssh
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.group }}"
-  when: ssh.user_key is defined
+# - name: Export SSH_ASKPASS environment variable
+#   lineinfile:
+#     dest: /etc/profile
+#     state: present
+#     line: "export SSH_ASKPASS=\"/usr/lib/ssh/x11-ssh-askpass\""
 
-- name: Install user SSH key
-  copy:
-    src: "{{ ssh.user_key }}"
-    dest: "/home/{{ user.name }}/.ssh/id_rsa"
-    mode: 0600
-    owner: "{{ user.name }}"
-    group: "{{ user.group }}"
-  when: ssh.user_key is defined
+# - name: Make directory for user SSH key
+#   file:
+#     path: /home/{{ user.name }}/.ssh
+#     state: directory
+#     owner: "{{ user.name }}"
+#     group: "{{ user.group }}"
+#   when: ssh.user_key is defined
 
-- name: Install Mosh
-  pacman:
-    name: mosh
-    state: present
+# - name: Install user SSH key
+#   copy:
+#     src: "{{ ssh.user_key }}"
+#     dest: "/home/{{ user.name }}/.ssh/id_rsa"
+#     mode: 0600
+#     owner: "{{ user.name }}"
+#     group: "{{ user.group }}"
+#   when: ssh.user_key is defined
+
+# - name: Install Mosh
+#   pacman:
+#     name: mosh
+#     state: present

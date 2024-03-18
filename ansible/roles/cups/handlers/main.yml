@@ -1,5 +1,5 @@
 ---
 - name: restart cups
   service:
-    name: org.cups.cupsd.service
+    name: cups.service
     state: restarted

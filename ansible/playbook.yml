@@ -1,112 +1,52 @@
 ---
 - hosts: all
-  # become: yes  # TODO
-  ignore_errors: yes  # TODO
-  vars_files:
-    - group_vars/all.private.yml
+  become: yes
+  # ignore_errors: yes  # TODO
   roles:
-    # These run as dependencies, but I've been removing that since it's
-    # convenient to be able to run just these and I don't love running them
-    # twice.
     - { role: base, tags: ['base'] }
-    - { role: x, tags: ['x'] }
-
-    - {
-      role: desktop_environment,
-      tags: ['desktop_environment'],
-      when: "desktop_environment is defined"
-      }
-    - {
-      role: laptop,
-      tags: ['laptop'],
-      # TODO are there any Precision specific configs in laptop we should pull out?
-      when: "'Precision' in ansible_product_name or 'XPS' in ansible_product_name"
-      }
-    - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
-    - { role: thinkpad, tags: ['thinkpad'], when: "'ThinkPad' in ansible_product_version" }
-    # - { role: work, tags: ['work'], when: "'work' in flags" }
-    # - { role: aurora, tags: ['aurora'], when: "'work' in flags" }
-    - { role: server, tags: ['server'], when: "'server' in flags" }
-
-    # TASK [bertvv.samba : Start Samba service(s)]
-    # failed: [Charlie18b] (item=smbd) => {"changed": false, "item": "smbd", "msg": "Could not find the requested service smbd: host"}
-    # failed: [Charlie18b] (item=nmbd) => {"changed": false, "item": "nmbd", "msg": "Could not find the requested service nmbd: host"}
-    # - { role: bertvv.samba, tags: ['samba'] }
-
+    - { role: desktop_environment, tags: ['desktop_environment'], when: "desktop_environment is defined" }
     - { role: archive, tags: ['archive'] }
-    - { role: android, tags: ['android'] }
     - { role: arduino, tags: ['arduino'] }
     - { role: bluetooth, tags: ['bluetooth'] }
-    - { role: browsers, tags: ['browsers'] }
     - { role: cpu, tags: ['cpu'] }
     - { role: cron, tags: ['cron'] }
     - { role: cups, tags: ['cups'] }
-    - { role: developer, tags: ['developer'] }
     - { role: docker, tags: ['docker'] }
     - { role: dotfiles, tags: ['dotfiles'] }
-    - { role: dvorak, tags: ['dvorak'], when: "'dvorak' in user.layout" }
     - { role: editors, tags: ['editors'] }
-    - { role: foldingathome, tags: ['foldingathome'], when: "'foldingathome' in flags" }
     - { role: filesystems, tags: ['filesystems'] }
     - { role: fonts, tags: ['fonts'] }
-    - { role: gnupg, tags: ['gnupg'] }
     - { role: hostsctl, tags: ['hostsctl'], when: "hostsctl is defined" }
-    # tiling window manager
-    - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
-    - { role: lightdm, tags: ['lightdm'] }  # login manager
-    - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
     - { role: media, tags: ['media'] }
-    - { role: nettools, tags: ['nettools'] }
-    - { role: networkmanager, tags: ['networkmanager'] }
+    - { role: networking, tags: ['networking'] }
     - { role: ntp, tags: ['ntp'] }
     - { role: office, tags: ['office'] }
-    # refreshes individual keys in your GnuPG keyring
-    - { role: parcimonie, tags: ['parcimonie'], when: "tor is defined" }
-    - { role: screensaver, tags: ['screensaver'] }
+    - { role: server, tags: ['server'], when: "'server' in flags" }
     - { role: sound, tags: ['sound'] }
-    - { role: spell, tags: ['spell'] }
     - { role: ssd, tags: ['ssd'] }
     - { role: ssh, tags: ['ssh'] }
+    - { role: sway, tags: ['sway'], when: desktop_environment == "sway" }
+    - { role: greeter, tags: ['greeter'], when: desktop_environment == "sway" }
     - { role: udisks, tags: ['udisks'] }
     - { role: virtualbox, tags: ['virtualbox'] }
+  vars:
+    # TODO
+    - { role: gnupg, tags: ['gnupg'] }
     - { role: virtualenv, tags: ['virtualenv'] }
-
-    # Conditional installs
-    - { role: firejail, tags: ['firejail'] }
-    - { role: himawaripy, tags: ['himawaripy'] }  # fetches picture of Earth
-    - { role: mpd, tags: ['mpd'] }  # MPD (music player daemon) is an audio player that has a server-client architecture
-    - { role: mpv, tags: ['mpv'] }  # a free, open source, and cross-platform media player
-    - { role: rtorrent, tags: ['rtorrent'] }
-    - { role: taskwarrior, tags: ['taskwarrior'] }  # manages your to do list from the command line
-    # - { role: tor, tags: ['tor'] }
-    - { role: wormhole, tags: ['wormhole'] }  # get things from one computer to another, safely
+    # TO CONSIDER
+    - { role: bertvv.samba, tags: ['samba'] }
+    - { role: iptables, tags: ['iptables'] }
+    - { role: lightdm, tags: ['lightdm'] }  # login manager
+    - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
+    - { role: screensaver, tags: ['screensaver'] }
+    - { role: tor, tags: ['tor'] }
     - { role: unbound, tags: ['unbound'] }  # validating, recursive, and caching DNS resolver
+    # TO SAVE
+    - { role: android, tags: ['android'] }
+    - { role: foldingathome, tags: ['foldingathome'], when: "'foldingathome' in flags" }
+    - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
+    - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name or 'XPS' in ansible_product_name" }
 
-    # might start using
-    # - { role: iptables, tags: ['iptables'] }
-    # - { role: macchiato, tags: ['macchiato'] }  # assigns a random MAC address
-    # - { role: pass, tags: ['pass'] }  # simple password manager for the command line
-    # - { role: wttr, tags: ['wttr'] }  # check weather condition using site : http://wttr.in
-
-    # do not want these for now
-    # - { role: aws, tags: ['aws'] }
-    # - { role: backitup, tags: ['backitup'] }
-    # - { role: bitlbee, tags: ['bitlbee'] }  # console-based IRC to IM chatting gateway
-    # - { role: borg, tags: ['borg'] }  # backup program with compression and authenticated encryption
-    # - { role: cryptshot, tags: ['cryptshot'], when: "cryptshot is defined" }
-    # - { role: formd, tags: ['formd'] }  # Markdown converter: inline-referenced
-    # - { role: git-annex, tags: ['git-annex'], when: "gitannex is defined" }
-    # - { role: hardened, tags: ['hardened'] }
-    # - { role: kiwix, tags: ['kiwix'] }  # offline reader for Web content, Wikipedia
-    # - { role: ledger, tags: ['ledger'] }  # double-entry accounting system
-    # - { role: macbook, tags: ['macbook'], when: "'MacBook' in ansible_product_name" }
-    # - { role: mail, tags: ['mail'] }
-    # - { role: mapping, tags: ['mapping'] }  # cartography
-    # - { role: pianobar, tags: ['pianobar'] }  # Console-based pandora.com player
-    # - { role: pim, tags: ['pim'] }  # Python image viewer with vim-like keybindings
-    # - { role: postgresql, tags: ['postgresql'] }
-    # - { role: radio, tags: ['radio'] }
-    # - { role: tarsnap, tags: ['tarsnap'] }  # Online backups for the truly paranoid
-    # - { role: weechat, tags: ['weechat'] }  # IRC
-    # - { role: yubikey, tags: ['yubikey'] }
-
+  vars_prompt:
+    - name: user_password
+      prompt: "Enter desired user password"

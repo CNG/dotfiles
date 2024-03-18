@@ -22,6 +22,8 @@ is now simplified for Linux in [`files`](files).
    Some of this code block will replace the next steps, still working on this:
 
     ```
+    nraet.fo ekrpat
+    auditctl -e0
     mkdir -p /tmp/setup
     mount /dev/sda2 /tmp/setup | true
     vim /tmp/setup/dotfiles/base

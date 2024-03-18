@@ -25,22 +25,24 @@ main () {
     sudo pacman -Sy --noconfirm python-passlib ansible git
   fi
 
-  cd ansible
-  git submodule init && git submodule update || true # TODO: ignore submodule issue
-
-  if [[ ! -f library/ansible-aur/aur.py ]]; then
-    git clone https://github.com/kewlfft/ansible-aur.git library/ansible-aur
+  # Locally install aur module for easier references in modules
+  # https://github.com/kewlfft/ansible-aur?tab=readme-ov-file#install-the-aur-module-as-a-local-custom-module
+  if [[ ! -f ~/.ansible/plugins/modules/aur.py ]]; then
+    # Create the user custom module directory
+    mkdir -p ~/.ansible/plugins/modules
+    # Install the aur module into the user custom module directory
+    curl -o ~/.ansible/plugins/modules/aur.py https://raw.githubusercontent.com/kewlfft/ansible-aur/master/plugins/modules/aur.py
   fi
-  ln -fs ansible-aur/aur.py library/aur
 
-  printf "Installing roles from Ansible Galaxy\n"
-  sudo ansible-galaxy install -r requirements.yml
+  cd ansible
+  # git submodule init && git submodule update || true # TODO: ignore submodule issue
+
   printf "Starting Ansible playbook\n"
   # sudo ansible-playbook -i local -K playbook.yml "$@"
-  dense=/usr/lib/python3.7/site-packages/ansible/plugins/callback/dense.py
-  if [[ -f $dense ]]; then
-    sudo sed -i 's/name + vt100.reset/self.task.get_name() + vt100.reset/' "$dense"
-  fi
+  # dense=/usr/lib/python3.7/site-packages/ansible/plugins/callback/dense.py
+  # if [[ -f $dense ]]; then
+  #   sudo sed -i 's/name + vt100.reset/self.task.get_name() + vt100.reset/' "$dense"
+  # fi
   sudo ansible-playbook -i $(cat /etc/hostname), -c local playbook.yml --diff "$@"
 
   trap - ERR

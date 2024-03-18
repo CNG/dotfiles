@@ -1,0 +1,265 @@
+"""" STARTUP
+
+" Autoinstall and then setup vim-plug
+" Need to run :PlugInstall to update
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
+Plug 'google/vim-maktaba' | Plug 'google/vim-glaive' | Plug 'google/vim-codefmt'
+Plug 'lifepillar/vim-solarized8'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' } | Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'bronson/vim-visual-star-search'
+Plug 'wellle/context.vim'
+Plug 'tpope/vim-commentary'  " gcc, gc, gcap, ...
+
+" Python
+Plug 'michaeljsmith/vim-indent-object'  " ai, ii indentation object
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }  " better indent code folding (for Python)
+Plug 'Konfekt/FastFold'  " recommended for SimplyFold, not required
+" Folds only updated when saving, closing or opening folds (zo, za, zc, etc...)
+" moving or operating fold-wise (zj,zk,[z,]z) or typing `zuz` in normal mode
+
+" Jinja template syntax (using for Pelican static site generator)
+Plug 'lepture/vim-jinja', { 'for': 'jinja' }
+call plug#end()
+
+" Code formatting
+" https://github.com/google/vim-codefmt#configuring-formatters
+call glaive#Install()
+Glaive codefmt plugin[mappings]
+command W :FormatCode
+
+autocmd BufWritePost .vimrc source %
+
+"""" COLORS
+
+" Following needed for Tmux at least if "set termguicolors".
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set background=dark
+set t_Co=256
+set termguicolors
+
+" TODO test: " Also might need this for Alacritty?, https://github.com/jwilm/alacritty/issues/109
+"if exists('+termguicolors')
+"  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+"  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+"  set termguicolors
+"endif
+
+" Solarized
+colorscheme solarized8_high
+
+
+"""" SHORTCUTS
+
+let mapleader = " "
+nnoremap <leader>/ :noh<cr>
+" search & replace the selected text, e.g. v3e (visually select 3 words) * (search) and :%s//REPL/g
+nmap <Leader>s :%s///g<left><left>
+" Allow saving of files as sudo when I forgot to start vim using sudo, https://stackoverflow.com/a/7078429/172602
+cmap w!! w !sudo tee > /dev/null %
+" Allow pasting text more than once
+" https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text
+xnoremap <silent> p p:let @+=@0<CR>
+" following from http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+" strip all trailing whitespace in the current file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+" fold tag
+nnoremap <leader>ft Vatzf
+" imitates TextMates Ctrl+Q function to re-hardwrap paragraphs of text
+nnoremap <leader>q gqip
+" another rewrap
+nnoremap <leader>w gwap
+" reselect text that was just pasted
+nnoremap <leader>v V`]
+
+
+"""" SETTINGS
+
+set mouse=a
+" allow dragging split borders
+" Needed to comment out ttymouse=xterm2 2023-02-27 on desktop to get clicking in
+" Vim to start working again.
+"set ttymouse=xterm2
+" yanked text into and paste from global clipboard; requires gvim (libX11 support)
+set clipboard=unnamedplus
+
+
+set number
+
+
+" see http://vimdoc.sourceforge.net/htmldoc/options.html#%27tabstop%27
+" set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+set encoding=utf-8
+set scrolloff=3
+set autoindent
+set wildmenu
+set wildmode=list:longest
+set visualbell
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+" set undofile
+
+" allows extending a selection with right click
+set mousemodel="popup"
+
+set wrap
+set linebreak
+" set textwidth=79
+set formatoptions=qrn1
+" set formatoptions=ant
+" t: ensures text gets wrapped on textwidth
+" a: turns on real-time reformatting as you edit
+set textwidth=80
+set wrapmargin=0
+
+" don't do two spaces after sentences
+set nojoinspaces
+
+" set ignorecase
+" set smartcase
+" set gdefault
+set incsearch
+set showmatch
+set hlsearch
+
+set spell
+set spellcapcheck=
+set spelllang=en
+set spellfile=$HOME/.vim/spell/en.utf-8.add
+hi SpellBad guifg=orange
+
+" prevent security exploits
+set modelines=0
+
+" Highlight current column and row
+nnoremap <Leader>H :set cursorline! cursorcolumn!<CR>
+" hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+" highlight current line current window only
+" following makes this unneeded: set cursorline " cursorcolumn
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline " cursorcolumn
+  au WinLeave * setlocal nocursorline " nocursorcolumn
+augroup END
+
+set colorcolumn=81,89
+highlight OverLength ctermbg=12 ctermfg=NONE guibg=#333333
+match OverLength /\%121v.\+/
+
+" Block cursor when not insert mode, line in insert mode
+" https://github.com/jwilm/alacritty/pull/608#issuecomment-310610576
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+" If using underline in Alacritty, this results in block after Vim
+let &t_EI = "\<Esc>[0 q"
+
+" Show < or > when characters are not displayed on the left or right.
+set listchars=tab:→\ ,trail:~,extends:>,precedes:<
+set list
+" Color Flag trailing whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"" setting both is "hybrid": relative except current line
+"" set number relativenumber
+"" removing relativenumber from next line, seems to still work due to autocmd
+"" below.. but I'll try disabling totally for a while
+"set number
+"" " Automatic toggling between line number modes
+"" " https://jeffkreeftmeijer.com/vim-number/
+"" augroup numbertoggle
+""   autocmd!
+""   " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+""   autocmd BufEnter,FocusGained,InsertLeave * if &ft!="nerdtree"|set relativenumber|endif
+""   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"" augroup END
+
+
+"""" PLUGIN SETTINGS
+
+" tmhedberg/SimpylFold
+let g:SimpylFold_docstring_preview=1
+" https://realpython.com/vim-and-python-a-match-made-in-heaven/#code-folding
+"" set foldmethod=indent
+"" set foldlevel=99
+set foldlevelstart=20
+
+" Konfekt/FastFold
+nmap zuz <Plug>(FastFoldUpdate)
+let g:fastfold_savehook = 1
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+let g:markdown_folding = 1
+" visual context for fold
+set foldcolumn=2
+let g:tex_fold_enabled = 1
+let g:vimsyn_folding = 'af'
+let g:xml_syntax_folding = 1
+let g:javaScript_fold = 1
+let g:sh_fold_enabled= 7
+let g:ruby_fold = 1
+let g:perl_fold = 1
+let g:perl_fold_blocks = 1
+let g:r_syntax_folding = 1
+let g:rust_fold = 1
+let g:php_folding = 1
+
+" Nerdtree
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+" open NERDTree automatically when vim starts up on opening a directory?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeMouseMode=3
+" Automatically delete the buffer of the file you just deleted with NerdTree
+let NERDTreeAutoDeleteBuffer=1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+autocmd FileType nerdtree setlocal norelativenumber
+let NERDTreeShowLineNumbers=0
+" Refresh both CtrlP and NERDTree (https://superuser.com/a/1137895/81094)
+" nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>:CtrlPClearCache<cr>
+
+" vim-airline
+let g:airline_theme='light'
+let g:airline_highlighting_cache = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_powerline_fonts = 1
+let g:airline_detect_spell=0
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '^V' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '^S' : 'S',
+    \ }
+let g:airline_section_b = ''
+let g:airline_section_y = ''
+set noshowmode
+set noruler
+

@@ -1,0 +1,9 @@
+include /etc/sway/config.d/*
+
+input * {
+	xkb_layout "us,us"
+	xkb_variant "dvorak,"
+	xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
+}
+
+exec "regreet; swaymsg exit"

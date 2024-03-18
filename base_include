@@ -15,8 +15,9 @@ hwclock --systohc --utc
 
 # Generate locale
 # https://wiki.archlinux.org/index.php/Locale#LC_TIME:_date_and_time_format
+ln -s /usr/share/i18n/locales/en_DK /usr/share/i18n/locales/en_SE
 LANG=en_US.UTF-8
-TIME=en_DK.UTF-8
+TIME=en_SE.UTF-8
 { echo $LANG UTF-8; echo $TIME UTF-8; } >> /etc/locale.gen
 locale-gen
 # I forgot the purpose of LC_ALL= here:
@@ -69,7 +70,7 @@ echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
 # Could also deal with HiDPI small screen with video=1024x768
-echo "options cryptdevice=UUID=$(blkid -o value -s UUID $CRYPTDEVICE):vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw vsyscall=emulate quiet mem_sleep_default=deep" >> $f
+echo "options cryptdevice=UUID=$(blkid -o value -s UUID $CRYPTDEVICE):linux root=/dev/mapper/linux-root resume=/dev/mapper/linux-swap rw vsyscall=emulate quiet mem_sleep_default=deep" >> $f
 
 # Exit new system and go into the cd shell
 exit

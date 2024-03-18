@@ -1,0 +1,14 @@
+---
+- name: Install localtime
+  aur:
+    name: localtime-git
+  become: yes
+  become_user: aur_builder
+
+- name: Enable and start localtime
+  service:
+    name: localtime
+    enabled: yes
+    state: started
+
+# Per https://github.com/Stebalien/localtime may need to clear agent whitelist in /etc/geoclue/geoclue.conf to make it work

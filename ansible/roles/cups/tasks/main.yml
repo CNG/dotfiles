@@ -68,6 +68,6 @@
 
 - name: Enable and start CUPS
   service:
-    name: org.cups.cupsd.service
+    name: cups.service
     enabled: yes
     state: started

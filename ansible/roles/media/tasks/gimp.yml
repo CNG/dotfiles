@@ -1,32 +1,10 @@
 ---
-- name: Install poppler-glib
-  pacman:
-    name: poppler-glib
-    state: present
-
 - name: Install GIMP
   pacman:
     name:
       - gimp
-      - gimp-plugin-gmic
-      - xsane-gimp
+      # Not sure if will need
+      # - gimp-plugin-gmic
+      # - gimp-nufraw
+      # - xsane-gimp
     state: present
-
-- name: Jail GIMP
-  when: "'firejail' in roles"
-  file:
-    src: /usr/bin/firejail
-    dest: /usr/local/bin/gimp
-    state: link
-
-- name: Unjail GIMP
-  when: "'firejail' not in roles"
-  file:
-    path: /usr/local/bin/gimp
-    state: absent
-
-- name: Install GIMP raw support
-  pacman:
-    name: gimp-nufraw
-    state: present
-

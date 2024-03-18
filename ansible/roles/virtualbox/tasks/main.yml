@@ -3,25 +3,34 @@
   group:
     name: vboxusers
     state: present
+
 - name: Add user to vboxusers group
   user:
     name: "{{ user.name }}"
     groups: vboxusers
     append: yes
 
+- name: Remove generic Virtualbox host modules
+  pacman:
+    name: virtualbox-host-dkms
+    state: absent
+
+- name: Install Virtualbox Arch host modules
+  pacman:
+    name:
+      - virtualbox-host-modules-arch
+    state: present
+
 - name: Install VirtualBox, dependencies, extensions
+  pacman:
+    name:
+      - net-tools
+      - virtualbox
+      - virtualbox-guest-iso
+    state: present
+
+- name: Install VirtualBox extensions
   aur:
-    name: "{{ item }}"
+    name: virtualbox-ext-oracle
   become: yes
   become_user: aur_builder
-  with_items:
-    - net-tools
-    - virtualbox
-    - virtualbox-guest-iso
-    - virtualbox-host-modules-arch
-    # - virtualbox-host-dkms
-    # Arch wiki implies we need one only:
-    # * for `linux` kernel choose `virtualbox-host-modules-arch`
-    # * for other kernels choose `virtualbox-host-dkms`
-    - virtualbox-ext-oracle
-

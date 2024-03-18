@@ -1,0 +1,106 @@
+---
+- name: Install i3 tiling window manager
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_flattened:
+    - i3-gaps
+    - i3blocks
+    - i3lock-color-git
+    - rofi  # menu
+    - playerctl  # media player controls
+    - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    - picom
+    - xbindkeys
+    - xdotool  # for emulating 60% keyboard in i3 config
+    - [ escrotum-git, python2-numpy ] # screenshots
+    - breeze-gtk  # need to check if this gets what i want
+    - acpilight  # provides xbacklight
+    - pacman-contrib  # required for arch-update.py i3block
+
+- name: Verify header in default applications file
+  lineinfile:
+    dest: /etc/xdg/mimeapps.list
+    state: present
+    line: '[Default Applications]'
+    insertbefore: BOF
+    create: yes
+
+- name: Install i3blocks-contrib scripts
+  git:
+    repo: "git://github.com/vivien/i3blocks-contrib.git"
+    dest: "/home/{{ user.name }}/.config/i3blocks-contrib"
+    update: yes
+    accept_hostkey: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
+# https://github.com/vivien/i3blocks-contrib/tree/master/usb
+- name: Configure USB reload script for i3blocks
+  copy:
+    src: 70-persistent-usb.rules
+    dest: /etc/udev/rules.d/70-persistent-usb.rules
+- name: udevadm control --reload-rules
+  command: "udevadm control --reload-rules"
+  become: yes
+  changed_when: False
+
+- name: Create kbdrate service
+  copy:
+    src: kbdrate.service
+    dest: /etc/systemd/system/kbdrate.service
+
+- name: Enable and start kbdrate service
+  service:
+    name: kbdrate.service
+    enabled: yes
+    state: started
+
+- name: Install audio stream mover
+  copy:
+    src: streams_to_sink
+    dest: "/usr/local/bin/streams_to_sink"
+    mode: 0755
+
+- name: Install screen switching script
+  copy:
+    src: monitor_switch
+    dest: "/usr/local/bin/monitor_switch"
+    mode: 0755
+
+- name: Install screen mirroring
+  copy:
+    src: monitor_mirror
+    dest: "/usr/local/bin/monitor_mirror"
+    mode: 0755
+
+- name: Install display-setup-script for X login
+  copy:
+    src: display-setup-script
+    dest: "/usr/local/bin/display-setup-script"
+    mode: 0755
+
+- name: Push i3lock authentication file
+  template:
+    src: pam.d/i3lock.j2
+    dest: /etc/pam.d/i3lock
+
+- name: Autounlock keyring on login 1a
+  lineinfile:
+    dest: /etc/pam.d/lightdm
+    state: present
+    regexp: "auth.*pam_gnome_keyring.so"
+    line: "auth        optional    pam_gnome_keyring.so"
+- name: Autounlock keyring on login 1b
+  lineinfile:
+    dest: /etc/pam.d/lightdm
+    state: present
+    regexp: "session.*pam_gnome_keyring.so"
+    line: "session     optional    pam_gnome_keyring.so auto_start"
+- name: Autounlock keyring on login 2
+  lineinfile:
+    dest: /etc/pam.d/passwd
+    state: present
+    line: "password	optional	pam_gnome_keyring.so"
+    create: no

@@ -1,0 +1,8 @@
+{
+	"extensions":
+	[
+		"rules",
+		"BUILD"
+	],
+	"translate_tabs_to_spaces": true
+}

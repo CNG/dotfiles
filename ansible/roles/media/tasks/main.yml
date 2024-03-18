@@ -6,32 +6,5 @@
   become_user: aur_builder
   with_flattened: "{{ packages.media }}"
 
-- name: Jail feh
-  when: "'firejail' in roles"
-  file:
-    src: /usr/bin/firejail
-    path: /usr/local/bin/feh
-    state: link
-
-- name: Unjail feh
-  when: "'firejail' not in roles"
-  file:
-    path: /usr/local/bin/feh
-    state: absent
-
-# TODO: look into this tool
-# - name: Install Metadata Anonymisation Toolkit and dependencies
-#  aur:
-#    name: "{{ item }}"
-#    skip_pgp: yes
-#  become: yes
-#  become_user: aur_builder
-#  with_items:
-#    - hachoir-core
-#    - hachoir-parser
-#    - mat2
-
-- import_tasks: beets.yml # the music geek's media organizer
 - import_tasks: digikam.yml
 - import_tasks: gimp.yml
-- import_tasks: qcode.yml

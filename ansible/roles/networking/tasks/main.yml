@@ -1,0 +1,30 @@
+---
+- name: Install NetworkManager and dependencies
+  pacman:
+    name:
+      - networkmanager
+      # - networkmanager-openvpn
+      - network-manager-applet
+      # - xfce4-notifyd
+      # - gnome-keyring
+    state: present
+
+- name: Install net tools
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items: "{{ packages.networking }}"
+
+- name: Create wireshark group
+  group:
+    name: wireshark
+    state: present
+  when: "'wireshark-qt' in packages.networking"
+
+- name: Add user to wireshark group
+  user:
+    name: "{{ user.name }}"
+    groups: wireshark
+    append: yes
+  when: "'wireshark-qt' in packages.networking"

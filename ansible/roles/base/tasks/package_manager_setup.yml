@@ -1,6 +1,4 @@
 ---
-- import_tasks: package_keys.yml
-
 - name: Copy pacman configuration file
   copy:
     src: pacman.conf
@@ -48,24 +46,28 @@
     update_cache: yes
   changed_when: False
 
-# TODO: Confirm fresh install works with this before "Install universal base packages"
-- name: Install AUR helper
+- name: Create the `aur_builder` user
+  become: yes
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: yes
+    # Picking ID < 1000 to auto hide on login screen
+    uid: 998
+    group: wheel
+
+- name: Allow the `aur_builder` user to run `sudo pacman` without a password
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/11-install-aur_builder
+    line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: yes
+    mode: 0644
+    validate: 'visudo -cf %s'
+
+- name: Install yay using makepkg if it isn't installed already
   aur:
-    name: aurman
-    use: auto
-    skip_pgp_check: yes
+    name: yay
+    use: makepkg
+    # state: present Usupported for aur module, weird
   become: yes
   become_user: aur_builder
-
-# TODO remove if we switch from aurman to yum
-# This is redundant with dotfiles but here for ordering
-- name: Configure Aurman
-  blockinfile:
-    dest: "/home/{{ user.name }}/.config/aurman/aurman_config"
-    state: present
-    block: |
-      [miscellaneous]
-      no_sudo_loop
-    create: yes
-    mode: "u=rw,g=r,o=r"
-

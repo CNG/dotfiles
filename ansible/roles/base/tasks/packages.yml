@@ -32,11 +32,12 @@
   # Firmware metadata last refresh: 3 minutes ago. Use --force to refresh again.
   command: fwupdmgr refresh --force
   changed_when: False
-- name: Check if firmware updates available
-  command: fwupdmgr get-updates
-  register: result
-  changed_when: False
-- name: Update firmware
-  when: "'No upgrades' not in result.stderr and 'No updatable' not in result.stderr"
-  command: fwupdmgr update --force
-  become: yes
+  
+  #- name: Check if firmware updates available
+  #command: fwupdmgr get-updates
+  #register: result
+  #changed_when: False
+  #- name: Update firmware
+  #when: "'No updates' not in result.stderr and 'No updatable' not in result.stderr"
+  #command: fwupdmgr update --force
+  #become: yes

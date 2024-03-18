@@ -43,7 +43,7 @@ main () {
   # copy installation files to fat32 partition, dotfiles to ext4 partition
   mkdir -p /mnt/installer/{install,extras}
   mount ${DEV}1 /mnt/installer/install
-  bsdtar -x --exclude=syslinux/ -f arch.iso -C /mnt/installer/install
+  bsdtar -x -f arch.iso -C /mnt/installer/install
   mount ${DEV}2 /mnt/installer/extras
   # TODO: Used to cleaning Git clone here, but also have private dotfiles repo,
   # and Git auth is not as easy now with passwords gone, so just copy the existing
@@ -51,8 +51,8 @@ main () {
   sync
 
   # change to boot by UUID so we can boot without making label match month name
-  find /mnt/installer/install/loader/entries -name "*.conf" | \
-    xargs sed -E -i "s|archisolabel=\S+|archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)|"
+  find /mnt/installer/install/boot/syslinux -name "*.cfg" | \
+    xargs sed -E -i "s|archisodevice=\S+|archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)|"
 
   trap - ERR
   clean_up

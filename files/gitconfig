@@ -46,7 +46,7 @@
         # This makes mixing work and personal more explicit.
         useConfigOnly = true
         name = Charlie Gorichanaz
-        email = cgorichanaz@fitbit.com
+        email = charlie@gorichanaz.com
 [credential]
         helper = store
 
