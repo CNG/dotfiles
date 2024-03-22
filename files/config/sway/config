@@ -1,46 +1,58 @@
 include /etc/sway/config.d/*
 
-input * {
-	xkb_layout "us,us"
-	xkb_variant "dvorak,"
-	xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
-}
-
-# TODO do I need this
-# input <identifier> xkb_model "pc101"
-# input <identifier> repeat_delay 300
-# input <identifier> repeat_rate 30
-
-exec mako
-exec waybar
-
-output * bg #000000 solid_color
-output eDP-1 scale 1.5
-
-input type:touchpad {
-	tap enabled
-	natural_scroll enabled
-}
-
-
-
 set $alt mod1
 set $hyp mod3
 set $win mod4
 set $sup mod4
 set $mod mod4
+set $background /usr/share/backgrounds/greeter.jpg
+
+output * bg $background fill
+output eDP-1 scale 1.25
+bindsym $mod+$alt+1 output eDP-1 scale 0.50
+bindsym $mod+$alt+2 output eDP-1 scale 0.75
+bindsym $mod+$alt+3 output eDP-1 scale 1.00
+bindsym $mod+$alt+4 output eDP-1 scale 1.125
+bindsym $mod+$alt+5 output eDP-1 scale 1.25
+bindsym $mod+$alt+6 output eDP-1 scale 1.375
+bindsym $mod+$alt+7 output eDP-1 scale 1.50
+bindsym $mod+$alt+8 output eDP-1 scale 1.75
+bindsym $mod+$alt+9 output eDP-1 scale 2.00
+
+input type:keyboard {
+    xkb_layout "us,us"
+    xkb_variant "dvorak,"
+    xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
+    # repeat_delay 300
+    # repeat_rate 30
+    # xkb_model "pc101"
+}
+input * {
+    natural_scroll enabled
+}
+input type:touchpad {
+    tap enabled
+    pointer_accel 0.5
+}
+input "1149:32793:Expert_Wireless_TB_Mouse" {
+    scroll_button BTN_SIDE
+    scroll_method on_button_down
+}
+bindgesture swipe:4:right workspace next
+bindgesture swipe:4:left workspace prev
+#bindgesture swipe:3:right workspace next
+#bindgesture swipe:3:left workspace prev
+
+bindgesture pinch:inward swaymsg output eDP-1 scale 1.50
+bindgesture pinch:outward swaymsg output eDP-1 scale 1.00
 
 
 
-# focus_follows_mouse no
 font pango: Fira Sans Regular 16
 # Hide titlebar
 #default_border normal
 default_border pixel 2
 default_floating_border normal
-set $background /usr/share/backgrounds/taipei.jpg
-#set $set_background feh --bg-fill /usr/share/backgrounds/taipei.jpg
-set $set_background feh --bg-fill /usr/share/backgrounds/vim.jpg
 
 
 ### PROGRAM SHORTCUTS
@@ -52,12 +64,17 @@ bindsym $mod+d exec BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu='bemenu -i -
 bindsym $mod+i       exec firefox
 bindsym $mod+f       exec dolphin
 bindsym $mod+Shift+e exec sway exit
-bindsym $mod+Shift+m exec ~/.local/bin/dnd
+bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
 bindsym $mod+e       exec subl --new-window
 bindsym $mod+m       exec spotify --force-device-scale-factor=1.0
 
 
 ### AUTOSTART PROGRAMS
+exec mako
+# exec waybar
+exec ~/.local/bin/launch-waybar
+# make clipboard persist after program exit
+exec wl-paste -t text --watch clipman store --no-persist
 # exec trickle -u 1024 -d 10240 insync start # GDrive manager
 exec insync start   # GDrive manager
 exec wlsunset -l 37.8 -L -122.3  # blue light reduction at night
@@ -125,6 +142,7 @@ bindsym --locked XF86AudioPlay exec playerctl play-pause
 
 ### OTHER KEYBOARD CHANGES
 # emulate 60% keyboard on the laptop
+#TODO caps on laptop currently not hyp
 bindsym $hyp+apostrophe exec $Prev
 bindsym $hyp+comma exec $Play
 bindsym $hyp+period exec $Next
@@ -153,11 +171,15 @@ bindsym Ctrl+Shift+Print exec scrot      $shot_f -e "mv \$f $shot_d && notify-se
 
 
 ### SCREEN LOCK, SUSPEND, SHUTDOWN
-set $Locker ~/.config/i3scripts/lock && sleep 1
+set $Locker swaylock --daemonize --ignore-empty-password --show-failed-attempts --image /usr/share/backgrounds/greetere.jpg && sleep 5
+exec swayidle -w \
+    timeout 1800 '$Locker' \
+    timeout 1805 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"'
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec $Locker, mode "default"
-    bindsym e exec i3-msg exit, mode "default"
+    bindsym e exec swaymsg exit, mode "default"
     #bindsym s exec $Locker && systemctl suspend, mode "default"
     #bindsym h exec $Locker && systemctl hibernate, mode "default"
     bindsym s exec systemctl suspend, mode "default"
@@ -226,28 +248,7 @@ client.focused_inactive     $acqua   $acqua     $silver  $magenta
 client.urgent               $magenta $magenta   $silver  $magenta
 client.placeholder          $magenta $magenta   $silver  #ffffff
 
-
-### STATUS BAR
-#bar
-#{
-#  position top
-#  #status_command i3blocks
-#  #status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-#  colors
-#  {
-#                        # Border  # Background  # Text
-#    focused_workspace   $silver   $silver       $elegant
-#    active_workspace    $elegant  $elegant      $orange
-#    inactive_workspace  $elegant  $elegant      $cyan
-#    urgent_workspace    $acqua    $acqua        $silver
-#    background          $elegant
-#  }
-#  tray_padding 6
-#}
-
-
 ### WINDOW MANIPULATION
-bindsym $mod+o open
 bindsym $mod+q kill
 bindsym $mod+Shift+f fullscreen toggle
 bindsym $mod+a focus parent

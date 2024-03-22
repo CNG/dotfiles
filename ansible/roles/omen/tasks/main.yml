@@ -1,0 +1,50 @@
+---
+# TODO This didn't fix my sound actually
+- name: Install Sound Open Firmware
+  pacman:
+    name:
+      - sof-firmware
+      - sof-bin
+    state: present
+
+# Charlie24% sudo dmesg | grep -iE 'snd|sof'
+# [sudo] password for cgorichanaz:
+# [    0.062271] software IO TLB: area num 32.
+# [    0.669644] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+# [    0.669645] software IO TLB: mapped [mem 0x000000005530e000-0x000000005930e000] (64MB)
+# [    0.818886] integrity: Loaded X.509 cert 'Microsoft Corporation: Windows UEFI CA 2023: aefc5fbbbe055d8f8daa585473499417ab5a5272'
+# [    0.818893] integrity: Loaded X.509 cert 'Microsoft Windows Production PCA 2011: a92902398e16c49778cd90f99e4f9ae17c55af53'
+# [    0.818900] integrity: Loaded X.509 cert 'Microsoft Corporation UEFI CA 2011: 13adbf4309bd82709c8cd54f316ed522988a1bd4'
+# [   15.574546] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+# [   15.630649] snd_hda_intel 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
+# [   15.630680] snd_hda_intel 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
+# [   17.530099] snd_hda_intel 0000:01:00.1: enabling device (0000 -> 0002)
+# [   17.530414] snd_hda_intel 0000:01:00.1: Disabling MSI
+# [   17.530431] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+# [   17.549568] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops nv50_audio_component_bind_ops [nouveau])
+# [   17.651210] sof-audio-pci-intel-mtl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if info 0x040100
+# [   17.651241] sof-audio-pci-intel-mtl 0000:00:1f.3: SoundWire enabled on CannonLake+ platform, using SOF driver
+# [   17.651266] sof-audio-pci-intel-mtl 0000:00:1f.3: enabling device (0000 -> 0002)
+# [   17.651496] sof-audio-pci-intel-mtl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if 0x040100
+# [   17.651560] sof-audio-pci-intel-mtl 0000:00:1f.3: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
+# [   17.658535] sof-audio-pci-intel-mtl 0000:00:1f.3: use msi interrupt mode
+# [   17.669154] sof-audio-pci-intel-mtl 0000:00:1f.3: DMICs detected in NHLT tables: 2
+# [   17.669157] sof-audio-pci-intel-mtl 0000:00:1f.3: hda codecs found, mask 4
+# [   17.669188] sof-audio-pci-intel-mtl 0000:00:1f.3: SOF firmware and/or topology file not found.
+# [   17.669191] sof-audio-pci-intel-mtl 0000:00:1f.3: Supported default profiles
+# [   17.669192] sof-audio-pci-intel-mtl 0000:00:1f.3: - ipc type 1 (Requested):
+# [   17.669194] sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file: intel/sof-ipc4/mtl/sof-mtl.ri
+# [   17.669195] sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file: intel/sof-ace-tplg/sof-mtl-rt711-2ch.tplg
+# [   17.669196] sof-audio-pci-intel-mtl 0000:00:1f.3: Check if you have 'sof-firmware' package installed.
+# [   17.669197] sof-audio-pci-intel-mtl 0000:00:1f.3: Optionally it can be manually downloaded from:
+# [   17.669198] sof-audio-pci-intel-mtl 0000:00:1f.3:    https://github.com/thesofproject/sof-bin/
+# [   17.670937] sof-audio-pci-intel-mtl 0000:00:1f.3: error: sof_probe_work failed err: -2
+
+- name: Disable SND_HDA_INTEL_DETECT_DMIC config option
+  lineinfile:
+    path: /boot/loader/entries/arch.conf
+    line: "options {{item}}"
+    state: absent
+  with_items:
+    - snd-intel-dspcfg.dsp_driver=3
+

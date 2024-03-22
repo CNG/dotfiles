@@ -29,6 +29,9 @@
     - { role: greeter, tags: ['greeter'], when: desktop_environment == "sway" }
     - { role: udisks, tags: ['udisks'] }
     - { role: virtualbox, tags: ['virtualbox'] }
+    # - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
+    - { role: omen, tags: ['omen'], when: "'OMEN Transcend Gaming Laptop 14t-fb000' in ansible_product_name" }
+
   vars:
     # TODO
     - { role: gnupg, tags: ['gnupg'] }

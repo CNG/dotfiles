@@ -1,0 +1,20 @@
+[background]
+path = "/usr/share/backgrounds/greeter.jpg"
+# Available values: "Fill", "Contain", "Cover", "ScaleDown"
+fit = "Fill"
+
+# The entries defined in this section will be passed to the session as environment variables when it is started
+# [env]
+# ENV_VARIABLE = "value"
+QT_QPA_PLATFORMTHEME=qt5ct
+
+[GTK]
+application_prefer_dark_theme = true
+# cursor_theme_name = "Adwaita"
+# font_name = "Cantarell 16"
+# icon_theme_name = "Adwaita"
+# theme_name = "Adwaita"
+
+[commands]
+reboot = [ "systemctl", "reboot" ]
+poweroff = [ "systemctl", "poweroff" ]
