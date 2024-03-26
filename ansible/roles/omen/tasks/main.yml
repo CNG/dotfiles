@@ -1,11 +1,13 @@
 ---
 # TODO This didn't fix my sound actually
 - name: Install Sound Open Firmware
-  pacman:
-    name:
-      - sof-firmware
-      - sof-bin
-    state: present
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - sof-firmware
+    - sof-bin
 
 # Charlie24% sudo dmesg | grep -iE 'snd|sof'
 # [sudo] password for cgorichanaz:

@@ -154,7 +154,7 @@ packages:
     # - udftools
 
   fonts:
-    # - ttf-nerd-fonts-input  # checksum issue, ugh
+    - ttf-nerd-fonts-input
     - ttf-opensans
     - adobe-base-14-fonts
     - adobe-source-code-pro-fonts
@@ -208,7 +208,7 @@ packages:
     - guvcview  # webcam record
     - gwenview  # best image viewer for KDE
     - libheif
-    - spotify
+    - [ spotify, zenity ]
     - youtube-dl
     - mediainfo-gui
     - handbrake
@@ -311,6 +311,7 @@ packages:
     - waybar
     - j4-dmenu-desktop
     - bemenu
+    - bemenu-wayland
     - xorg-xwayland
     - xdg-desktop-portal-gtk
     - xdg-desktop-portal-wlr

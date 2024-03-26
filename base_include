@@ -43,8 +43,7 @@ passwd
 # the consolefont line is to allow larger font for HiDPS small screens
 # the keyboard lines are to prevent autodetect from pruning drivers too much
 # to be able to boot with a different keyboard than when initrd image built
-sed -i -e 's/^MODULES=()/MODULES=(ext4)/' \
-       -e '/^HOOKS.*block filesystems/s/filesystems/encrypt lvm2 resume filesystems/' \
+sed -i -e '/^HOOKS.*block filesystems/s/filesystems/encrypt lvm2 resume filesystems/' \
        -e '/^HOOKS.*block encrypt/s/encrypt/keymap consolefont encrypt/' \
        -e '/^HOOKS.*udev autodetect/s/ keyboard//' \
        -e '/^HOOKS.*/s/autodetect/keyboard autodetect/' \
@@ -53,15 +52,15 @@ sed -i -e 's/^MODULES=()/MODULES=(ext4)/' \
 # Regenerate initrd image
 mkinitcpio -p linux
 
-# Setup systembootd (grub will not work on nvme at this moment)
+# Setup systembootd
 bootctl --path=/boot install
 
 # Create loader.conf
 f=/boot/loader/loader.conf
 echo 'default arch' >> $f
-echo 'timeout 10' >> $f
+echo 'timeout 2' >> $f
 echo 'editor 1' >> $f
-# Enable larger text on tiny HiDPI screens (XPS 13)
+# Enable larger text on HiDPI screens
 echo 'console-mode 2' >> $f
 
 # Create arch.conf
@@ -69,8 +68,7 @@ f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
-# Could also deal with HiDPI small screen with video=1024x768
-echo "options cryptdevice=UUID=$(blkid -o value -s UUID $CRYPTDEVICE):linux root=/dev/mapper/linux-root resume=/dev/mapper/linux-swap rw vsyscall=emulate quiet mem_sleep_default=deep" >> $f
+echo "options cryptdevice=LABEL=linux:luks:allow-discards root=LABEL=btrfs rootflags=subvol=root rw vsyscall=emulate mem_sleep_default=deep" >> $f
 
 # Exit new system and go into the cd shell
 exit

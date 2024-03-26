@@ -38,6 +38,14 @@ is now simplified for Linux in [`files`](files).
    output of `lsblk -d -p -n -l -o NAME -e 7,11 | head -1`, such as
    `/dev/nvme0n1`.
 1. Execute [`base`](base); remove USB media when it reboots at the end.
+1. ```
+mkdir /home/cgorichanaz /mnt/usb
+mount /dev/sda2 /mnt/usb
+cp -a /mnt/usb/dotfiles /home/cgorichanaz
+cp -a /mnt/usb/.dotfiles /home/cgorichanaz
+cd /home/cgorichanaz/dotfiles
+nmcli device wifi connect SSID password PASS
+```
 1. Execute [`provision`](provision).
 
 [dl]: https://www.archlinux.org/download/
@@ -51,10 +59,10 @@ Steps to boot from live USB key.
 ```
 # Run loadkeys dvorak on Dvorak keyboard
 nraet.fo ekrpat
-cryptsetup open --type luks /dev/nvme0n1p2 luks
-mount /dev/mapper/forbidden-root /mnt
-mount /dev/nvme0n1p1 /mnt/boot
-iwctl --passphrase passphrase station device connect SSID
+cryptsetup open --type luks /dev/nvme0n1p4 luks
+mount /dev/mapper/luks /mnt
+mount /dev/nvme0n1p1 /mnt/root/boot
+iwctl --passphrase PASS station device connect SSID
 arch-chroot /mnt
 mkinitcpio -p linux
 ```
