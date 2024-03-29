@@ -110,15 +110,16 @@
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
+        "interval": 5,
         "states": {
             // "good": 95,
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+        "format": "{power}W {capacity}% {icon}",
+        "format-full": "{power}W {capacity}% {icon}",
+        "format-charging": "{power}W {capacity}% ",
+        "format-plugged": "{power}W {capacity}% ",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",

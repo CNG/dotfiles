@@ -1,14 +1,16 @@
 include /etc/sway/config.d/*
 
 input * {
-	xkb_layout "us,us"
-	xkb_variant "dvorak,"
-	xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
+  xkb_layout "us,us"
+  xkb_variant "dvorak,"
+  xkb_options "caps:hyper,compose:ralt,altwin:swap_alt_win,grp:rctrl_rshift_toggle"
 }
 
 input type:touchpad {
-	tap enabled
-	natural_scroll enabled
+  tap enabled
+  natural_scroll enabled
 }
+
+output * bg /usr/share/backgrounds/greeter.jpg fill
 
 exec "regreet; swaymsg exit"

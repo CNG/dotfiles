@@ -85,7 +85,7 @@ packages:
     - strace
     - sysstat
     - inotify-tools  # For inotifywait
-    # - ack
+    - the_silver_searcher
     # - command-not-found  # may need to check if /etc/zsh/zprofile is sourced as it says it should be
     - grc  # Colorize logfiles and command output
     - highlight
@@ -111,6 +111,8 @@ packages:
     - wget
     # - wireless_tools
     - firefox
+    - neofetch
+    - upower
 
 
   base_aur:
@@ -121,7 +123,6 @@ packages:
     # - imwheel
     # - miller
     # - myrepos
-    # - neofetch
     # - python-systemd  # Ansible log to journal
     # - tmux-bash-completion
     # - zplug
@@ -136,6 +137,7 @@ packages:
     - sublime-text
     - vi
     - vim
+    - obsidian
     # - gvim  # gvim (then don't need vim) required for clipboard/libX11 support
     # - fzf  # fuzzy finder
     # - python-black  # vim-codefmt uses system "black"
@@ -143,13 +145,12 @@ packages:
   filesystem:
     - dosfstools
     - ntfs-3g
-    # - efibootmgr
     # - exfat-utils
+    # - exfatprogs
     # - hfsprogs
     # no longer avail, check if still needed for mac migration
     # - hfsutils
     # - libguestfs  # mount VMDKs, large install
-    # - exfatprogs
     # - gparted
     # - udftools
 
@@ -257,7 +258,6 @@ packages:
     - net-tools
     - nethogs
     - ngrep
-    - openssh
     - openvpn
     - pdsh
     - socat
@@ -265,11 +265,11 @@ packages:
     - sshuttle
     - whois
     - wireshark-qt
-    - wmsystemtray
     - wondershaper-git
 
   office:
     - copyq  # clipboard manager
+    - [jre-openjdk, openaudible-bin]
   _TODO_office:
     - archlinux-java-run
     - automatic

@@ -39,7 +39,6 @@
     # TO CONSIDER
     - { role: bertvv.samba, tags: ['samba'] }
     - { role: iptables, tags: ['iptables'] }
-    - { role: lightdm, tags: ['lightdm'] }  # login manager
     - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
     - { role: screensaver, tags: ['screensaver'] }
     - { role: tor, tags: ['tor'] }

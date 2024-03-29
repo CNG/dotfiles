@@ -14,41 +14,41 @@
     with_items:
       - zsh
       - zsh-completions
-      # - zsh-syntax-highlighting
-      # - oh-my-zsh-git
-      # - ttf-meslo-nerd-font-powerlevel10k
+      - zsh-syntax-highlighting
+      # will just use manual checkout - oh-my-zsh-git
+      - ttf-meslo-nerd-font-powerlevel10k
 
-# - become: yes
-#   become_user: "{{ user.name }}"
-#   block:
-#   - name: Clone oh-my-zsh repo
-#     git:
-#       repo: "git://github.com/robbyrussell/oh-my-zsh.git"
-#       dest: "/home/{{ user.name }}/.oh-my-zsh"
-#       depth: 1
-#       update: yes
-#       accept_hostkey: yes
-#   - name: Clone history-search-multi-word repo
-#     git:
-#       repo: "git://github.com/robobenklein/zdharma-history-search-multi-word.git"
-#       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
-#       depth: 1
-#       update: yes
-#       accept_hostkey: yes
-#   - name: Clone powerlevel10k repo
-#     git:
-#       repo: "git://github.com/romkatv/powerlevel10k.git"
-#       dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
-#       depth: 1
-#       update: yes
-#       accept_hostkey: yes
-#   - name: Install Tmux Plugin Manager
-#     git:
-#       repo: "git://github.com/tmux-plugins/tpm.git"
-#       dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
-#       depth: 1
-#       update: yes
-#       accept_hostkey: yes
+- become: yes
+  become_user: "{{ user.name }}"
+  block:
+  - name: Clone oh-my-zsh repo
+    git:
+      repo: "https://github.com/robbyrussell/oh-my-zsh.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Clone history-search-multi-word repo
+    git:
+      repo: "https://github.com/robobenklein/zdharma-history-search-multi-word.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/history-search-multi-word"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Clone powerlevel10k repo
+    git:
+      repo: "https://github.com/romkatv/powerlevel10k.git"
+      dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
+  - name: Install Tmux Plugin Manager
+    git:
+      repo: "https://github.com/tmux-plugins/tpm.git"
+      dest: "/home/{{ user.name }}/.tmux/plugins/tpm"
+      depth: 1
+      update: yes
+      accept_hostkey: yes
 #   # Tmux plugins get installed from Tmux, so not sure when this would get
 #   # overwritten
 #   - name: Patch tmux-logging delay

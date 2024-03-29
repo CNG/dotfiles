@@ -40,12 +40,6 @@ input "1149:32793:Expert_Wireless_TB_Mouse" {
 }
 bindgesture swipe:4:right workspace next
 bindgesture swipe:4:left workspace prev
-#bindgesture swipe:3:right workspace next
-#bindgesture swipe:3:left workspace prev
-
-bindgesture pinch:inward swaymsg output eDP-1 scale 1.50
-bindgesture pinch:outward swaymsg output eDP-1 scale 1.00
-
 
 
 font pango: Fira Sans Regular 16
@@ -57,7 +51,7 @@ default_floating_border normal
 
 ### PROGRAM SHORTCUTS
 set $term alacritty
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec $term -e tmux
 bindsym $mod+Shift+Return exec $term -e bash
 bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
 bindsym $mod+d exec BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
@@ -66,7 +60,7 @@ bindsym $mod+f       exec dolphin
 bindsym $mod+Shift+e exec sway exit
 bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
 bindsym $mod+e       exec subl --new-window
-bindsym $mod+m       exec spotify --force-device-scale-factor=1.0
+bindsym $mod+m       exec LC_NUMERIC=en_US.utf8 spotify
 
 
 ### AUTOSTART PROGRAMS

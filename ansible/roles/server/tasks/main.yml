@@ -33,3 +33,15 @@
     name: certbot.timer
     enabled: yes
     state: started
+
+- name: Install Transmission CLI
+  pacman:
+    name: transmission-cli
+    state: present
+  become: yes
+
+#- name: Set Transmission user
+#  templatecopy:
+#    dest: /etc/systemd/system/transmission.service.d/username.conf
+#[Service]
+#User={{ user.name }}
