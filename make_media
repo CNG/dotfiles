@@ -16,6 +16,7 @@ clean_up () {
   umount -f /mnt/installer/* | true
   umount ${DEV}1 | true
   umount ${DEV}2 | true
+  # TODO: If last part fails, next line will delete the install...
   rm -rf /mnt/installer
   rm arch.iso
 }
@@ -51,8 +52,7 @@ main () {
   sync
 
   # change to boot by UUID so we can boot without making label match month name
-  find /mnt/installer/install/boot/syslinux -name "*.cfg" | \
-    xargs sed -E -i "s|archisodevice=\S+|archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)|"
+  sed -E -i "s|archisodevice=\S+|archisodevice=/dev/disk/by-uuid/$(blkid -o value -s UUID ${DEV}1)|" /mnt/installer/install/boot/syslinux/archiso_sys-linux.cfg
 
   trap - ERR
   clean_up

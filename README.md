@@ -22,7 +22,10 @@ is now simplified for Linux in [`files`](files).
    Some of this code block will replace the next steps, still working on this:
 
     ```
+    # Run loadkeys dvorak on Dvorak keyboard
     nraet.fo ekrpat
+    # Stop some of the crazy interrupting messages
+    # https://bbs.archlinux.org/viewtopic.php?id=257740
     auditctl -e0
     mkdir -p /tmp/setup
     mount /dev/sda2 /tmp/setup | true
