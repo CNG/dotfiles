@@ -12,3 +12,9 @@
     line: '[Default Applications]'
     insertbefore: BOF
     create: yes
+
+- name: Push sway_move script
+  copy:
+    src: sway_move.sh
+    dest: /usr/local/bin/sway_move
+    mode: 0755

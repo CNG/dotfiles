@@ -2,12 +2,72 @@
 # TODO This didn't fix my sound actually
 - name: Install Sound Open Firmware
   aur:
-    name: "{{ item }}"
+    name:
+      - sof-firmware
+      - sof-bin
   become: yes
   become_user: aur_builder
-  with_items:
-    - sof-firmware
-    - sof-bin
+
+- name: Install Graphics
+  aur:
+    name:
+      - nvidia-utils
+      # Switching to pure NVIDIA to see if works better without too much battery use
+      # - nvidia-prime
+      # - nvidia-prime-rtd3pm  # Not sure if needed on Wayland, actually not needed on Ampere (4070)
+      # Following not strictly needed, just troubleshooting utils
+      - nvtop
+      - intel-gpu-tools
+      - vulkan-tools
+      - libva-utils
+      - vdpauinfo
+      - mesa-utils
+  become: yes
+  become_user: aur_builder
+
+
+# Enable nvidia-persistenced.service
+
+# Created cat /etc/modprobe.d/nvidia_drm.conf
+#    1 options nvidia_drm modeset=1 fbdev=1
+
+# Created cat /etc/modprobe.d/nvidia.conf
+# options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+# sudo systemctl enable nvidia-suspend
+# sudo systemctl enable nvidia-hibernate
+# sudo systemctl enable nvidia-resume
+
+
+# TODO remove this if we aren't gonna do 100% NVIDIA
+# Created /etc/pacman.d/hooks/nvidia.hook
+
+# Undid this:
+# Removed vulkan-intel intel-media-driver
+
+
+
+
+
+
+
+# $ sudo cat /etc/NetworkManager/conf.d/rand_mac.conf
+# [sudo] password for cgorichanaz:
+# Sorry, try again.
+# [sudo] password for cgorichanaz:
+# [device-mac-randomization]
+# # "yes" is already the default for scanning
+# wifi.scan-rand-mac-address=no
+
+# [connection-mac-randomization]
+# # Randomize MAC for every ethernet connection
+# ethernet.cloned-mac-address=permanent
+# # Generate a random MAC for each WiFi and associate the two permanently.
+# wifi.cloned-mac-address=permanent
+
+# brother-hl3170cdw
+
+
+
 
 # Charlie24% sudo dmesg | grep -iE 'snd|sof'
 # [sudo] password for cgorichanaz:

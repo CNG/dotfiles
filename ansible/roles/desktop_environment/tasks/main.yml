@@ -14,12 +14,12 @@
 #     - Videos
 #   become: yes
 
-# - name: Fix Baloo (and more) inotify folder watch limit error
-#   become: yes
-#   copy:
-#     src: 40-max-user-watches.conf
-#     dest: /etc/sysctl.d/40-max-user-watches.conf
-#     mode: 0644
-#   notify:
-#     - reload systemd config
+- name: Fix Baloo (and more) inotify folder watch limit error
+  become: yes
+  copy:
+    src: 40-max-user-watches.conf
+    dest: /etc/sysctl.d/40-max-user-watches.conf
+    mode: 0644
+  notify:
+    - reload systemd config
 

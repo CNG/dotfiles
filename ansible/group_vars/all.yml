@@ -302,8 +302,21 @@ packages:
 
 
   sway:
+    - vulkan-intel
+    - vulkan-icd-loader
+    - vulkan-mesa-layers
+    - intel-media-driver
     - pipewire-jack
+
+    - wlprop
+    - wev
+
     - sway
+    - xorg-xwayland
+    - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    - breeze
+    - breeze-icons
+
     - mako
     - swaybg
     - swayidle
@@ -312,48 +325,32 @@ packages:
     - j4-dmenu-desktop
     - bemenu
     - bemenu-wayland
-    - xorg-xwayland
     - xdg-desktop-portal-gtk
     - xdg-desktop-portal-wlr
     - otf-font-awesome
     - wdisplays
+    - way-displays
     - brightnessctl
     - ddcci-driver-linux-dkms
     - grim
     - slurp
     - wlsunset
     - clipman
-    - qt5ct  # https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
-    - breeze
-    - breeze-icons
-    # dolphin
+
+    # Dolphin stuff
+    - baloo
     - dolphin
     - dolphin-plugins
+    - ark  # compresses/extract zip files from within dolphin
     - insync
     - insync-dolphin
     - kdegraphics-thumbnailers  # Image files, PDFs and Blender application files.
     - kimageformats  # Gimp .xcf files
     - libheif  # HEIF files
-    - qt5-imageformats  # .webp, .tiff, .tga, .jp2 files
+    - qt6-imageformats  # .webp, .tiff, .tga, .jp2 files
     - resvg  # Fast and accurate SVG image thumbnails
     - ffmpegthumbs  # Video files (based on ffmpeg)
     - kdesdk-thumbnailers  # Plugins for the thumbnailing system
     - raw-thumbnailer  # .raw files
     - taglib  # Audio files previews
     # - kde-thumbnailer-apk  # Android package files
-
-
-  _TODO_i3:
-    - [ kwallet, kwalletmanager ]
-    - ark  # compresses/extract zip files from within dolphin
-    - [ breeze, breeze-icons ]
-    - [ ffmpegthumbnailer, ffmpegthumbnailer-mp3 ]  # opt dept Nemo
-    - lxappearance  # maybe, was trying to change GTK3 theme with this tool
-    - [ dolphin, dolphin-plugins, insync-dolphin, kdegraphics-thumbnailers, kimageformats, qt5-imageformats, resvg, ffmpegthumbs, kdesdk-thumbnailers, raw-thumbnailer, taglib ]  # This might be temporary, mem leak issues with Nemo
-    # canta-icon-theme stopped working, I don't recall if I actually needed it
-    # here...
-    # - [ canta-gtk-theme, numix-circle-icon-theme-git, canta-icon-theme ]
-    - [ canta-gtk-theme, numix-circle-icon-theme-git ]
-
-  plasma:
-    - TODO

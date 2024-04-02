@@ -1,0 +1,62 @@
+# See https://github.com/alex-courtis/way-displays/blob/master/doc/CONFIGURATION.md
+
+
+# Arrange displays in a ROW (default, left to right) or a COLUMN (top to bottom)
+ARRANGE: ROW
+
+# Align ROWs at the TOP (default), MIDDLE or BOTTOM
+# Align COLUMNs at the LEFT (default), MIDDLE or RIGHT
+ALIGN: TOP
+
+
+# The default ORDER is simply the order in which the displays are discovered.
+# Define your own.
+ORDER:
+  #- 'DP-2'
+  #- 'monitor description'
+  #- 'HDMI-1'
+
+
+# Enable scaling, overrides AUTO_SCALE and SCALE
+SCALING: TRUE
+
+# The default is to scale each display by DPI.
+# This may be disabled and scale 1 will be used, unless a SCALE has been specified.
+AUTO_SCALE: FALSE
+
+# Set an allowed range for auto scale.
+#AUTO_SCALE_MIN: 1.0
+#AUTO_SCALE_MAX: 2.0
+
+# Auto scale may be overridden for each display.
+SCALE:
+  - NAME_DESC: 'PHL 328E1'
+    SCALE: 1.0
+  # - NAME_DESC: eDP-1
+  #   SCALE: 1.25
+
+# Override the preferred mode.
+MODE:
+    - NAME_DESC: 'PHL 328E1'
+      # MAX: TRUE
+      WIDTH: 3840
+      HEIGHT: 2160
+    #  HZ: 30
+    # Highest available
+    #- NAME_DESC: DP-2
+    #  MAX: TRUE
+
+# Rotate or translate the display.
+# 90, 180, 270, FLIPPED, FLIPPED-90, FLIPPED-180, FLIPPED-270
+TRANSFORM:
+  # - NAME_DESC: 'monitor description'
+  #   TRANSFORM: 270
+
+# VRR / adaptive sync is enabled by default. Disable it per display.
+VRR_OFF:
+  - 'PHL 328E1'
+
+# One of: ERROR, WARNING, INFO (default), DEBUG
+LOG_THRESHOLD: INFO
+
+DISABLED:
