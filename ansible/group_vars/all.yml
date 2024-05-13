@@ -225,34 +225,16 @@ packages:
     - handbrake
     - jhead
   media_extra:
-    # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
-    # - inkscape
-    # - makemkv-cli
-    - [ cdparanoia, abcde ]  # CD track encoder
-    - [ libraw, libpng, librsvg, openjpeg2, imagemagick ]
     - calibre  # e-book management
     - losslesscut  # video trim
     - darktable
     # - entangle  # camera tethering
     - flac2all
-    - flashplugin
-    # - flite  # lightweight speech synthesis engine
-    # - fritzing  # Haven't used this is a while
     - gpscorrelate
     - gthumb
-    # - imv  # Image viewer for X11/Wayland
     - kamoso  # webcam recorder from KDE community
     - kindleunpack
     - cava  # sound visualizer
-    # misc media codecs and helpers
-    - exiv2
-    - flac
-    - gst-libav
-    # error: failed to commit transaction (conflicting files)
-    # - gst-plugins-good
-    - lame
-    - perl-image-exiftool
-    - x264
     - [ kdenlive, recordmydesktop ]
 
   networking:
@@ -278,35 +260,15 @@ packages:
     - wireshark-qt
     - wondershaper-git
 
+
   office:
     - copyq  # clipboard manager
     - libreoffice-still
     - [jre-openjdk, openaudible-bin]
-    - [ mpv, meta-group-texlive-most, anki ]
-  _TODO_office:
-    - archlinux-java-run
-    - automatic
-    # - cerebro
-    - enscript
-    - masterpdfeditor
-    # - okular  # Ebook Reader, simple yet capable
-    - pandoc
-    - pdfgrep
     - simple-scan
-    - task  # TaskWarrior
-    - visidata
-    - zathura-pdf-mupdf
-    - zathura-ps
-    # Anki addons:
-    # not yet Anki 2.1: 162313389 Power format pack
-    # but this has some funcs: 295889520 Mini Format Pack
-    # 874215009 Advanced Browser
-    # 1672832404 Add note id
-    # 613684242 True retention
-    # 3491767031 Multi-column note editor
-    # 291119185 Batch Note Editing
-    # 1788670778 CrowdAnki comprehensive JSON representation to facilitate collaboration
-    # 117604477 Dark Themes Fix for 2.0
+    - masterpdfeditor-free  # Older 4.x version of masterpdfeditor, which I paid for but the key doesn't work and support won't reply
+    - [ mpv, meta-group-texlive-most, anki ]  # See Anki setup in Obsidian notes
+
 
   printers:
     - brother-hl3170cdw
