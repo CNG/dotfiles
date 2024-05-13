@@ -23,7 +23,7 @@ bindsym {
     $mod+$alt+9 exec way-displays --set SCALE eDP-1 2.00
 }
 
-exec-once way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
+exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
 
 
 input type:keyboard {
@@ -94,25 +94,25 @@ for_window {
     [shell="xwayland"] title_format "[XWayland] %title"
   # $important
     [title="Move files" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
-    [title="^(Copying|Moving)\s*—\s*Dolphin" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
-    [title="^Extracting\s" app_id="(dolphin|org.kde.ark)"] $important
+    [title="(Copying|Moving)\s*—\s*Dolphin" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
+    [title="Extracting\s" app_id="org.kde.(dolphin|ark)"] $important
     [title="Copy Files" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
     [title="Delete Files" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
     [title="Removable medium is inserted" app_id="pcmanfm|pcmanfm-qt"] $important
-    [title="Compressing (.*) — Ark" app_id="org.kde.ark"] $important; resize set width 18 ppt
+    [title="Compressing\s" app_id="org.kde.(dolphin|ark)"] $important; resize set width 18 ppt
   # $topright
     [app_id="blueman-manager"] $topright
     [app_id="pavucontrol"] $topright
     [app_id="insync"] $topright
     [app_id="nm-(applet|connection-editor)"] $topright
   # standard float
-    for_window [window_role="pop-up|bubble|task_dialog|Preferences|dialog|menu"] $fl
-    for_window [class="(?i)xsane" title="Warning|Error"] floating enable
-    for_window [app_id="wev"] $fl
-    for_window [class="vlc"] $fl
+    [window_role="pop-up|bubble|task_dialog|Preferences|dialog|menu"] $fl
+    [class="(?i)xsane" title="Warning|Error"] floating enable
+    [app_id="wev"] $fl
+    [class="vlc"] $fl
     # TODO:
-    for_window [class="(?i)anki" title="(?i)anki"] split vertical
-    for_window [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
+    [class="(?i)anki" title="(?i)anki"] split vertical
+    [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
 }
 
 
@@ -152,7 +152,7 @@ bindsym Shift+Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(
 
 ### SCREEN LOCK, SUSPEND, SHUTDOWN
 set $Locker swaylock --daemonize --ignore-empty-password --show-failed-attempts --image /usr/share/backgrounds/greeter.jpg && sleep 5
-exec swayidle -w timeout 1800 '$Locker' timeout 1805 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+# exec swayidle -w timeout 1800 '$Locker' timeout 1810 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec $Locker, mode "default"

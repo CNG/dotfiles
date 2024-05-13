@@ -166,6 +166,16 @@ packages:
     - ttf-font-awesome-4
     - ttf-tahoma
     - ttf-ubuntu-font-family
+    # Chinese
+    - adobe-source-han-sans-cn-fonts
+    - adobe-source-han-serif-cn-fonts
+    - noto-fonts-cjk
+    - wqy-microhei
+    - wqy-microhei-lite
+    - wqy-bitmapfont
+    - wqy-zenhei
+    - ttf-arphic-ukai
+    - ttf-arphic-uming
   _TODO_fonts:
     - cantarell-fonts
     - gsfonts
@@ -213,6 +223,7 @@ packages:
     - youtube-dl
     - mediainfo-gui
     - handbrake
+    - jhead
   media_extra:
     # - [xininfo-git, copyq-git, teiler-git ]  # script for screenshots and screencasts
     # - inkscape
@@ -269,13 +280,14 @@ packages:
 
   office:
     - copyq  # clipboard manager
+    - libreoffice-still
     - [jre-openjdk, openaudible-bin]
+    - [ mpv, meta-group-texlive-most, anki ]
   _TODO_office:
     - archlinux-java-run
     - automatic
     # - cerebro
     - enscript
-    - libreoffice-fresh
     - masterpdfeditor
     # - okular  # Ebook Reader, simple yet capable
     - pandoc
@@ -285,7 +297,6 @@ packages:
     - visidata
     - zathura-pdf-mupdf
     - zathura-ps
-    - [ gmp, mpfr, libmpc, isl, mplayer, texlive-core, texlive-latexextra, anki ]
     # Anki addons:
     # not yet Anki 2.1: 162313389 Power format pack
     # but this has some funcs: 295889520 Mini Format Pack
