@@ -69,11 +69,15 @@ auditctl -e0
 cryptsetup open --type luks /dev/nvme0n1p4 luks
 mount /dev/mapper/luks /mnt
 mount /dev/nvme0n1p1 /mnt/root/boot
-iwctl station wlan0 device connect SSID --passphrase PASS
+iwctl station wlan0 connect SSID --passphrase PASS
 arch-chroot /mnt/root
 # mount all the Btrfs etc partitions we now have in /etc/fstab
 mount -a
+# If need to fix boot:
 mkinitcpio -p linux
+# If need to fix Sway:
+sudo vim /usr/share/wayland-sessions/sway.desktop
+# "Exec=sway --unsupported-gpu"
 ```
 
 # About the system
