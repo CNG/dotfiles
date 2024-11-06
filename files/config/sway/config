@@ -92,6 +92,7 @@ set {
 }
 for_window {
     [shell="xwayland"] title_format "[XWayland] %title"
+    [title="Browse.*"] border normal  # so we can see card count
   # $important
     [title="Move files" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
     [title="(Copying|Moving)\s*—\s*Dolphin" app_id="dolphin|org.kde.ark|pcmanfm|pcmanfm-qt"] $important
@@ -107,9 +108,13 @@ for_window {
     [app_id="nm-(applet|connection-editor)"] $topright
   # standard float
     [window_role="pop-up|bubble|task_dialog|Preferences|dialog|menu"] $fl
-    [class="(?i)xsane" title="Warning|Error"] floating enable
+    [class="(?i)xsane" title="Warning|Error"] $fl
     [app_id="wev"] $fl
     [class="vlc"] $fl
+    [app_id="org.kde.digikam" title="New Album — digiKam"] $fl
+    [app_id="org.kde.digikam" title="Image Editor"] $fl
+    [app_id="Alacritty" title="calculator"] $fl
+    [title="zoom"] $fl
     # TODO:
     [class="(?i)anki" title="(?i)anki"] split vertical
     [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
