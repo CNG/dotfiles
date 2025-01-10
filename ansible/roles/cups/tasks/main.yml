@@ -10,7 +10,6 @@
     - cups
     - cups-pdf
     - gutenprint
-    - hplip
     - gtk3-print-backends
     - cups-pk-helper # for PolicyKit to allow nonadmins to edit printers
     - "{{ packages.printers }}"
