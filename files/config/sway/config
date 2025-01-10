@@ -14,12 +14,12 @@ output * bg $background fill
 bindsym {
     $mod+$alt+1 exec way-displays --set SCALE eDP-1 0.50
     $mod+$alt+2 exec way-displays --set SCALE eDP-1 0.75
-    $mod+$alt+3 exec way-displays --set SCALE eDP-1 1.00
-    $mod+$alt+4 exec way-displays --set SCALE eDP-1 1.125
-    $mod+$alt+5 exec way-displays --set SCALE eDP-1 1.25
-    $mod+$alt+6 exec way-displays --set SCALE eDP-1 1.375
-    $mod+$alt+7 exec way-displays --set SCALE eDP-1 1.50
-    $mod+$alt+8 exec way-displays --set SCALE eDP-1 1.75
+    $mod+$alt+3 exec way-displays --set SCALE eDP-1 0.875
+    $mod+$alt+4 exec way-displays --set SCALE eDP-1 1.00
+    $mod+$alt+5 exec way-displays --set SCALE eDP-1 1.125
+    $mod+$alt+6 exec way-displays --set SCALE eDP-1 1.25
+    $mod+$alt+7 exec way-displays --set SCALE eDP-1 1.375
+    $mod+$alt+8 exec way-displays --set SCALE eDP-1 1.50
     $mod+$alt+9 exec way-displays --set SCALE eDP-1 2.00
 }
 
