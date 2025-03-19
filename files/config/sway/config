@@ -51,7 +51,7 @@ bindgesture swipe:4:left workspace prev
 
 font pango: Fira Sans Regular 16
 # Hide titlebar
-#default_border normal
+default_border none
 default_border pixel 2
 default_floating_border normal
 
