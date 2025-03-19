@@ -75,6 +75,13 @@ arch-chroot /mnt/root
 mount -a
 # If need to fix boot:
 mkinitcpio -p linux
+# Or maybe EFI options messed up, in which case might be able to
+# select \EFI\BOOT\BOOTX64.EFI or \EFI\systemd\systemd-bootx64.efi
+# by hitting F9 upon boot and manually selecting EFI
+bootctl install
+# May also need to remove/fix boot entries
+efibootmgr -v
+efibootmgr --delete-bootnum -b 0001
 # If need to fix Sway:
 sudo vim /usr/share/wayland-sessions/sway.desktop
 # "Exec=sway --unsupported-gpu"
