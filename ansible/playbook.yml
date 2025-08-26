@@ -32,22 +32,22 @@
     # - { role: dell_xps, tags: ['dell_xps'], when: "'XPS' in ansible_product_name" }
     - { role: omen, tags: ['omen'], when: "'OMEN Transcend Gaming Laptop 14t-fb000' in ansible_product_name" }
 
-  vars:
-    # TODO
-    - { role: gnupg, tags: ['gnupg'] }
-    - { role: virtualenv, tags: ['virtualenv'] }
-    # TO CONSIDER
-    - { role: bertvv.samba, tags: ['samba'] }
-    - { role: iptables, tags: ['iptables'] }
-    - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
-    - { role: screensaver, tags: ['screensaver'] }
-    - { role: tor, tags: ['tor'] }
-    - { role: unbound, tags: ['unbound'] }  # validating, recursive, and caching DNS resolver
-    # TO SAVE
-    - { role: android, tags: ['android'] }
-    - { role: foldingathome, tags: ['foldingathome'], when: "'foldingathome' in flags" }
-    - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
-    - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name or 'XPS' in ansible_product_name" }
+  #vars:
+  #  # TODO
+  #  - { role: gnupg, tags: ['gnupg'] }
+  #  - { role: virtualenv, tags: ['virtualenv'] }
+  #  # TO CONSIDER
+  #  - { role: bertvv.samba, tags: ['samba'] }
+  #  - { role: iptables, tags: ['iptables'] }
+  #  - { role: localtime, tags: ['localtime'], when: "localtime is defined" }
+  #  - { role: screensaver, tags: ['screensaver'] }
+  #  - { role: tor, tags: ['tor'] }
+  #  - { role: unbound, tags: ['unbound'] }  # validating, recursive, and caching DNS resolver
+  #  # TO SAVE
+  #  - { role: android, tags: ['android'] }
+  #  - { role: foldingathome, tags: ['foldingathome'], when: "'foldingathome' in flags" }
+  #  - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
+  #  - { role: laptop, tags: ['laptop'], when: "'Precision' in ansible_product_name or 'XPS' in ansible_product_name" }
 
   vars_prompt:
     - name: user_password
