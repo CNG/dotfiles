@@ -2,7 +2,11 @@
 
 This Bash and Ansible project installs Arch Linux from scratch and configures it
 for use on my desktop and laptop. There are a few bits in the setup that need
-tweaking, thus it's not fully automated.
+tweaking, thus it's not fully automated. Also I've made random changes through
+the course of life from 2022-2026 and it's now just a reference. I'd like to
+start a fresh installation and walk through this if I get time now that I am
+using a Lenovo Thinkpad P14s AMD instead of the crappy buggy HP Omen 14 Intel
+NVIDIA system.
 
 The contents of [`ansible`](ansible) is based on [@pigmonkey/spark][spark] with
 roles and components added or removed; consider reviewing that project for
@@ -65,11 +69,13 @@ Steps to boot from live USB key.
 ```
 # Run loadkeys dvorak on Dvorak keyboard
 nraet.fo ekrpat
-auditctl -e0
+# this not needed anymore, haven't gotten annoying output:
+#   auditctl -e0
 cryptsetup open --type luks /dev/nvme0n1p4 luks
 mount /dev/mapper/luks /mnt
 mount /dev/nvme0n1p1 /mnt/root/boot
-iwctl station wlan0 connect SSID --passphrase PASS
+# this doesn't work anymore?:
+#   iwctl station wlan0 connect SSID --passphrase PASS
 arch-chroot /mnt/root
 # mount all the Btrfs etc partitions we now have in /etc/fstab
 mount -a
@@ -78,10 +84,14 @@ mkinitcpio -p linux
 # Or maybe EFI options messed up, in which case might be able to
 # select \EFI\BOOT\BOOTX64.EFI or \EFI\systemd\systemd-bootx64.efi
 # by hitting F9 upon boot and manually selecting EFI
+# May need to run bootctl outside chroot and use --esp-path=/mnt/root/boot
 bootctl install
 # May also need to remove/fix boot entries
 efibootmgr -v
 efibootmgr --delete-bootnum -b 0001
+# or could try:
+efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "Linux Boot Manager" \
+  --loader '\EFI\systemd\systemd-bootx64.efi'
 # If need to fix Sway:
 sudo vim /usr/share/wayland-sessions/sway.desktop
 # "Exec=sway --unsupported-gpu"
