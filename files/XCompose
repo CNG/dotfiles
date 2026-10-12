@@ -9,6 +9,7 @@
 
 include "%L"
 
+<Multi_key> <g> <c>				: "✅"
 <Multi_key> <d> <e>				: "°"
 <Multi_key> <p> <r>				: "′"
 <Multi_key> <n> <n>				: "ñ"
@@ -23,6 +24,7 @@ include "%L"
 <Multi_key> <1> <m>				: "—"		U2014	# EM DASH
 <Multi_key> <2> <m>				: "⸺"		U2E3A	# TWO-EM DASH
 <Multi_key> <3> <m>				: "⸻"	U2E3B	# THREE-EM DASH
+<Multi_key> <n> <e>				: "≠"	U2260	# NOT EQUAL
 # Quotation marks.
 <Multi_key> <l> <s>	: "‘"	U2018	# LEFT SINGLE QUOTATION MARK
 <Multi_key> <r> <s>	: "’"	U2019	# RIGHT SINGLE QUOTATION MARK

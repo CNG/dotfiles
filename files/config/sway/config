@@ -10,7 +10,13 @@ set {
 }
 
 output * bg $background fill
-# output eDP-1 scale 1.25
+output eDP-1 {
+  render_bit_depth 10
+  hdr on
+  # scale 1.25
+}
+bindsym $mod+Shift+h output eDP-1 hdr toggle
+
 bindsym {
     $mod+$alt+1 exec way-displays --set SCALE eDP-1 0.50
     $mod+$alt+2 exec way-displays --set SCALE eDP-1 0.75
@@ -24,7 +30,7 @@ bindsym {
 }
 
 exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
-
+exec /usr/lib/kf6/baloo_file
 
 input type:keyboard {
     xkb_layout "us,us"
@@ -36,6 +42,7 @@ input type:keyboard {
 }
 input * {
     natural_scroll enabled
+    drag_lock disabled
 }
 input type:touchpad {
     tap enabled
@@ -78,7 +85,7 @@ exec ~/.local/bin/launch-waybar
 exec wl-paste -t text --watch clipman store --no-persist
 # exec trickle -u 1024 -d 10240 insync start # GDrive manager
 exec insync start   # GDrive manager
-exec wlsunset -l 37.8 -L -122.3  # blue light reduction at night
+exec wlsunset -t 3800 -l 37.8 -L -122.3  # blue light reduction at night
 exec nm-applet      # network manager
 exec blueman-applet # bluetooth manager
 #exec ~/.local/bin/on_device_change
@@ -114,7 +121,8 @@ for_window {
     [app_id="org.kde.digikam" title="New Album — digiKam"] $fl
     [app_id="org.kde.digikam" title="Image Editor"] $fl
     [app_id="Alacritty" title="calculator"] $fl
-    [title="zoom"] $fl
+    # Targeting Zoom popups only by excluding "Meeting" and "Zoom Workplace" and "Zoom Workplace - Free account", which are the titles of the main windows.
+    [instance="^zoom$" class="^zoom$" title="^(?!Meeting$)(?!Zoom Workplace)"] $fl
     # TODO:
     [class="(?i)anki" title="(?i)anki"] split vertical
     [class="(?i)anki" title="(?i)add"] split horizontal, layout tabbed
