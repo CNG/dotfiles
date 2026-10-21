@@ -68,7 +68,8 @@ f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
-echo "options cryptdevice=LABEL=linux:luks:allow-discards root=LABEL=btrfs rootflags=subvol=root rw vsyscall=emulate mem_sleep_default=deep" >> $f
+# HP Omen seems to freeze during "deep" S3 suspend-to-RAM, use s2idle instead.
+echo "options cryptdevice=LABEL=linux:luks:allow-discards root=LABEL=btrfs rootflags=subvol=root rw vsyscall=emulate mem_sleep_default=s2idle" >> $f
 
 # Exit new system and go into the cd shell
 exit
