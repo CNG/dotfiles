@@ -8,7 +8,7 @@ set -o errexit
 
 # ROOTDEVICE=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
 ROOTDEVICE=/dev/nvme0n1
-HOSTNAME=Charlie24
+HOSTNAME=Charlie26
 SETUPDIR=/tmp/setup
 WIFI_SSID=NinePinesGuqin
 
@@ -33,7 +33,7 @@ then
   sgdisk --change-name=1:EFI $ROOTDEVICE
   mkfs.vfat -F32 $ROOTDEVICE"p1"
   # Windows
-  sgdisk --new=0:0:+100G $ROOTDEVICE
+  sgdisk --new=0:0:+150G $ROOTDEVICE
   # Encrypted root, swap
   sgdisk --new=0:0:0 $ROOTDEVICE
   cryptsetup --batch-mode luksFormat --type=luks2 --label=linux $ROOTDEVICE"p3" # enter password
@@ -75,7 +75,7 @@ swapon /mnt/swap/swapfile  # Not needed but a good thing to test
 sed -i '/Parallel/c\ParallelDownloads = 50' /etc/pacman.conf
 # terminus-font allows selecting larger font for small HiDPI screens
 pacman -Sy archlinux-keyring
-pacstrap /mnt base linux linux-firmware lvm2 base-devel efibootmgr networkmanager terminus-font
+pacstrap /mnt base linux linux-firmware lvm2 base-devel efibootmgr networkmanager terminus-font btrfs-progs dosfstools
 
 # 'install' fstab
 genfstab -pU /mnt >> /mnt/etc/fstab

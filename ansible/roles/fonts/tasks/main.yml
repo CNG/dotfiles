@@ -2,7 +2,6 @@
 - name: Install fonts
   aur:
     name: "{{ item }}"
-    skip_installed: yes
   become: yes
   become_user: aur_builder
   with_items: "{{ packages.fonts }}"

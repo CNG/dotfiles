@@ -10,15 +10,9 @@
     groups: vboxusers
     append: yes
 
-- name: Remove generic Virtualbox host modules
+- name: Install generic Virtualbox host modules
   pacman:
     name: virtualbox-host-dkms
-    state: absent
-
-- name: Install Virtualbox Arch host modules
-  pacman:
-    name:
-      - virtualbox-host-modules-arch
     state: present
 
 - name: Install VirtualBox, dependencies, extensions

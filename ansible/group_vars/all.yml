@@ -111,7 +111,6 @@ packages:
     - wget
     # - wireless_tools
     - firefox
-    - neofetch
     - upower
 
 
@@ -131,6 +130,7 @@ packages:
     # - acpitool
     # - acpi_call-dkms
     # - redshift  # blue light reduction
+    - neofetch
 
   editors:
     - nano
@@ -155,7 +155,7 @@ packages:
     # - udftools
 
   fonts:
-    - ttf-nerd-fonts-input
+    - ttf-input-nerd
     - ttf-opensans
     - adobe-base-14-fonts
     - adobe-source-code-pro-fonts
@@ -215,7 +215,7 @@ packages:
   media:
     - iscan-plugin-gt-x820  # Epson V600 scanner
     - vlc
-    - vdhcoapp-bin  # Video Downloadhelper companion app
+    # - vdhcoapp  # Video Downloadhelper companion app
     - guvcview  # webcam record
     - gwenview  # best image viewer for KDE
     - libheif
@@ -267,7 +267,7 @@ packages:
     - [jre-openjdk, openaudible-bin]
     - simple-scan
     - masterpdfeditor-free  # Older 4.x version of masterpdfeditor, which I paid for but the key doesn't work and support won't reply
-    - [ mpv, meta-group-texlive-most, anki ]  # See Anki setup in Obsidian notes
+    - [ mpv, texlive-meta, anki ]  # See Anki setup in Obsidian notes
 
 
   printers:

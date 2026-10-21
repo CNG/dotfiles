@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh configuration.
-ZSH=/usr/share/oh-my-zsh/
+# It's in /usr with the AUR package oh-my-zsh-git
+# ZSH=/usr/share/oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
 
 ZSH_THEME="powerlevel10k/powerlevel10k"

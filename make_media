@@ -30,15 +30,15 @@ main () {
   URL=${2:-http://mirror.rackspace.com/archlinux/iso/$YM.01/archlinux-$YM.01-x86_64.iso}
 
   # download Arch installer
-  [[ -f arch.iso ]] || wget -O arch.iso $URL
+  [[ -f arch.iso ]] || curl -o arch.iso $URL
 
   # Protect against "Error: Partition(s) on /dev/sdg are being used."
   # which might happen if we canceled due to a super slow download, etc.
   dd if=/dev/zero of=$DEV bs=512 count=1024
   # partition device: 1GiB fat32, remaining space as ext4
-  parted --script $DEV mklabel gpt mkpart primary fat32 1MiB 1GiB set 1 boot on mkpart primary ext4 1GiB 100%
+  parted --script $DEV mklabel gpt mkpart primary fat32 1MiB 2GiB set 1 boot on mkpart primary ext4 2GiB 100%
   partprobe
-  mkfs.fat ${DEV}1
+  mkfs.fat -F 32 ${DEV}1
   mkfs.ext4 -F ${DEV}2
 
   # copy installation files to fat32 partition, dotfiles to ext4 partition

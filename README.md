@@ -2,11 +2,12 @@
 
 This Bash and Ansible project installs Arch Linux from scratch and configures it
 for use on my desktop and laptop. There are a few bits in the setup that need
-tweaking, thus it's not fully automated. Also I've made random changes through
-the course of life from 2022-2026 and it's now just a reference. I'd like to
-start a fresh installation and walk through this if I get time now that I am
-using a Lenovo Thinkpad P14s AMD instead of the crappy buggy HP Omen 14 Intel
-NVIDIA system.
+tweaking, thus it's not fully automated. I neglected to update this since 2024
+till I used it again to setup from scratch at the end of 2026 due to an SSD
+crash. I hadn't exported my packages before that crash, so will be likely making
+changes here again as I discover what's missing. Also, I am no longer working in
+tech but rather a student again, so I'll probably strip out some of the tools
+and complication I won't be using for some time, I hope. :-)
 
 The contents of [`ansible`](ansible) is based on [@pigmonkey/spark][spark] with
 roles and components added or removed; consider reviewing that project for
@@ -17,30 +18,28 @@ is now simplified for Linux in [`files`](files).
 
 # Installation
 
+This assumes you are already in Linux in order to make the installation media.
+If you're doing it from another Arch Linux Live USB, take care with the device
+identifiers! USB keys are likely `/dev/sd*` and microSD cards may be `mmcblk0`.
+If anything is not installed like `vim`, you can run `pacman -Sy vim` on the
+live Linux just fine as long as the Internet is connected.
+
 1. Choose an [Arch Linux Downloads][dl] mirror under "HTTP Direct Downloads"
    such as *Rackspace* and copy the `.iso` file link.
 1. Insert USB stick and confirm path, such as `/dev/sda`.
    Run command: `sudo make_media /dev/sda URL`
-1. Boot from the media and run `lsblk`.
-   MicroSD card might be `mmcblk0`.
-   Some of this code block will replace the next steps, still working on this:
+1. Boot from the new USB drive.
 
     ```
-    # Run loadkeys dvorak on Dvorak keyboard
+    # Run `loadkeys dvorak` on Dvorak keyboard
     nraet.fo ekrpat
-    # Stop some of the crazy interrupting messages
-    # https://bbs.archlinux.org/viewtopic.php?id=257740
-    auditctl -e0
+    auditctl -e0  # If logging is too intense
     mkdir -p /tmp/setup
     mount /dev/sda2 /tmp/setup | true
     vim /tmp/setup/dotfiles/base
     /tmp/setup/dotfiles/base
-    ...
-    mkdir dotfiles/private/ansible/host_vars
-    touch dotfiles/private/ansible/host_vars/archlinux
     ```
 
-1. Open [`base`](base) in a text editor.
 1. Set `rootdevice` to the `/dev/` path of the system drive. This might be the
    output of `lsblk -d -p -n -l -o NAME -e 7,11 | head -1`, such as
    `/dev/nvme0n1`.
@@ -48,11 +47,12 @@ is now simplified for Linux in [`files`](files).
 1. .  
 
   ```
-  mkdir /home/cgorichanaz /mnt/usb
+  mkdir -p /home/cgorichanaz /mnt/usb
   mount /dev/sda2 /mnt/usb
   cp -a /mnt/usb/dotfiles /home/cgorichanaz
   cp -a /mnt/usb/.dotfiles /home/cgorichanaz
   cd /home/cgorichanaz/dotfiles
+  ln -s ../.dotfiles private
   nmcli device wifi connect SSID password PASS
   ```
 
@@ -62,6 +62,17 @@ is now simplified for Linux in [`files`](files).
 [dl-ex]: https://mirrors.kernel.org/archlinux/iso/2019.05.02
 [media]: https://wiki.archlinux.org/index.php/USB_flash_installation_media
 
+
+## Todo
+
+Some issues I noticed after the last run through to be addressed:
+
+- Home folder items and SSH folder end up owned by root. Need to fix that at the
+  end or try to run `provision` as the user earlier in this process, right after
+  the user account is created?
+- Missing my mounts to load the server folders in Dolphin quickly.
+
+
 # Troubleshooting
 
 Steps to boot from live USB key.
@@ -69,13 +80,10 @@ Steps to boot from live USB key.
 ```
 # Run loadkeys dvorak on Dvorak keyboard
 nraet.fo ekrpat
-# this not needed anymore, haven't gotten annoying output:
-#   auditctl -e0
-cryptsetup open --type luks /dev/nvme0n1p4 luks
-mount /dev/mapper/luks /mnt
-mount /dev/nvme0n1p1 /mnt/root/boot
-# this doesn't work anymore?:
-#   iwctl station wlan0 connect SSID --passphrase PASS
+cryptsetup open /dev/nvme0n1p4 luks
+mount -o subvol=root /dev/mapper/luks /mnt
+mount /dev/nvme0n1p1 /mnt/boot
+iwctl station wlan0 connect SSID --passphrase PASS
 arch-chroot /mnt/root
 # mount all the Btrfs etc partitions we now have in /etc/fstab
 mount -a

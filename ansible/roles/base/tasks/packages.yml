@@ -8,7 +8,6 @@
 - name: Upgrade all packages
   aur:
     upgrade: yes
-    skip_installed: no
   become: yes
   become_user: aur_builder
 
