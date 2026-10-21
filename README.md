@@ -71,6 +71,13 @@ Some issues I noticed after the last run through to be addressed:
   end or try to run `provision` as the user earlier in this process, right after
   the user account is created?
 - Missing my mounts to load the server folders in Dolphin quickly.
+- Somehow reinstalling got me into systemd decrypt land, so I needed to change
+  the syntax of some things that are not reflected in the install script yet.
+  The HOOKS line gets to look like this: `HOOKS=(base systemd keyboard autodetect microcode modconf kms sd-vconsole block sd-encrypt lvm2 resume filesystems fsck)`. That's with `sd-encrypt` instead of `encrypt`, removes an extra `keyboard` I had, and removes `keymap` and `consolefont` because apparently they are handled by `sd-vconsole` now.
+- Then had to change arch.conf to match sd-encrypt syntax with:
+`options rd.luks.name=YOUR-LUKS-UUID=luks root=/dev/mapper/luks
+rootflags=subvol=root rw`.
+- So I need to make an automatic call to `cryptsetup luksUUID /dev/nvme0n1p3`.
 
 
 # Troubleshooting

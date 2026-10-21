@@ -112,6 +112,7 @@ packages:
     # - wireless_tools
     - firefox
     - upower
+    - keychain
 
 
   base_aur:
