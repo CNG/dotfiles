@@ -1,0 +1,29 @@
+[ContextMenu]
+ShowOpenTerminal=false
+ShowViewMode=false
+
+[General]
+BrowseThroughArchives=true
+CloseSplitViewChoice=InactiveView
+DynamicView=true
+EditableUrl=true
+GlobalViewProps=false
+HideXTrashFile=true
+ShowFullPath=true
+ShowFullPathInTitlebar=true
+ShowToolTips=true
+Version=202
+ViewPropsTimestamp=2026,10,20,21,53,52.157
+
+[IconsMode]
+PreviewSize=160
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+
+[PreviewSettings]
+Plugins=raw,glycin-image-rs,appimagethumbnail,audiothumbnail,glycin-heif,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,pothumbnail,imagethumbnail,jpegthumbnail,glycin-jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,glycin-svg,svgthumbnail,textthumbnail,ffmpegthumbs
