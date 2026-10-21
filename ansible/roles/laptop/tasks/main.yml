@@ -1,0 +1,59 @@
+---
+# - import_tasks: tlp.yml
+
+
+# - name: Copy brightness udev rules
+#   copy:
+#     src: backlight.rules
+#     dest: /etc/udev/rules.d/backlight.rules
+
+
+- name: Ensure logind dropin dir exists
+  file:
+    path: "/etc/systemd/logind.conf.d"
+    state: directory
+
+- name: Copy logind configuration file
+  copy:
+    src: logind.conf
+    dest: /etc/systemd/logind.conf.d/no-suspend-on-lid.conf
+
+
+# - name: Push low battery warning script
+#   copy:
+#     src: lowbatt.sh
+#     dest: /usr/local/bin/lowbatt
+#     mode: 0755
+
+# - name: Push low battery warning service file
+#   template:
+#     src: lowbatt.service.j2
+#     dest: /etc/systemd/system/lowbatt.service
+#   notify:
+#     - reload systemd config
+
+# - name: Push low battery timer file
+#   template:
+#     src: lowbatt.timer.j2
+#     dest: /etc/systemd/system/lowbatt.timer
+#   notify:
+#     - reload systemd config
+#     - restart lowbatt
+
+# - name: Enable and start lowbatt timer
+#   service:
+#     name: lowbatt.timer
+#     enabled: yes
+#     state: started
+
+- name: Install power utils
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    # - powerstat-git
+    # - battery-stats-git
+    # debugging fans and temps
+    - turbostat
+    - powertop
