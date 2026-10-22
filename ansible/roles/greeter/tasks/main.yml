@@ -1,4 +1,10 @@
 ---
+
+# Sway is a Wayland compositor, greetd is a minimal Wayland login manager daemon,
+# and ReGreet is a GTK-based login screen graphical user interface. Together,
+# greetd launches Sway to render the ReGreet login interface before you sign into
+# your main desktop session.
+
 - name: Install GreetD and ReGreet
   pacman:
     name:

@@ -8,20 +8,34 @@
   become: yes
   become_user: aur_builder
 
-- name: Install Graphics
+- name: Install Intel graphics
   aur:
     name:
-      - nvidia-utils
-      # Switching to pure NVIDIA to see if works better without too much battery use
-      # - nvidia-prime
-      # - nvidia-prime-rtd3pm  # Not sure if needed on Wayland, actually not needed on Ampere (4070)
+      - mesa  # OpenGL
+      - vulkan-intel  # Vulkan
+      - intel-media-driver  # VA-API
       # Following not strictly needed, just troubleshooting utils
-      - nvtop
       - intel-gpu-tools
       - vulkan-tools
       - libva-utils
       - vdpauinfo
       - mesa-utils
+  become: yes
+  become_user: aur_builder
+
+- name: Install NVIDIA graphics
+  aur:
+    name:
+      - nvidia-open
+      - nvidia-utils
+      - nvidia-prime
+      # Google claims this is redundant under modern proprietary NVIDIA driver.
+      # - nvidia-prime-rtd3pm  # Explained at https://wiki.archlinux.org/title/PRIME#NVIDIA
+      # Installed by ollama-cuda
+      - cuda
+      - opencl-nvidia
+      # Following not strictly needed, just troubleshooting utils
+      - nvtop
   become: yes
   become_user: aur_builder
 
@@ -63,8 +77,6 @@
 # ethernet.cloned-mac-address=permanent
 # # Generate a random MAC for each WiFi and associate the two permanently.
 # wifi.cloned-mac-address=permanent
-
-# brother-hl3170cdw
 
 
 

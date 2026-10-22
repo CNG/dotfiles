@@ -113,6 +113,10 @@ packages:
     - firefox
     - upower
     - keychain
+    # NVME logs and temps
+    - nvme-cli
+    # smartctl
+    - smartmontools
 
 
   base_aur:
