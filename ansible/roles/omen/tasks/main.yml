@@ -60,6 +60,17 @@
 
 
 
+- name: Ensure Ollama dropin dir exists
+  file:
+    path: "/etc/systemd/system/ollama.service.d"
+    state: directory
+
+- name: Copy Ollama configuration file
+  copy:
+    src: ollama-environment.conf
+    dest: /etc/systemd/system/ollama.service.d/environment.conf
+
+
 
 
 
