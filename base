@@ -11,6 +11,12 @@ ROOTDEVICE=/dev/nvme0n1
 HOSTNAME=Charlie26
 SETUPDIR=/tmp/setup
 WIFI_SSID=NinePinesGuqin
+MEM_SLEEP_DEFAULT=${1:-}
+
+if [[ -n "$MEM_SLEEP_DEFAULT" && "$MEM_SLEEP_DEFAULT" != "s2idle" && "$MEM_SLEEP_DEFAULT" != "deep" ]]; then
+  echo "Usage: $0 [s2idle|deep]" >&2
+  exit 2
+fi
 
 iwctl station wlan0 connect $WIFI_SSID
 
@@ -87,7 +93,7 @@ echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 
 # Enter the new system
 cp -a $SETUPDIR/dotfiles/base_include /mnt
-arch-chroot /mnt ./base_include ${ROOTDEVICE}p2 $HOSTNAME
+arch-chroot /mnt ./base_include "${ROOTDEVICE}p2" "$HOSTNAME" "$MEM_SLEEP_DEFAULT"
 
 read -p "Reboot into the new system?" -n 1 -r
 echo

@@ -7,6 +7,12 @@ set -o errexit
 
 CRYPTDEVICE=${1:-}
 HOSTNAME=${2:-}
+MEM_SLEEP_DEFAULT=${3:-}
+
+if [[ -n "$MEM_SLEEP_DEFAULT" && "$MEM_SLEEP_DEFAULT" != "s2idle" && "$MEM_SLEEP_DEFAULT" != "deep" ]]; then
+  echo "Unsupported mem_sleep_default: $MEM_SLEEP_DEFAULT" >&2
+  exit 2
+fi
 
 echo "$HOSTNAME" > /etc/hostname
 # Setup system clock
@@ -68,8 +74,11 @@ f=/boot/loader/entries/arch.conf
 echo "title Arch Linux" >> $f
 echo "linux /vmlinuz-linux" >> $f
 echo "initrd /initramfs-linux.img" >> $f
-# HP Omen seems to freeze during "deep" S3 suspend-to-RAM, use s2idle instead.
-echo "options cryptdevice=LABEL=linux:luks:allow-discards root=LABEL=btrfs rootflags=subvol=root rw vsyscall=emulate mem_sleep_default=s2idle" >> $f
+options="options cryptdevice=LABEL=linux:luks:allow-discards root=LABEL=btrfs rootflags=subvol=root rw vsyscall=emulate"
+if [[ -n "$MEM_SLEEP_DEFAULT" ]]; then
+  options+=" mem_sleep_default=$MEM_SLEEP_DEFAULT"
+fi
+echo "$options" >> "$f"
 
 # Exit new system and go into the cd shell
 exit

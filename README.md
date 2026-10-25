@@ -37,7 +37,8 @@ live Linux just fine as long as the Internet is connected.
     mkdir -p /tmp/setup
     mount /dev/sda2 /tmp/setup | true
     vim /tmp/setup/dotfiles/base
-    /tmp/setup/dotfiles/base
+    # Include s2idle for OMEN, otherwise omit:
+    /tmp/setup/dotfiles/base s2idle
     ```
 
 1. Set `rootdevice` to the `/dev/` path of the system drive. This might be the
