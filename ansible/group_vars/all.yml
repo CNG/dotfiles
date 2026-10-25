@@ -219,7 +219,7 @@ packages:
 
   media:
     - iscan-plugin-gt-x820  # Epson V600 scanner
-    - vlc
+    - [ vlc, vlc-plugins-extra ]
     # - vdhcoapp  # Video Downloadhelper companion app
     - guvcview  # webcam record
     - gwenview  # best image viewer for KDE
