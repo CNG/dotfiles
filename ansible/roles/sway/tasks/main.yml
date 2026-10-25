@@ -33,6 +33,31 @@
     - x-scheme-handler/http
     - x-scheme-handler/https
 
+- name: Set VLC as the user default video player
+  ini_file:
+    dest: "/home/{{ user.name }}/.config/mimeapps.list"
+    section: Default Applications
+    option: "{{ item }}"
+    value: vlc.desktop
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"
+    mode: 0644
+  with_items:
+    - video/3gpp
+    - video/3gpp2
+    - video/mp2t
+    - video/mp4
+    - video/mpeg
+    - video/ogg
+    - video/quicktime
+    - video/webm
+    - video/x-flv
+    - video/x-m4v
+    - video/x-matroska
+    - video/x-ms-asf
+    - video/x-msvideo
+    - video/x-ms-wmv
+
 - name: Push sway_move script
   copy:
     src: sway_move.sh
