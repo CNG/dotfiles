@@ -75,14 +75,14 @@
         state: mounted
       with_items: "{{ volumes }}"
 
+- name: Check that the Sorting destination exists
+  stat:
+    path: "/home/{{ user.name }}/GDrive/Main/Sorting"
+  register: sorting_directory
+
 - name: Link Downloads to Sorting
+  when: sorting_directory.stat.exists | default(false)
   block:
-
-  - name: Check that the Sorting destination exists
-    stat:
-      path: "/home/{{ user.name }}/GDrive/Main/Sorting"
-    register: sorting_directory
-
   - name: Require the Sorting destination to be a directory
     fail:
       msg: "/home/{{ user.name }}/GDrive/Main/Sorting must exist before Downloads can be linked to it."
