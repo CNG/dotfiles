@@ -48,7 +48,3 @@
   #  - { role: android, tags: ['android'] }
   #  - { role: foldingathome, tags: ['foldingathome'], when: "'foldingathome' in flags" }
   #  - { role: i3, tags: ['i3'], when: desktop_environment == "i3" }
-
-  vars_prompt:
-    - name: user_password
-      prompt: "Enter desired user password"

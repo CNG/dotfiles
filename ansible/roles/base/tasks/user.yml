@@ -10,11 +10,25 @@
     name: plugdev
     state: present
 
+- name: Check whether user already exists
+  getent:
+    database: passwd
+    key: "{{ user.name }}"
+    fail_key: no
+
+- name: Prompt for password when creating user
+  pause:
+    prompt: "Enter desired user password"
+    echo: no
+  register: new_user_password
+  when: user.name not in ansible_facts.getent_passwd
+  no_log: yes
+
 - name: Create user and assign to group
   user:
     name: "{{ user.name }}"
     group: "{{ user.group }}"
-    password: "{{ user_password|password_hash('sha512') }}"
+    password: "{{ (new_user_password.user_input | password_hash('sha512')) if user.name not in ansible_facts.getent_passwd else omit }}"
     shell: "{{ user.shell }}"
     update_password: on_create
     uid: "{{ user.uid }}"
