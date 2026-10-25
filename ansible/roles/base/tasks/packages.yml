@@ -13,7 +13,7 @@
 
 - name: Install universal base packages
   pacman:
-    name: "{{ query('flattened', '{{ packages.base }}') }}"
+    name: "{{ query('flattened', packages.base) }}"
     state: present
 
 - name: Install AUR base packages

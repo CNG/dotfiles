@@ -2,9 +2,9 @@
 - name: Report ansible_product_version
   debug:
     msg: |
-      ansible_product_version: {{ ansible_product_version }}
-      ansible_product_name: {{ ansible_product_name }}
-      ansible_system_vendor: {{ ansible_system_vendor }}
+      ansible_product_version: {{ ansible_facts['product_version'] }}
+      ansible_product_name: {{ ansible_facts['product_name'] }}
+      ansible_system_vendor: {{ ansible_facts['system_vendor'] }}
   tags: base
 
 # On first run, path won't exist yet, but maybe we can still create link here
