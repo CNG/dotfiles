@@ -108,115 +108,110 @@ efibootmgr --delete-bootnum -b 0001
 # or could try:
 efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "Linux Boot Manager" \
   --loader '\EFI\systemd\systemd-bootx64.efi'
-# If need to fix Sway:
-sudo vim /usr/share/wayland-sessions/sway.desktop
-# "Exec=sway --unsupported-gpu"
 ```
 
 # About the system
 
-## TODO: X
+## Installation and configuration flow
 
-[`ansible/roles/x/tasks/main.yml`](ansible/roles/x/tasks/main.yml)
+[`base`](base) prepares the disk, creates the encrypted Btrfs layout, installs
+Arch Linux, and reboots. After the manual post-install setup described above,
+[`provision`](provision) runs Ansible locally against the new system.
+[`ansible/playbook.yml`](ansible/playbook.yml) applies the common roles and
+condition-specific roles, using settings and package lists from
+[`ansible/group_vars/all.yml`](ansible/group_vars/all.yml). The dotfiles role
+deploys configuration from [`files/`](files) into the user's home directory.
 
-Xorg config, autorandr, mouse setup, graphics drivers
+## Sway
 
-## TODO: Login: LightDM
+Sway is the configured desktop environment and window manager. The
+`desktop_environment: sway` setting in
+[`ansible/group_vars/all.yml`](ansible/group_vars/all.yml) makes the playbook
+run the [Sway role](ansible/roles/sway/tasks/main.yml) and the
+[greeter role](ansible/roles/greeter/tasks/main.yml). The Sway role installs
+Sway and sets up the user's application defaults. The user's Sway configuration
+is [`files/config/sway/config`](files/config/sway/config).
 
-[`ansible/roles/lightdm/tasks/main.yml`](ansible/roles/lightdm/tasks/main.yml): lightdm-webkit2-greeter + lightdm-webkit2-theme-material2
+## GreetD and ReGreet
 
-[`/etc/lightdm/lightdm.conf.d/50-lightdm.conf`][50-lightdm.conf]: attempts to
-set key repeat and delay with `xserver-command=X -ardelay 444 -arinterval 44`.
-This does not always stick, so I previously also added it to my [i3
-config](files/config/i3/config#L248) (`exec_always --no-startup-id xset r rate
-250 50 # for X`). I then tried moving some of those settings to `~/.xsession`,
-which I started executing after various events such as device changes. That was
-also not sticking somehow, so I need to do more testing. For now I've changed
-both to 444/44 because I realized 150 delay was too short and passwords were
-sometimes getting difficult to enter
+GreetD is the login manager, and ReGreet provides its graphical login screen.
+The greeter role installs `greetd-regreet`, writes GreetD's configuration to
+`/etc/greetd/config.toml`, and enables the `greetd` service.
 
-OK I realized this is also set in a systemd service called `kbdrate` that I set
-up in [`ansible/roles/i3/tasks/main.yml`](ansible/roles/i3/tasks/main.yml) under
-"Create kbdrate service" based on the file
-[`ansible/roles/i3/files/kbdrate.service`](ansible/roles/i3/files/kbdrate.service).
-I need to look up what this effects; it might just be the console before logging
-in. 
-
-[50-lightdm.conf]: https://github.com/CNG/dotfiles/blob/master/ansible/roles/lightdm/files/50-lightdm.conf
-
-## TODO: i3 Window Manager
-
-* i3-gaps
-* i3blocks
-* rofi
-* playerctl
-* picom
-* [`~/.config/i3/config`](files/config/i3/config)
-* [`~/.config/i3blocks/config`](files/config/i3blocks/config)
-* [`~/.config/i3scripts`](files/config/i3scripts)
+At startup, GreetD runs the default session as the `greeter` user. Its command
+starts a temporary Sway instance using `/etc/greetd/sway-config`; that config
+starts ReGreet. The greeter Sway config and ReGreet appearance settings come
+from [`ansible/roles/greeter/files/sway-config`](ansible/roles/greeter/files/sway-config)
+and [`ansible/roles/greeter/files/regreet-config.toml`](ansible/roles/greeter/files/regreet-config.toml).
+When you select Sway in ReGreet, it launches the logged-in desktop using the
+Sway Wayland session entry at `/usr/share/wayland-sessions/sway.desktop`. This
+starts a separate Sway process from the temporary Sway instance that displays
+the login screen.
 
 ## Terminal: Alacritty, Zsh and Tmux
 
 ### Alacritty
 
-I use [Alacritty](https://github.com/jwilm/alacritty), a simple, performant terminal emulator that uses GPU rendering. It provides little beyond the basics, but can be configured by file (unlike [st](https://st.suckless.org/), which requires recompiling to make changes). I initially used a version of Alacritty (now a part of core) that provided a scrollback feature, which I had gotten used to in iTerm2 on Mac. I switched back to the normal Alacritty once I figured out a suitable way to do this [from within Tmux](https://github.com/jwilm/alacritty/issues/923#issuecomment-408224216).
+I use [Alacritty](https://github.com/jwilm/alacritty), a simple, performant terminal emulator that uses GPU rendering. It provides little beyond the basics, but can be configured by file.
 
-**[`~/.config/alacritty/alacritty.yml`](./files/config/alacritty/alacritty.yml) highlights**
+**[`~/.config/alacritty/alacritty.toml`](./files/config/alacritty/alacritty.toml) highlights**
 
-I'm using the font [Input](http://input.fontbureau.com/) Mono and tried to make the colors roughly like [Molokai](https://github.com/zhou13/molokai-terminal), though I need some work on my colors in terminal and Tmux. I set `background_opacity: 0.6` because I like the look, but it admittedly makes it harder to read text. I usually keep the terminal over less distracting areas of my desktop background. :)
-
-I liked having a consistent command for copy and paste on Mac, and initally I tried to avoid the default terminal behavior of needing to hold Shift. Additionally, since I use Dvorak, the standard C, V and X keys are not near each other. I thought it might make sense to use the Y and P keys for copy and paste like in Vim, but realized later this conflicted with ^P for print in many apps. I'm still deciding what to do. For now I have this in my Alacritty config, but I think I am handling it in other higher level configs, so I need to reevaluate:
-
-    key_bindings:
-      # copy and paste kind of like Vim
-      - { key: P,        mods: Control, action: Paste                        }
-      - { key: Y,        mods: Control, action: Copy                         } 
+I'm using the font [Input](http://input.fontbureau.com/) Mono and tried to make the colors roughly like [Molokai](https://github.com/zhou13/molokai-terminal), though I need some work on my colors in terminal and Tmux. I set `background_opacity` because I like the look, but it admittedly makes it harder to read text. I usually keep the terminal over less distracting areas of my desktop background. :)
 
 ### Zsh
 
-I use [Z shell](http://zsh.sourceforge.net/Intro/intro_1.html#SEC1), or "zsh". I'm still working on my configuration, which has been evolving since I carried most of it over from my [Mac dotfiles](https://github.com/CNG/dotfiles_mac). I am using the [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) plugin manager by [@robbyrussell](https://github.com/robbyrussell).
+I use [Zsh](http://zsh.sourceforge.net/Intro/intro_1.html#SEC1) with
+[Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh), the Powerlevel10k theme, and
+the `history-search-multi-word` plugin.
 
-The "top level" configuration [`~/.zshenv`](./files/zshenv) is always loaded, even when Zsh is launched from a scheduled task, which I do to use some of my custom Zsh functions. Then everything I need only when using a terminal interactively is defined in [`~/.zshrc`](./files/zshrc).
-
-My favorite plugin is [history-search-multi-word](https://github.com/zdharma/history-search-multi-word), which I have [installed with Ansible](https://github.com/CNG/dotfiles/blob/84a41f5b2515916c5d6796fa4fec43d33b829ef1/ansible/roles/base/tasks/shell.yml#L36) and [loaded via oh-my-zsh](https://github.com/CNG/dotfiles/blob/84a41f5b2515916c5d6796fa4fec43d33b829ef1/files/zsh/oh-my-zsh.zsh#L36).
-
-I'm not currently using [Vi mode in Zsh](https://dougblack.io/words/zsh-vi-mode.html)
-due to needing to reconcile conflicts:
-
-* [oh-my-zsh plugin vi-mode](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode)
-  wants to use `^h` but that's used by my Tmux/Vim plugin for navigation.
-* Need to specify `bindkey -v` before Oh-my-Zsh loads so history completion
-  plugin `^r` mapping is not overwritten.
-* Some more, needs to be investigated.
+The dotfiles link [`~/.zshenv`](./files/zshenv) and [`~/.zshrc`](./files/zshrc)
+to the versions in this repository. `.zshenv` runs for every Zsh process and
+sets up environment variables and function lookup paths. `.zshrc` loads the
+interactive shell configuration, Oh My Zsh, and completions. Private,
+machine-specific settings can go in `~/.zshenv.local` and `~/.zshrc.local`.
+Ansible installs Zsh and checks out Oh My Zsh, Powerlevel10k, and the history
+search plugin in [`ansible/roles/base/tasks/shell.yml`](ansible/roles/base/tasks/shell.yml).
 
 ### Tmux
 
-Tmux [automatically starts with systemd](https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd).
-The user service file [`tmux.service`](files/config/systemd/user/tmux.service) is enabled via Ansible in [`roles/base/tasks/shell.yml`](https://github.com/CNG/dotfiles/commit/029480f10e8f5079afbe998c0d97cdea9c4c0455#diff-12436e6f240dedee578f3c83b113c3a9).
-Then Zsh connects to Tmux automatically when I open a shell.
-The tmux oh-my-zsh plugin loads from [`~/.zsh/config/tmux/plugins.zsh`](./files/zsh/config/tmux/plugins.zsh).
+Zsh starts or attaches to Tmux when I open an interactive shell outside Tmux,
+using [`tmux.zsh`](./files/zsh/config/tmux/tmux.zsh). A systemd user service is
+also defined in [`tmux.service`](files/config/systemd/user/tmux.service), but
+its enablement task is currently commented out in
+[`shell.yml`](ansible/roles/base/tasks/shell.yml). The Oh My Zsh Tmux plugin is
+not enabled; its entry in [`plugins.zsh`](./files/zsh/config/tmux/plugins.zsh)
+is commented out.
 
-My Tmux config file [`~/tmux.conf`](./files/tmux.conf) sets up my main keyboard shortcuts and these plugins:
+My Tmux config in [`files/tmux.conf`](./files/tmux.conf) sets up my main
+keyboard shortcuts and these plugins:
 
 * [nhdaly/tmux-better-mouse-mode](https://github.com/nhdaly/tmux-better-mouse-mode)
+* [soyuka/tmux-current-pane-hostname](https://github.com/soyuka/tmux-current-pane-hostname)
 * [tmux-plugins/tmux-logging](https://github.com/tmux-plugins/tmux-logging)
 * [tmux-plugins/tmux-yank](https://github.com/tmux-plugins/tmux-yank)
 * [christoomey/vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
 
 #### Tmux cheatsheet
 
-Navigating between panes can be done by `^b`+arrow keys, or thanks to [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator), by `^h`, `^j`, `^k` and `^l`, and `^\` for previous split.
+Navigate between panes with `^b` followed by an arrow key, or use
+[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)'s
+prefix-free `^h`, `^j`, `^k`, and `^l` shortcuts; `^\` moves to the previous
+split.
 
-All of these require `^b` first, then:
+For the following shortcuts, press `^b` first:
 
 * **sessions**: `:new`
 * **windows**: `c` create, `l` list, `n` next, `p` previous, `&` kill, `f` find, `,` name
-* **panes**: `/` split horizontally, `-` split vertically, `o` swap, `q` show numbers, `x` kill, `+` break to window, `-` restore from window, ` ` toggle layouts
+* **panes**: `/` split horizontally, `-` split vertically, `o` swap, `q` show numbers, `x` kill, ` ` toggle layouts
 * **other**: `t` big clock, `d` detach, `?` list shortcuts, `L` toggle logging, `I` install plugins, `P` save complete history (also happens on `^d`) 
 
 ### Vim
 
-My Vim configuration [`~/.vimrc`](files/vimrc) loads the [Pathogen package manager](https://github.com/tpope/vim-pathogen), which loads the plugins installed via Ansible in [`ansible/roles/editors/tasks/main.yml`](ansible/roles/editors/tasks/main.yml). I am still getting the hang of Vim, which I have used for a long time but only at a "basic" level till around 2017, which I started making an effort.
+My Vim configuration [`~/.vimrc`](files/vimrc) uses
+[vim-plug](https://github.com/junegunn/vim-plug) to manage plugins. Ansible
+installs Vim via [`ansible/roles/editors/tasks/main.yml`](ansible/roles/editors/tasks/main.yml);
+vim-plug is bootstrapped by the Vim configuration, and plugins can be installed
+or updated with `:PlugInstall`.
 
 ## Misc
 
@@ -230,32 +225,10 @@ timers a chance, so now I'm switching to using cronie, a crontab implementation.
 I actually had it installed since the beginning without realizing it; so much
 for the simplicity I tried to have by using only systemd!
 
-Cronie's daemon is `cronie.service` and active jobs are linked in `/etc/cron.*`.
+Cronie's daemon is `cronie.service`. Jobs can be configured in per-user
+crontabs with `crontab -e` or system-wide in `/etc/cron.d/` and periodic-job
+directories such as `/etc/cron.daily/`.
 
 [Cron]: https://wiki.archlinux.org/index.php/Cron
 [timers]: https://wiki.archlinux.org/index.php/Systemd/Timers
 [fahidlecheck]: https://github.com/CNG/dotfiles/tree/c57326de205415eb28501a9b50df628c51415956/ansible/roles/fah/files
-
-### DPI
-
-xrandr --dpi 256  # not sure what this affects, not used by i3 anymore
-/etc/X11/xinitrc reads ~/.Xresources
-can also change with `echo "Xft.dpi: 196" | xrdb -merge` and reload i3 etc.
-
-[Multiple monitors with different DPIs](https://www.reddit.com/r/archlinux/comments/5x2syg/multiple_monitors_with_different_dpis/
-[Switch from HiDPI monitor without restart the session](https://www.reddit.com/r/i3wm/comments/6ens2p/switch_from_hidpi_monitor_without_restart_the/)
-
-### TODO
-
-* Disable folding@home on main GPU upon input on i3lock screen (maybe piggy back
-  on media keys passthrough?), or at least upon unlocking (maybe pigging back on
-  display change script)
-* Document and automate solution for HDMI audio aggressive takeover
-  https://askubuntu.com/a/1127760/354276
-* Find place to document "Open In" for work:
-  * Download latest linux.zip from https://github.com/andy-portmen/native-client/releases
-  * Run install.sh
-  * Install FF extension https://addons.mozilla.org/en-US/firefox/addon/open-in-chrome-browser/
-* Encode desktop file limits after testing per https://serverfault.com/a/48820
-  and https://wiki.archlinux.org/index.php/Limits.conf
-* Migrate FAH config to /etc/foldingathome/config.xml
