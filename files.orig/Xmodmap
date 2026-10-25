@@ -1,7 +1,0 @@
-! 2022: I don't totally remember what this was for
-! clear mods to separate the Supers and Hypers (default mixed)
-clear mod3
-clear mod4
-add mod3 = Hyper_L
-add mod4 = Super_L Super_R
-! TODO: consider removing Super_R once stable
