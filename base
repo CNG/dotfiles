@@ -6,48 +6,69 @@
 set -o xtrace
 set -o errexit
 
-# ROOTDEVICE=$(lsblk -d -p -n -l -o NAME -e 7,11 | head -1)
-ROOTDEVICE=/dev/nvme0n1
-HOSTNAME=Charlie26
+ROOTDEVICE=${1:-}
+HOSTNAME=${2:-}
 SETUPDIR=/tmp/setup
-WIFI_SSID=NinePinesGuqin
-MEM_SLEEP_DEFAULT=${1:-}
+MEM_SLEEP_DEFAULT=${3:-}
 
-if [[ -n "$MEM_SLEEP_DEFAULT" && "$MEM_SLEEP_DEFAULT" != "s2idle" && "$MEM_SLEEP_DEFAULT" != "deep" ]]; then
-  echo "Usage: $0 [s2idle|deep]" >&2
+if [[ -z "$ROOTDEVICE" || -z "$HOSTNAME" || ( -n "$MEM_SLEEP_DEFAULT" && "$MEM_SLEEP_DEFAULT" != "s2idle" && "$MEM_SLEEP_DEFAULT" != "deep" ) ]]; then
+  echo "Usage: $0 ROOTDEVICE HOSTNAME [s2idle|deep]" >&2
   exit 2
 fi
 
-iwctl station wlan0 connect $WIFI_SSID
+PARTITION_SEPARATOR=
+if [[ "$ROOTDEVICE" =~ [0-9]$ ]]; then
+  PARTITION_SEPARATOR=p
+fi
+EFI_PARTITION="${ROOTDEVICE}${PARTITION_SEPARATOR}1"
+BOOT_PARTITION="${ROOTDEVICE}${PARTITION_SEPARATOR}2"
+CRYPT_PARTITION="${ROOTDEVICE}${PARTITION_SEPARATOR}3"
+ALTERNATE_CRYPT_PARTITION="${ROOTDEVICE}${PARTITION_SEPARATOR}4"
+
+ethernet_connected=0
+for interface in /sys/class/net/*; do
+  if [[ ! -d "$interface/wireless" && -r "$interface/carrier" && "$(<"$interface/carrier")" == 1 ]]; then
+    ethernet_connected=1
+    break
+  fi
+done
+if [[ "$ethernet_connected" == 0 ]]; then
+  read -r -p "Wi-Fi SSID: " WIFI_SSID
+  if [[ -z "$WIFI_SSID" ]]; then
+    echo "Wi-Fi SSID cannot be empty." >&2
+    exit 1
+  fi
+  iwctl station wlan0 connect "$WIFI_SSID"
+fi
 
 timedatectl set-ntp true
 
 # In case we are rerunning and need to clean up...
 swapoff -a
-umount ${ROOTDEVICE}* /mnt | true
-umount $ROOTDEVICE"p1" /mnt/boot | true
+umount "${ROOTDEVICE}"* /mnt | true
+umount "$EFI_PARTITION" /mnt/boot | true
 
 read -p "Create new base partitions, deleting all boot data? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   # Create partitions
-  parted --script $ROOTDEVICE mklabel gpt
+  parted --script "$ROOTDEVICE" mklabel gpt
   partprobe
   # EFI
-  sgdisk --new=0:0:+512M --typecode=1:ef00 $ROOTDEVICE
-  sgdisk --change-name=1:EFI $ROOTDEVICE
-  mkfs.vfat -F32 $ROOTDEVICE"p1"
+  sgdisk --new=0:0:+512M --typecode=1:ef00 "$ROOTDEVICE"
+  sgdisk --change-name=1:EFI "$ROOTDEVICE"
+  mkfs.vfat -F32 "$EFI_PARTITION"
   # Windows
-  sgdisk --new=0:0:+150G $ROOTDEVICE
+  sgdisk --new=0:0:+150G "$ROOTDEVICE"
   # Encrypted root, swap
-  sgdisk --new=0:0:0 $ROOTDEVICE
-  cryptsetup --batch-mode luksFormat --type=luks2 --label=linux $ROOTDEVICE"p3" # enter password
-  cryptsetup luksAddKey $ROOTDEVICE"p3" # enter password AS IF QWERTY
+  sgdisk --new=0:0:0 "$ROOTDEVICE"
+  cryptsetup --batch-mode luksFormat --type=luks2 --label=linux "$CRYPT_PARTITION" # enter password
+  cryptsetup luksAddKey "$CRYPT_PARTITION" # enter password AS IF QWERTY
 fi
 
 # Set up Btrfs subvolumes
-cryptsetup open --type luks $ROOTDEVICE"p3" luks || cryptsetup open --type luks $ROOTDEVICE"p4" luks
+cryptsetup open --type luks "$CRYPT_PARTITION" luks || cryptsetup open --type luks "$ALTERNATE_CRYPT_PARTITION" luks
 mkfs.btrfs -f -L btrfs /dev/mapper/luks
 mount /dev/mapper/luks /mnt
 btrfs subvolume create /mnt/root
@@ -62,7 +83,7 @@ umount /mnt
 # Mount the new system
 mount -o noatime,compress-force=zstd:1,subvol=root /dev/mapper/luks /mnt
 mkdir -p /mnt/boot
-mount $ROOTDEVICE"p1" /mnt/boot
+mount "$EFI_PARTITION" /mnt/boot
 mkdir -p /mnt/{mnt/btrfs-root,home,var/{cache,lib/mysql,log},swap,.snapshots}
 mount -o noatime,compress-force=zstd:1,subvol=/ /dev/mapper/luks /mnt/mnt/btrfs-root
 mount -o noatime,compress-force=zstd:1,subvol=home /dev/mapper/luks /mnt/home
@@ -93,7 +114,7 @@ echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 
 # Enter the new system
 cp -a $SETUPDIR/dotfiles/base_include /mnt
-arch-chroot /mnt ./base_include "${ROOTDEVICE}p2" "$HOSTNAME" "$MEM_SLEEP_DEFAULT"
+arch-chroot /mnt ./base_include "$BOOT_PARTITION" "$HOSTNAME" "$MEM_SLEEP_DEFAULT"
 
 read -p "Reboot into the new system?" -n 1 -r
 echo

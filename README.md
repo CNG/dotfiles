@@ -36,15 +36,15 @@ live Linux just fine as long as the Internet is connected.
     auditctl -e0  # If logging is too intense
     mkdir -p /tmp/setup
     mount /dev/sda2 /tmp/setup | true
-    vim /tmp/setup/dotfiles/base
-    # Include s2idle for OMEN, otherwise omit:
-    /tmp/setup/dotfiles/base s2idle
+    # Verify the target disk with lsblk; this erases and repartitions it.
+    # Pass ROOTDEVICE and hostname; add s2idle or deep if desired:
+    /tmp/setup/dotfiles/base /dev/nvme0n1 ExampleHostname
+    # For OMEN laptop:
+    # /tmp/setup/dotfiles/base /dev/nvme0n1 ExampleHostname s2idle
     ```
 
-1. Set `rootdevice` to the `/dev/` path of the system drive. This might be the
-   output of `lsblk -d -p -n -l -o NAME -e 7,11 | head -1`, such as
-   `/dev/nvme0n1`.
-1. Execute [`base`](base); remove USB media when it reboots at the end.
+1. Verify the target disk and execute [`base`](base) with its path and the
+   desired hostname; remove USB media when it reboots at the end.
 1. .  
 
   ```
