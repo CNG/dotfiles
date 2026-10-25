@@ -41,15 +41,15 @@ TERM = "alacritty"
 size = 14.0
 
 [font.bold]
-family = "Source Code VF"
+family = "Input Mono"
 style = "Bold"
 
 [font.italic]
-family = "Source Code VF"
+family = "Input Mono"
 style = "Italic"
 
 [font.normal]
-family = "Source Code VF"
+family = "Input Mono"
 style = "Regular"
 
 [[keyboard.bindings]]
