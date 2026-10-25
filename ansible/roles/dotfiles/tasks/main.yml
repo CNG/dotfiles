@@ -75,6 +75,83 @@
         state: mounted
       with_items: "{{ volumes }}"
 
+- name: Link Downloads to Sorting
+  block:
+
+  - name: Check that the Sorting destination exists
+    stat:
+      path: "/home/{{ user.name }}/GDrive/Main/Sorting"
+    register: sorting_directory
+
+  - name: Require the Sorting destination to be a directory
+    fail:
+      msg: "/home/{{ user.name }}/GDrive/Main/Sorting must exist before Downloads can be linked to it."
+    when: not (sorting_directory.stat.isdir | default(false))
+
+  - name: Check the existing Downloads path
+    stat:
+      path: "/home/{{ user.name }}/Downloads"
+      follow: no
+    register: downloads_path
+
+  - name: Refuse to replace an unsupported Downloads path
+    fail:
+      msg: >-
+        /home/{{ user.name }}/Downloads exists but is not a directory or the
+        requested symlink. Resolve it manually before provisioning.
+    when:
+      - downloads_path.stat.exists | default(false)
+      - not (downloads_path.stat.isdir | default(false))
+      - not ((downloads_path.stat.islnk | default(false)) and
+            (downloads_path.stat.lnk_source | default('') == '/home/' ~ user.name ~ '/GDrive/Main/Sorting'))
+
+  - name: List existing Downloads contents
+    find:
+      paths: "/home/{{ user.name }}/Downloads"
+      hidden: yes
+      recurse: no
+      file_type: any
+    register: downloads_contents
+    when: downloads_path.stat.isdir | default(false)
+
+  - name: Check for name conflicts in Sorting
+    stat:
+      path: "/home/{{ user.name }}/GDrive/Main/Sorting/{{ item.path | basename }}"
+    loop: "{{ downloads_contents.files | default([]) }}"
+    register: sorting_conflicts
+
+  - name: Refuse to overwrite existing Sorting contents
+    fail:
+      msg: >-
+        Cannot move Downloads contents because
+        {{ item.item.path | basename }} already exists in
+        /home/{{ user.name }}/GDrive/Main/Sorting. Resolve the conflict and rerun provisioning.
+    loop: "{{ sorting_conflicts.results | default([]) }}"
+    when: item.stat.exists | default(false)
+
+  - name: Move existing Downloads contents into Sorting
+    command:
+      argv:
+        - mv
+        - --
+        - "{{ item.path }}"
+        - "/home/{{ user.name }}/GDrive/Main/Sorting/"
+    loop: "{{ downloads_contents.files | default([]) }}"
+
+  - name: Remove the now-empty Downloads directory
+    file:
+      path: "/home/{{ user.name }}/Downloads"
+      state: absent
+    when: downloads_path.stat.isdir | default(false)
+
+  - name: Link Downloads to Sorting
+    file:
+      path: "/home/{{ user.name }}/Downloads"
+      src: "/home/{{ user.name }}/GDrive/Main/Sorting"
+      state: link
+      owner: "{{ user.name }}"
+      group: "{{ user.group }}"
+
 - name: Link private files
   file:
     path: "/home/{{ user.name }}/.{{ item }}"
@@ -87,7 +164,7 @@
     - gitconfig.local
     - ssh
 
-# # TODO this is still clunky, and work's Workspace is huge
+# # TODO this is still clunky
 # - name: Set user files ownership in case we created files as root
 #   file:
 #     path: "/home/{{ user.name }}"
