@@ -5,3 +5,4 @@ private/
 private
 *.retry
 arch.iso
+.vscode/
