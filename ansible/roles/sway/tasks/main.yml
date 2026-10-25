@@ -5,13 +5,33 @@
   become: yes
   become_user: aur_builder
 
-- name: Verify header in default applications file
-  lineinfile:
-    dest: /etc/xdg/mimeapps.list
-    state: present
-    line: '[Default Applications]'
-    insertbefore: BOF
-    create: yes
+- name: Ensure user config directory exists
+  file:
+    path: "/home/{{ user.name }}/.config"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"
+    mode: 0755
+
+# Following block supposedly replaces these shell commands:
+# xdg-settings set default-web-browser firefox.desktop
+# xdg-mime default firefox.desktop x-scheme-handler/http
+# xdg-mime default firefox.desktop x-scheme-handler/https
+# xdg-mime default firefox.desktop text/html
+- name: Set Firefox as the user default browser
+  ini_file:
+    dest: "/home/{{ user.name }}/.config/mimeapps.list"
+    section: Default Applications
+    option: "{{ item }}"
+    value: firefox.desktop
+    owner: "{{ user.name }}"
+    group: "{{ user.group }}"
+    mode: 0644
+  with_items:
+    - text/html
+    - application/xhtml+xml
+    - x-scheme-handler/http
+    - x-scheme-handler/https
 
 - name: Push sway_move script
   copy:
