@@ -165,15 +165,20 @@ packages:
     - adobe-base-14-fonts
     - adobe-source-code-pro-fonts
     - ttf-adobe-source-fonts
+    - ttf-dejavu
     - ttf-fira-code
     - ttf-fira-mono
     - ttf-fira-sans
     - ttf-font-awesome-4
     - ttf-tahoma
     - ttf-ubuntu-font-family
+    - ttf-caladea
+    - ttf-carlito
+    - ttf-liberation
     # Chinese
     - adobe-source-han-sans-cn-fonts
     - adobe-source-han-serif-cn-fonts
+    - noto-fonts
     - noto-fonts-cjk
     - wqy-microhei
     - wqy-microhei-lite
@@ -182,40 +187,35 @@ packages:
     - ttf-arphic-ukai
     - ttf-arphic-uming
   _TODO_fonts:
-    - cantarell-fonts
-    - gsfonts
-    - noto-fonts
-    - terminus-font
-    - tex-gyre-fonts
-    - ttc-iosevka
-    - ttc-iosevka-aile
-    - ttc-iosevka-ss08
-    - ttf-bitstream-charter
-    - ttf-bookerly
-    - ttf-caladea
-    - ttf-carlito
-    - ttf-contemporary
-    - ttf-cooper-hewitt
-    - ttf-courier-prime
-    - ttf-dejavu
-    - ttf-droid
-    - ttf-fantasque-sans-mono
-    - ttf-heuristica
-    - ttf-ibm-plex
-    - ttf-inconsolata
-    - ttf-iosevka
-    - ttf-latex-xft-fonts
-    - ttf-liberation
-    - ttf-mac-fonts
-    - ttf-merriweather
-    - ttf-merriweather-sans
-    - ttf-mplus-git
-    - ttf-nanum
-    - ttf-oswald
-    - ttf-quintessential
-    - ttf-raleway
-    - ttf-signika
-    - ttf-spacemono
+    - cantarell-fonts  # GNOME-oriented sans; overlaps with installed sans families
+    - gsfonts  # Legacy PostScript fonts; useful mainly for specific older documents
+    - terminus-font  # Bitmap terminal font; installed scalable monospace fonts are more flexible
+    - tex-gyre-fonts  # Specialized TeX typography; not needed for general desktop coverage
+    - ttc-iosevka  # Coding-focused monospace; overlaps with Input Nerd and Fira Mono
+    - ttc-iosevka-aile  # Proportional Iosevka variant; overlaps with installed general-purpose sans fonts
+    - ttc-iosevka-ss08  # Optional Iosevka stylistic variant; not needed for baseline coverage
+    - ttf-bitstream-charter  # Additional serif face; not needed alongside current document fonts
+    - ttf-bookerly  # E-reader-oriented serif; specialized rather than general-purpose
+    - ttf-contemporary  # Distinctive display face; limited use for everyday UI and documents
+    - ttf-cooper-hewitt  # Geometric sans option; overlaps with installed general-purpose sans fonts
+    - ttf-courier-prime  # Typewriter-style monospace; overlaps with installed coding fonts
+    - ttf-droid  # Older Android font family; Noto provides broader fallback coverage
+    - ttf-fantasque-sans-mono  # Coding monospace; overlaps with Input Nerd and Fira Mono
+    - ttf-heuristica  # Additional book serif; overlaps with installed document fonts
+    - ttf-ibm-plex  # Another full font family; adds substantial overlap with installed sans and mono fonts
+    - ttf-inconsolata  # Coding monospace; overlaps with Input Nerd and Fira Mono
+    - ttf-iosevka  # Coding monospace; overlaps with Input Nerd, Fira Mono, and Iosevka variants
+    - ttf-latex-xft-fonts  # Specialized legacy Xft/LaTeX fonts; only useful for particular workflows
+    - ttf-mac-fonts  # Compatibility fonts for documents from macOS; not needed for general coverage
+    - ttf-merriweather  # Editorial serif; specialized compared with currently installed document fonts
+    - ttf-merriweather-sans  # Editorial sans; overlaps with installed general-purpose sans fonts
+    - ttf-mplus-git  # Additional Japanese family; overlaps with installed Noto CJK and other CJK fonts
+    - ttf-nanum  # Additional Korean family; Noto CJK already provides Korean fallback glyphs
+    - ttf-oswald  # Condensed display sans; specialized rather than a general-purpose UI font
+    - ttf-quintessential  # Decorative script face; limited use outside ornamental text
+    - ttf-raleway  # Geometric display sans; overlaps with installed general-purpose sans fonts
+    - ttf-signika  # Humanist display sans; overlaps with installed general-purpose sans fonts
+    - ttf-spacemono  # Coding monospace; overlaps with Input Nerd and Fira Mono
 
   media:
     - iscan-plugin-gt-x820  # Epson V600 scanner
