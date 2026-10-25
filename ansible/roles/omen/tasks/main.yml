@@ -1,5 +1,11 @@
 ---
 # TODO This didn't fix my sound actually
+- name: Enable Sway unsupported GPU support
+  lineinfile:
+    path: /etc/environment
+    line: SWAY_UNSUPPORTED_GPU=true
+    create: yes
+
 - name: Install Sound Open Firmware
   aur:
     name:
@@ -132,4 +138,3 @@
     state: absent
   with_items:
     - snd-intel-dspcfg.dsp_driver=3
-
