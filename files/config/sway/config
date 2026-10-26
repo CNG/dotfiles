@@ -6,14 +6,16 @@ set {
     $win mod4
     $sup mod4
     $mod mod4
-    $background /usr/share/backgrounds/greeter.jpg
+    $background_2880 /usr/share/backgrounds/greeter_2880.jpg
+    $background_3840 /usr/share/backgrounds/greeter_3840.jpg
 }
 
-output * bg $background fill
+output * bg $background_3840 fill
 output eDP-1 {
   render_bit_depth 10
   hdr on
   # scale 1.25
+  bg $background_2880 fill
 }
 bindsym $mod+Shift+h output eDP-1 hdr toggle
 

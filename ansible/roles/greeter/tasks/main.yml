@@ -17,10 +17,16 @@
     path: /usr/share/backgrounds
     state: directory
 
-- name: Push greeter background
+- name: Push greeter background for 4K
   copy:
-    src: taipei.jpg
-    dest: /usr/share/backgrounds/greeter.jpg
+    src: taipei_cyberpunk_3840x2160.png
+    dest: /usr/share/backgrounds/greeter_3840.jpg
+    mode: 0666
+
+- name: Push greeter background for laptop
+  copy:
+    src: taipei_cyberpunk_2880x1800.png
+    dest: /usr/share/backgrounds/greeter_2880.jpg
     mode: 0666
 
 - name: Create Sway config file
