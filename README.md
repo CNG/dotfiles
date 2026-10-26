@@ -16,6 +16,8 @@ is now simplified for Linux in [`files`](files).
 
 [spark]: https://github.com/pigmonkey/spark
 
+![Desktop look as of 2026-10](desktop.png)
+
 # Installation
 
 This assumes you are already in Linux in order to make the installation media.
