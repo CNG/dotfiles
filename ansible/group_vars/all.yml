@@ -291,7 +291,7 @@ packages:
     - breeze
     - breeze-icons
 
-    - mako
+    - mako  # notification daemon
     - swaybg
     - swayidle
     - swaylock

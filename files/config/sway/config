@@ -47,6 +47,9 @@ input * {
     natural_scroll enabled
     drag_lock disabled
 }
+input type:pointer {
+    pointer_accel -0.5
+}
 input type:touchpad {
     tap enabled
     pointer_accel 0.5
@@ -74,10 +77,12 @@ bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
 bindsym $mod+d exec BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
 bindsym $mod+i       exec firefox
 bindsym $mod+f       exec dolphin
+bindsym $mod+k       exec anki
 bindsym $mod+Shift+e exec sway exit
 bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
 bindsym $mod+e       exec subl --new-window
 bindsym $mod+m       exec LC_NUMERIC=en_US.utf8 spotify
+bindsym $mod+g       exec sh -c 'cd ~/Downloads/phonefetch; WEBKIT_DISABLE_DMABUF_RENDERER=1 open-grind'
 
 
 ### AUTOSTART PROGRAMS
