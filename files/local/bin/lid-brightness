@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Save the intel_backlight level when Sway reports lid:on, then restore it
+# four times after lid:off because an unknown component has been observed
+# resetting brightness to 20 after the lid opens.
+# Called by bindswitch entries in files/config/sway/config.
+# Example log:
+#   restore attempt=1 target=400 before=20
+#   restore attempt=1 after=400
+set -euo pipefail
+
+device=intel_backlight
+runtime_dir="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+state_file="$runtime_dir/lid-brightness"
+log_file="$runtime_dir/lid-brightness.log"
+
+if [[ ! -d "$runtime_dir" || ! -w "$runtime_dir" ]]; then
+    printf 'Runtime directory is unavailable or not writable: %s\n' "$runtime_dir" >&2
+    exit 1
+fi
+
+exec >>"$log_file" 2>&1
+printf '[%(%F %T)T] action=%s runtime_dir=%s\n' -1 "${1:-}" "$runtime_dir"
+
+case "${1:-}" in
+    save)
+        value=$(brightnessctl -d "$device" get)
+        if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+            printf 'Unexpected brightness value: %s\n' "$value" >&2
+            exit 1
+        fi
+
+        printf '%s\n' "$value" > "${state_file}.tmp"
+        mv -- "${state_file}.tmp" "$state_file"
+        printf '[%(%F %T)T] saved brightness=%s\n' -1 "$value"
+        ;;
+    restore)
+        if [[ ! -r "$state_file" ]]; then
+            printf 'No saved lid brightness at %s\n' "$state_file" >&2
+            exit 1
+        fi
+
+        value=$(<"$state_file")
+        if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+            printf 'Invalid saved brightness value: %s\n' "$value" >&2
+            exit 1
+        fi
+
+        for attempt in {1..4}; do
+            sleep 1
+            before=$(brightnessctl -d "$device" get)
+            printf '[%(%F %T)T] restore attempt=%s target=%s before=%s\n' \
+                -1 "$attempt" "$value" "$before"
+            brightnessctl -d "$device" set "$value"
+            current=$(brightnessctl -d "$device" get)
+            printf '[%(%F %T)T] restore attempt=%s after=%s\n' \
+                -1 "$attempt" "$current"
+        done
+        ;;
+    *)
+        printf 'Usage: %s {save|restore}\n' "$0" >&2
+        exit 2
+        ;;
+esac
