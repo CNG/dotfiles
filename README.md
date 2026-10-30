@@ -112,6 +112,36 @@ efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "Linux Boot Manager" \
   --loader '\EFI\systemd\systemd-bootx64.efi'
 ```
 
+
+# Migrating to larger SSD
+
+A [very good case](https://askubuntu.com/a/1152183) is made to avoid `dd` due to lack of safegaurds, but I will live on the edge here since I have my important data backed up.
+
+```
+# Clone disk to new SSD
+dd if=/dev/nvme0n1 of=/dev/sdb bs=1024M oflag=sync status=progress
+
+# Fix partition table (backup GPT is in middle of disk not end!)
+gdisk /dev/sdb
+w
+Y
+Y
+
+# Expand partition
+yay -Sys cloud-guest-utils
+growpart /dev/sdb 3
+partprobe /dev/sdb
+
+# Expand filesystem
+cryptsetup luksOpen /dev/sdb3 encrypted_volume
+cryptsetup resize encrypted_volume
+mount /dev/mapper/encrypted_volume /mnt
+btrfs filesystem resize max /mnt
+
+# Skipped this for now: fstrim -v /mnt
+```
+
+
 # About the system
 
 ## Installation and configuration flow
