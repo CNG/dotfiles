@@ -1,0 +1,2 @@
+ACTION!="remove", SUBSYSTEMS=="usb-serial", TAG+="uaccess"
+ACTION!="remove", SUBSYSTEMS=="tty", TAG+="uaccess"

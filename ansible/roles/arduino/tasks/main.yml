@@ -1,4 +1,25 @@
 ---
+
+- name: Install Arduino packages
+  aur:
+    name: "{{ item }}"
+  become: yes
+  become_user: aur_builder
+  with_items:
+    - arduino-cli
+    - arduino-ide-bin
+
+- name: Enable user access to Arduino devices
+  copy:
+    src: 01-ttyusb.rules
+    dest: /etc/udev/rules.d/01-ttyusb.rules
+- name: udevadm control --reload-rules
+  command: "udevadm control --reload-rules"
+  become: yes
+  changed_when: False
+
+# None of the stuff below here is tested for relevance in 2026
+
 - name: Create uucp user group
   group:
     name: uucp
