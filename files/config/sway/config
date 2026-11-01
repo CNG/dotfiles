@@ -128,6 +128,7 @@ for_window {
     [class="vlc"] $fl
     [app_id="org.kde.digikam" title="New Album — digiKam"] $fl
     [app_id="org.kde.digikam" title="Image Editor"] $fl
+    [app_id="open-grind" title="Save media"] $fl
     [app_id="Alacritty" title="calculator"] $fl
     # Targeting Zoom popups only by excluding "Meeting" and "Zoom Workplace" and "Zoom Workplace - Free account", which are the titles of the main windows.
     [instance="^zoom$" class="^zoom$" title="^(?!Meeting$)(?!Zoom Workplace)"] $fl

@@ -26,6 +26,17 @@
    </metadata>
   </info>
  </bookmark>
+ <bookmark href="file:///home/cgorichanaz/GDrive/Main">
+  <title>Main</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1793562089/0</ID>
+   </metadata>
+  </info>
+ </bookmark>
  <bookmark href="file:///home/cgorichanaz/Downloads">
   <title>Downloads</title>
   <info>
@@ -47,13 +58,24 @@
   </info>
  </bookmark>
  <bookmark href="file:///home/cgorichanaz/GDrive/Main/Other/Misc%20images%20and%20files/2026">
-  <title>Misc 2026 files</title>
+  <title>Files 2026</title>
   <info>
    <metadata owner="http://freedesktop.org">
     <bookmark:icon name="inode-directory"/>
    </metadata>
    <metadata owner="http://www.kde.org">
     <ID>1793559790/1</ID>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/cgorichanaz/GDrive/Extra">
+  <title>Extra</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1793562323/1</ID>
    </metadata>
   </info>
  </bookmark>
