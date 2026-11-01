@@ -1,0 +1,80 @@
+---
+- name: Configure user systemd SSHFS services
+  block:
+    - name: Install sshfs
+      pacman:
+        name: sshfs
+        state: present
+
+    - name: Ensure systemd user unit directory exists
+      file:
+        path: "/home/{{ user.name }}/.config/systemd/user"
+        state: directory
+        owner: "{{ user.name }}"
+        group: "{{ user.group }}"
+
+    - name: Check for existing SSHFS mount services
+      stat:
+        path: >-
+          /home/{{ user.name }}/.config/systemd/user/{{ item | regex_replace('^/', '') | replace('/', '-') }}.service
+      loop: "{{ mount_points }}"
+      register: existing_mount_services
+
+    - name: Stop existing SSHFS mount services
+      systemd:
+        name: "{{ item.item | regex_replace('^/', '') | replace('/', '-') }}.service"
+        scope: user
+        state: stopped
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user.uid }}"
+      loop: "{{ existing_mount_services.results }}"
+      when: item.stat.exists
+
+    - name: Ensure mount points exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ user.name }}"
+        group: "{{ user.group }}"
+      loop: "{{ mount_points }}"
+
+    - name: Create sshfs mount services
+      copy:
+        dest: >-
+          /home/{{ user.name }}/.config/systemd/user/{{ item | regex_replace('^/', '') | replace('/', '-') }}.service
+        content: |
+          [Unit]
+          Description=SSHFS mount for {{ item }}
+
+          [Service]
+          Type=simple
+          ExecStart=/usr/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=15,dir_cache=yes,idmap=user,follow_symlinks,transform_symlinks,compression=yes server:{{ item }} {{ item }}
+          Restart=on-failure
+          RestartSec=5s
+
+          [Install]
+          WantedBy=default.target
+        owner: "{{ user.name }}"
+        group: "{{ user.group }}"
+        mode: "0644"
+      loop: "{{ mount_points }}"
+
+    - name: Enable and start sshfs mount services
+      systemd:
+        name: "{{ item | regex_replace('^/', '') | replace('/', '-') }}.service"
+        scope: user
+        daemon_reload: yes
+        enabled: yes
+        state: started
+      become: yes
+      become_user: "{{ user.name }}"
+      environment:
+        XDG_RUNTIME_DIR: "/run/user/{{ user.uid }}"
+      loop: "{{ mount_points }}"
+  vars:
+    mount_points:
+      - /mnt/cameras
+      - /mnt/data
+      - /mnt/minerva
