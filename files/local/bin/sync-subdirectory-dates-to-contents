@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+while IFS=$'\t' read -r -a REPLY; do
+  # This strategy was tripping on empty folders and maybe symlinks
+  # echo touch -c -h -r"$(find "${REPLY[1]}" -maxdepth 1 -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)" "${REPLY[1]}";
+  #touch -c -h -r"$(find "${REPLY[1]}" -maxdepth 1 -xtype f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)" "${REPLY[1]}";
+  #[[ $? == 0 ]] || echo "Failed: ${REPLY[1]}";
+
+    # 1. Finds the newest item (file, symlink, or subfolder) inside the directory
+    newest_item=$(find "${REPLY[1]}" -maxdepth 1 ! -path "${REPLY[1]}" \( -type f -o -type l -o -type d \) -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2-)
+    
+    # 2. Touch the folder if an item was found
+    if [ -n "$newest_item" ]; then
+        # echo touch -c -h -r "$newest_item" "${REPLY[1]}"
+        touch -c -h -r "$newest_item" "${REPLY[1]}"
+    else
+        echo "Skipping truly empty folder: ${REPLY[1]}"
+    fi
+done < <(du "${1:-.}" --time-style=+%s --time | cut -f 2-)
