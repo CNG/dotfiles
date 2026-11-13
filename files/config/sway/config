@@ -71,18 +71,22 @@ default_floating_border normal
 
 ### PROGRAM SHORTCUTS
 set $term alacritty
-bindsym $mod+Return exec $term -e tmux
-bindsym $mod+Shift+Return exec $term -e bash
-bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
-bindsym $mod+d exec j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
-bindsym $mod+i       exec firefox
-bindsym $mod+f       exec dolphin
-bindsym $mod+k       exec anki
 bindsym $mod+Shift+e exec sway exit
 bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
-bindsym $mod+e       exec subl --new-window
-bindsym $mod+m       exec LC_NUMERIC=en_US.utf8 spotify
+bindsym $mod+Return  exec $term -e tmux
+bindsym $mod+Shift+Return exec $term -e bash
+bindsym $mod+d       exec j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
+bindsym $mod+k       exec anki
+bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
+bindsym $mod+f       exec dolphin
+bindsym $mod+i       exec firefox
+bindsym $mod+o       exec obsidian
 bindsym $mod+g       exec sh -c 'cd ~/Downloads/phonefetch; WEBKIT_DISABLE_DMABUF_RENDERER=1 open-grind'
+bindsym $mod+m       exec LC_NUMERIC=en_US.utf8 spotify
+bindsym $mod+e       exec subl --new-window
+# unused shortcuts include:
+# $mod+[b j l u w x y z]
+# $mod+Shift+[a b c d g i j k l n o q s t u v w x y z]
 
 
 ### AUTOSTART PROGRAMS
