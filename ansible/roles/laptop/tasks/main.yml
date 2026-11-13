@@ -18,10 +18,8 @@
     src: logind.conf
     dest: /etc/systemd/logind.conf.d/no-suspend-on-lid.conf
 
-# SSHFS services depend on the SSH agent environment exported to the user
-# systemd manager by files/zsh/config/ssh-agent.zsh. Until the agent is started
-# by the user session instead, Dolphin may need a terminal opened first after
-# reboot so this Zsh hook can import the agent socket and restart the mounts.
+# SSHFS services are started after a key is loaded into the SSH agent by
+# files/zsh/config/ssh-agent.zsh.
 - import_tasks: sshfs.yml
 
 # - name: Push low battery warning script

@@ -61,13 +61,14 @@
         mode: "0644"
       loop: "{{ mount_points }}"
 
-    - name: Enable and start sshfs mount services
+    # These are started in files/zsh/config/ssh-agent.zsh after a key is loaded into the SSH agent.
+    - name: Disable and stop sshfs mount services
       systemd:
         name: "{{ item | regex_replace('^/', '') | replace('/', '-') }}.service"
         scope: user
         daemon_reload: yes
-        enabled: yes
-        state: started
+        enabled: no
+        state: stopped
       become: yes
       become_user: "{{ user.name }}"
       environment:
