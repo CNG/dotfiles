@@ -1,3 +1,6 @@
+[FullScreen]
+FullScreenModeActive=true
+
 [General]
 HistoryEnabled=false
 LastUsedVersion=210800

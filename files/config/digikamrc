@@ -89,10 +89,10 @@ TreeView Font=Sans Serif,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 Update Type=0
 
 [AlbumFolderView Sidebar]
-CurrentIndex=
-Expansion=0,1
+CurrentIndex=7402
+Expansion=0,4164,6935,7402,-3
 RestoreChecked=false
-Selection=
+Selection=7402
 SortColumn=0
 SortOrder=0
 
@@ -101,7 +101,7 @@ CaseSensitive=0
 
 [AlbumSelectWidget]
 AlbumTreeViewCurrentIndex=
-AlbumTreeViewExpansion=1
+AlbumTreeViewExpansion=4164,6958
 AlbumTreeViewRestoreChecked=false
 AlbumTreeViewSelection=
 AlbumTreeViewSortColumn=0
@@ -110,24 +110,24 @@ CaseSensitive=0
 
 [Autotags Settings]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
-AlbumComboBox-Expansion=1
+AlbumComboBox-CurrentIndex=6958
+AlbumComboBox-Expansion=4164,6958
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164,6958
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 AlbumTypeEntry=0
 Autotags Languages=
 Autotags Object Detection Accuracy=7
-Autotags Object Detection Model=none
+Autotags Object Detection Model=efficientnetb7
 Autotags Scan Mode=0
 Autotags Tag Mode=0
 Autotags Use Full CPU=false
 TagComboBox-Checked=
-TagComboBox-CurrentIndex=4
+TagComboBox-CurrentIndex=1228
 TagComboBox-Expansion=
 TagComboBox-RestoreChecked=true
-TagComboBox-Selection=4
+TagComboBox-Selection=233,1228
 TagComboBox-SortColumn=0
 TagComboBox-SortOrder=0
 UseWholeAlbumsEntry=true
@@ -138,13 +138,28 @@ Sync Baloo to Digikam=false
 Sync Digikam to Baloo=false
 
 [Batch Queue Manager Settings]
-BqmBottomSplitter=AAAA/wAAAAEAAAAC//////////8B/////wEAAAABAA==
-BqmTopSplitter=AAAA/wAAAAEAAAAD////////////////Af////8BAAAAAQA=
-BqmVerticalSplitter=AAAA/wAAAAEAAAAC//////////8B/////wEAAAACAA==
+BqmBottomSplitter=AAAA/wAAAAEAAAACAAAAhQAAAIUB/////wEAAAABAA==
+BqmTopSplitter=AAAA/wAAAAEAAAADAAAAhQAAAHAAAACmAf////8BAAAAAQA=
+BqmVerticalSplitter=AAAA/wAAAAEAAAACAAAAjAAAAIEB/////wEAAAACAA==
+
+[Color Names]
+ColorName_black=Black
+ColorName_darkblue=Blue
+ColorName_darkgray=Gray
+ColorName_darkgreen=Green
+ColorName_magenta=Magenta
+ColorName_nocolor=None
+ColorName_orange=Orange
+ColorName_red=Red
+ColorName_white=White
+ColorName_yellow=Yellow
+
+[CoreDB Settings]
+Recently Used Tags=
 
 [Database Settings]
 Database Connectoptions=
-Database Encrypted Password=AwJMTEw=
+Database Encrypted Password=AwLg4OA=
 Database Hostname=
 Database Name=/home/cgorichanaz/GDrive/Main/Pictures/digiKam/
 Database Name Face=/home/cgorichanaz/GDrive/Main/Pictures/digiKam/
@@ -181,7 +196,7 @@ ItemProperties Expanded=true
 LocationProperties Expanded=true
 Minimized=true
 PhotographProperties Expanded=true
-RestoreSize=-1
+RestoreSize=210
 RightsProperties Expanded=true
 TagsProperties Expanded=true
 VideoProperties Expanded=true
@@ -260,10 +275,10 @@ CaseSensitive=0
 
 [Face Management Settings]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
-AlbumComboBox-Expansion=1
+AlbumComboBox-CurrentIndex=6958
+AlbumComboBox-Expansion=4164,6958
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164,6958
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 AlbumTypeEntry=0
@@ -276,10 +291,10 @@ Face Recognition Model=0
 Face Scan Task=0
 Face Use Full CPU=true
 TagComboBox-Checked=
-TagComboBox-CurrentIndex=4
+TagComboBox-CurrentIndex=1228
 TagComboBox-Expansion=
 TagComboBox-RestoreChecked=true
-TagComboBox-Selection=4
+TagComboBox-Selection=233,1228
 TagComboBox-SortColumn=0
 TagComboBox-SortOrder=0
 UseWholeAlbumsEntry=true
@@ -287,10 +302,10 @@ UseWholeTagsEntry=false
 
 [Find Duplicates View]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
+AlbumComboBox-CurrentIndex=4164
 AlbumComboBox-Expansion=
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 AlbumTypeEntry=0
@@ -301,10 +316,10 @@ Last search album tag relation=0
 Last search results restriction=0
 Lower bound for minimum similarity=40
 TagComboBox-Checked=
-TagComboBox-CurrentIndex=4
+TagComboBox-CurrentIndex=233
 TagComboBox-Expansion=
 TagComboBox-RestoreChecked=true
-TagComboBox-Selection=4
+TagComboBox-Selection=233
 TagComboBox-SortColumn=0
 TagComboBox-SortOrder=0
 UseWholeAlbumsEntry=false
@@ -328,10 +343,10 @@ SortOrder=0
 
 [Fuzzy Search View]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
-AlbumComboBox-Expansion=1
+AlbumComboBox-CurrentIndex=6958
+AlbumComboBox-Expansion=4164,6958
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164,6958
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 UseWholeAlbumsEntry=true
@@ -347,7 +362,7 @@ Selection=
 Sort Order=0
 SortColumn=0
 SortOrder=0
-SplitterState=AAAA/wAAAAEAAAAC//////////8B/////wEAAAACAA==
+SplitterState=AAAA/wAAAAEAAAACAAABdwAAAGUB/////wEAAAACAA==
 
 [GPS Search Sidebar][GPSSearch Map Widget]
 Backend=marble
@@ -392,7 +407,7 @@ Select First Album Item=true
 Show Only Face Tags For Assigning Name=true
 Show Permanent Delete Dialog=true
 Show Splash=true
-Show Trash Delete Dialog=true
+Show Trash Delete Dialog=false
 String Comparison Type=0
 Use Native File Dialog=false
 Use Trash=true
@@ -409,10 +424,10 @@ Rename all=2
 
 [Image Quality Settings]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
-AlbumComboBox-Expansion=1
+AlbumComboBox-CurrentIndex=6958
+AlbumComboBox-Expansion=4164,6958
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164,6958
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 AlbumTypeEntry=0
@@ -434,10 +449,10 @@ Image Quality Rejected Threshold=10
 Image Quality Scan Mode=0
 Image Quality Use Full CPU=false
 TagComboBox-Checked=
-TagComboBox-CurrentIndex=4
+TagComboBox-CurrentIndex=1228
 TagComboBox-Expansion=
 TagComboBox-RestoreChecked=true
-TagComboBox-Selection=4
+TagComboBox-Selection=233,1228
 TagComboBox-SortColumn=0
 TagComboBox-SortOrder=0
 UseWholeAlbumsEntry=true
@@ -448,7 +463,7 @@ AutoZoom=true
 OverExposureIndicator=false
 PreviewMode=128
 Show Thumbbar=false
-SplitterState=AAAA/wAAAAEAAAAC//////////8B/////wAAAAABAQ==
+SplitterState=AAAA/wAAAAEAAAACAAAAwAAAATQB/////wAAAAABAQ==
 ThumbbarState=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAfsAAAAeAGUAZABpAHQAbwByAF8AdABoAHUAbQBiAGIAYQByAQAAAAD/////AAAAVwD///8AAAAAAAAAAAAAAAQAAAAEAAAACAAAAAj8AAAAAA==
 UnderExposureIndicator=false
 UseRawImportTool=false
@@ -580,7 +595,7 @@ RatingSelection=
 
 [LightTable Settings]
 Clear On Close=false
-Horizontal Splitter State=AAAA/wAAAAEAAAAD////////////////Af////8AAAAAAQE=
+Horizontal Splitter State=AAAA/wAAAAEAAAADAAABNAAAAFcAAAE0Af////8AAAAAAQE=
 Navigate By Pair=false
 Show Thumbbar=true
 ThumbbarState=AAAA/wAAAAD9AAAAAQAAAAIAAAAAAAAAAPwBAAAAAfsAAAAmAGwAaQBnAGgAdAB0AGEAYgBsAGUAXwB0AGgAdQBtAGIAYgBhAHIBAAAAAP////8AAABXAP///wAAAAAAAAAAAAAABAAAAAQAAAAIAAAACPwAAAAA
@@ -593,7 +608,7 @@ ItemProperties Expanded=true
 LocationProperties Expanded=true
 Minimized=true
 PhotographProperties Expanded=true
-RestoreSize=-1
+RestoreSize=31
 RightsProperties Expanded=true
 TagsProperties Expanded=true
 VideoProperties Expanded=true
@@ -675,7 +690,7 @@ ItemProperties Expanded=true
 LocationProperties Expanded=true
 Minimized=true
 PhotographProperties Expanded=true
-RestoreSize=-1
+RestoreSize=30
 RightsProperties Expanded=true
 TagsProperties Expanded=true
 VideoProperties Expanded=true
@@ -750,9 +765,9 @@ Version Properties Tab=versions
 Version Properties View Mode=2
 
 [MainWindow]
-InitialAlbumID=0
-SplitterState=AAAA/wAAAAEAAAADAAABjAAAF+j/////Af////8AAAAAAQE=
-ThumbbarState=AAAA/wAAAAD9AAAAAQAAAAIAAAAAAAAAAPwBAAAAAfsAAAAmAG0AYQBpAG4AdwBpAG4AZABvAHcAXwB0AGgAdQBtAGIAYgBhAHIIAAAAAP////8AAABXAP///wAAAzQAAAfvAAAABAAAAAQAAAAIAAAACPwAAAAA
+InitialAlbumID=7402
+SplitterState=AAAA/wAAAAEAAAADAAABjAAAF+gAAAE0Af////8AAAAAAQE=
+ThumbbarState=AAAA/wAAAAD9AAAAAQAAAAIAAAM0AAAAwPwBAAAAAfsAAAAmAG0AYQBpAG4AdwBpAG4AZABvAHcAXwB0AGgAdQBtAGIAYgBhAHIIAAAAAAAAAzQAAABXAP///wAAAzQAAAfvAAAABAAAAAQAAAAIAAAACPwAAAAA
 
 [Metadata Settings]
 Album Date Source=1
@@ -807,26 +822,26 @@ CaseSensitive=0
 
 [Select Reference]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
+AlbumComboBox-CurrentIndex=4164
 AlbumComboBox-Expansion=
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 UseWholeAlbumsEntry=false
 
 [Sketch Search View]
 AlbumComboBox-Checked=
-AlbumComboBox-CurrentIndex=1
-AlbumComboBox-Expansion=1
+AlbumComboBox-CurrentIndex=6958
+AlbumComboBox-Expansion=4164,6958
 AlbumComboBox-RestoreChecked=true
-AlbumComboBox-Selection=1
+AlbumComboBox-Selection=4164,6958
 AlbumComboBox-SortColumn=0
 AlbumComboBox-SortOrder=0
 UseWholeAlbumsEntry=true
 
 [Survey Settings]
-Horizontal Splitter State=AAAA/wAAAAEAAAAC//////////8B/////wAAAAABAQ==
+Horizontal Splitter State=AAAA/wAAAAEAAAACAAAAzgAAATQB/////wAAAAABAQ==
 Show Thumbbar=true
 ThumbbarState=AAAA/wAAAAD9AAAAAQAAAAMAAAAAAAAAAPwBAAAAAfsAAAAeAHMAdQByAHYAZQB5AF8AdABoAHUAbQBiAGIAYQByAQAAAAD/////AAAAVwD///8AAAAAAAAAAAAAAAQAAAAEAAAACAAAAAj8AAAAAA==
 
@@ -838,7 +853,7 @@ ItemProperties Expanded=true
 LocationProperties Expanded=true
 Minimized=true
 PhotographProperties Expanded=true
-RestoreSize=-1
+RestoreSize=48
 RightsProperties Expanded=true
 TagsProperties Expanded=true
 VideoProperties Expanded=true
@@ -945,7 +960,7 @@ CaseSensitive=0
 [TrashView]
 TrashViewColumn_0=100
 TrashViewColumn_1=100
-TrashViewColumn_2=100
+TrashViewColumn_2=961
 
 [Versioning Settings]
 Auto-Save When Closing Editor=false

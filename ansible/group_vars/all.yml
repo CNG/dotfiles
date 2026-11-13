@@ -113,10 +113,6 @@ packages:
     - firefox
     - upower
     - keychain
-    # NVME logs and temps
-    - nvme-cli
-    # smartctl
-    - smartmontools
 
 
   base_aur:
@@ -150,6 +146,11 @@ packages:
   filesystem:
     - dosfstools
     - ntfs-3g
+    - compsize  # disk usage analyzer for Btrfs
+    # NVME logs and temps
+    - nvme-cli
+    # smartctl
+    - smartmontools
     # - exfat-utils
     # - exfatprogs
     # - hfsprogs
@@ -180,6 +181,7 @@ packages:
     - adobe-source-han-serif-cn-fonts
     - noto-fonts
     - noto-fonts-cjk
+    - noto-fonts-emoji
     - wqy-microhei
     - wqy-microhei-lite
     - wqy-bitmapfont
