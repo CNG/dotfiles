@@ -1,0 +1,53 @@
+{
+    "extractor": {
+        "base-directory": "~/Downloads/phonefetch/",
+        "archive": "~/.config/gallery-dl/archive.sqlite3",
+        "skip": true,
+        "retries": 4,
+        "timeout": 30.0,
+        "instagram": {
+            "cookies": ["firefox"],
+            "api": "rest",
+            "include"    : ["stories", "highlights", "posts", "photos", "reels"],
+            "filename" : "{date:%Y-%m-%d}_{num} - {filename}.{extension}",
+            "skip": "abort:25",
+            "max-posts": 50,
+            "retries": 4,
+            "retry-statuses": [400, 403, 429, 500, 502, 503],
+            "timeout": 60.0,
+            "order-files": "asc",
+            "order-posts": "asc",
+            "previews": false,
+            "extension-map": {"webp": "jpg"},
+            "videos": "merged",
+            "stories": {
+                    "videos": "dash"
+            },
+            "highlights": {
+                    "videos": "dash"
+            },
+            "download-rate": "1M-2M",
+                        "sleep": [
+                42.4,
+                51.2
+            ],
+			"sleep-extractor": [
+					45.2,
+					55.7
+			],
+            "sleep-request": [
+                48.6,
+                59.4
+            ]
+        }
+    },
+    "downloader": {
+        "part": true,
+        "rate": "5M"
+    },
+    "output": {
+        "mode": "terminal",
+        "progress": true
+    }
+}
+
