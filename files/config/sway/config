@@ -74,7 +74,7 @@ set $term alacritty
 bindsym $mod+Return exec $term -e tmux
 bindsym $mod+Shift+Return exec $term -e bash
 bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
-bindsym $mod+d exec BEMENU_BACKEND=wayland j4-dmenu-desktop --dmenu='bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
+bindsym $mod+d exec j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
 bindsym $mod+i       exec firefox
 bindsym $mod+f       exec dolphin
 bindsym $mod+k       exec anki
