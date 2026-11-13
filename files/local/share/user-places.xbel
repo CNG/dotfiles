@@ -68,6 +68,17 @@
    </metadata>
   </info>
  </bookmark>
+ <bookmark href="file:///home/cgorichanaz/GDrive/Main/Other/Academics/Postbacc">
+  <title>Postbacc</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1794517653/0</ID>
+   </metadata>
+  </info>
+ </bookmark>
  <bookmark href="file:///home/cgorichanaz/GDrive/Extra">
   <title>Extra</title>
   <info>
@@ -136,28 +147,6 @@
    </metadata>
   </info>
  </separator>
- <bookmark href="file:///home/cgorichanaz/GDrive/Extra/Pictures/self">
-  <title>self</title>
-  <info>
-   <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="inode-directory"/>
-   </metadata>
-   <metadata owner="http://www.kde.org">
-    <ID>1793238380/1</ID>
-   </metadata>
-  </info>
- </bookmark>
- <bookmark href="file:///home/cgorichanaz/GDrive/Extra/Pictures/phone">
-  <title>phone</title>
-  <info>
-   <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="inode-directory"/>
-   </metadata>
-   <metadata owner="http://www.kde.org">
-    <ID>1793238378/0</ID>
-   </metadata>
-  </info>
- </bookmark>
  <bookmark href="file:///mnt/minerva/vids">
   <title>vids</title>
   <info>
@@ -202,6 +191,15 @@
    <metadata owner="http://www.kde.org">
     <UDI>/org/kde/fstab/fuse.sshfs/mnt/data</UDI>
     <isSystemItem>true</isSystemItem>
+   </metadata>
+  </info>
+ </separator>
+ <separator>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <UDI>/org/freedesktop/UDisks2/block_devices/dm_2d1</UDI>
+    <isSystemItem>true</isSystemItem>
+    <uuid>1cc69dbf-238c-4951-97b6-2e1dfde74137</uuid>
    </metadata>
   </info>
  </separator>
