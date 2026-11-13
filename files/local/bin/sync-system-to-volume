@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage: sudo $0 MOUNT_POINT" >&2
+  exit 2
+}
+
+if (( $# != 1 )); then
+  usage
+fi
+
+if (( EUID != 0 )); then
+  echo "This script must be run as root." >&2
+  exit 1
+fi
+
+target=$1
+if [[ "$target" != /* || "$target" == "/" || ! -d "$target" ]]; then
+  echo "Target must be an existing absolute mount point other than /." >&2
+  exit 1
+fi
+
+if ! mountpoint -q -- "$target"; then
+  echo "Target is not a mount point: $target" >&2
+  exit 1
+fi
+
+if ! command -v rsync >/dev/null 2>&1; then
+  echo "Missing required tool: rsync" >&2
+  exit 1
+fi
+
+rsync -aHAXS --numeric-ids --info=progress2 --delete \
+  --exclude='/mnt/***' \
+  --exclude='/dev/***' \
+  --exclude='/proc/***' \
+  --exclude='/sys/***' \
+  --exclude='/run/***' \
+  --exclude='/tmp/***' \
+  / "$target/"

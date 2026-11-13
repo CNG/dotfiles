@@ -142,6 +142,15 @@ btrfs filesystem resize max /mnt
 ```
 
 
+# Creating backup boot drive from two 4 TB SSDs
+
+```
+# format sdX and sdY as RAID 0 Btrfs Luks volume
+sudo setup-dual-ssds
+sudo sync-system-to-volume /mnt/usb
+```
+
+
 # About the system
 
 ## Installation and configuration flow

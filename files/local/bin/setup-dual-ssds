@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+
+# This script sets up two local block devices in RAID 0 (striped) configuration,
+# then encrypts the array with LUKS and creates a BTRFS filesystem on top.
+# It is intentionally interactive and will destroy any existing data on the
+# selected devices after you confirm.
+
+set -euo pipefail
+
+usage() {
+  echo "Usage: $0" >&2
+  echo "This script will prompt for the two block devices to use, then create a RAID 0" >&2
+  echo "array, encrypt it with LUKS, format it as BTRFS, and mount it." >&2
+  exit 1
+}
+
+require_root() {
+  if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
+    echo "This script must be run as root." >&2
+    exit 1
+  fi
+}
+
+normalize_device_name() {
+  local device=${1:-}
+  device=${device#/dev/}
+  echo "$device"
+}
+
+prompt_for_device() {
+  local label=$1
+  local value
+
+  while true; do
+    read -rp "Enter the ${label} SSD device name (for example: sda): " value
+    value=$(normalize_device_name "$value")
+
+    if [[ -z "$value" ]]; then
+      echo "Device name cannot be empty." >&2
+      continue
+    fi
+
+    if [[ ! -b "/dev/$value" ]]; then
+      echo "Device /dev/$value was not found or is not a block device." >&2
+      continue
+    fi
+
+    echo "$value"
+    return 0
+  done
+}
+
+check_tools() {
+  local missing=()
+  local tool
+
+  for tool in mdadm cryptsetup mkfs.btrfs wipefs blkid lsblk udevadm systemd-escape; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      missing+=("$tool")
+    fi
+  done
+
+  if (( ${#missing[@]} > 0 )); then
+    echo "Missing required tools: ${missing[*]}" >&2
+    exit 1
+  fi
+}
+
+main() {
+  require_root
+
+  local first_device second_device raid_device mapper_name="laptop-backup"
+  local mount_point="/mnt/usb_backup"
+  local volume_label="laptop-backup"
+  local confirm
+  local requested_md_device
+
+  read -rp "Enter the RAID device name to create (default: md0; or a name such as backup): " requested_md_device
+  requested_md_device=${requested_md_device:-md0}
+  requested_md_device=${requested_md_device#/dev/}
+
+  if [[ "$requested_md_device" =~ ^md[0-9]+$ ]]; then
+    raid_device="/dev/$requested_md_device"
+  else
+    requested_md_device=${requested_md_device#md/}
+    if [[ ! "$requested_md_device" =~ ^[[:alnum:]][[:alnum:]_.-]*$ ]]; then
+      echo "Invalid RAID device name. Use a name such as md0 or backup." >&2
+      exit 1
+    fi
+    raid_device="/dev/md/$requested_md_device"
+  fi
+
+  if [[ -e "$raid_device" || -L "$raid_device" ]]; then
+    echo "Refusing to proceed: $raid_device already exists. This script will not overwrite an existing RAID array." >&2
+    exit 1
+  fi
+
+  first_device=$(prompt_for_device "first")
+  second_device=$(prompt_for_device "second")
+
+  if [[ "$first_device" == "$second_device" ]]; then
+    echo "The two devices must be different." >&2
+    exit 1
+  fi
+
+  echo
+  echo "Selected devices:"
+  lsblk -d -n -o NAME,SIZE,MODEL "/dev/$first_device" "/dev/$second_device"
+  echo
+
+  read -rp "Type YES to destroy all data on /dev/$first_device and /dev/$second_device and continue: " confirm
+  if [[ "$confirm" != "YES" ]]; then
+    echo "Aborted. No changes were made." >&2
+    exit 1
+  fi
+
+  check_tools
+
+  echo "Wiping existing signatures on the selected devices..."
+  wipefs -a "/dev/$first_device"
+  wipefs -a "/dev/$second_device"
+
+  echo "Creating RAID 0 array on /dev/$first_device and /dev/$second_device..."
+  mdadm --zero-superblock "/dev/$first_device" "/dev/$second_device" 2>/dev/null || true
+  mdadm --create "$raid_device" --metadata=1.2 --level=0 --raid-devices=2 "/dev/$first_device" "/dev/$second_device"
+  udevadm settle
+
+  echo "Please enter the LUKS passphrase when prompted."
+  cryptsetup luksFormat --type luks2 "$raid_device"
+  cryptsetup open "$raid_device" "$mapper_name"
+
+  echo "Creating BTRFS filesystem..."
+  mkfs.btrfs -L "$volume_label" "/dev/mapper/$mapper_name"
+
+  echo "Creating mount point: $mount_point"
+  mkdir -p "$mount_point"
+
+  echo "Mounting encrypted BTRFS volume..."
+  mount -o noatime,compress=zstd:3 "/dev/mapper/$mapper_name" "$mount_point"
+
+  echo "Adding a systemd mount unit and fstab entry..."
+  local uuid
+  uuid=$(blkid -o value -s UUID "/dev/mapper/$mapper_name")
+  local unit_name
+  unit_name=$(systemd-escape --path --suffix=mount "$mount_point")
+
+  printf 'UUID=%s %s btrfs defaults,noatime,compress=zstd:3,nofail 0 0\n' "$uuid" "$mount_point" >> /etc/fstab
+
+  cat > "/etc/systemd/system/${unit_name}" <<EOF
+[Unit]
+Description=Mount encrypted BTRFS backup volume at ${mount_point}
+After=network-online.target
+Wants=network-online.target
+
+[Mount]
+What=/dev/mapper/${mapper_name}
+Where=${mount_point}
+Type=btrfs
+Options=noatime,compress=zstd:3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  systemctl daemon-reload
+  systemctl enable --now "$unit_name" >/dev/null
+
+  echo
+  echo "Setup complete."
+  echo "Array: $raid_device"
+  echo "LUKS mapper: /dev/mapper/$mapper_name"
+  echo "BTRFS filesystem label: $volume_label"
+  echo "Mounted at: $mount_point"
+  echo
+  lsblk -o NAME,SIZE,TYPE,MOUNTPOINT "$raid_device" "/dev/mapper/$mapper_name"
+}
+
+main "$@"
