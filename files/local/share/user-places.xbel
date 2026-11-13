@@ -158,6 +158,30 @@
    </metadata>
   </info>
  </bookmark>
+ <bookmark href="file:///mnt/cameras">
+  <title>Cameras</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///mnt/data">
+  <title>Data</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///mnt/minerva">
+  <title>Minerva</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="inode-directory"/>
+   </metadata>
+  </info>
+ </bookmark>
  <bookmark href="trash:/">
   <title>Trash</title>
   <info>
