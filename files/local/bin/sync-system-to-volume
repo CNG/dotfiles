@@ -11,8 +11,8 @@ if (( $# != 1 )); then
 fi
 
 if (( EUID != 0 )); then
-  echo "This script must be run as root." >&2
-  exit 1
+  script_path=$(readlink -f -- "${BASH_SOURCE[0]}")
+  exec sudo -- "$script_path" "$@"
 fi
 
 target=$1
