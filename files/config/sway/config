@@ -76,6 +76,7 @@ bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
 bindsym $mod+Return  exec $term -e tmux
 bindsym $mod+Shift+Return exec $term -e bash
 bindsym $mod+d       exec j4-dmenu-desktop --dmenu='env BEMENU_BACKEND=wayland bemenu -i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"' --term='alacritty'
+bindsym $mod+space   exec emojipick --toggle
 bindsym $mod+k       exec anki
 bindsym $mod+c       exec "$term -t calculator -e bc -l -q &!"
 bindsym $mod+f       exec dolphin

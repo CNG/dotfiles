@@ -21,6 +21,7 @@
 # SSHFS services are started after a key is loaded into the SSH agent by
 # files/zsh/config/ssh-agent.zsh.
 - import_tasks: sshfs.yml
+- import_tasks: emoji.yml
 
 # - name: Push low battery warning script
 #   copy:

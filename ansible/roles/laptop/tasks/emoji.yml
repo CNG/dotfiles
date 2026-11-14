@@ -1,0 +1,18 @@
+---
+# Configuration file: .config/emojipick/config.toml
+- name: Install emojipick
+  aur:
+    name: emojipick
+  become: yes
+  become_user: aur_builder
+
+- name: Enable and start emojipick service
+  systemd:
+    name: emojipick.service
+    scope: user
+    enabled: yes
+    state: started
+  become: yes
+  become_user: "{{ user.name }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ user.uid }}"
