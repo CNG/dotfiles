@@ -76,6 +76,7 @@ default_floating_border normal
 ### PROGRAM SHORTCUTS
 set $term alacritty
 bindsym $mod+Shift+e exec sway exit
+bindsym $mod+Shift+v exec clipman pick --tool=bemenu --max-items 100 --tool-args='-i --nb "#3f3f3f" --nf "#dcdccc" --fn "pango:DejaVu Sans Mono 12"'
 bindsym $mod+Shift+m exec makoctl mode -a do-not-disturb
 bindsym $mod+Return  exec $term -e tmux
 bindsym $mod+Shift+Return exec $term -e bash
@@ -99,7 +100,7 @@ exec mako
 # exec waybar
 exec ~/.local/bin/launch-waybar
 # make clipboard persist after program exit
-exec wl-paste -t text --watch clipman store --no-persist
+exec wl-paste -t text --watch clipman store --no-persist --max-items 100
 # exec trickle -u 1024 -d 10240 insync start # GDrive manager
 exec insync start   # GDrive manager
 exec wlsunset -t 3800 -l 37.8 -L -122.3  # blue light reduction at night
