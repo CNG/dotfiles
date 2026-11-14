@@ -68,6 +68,10 @@ default_border none
 default_border pixel 2
 default_floating_border normal
 
+# replace i3 unclutter (hiding cursor after some time):
+# seat * hide_cursor 10
+# replace i3 xbanish (hiding cursor on keypress):
+# seat * hide_cursor when-typing enable
 
 ### PROGRAM SHORTCUTS
 set $term alacritty
