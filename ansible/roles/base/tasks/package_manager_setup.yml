@@ -4,6 +4,13 @@
     src: pacman.conf
     dest: /etc/pacman.conf
 
+- name: Ensure makepkg doesn't build debug packages by default
+  lineinfile:
+    dest: /etc/makepkg.conf
+    state: present
+    regexp: "^OPTIONS="
+    line: "OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)"
+
 - name: Push pacman cache cleanup service
   copy:
     src: "paccache.service"

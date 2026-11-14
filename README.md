@@ -296,6 +296,12 @@ or updated with `:PlugInstall`.
 
 ## Misc
 
+### Package management
+
+- Remove orphaned packages (dependencies no longer needed): `sudo pacman -Qdtq | sudo pacman -Rns -`
+- Mark packages as explicitly installed with `sudo pacman -D --asexplicit <package_name>`.
+- Prevent orphans by removing packages with `sudo pacman -Rns` instead of just `-R`. `-ns` selects the backup configuration files as well as sub-dependencies!
+
 ### Cron
 
 Arch [does not have cron by default][Cron] but uses [systemd/Timers][timers]
