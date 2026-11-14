@@ -150,6 +150,46 @@ sudo setup-dual-ssds
 sudo sync-system-to-volume /mnt/usb
 ```
 
+## Re-mounting the backup volume
+
+After plugging in the enclosure, wait until both SSDs appear in `lsblk`, then
+assemble the array from its on-disk metadata. This finds the members regardless
+of the `/dev/sdX` names assigned on this connection:
+
+```
+sudo mdadm --assemble --scan
+cat /proc/mdstat
+```
+
+Continue only when `/proc/mdstat` shows `md0` active with both members. The
+array contains a LUKS volume, so unlock it before mounting the Btrfs filesystem:
+
+```
+sudo cryptsetup open /dev/md0 laptop-backup
+sudo mount /dev/mapper/laptop-backup /mnt/usb_backup
+```
+
+If `md0` is inactive, first confirm with `lsblk` and `mdadm --examine` that both
+SSDs are present and have the same array UUID. Then stop the inactive array and
+assemble it using the current device names shown by `lsblk`:
+
+```
+sudo mdadm --stop /dev/md0
+sudo mdadm --assemble --run /dev/md0 /dev/sdX /dev/sdY
+```
+
+Replace `/dev/sdX` and `/dev/sdY` with the two current SSD device paths. Do not
+run `--create`, `--zero-superblock`, `wipefs`, `luksFormat`, or `mkfs` to recover
+an existing array; those commands can destroy its data.
+
+Before unplugging the enclosure, unmount and close everything in order:
+
+```
+sudo umount /mnt/usb_backup
+sudo cryptsetup close laptop-backup
+sudo mdadm --stop /dev/md0
+```
+
 
 # About the system
 
