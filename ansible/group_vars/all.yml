@@ -80,6 +80,7 @@ packages:
     - bc
     - ruby
     - go
+    - rust
     # - kfind
     - lsof
     - strace

@@ -16,6 +16,15 @@
     name: "{{ query('flattened', packages.base) }}"
     state: present
 
+- name: Mark base packages as explicitly installed
+  become: yes
+  command:
+    argv: "{{ ['pacman', '-D', '--asexplicit'] + query('flattened', packages.base) }}"
+  register: pacman_asexplicit
+  changed_when: "'install reason has been set to' in pacman_asexplicit.stdout"
+  environment:
+    LC_ALL: C
+
 - name: Install AUR base packages
   aur:
     name: "{{ packages.base_aur }}"
