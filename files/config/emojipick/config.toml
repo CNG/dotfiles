@@ -1,6 +1,10 @@
 auto_paste = true           # also paste via ydotool after copying; false = copy only
 paste_shortcut = "ctrl-v"   # "ctrl-v", "ctrl-shift-v" (terminals) or "shift-insert"
+<<<<<<< HEAD
 restore_clipboard = true    # put your previous clipboard text back after pasting
+=======
+restore_clipboard = false   # put your previous clipboard text back after pasting
+>>>>>>> f5c37bca (Install emoji picker)
 skin_tone = 2               # 0 = default, 1..5 = light..dark
 grid_columns = 20           # emoji per row
 scale = 0.8                 # UI scale factor (0.7 to 3.0)
