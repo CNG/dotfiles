@@ -1,0 +1,262 @@
+#!/bin/bash
+
+# Rebuild and replace Obsidian's default US English Hunspell dictionary.
+#
+# Obsidian on this system uses the Chromium dictionary format (.bdic), while
+# the source dictionaries are in Hunspell (.dic/.aff) format.  This script:
+#
+# - merges the large English dictionary supplied by Hunspell on this Arch
+#   Linux system with Acamedic and the glut medical English dictionary;
+# - combines scientific, technical, academic, computer, and medical terms
+#   from those sources instead of maintaining a separate hard-coded word
+#   list (the sources are cached under ~/.cache/obsidian-dictionary);
+# - preserves the base dictionary's Hunspell flags and adds academic and
+#   medical source words without applying incompatible source affix flags;
+# - allows the configured productive prefixes on any dictionary word. For
+#   example, "uptake" becomes "reuptake", following the Associated Press
+#   preference for omitting a hyphen when no ambiguity is introduced;
+# - adds an "s" suffix only to numeric stems, allowing forms such as "20s"
+#   and "1900s" without generating arbitrary forms such as "stdes";
+# - downloads source dictionaries when absent or with --refresh, with
+#   automatic retries;
+# - generates en-US.dic and en-US.aff in a temporary directory, converts
+#   them to en-US.bdic with Qt 6's qwebengine_convert_dict, and verifies
+#   generated forms such as "reuptake";
+# - atomically replaces
+#   ~/.config/obsidian/Dictionaries/en-US-10-1.bdic and, unless --dry-run is
+#   used, keeps a timestamped backup of the previous dictionary;
+# - can be run with --dry-run to build and validate without replacing the
+#   installed dictionary, or --base-dic/--base-aff to use other local
+#   Hunspell source files.
+#
+# The script intentionally does not add one-off words such as
+# "hallucination": the base dictionary derives that form through its normal
+# Hunspell affix handling. Obsidian must be restarted after installation so
+# Chromium reloads the .bdic file.
+
+set -euo pipefail
+
+usage() {
+    cat <<'EOF'
+Usage: fix-obsidian-dictionary [OPTIONS]
+
+Download and merge scientific, technical, academic, and medical Hunspell
+dictionaries, then replace Obsidian's en-US-10-1.bdic.
+
+Options:
+  --cache-dir DIR       Cache downloaded dictionaries (default: ~/.cache/obsidian-dictionary)
+  --output FILE         Replacement dictionary (default: ~/.config/obsidian/Dictionaries/en-US-10-1.bdic)
+  --base-dic FILE       Base English .dic (default: /usr/share/hunspell/en_US-large.dic)
+  --base-aff FILE       Base English .aff (default: /usr/share/hunspell/en_US-large.aff)
+  --refresh             Redownload cached source dictionaries
+  --dry-run             Generate and validate files but do not replace Obsidian's dictionary
+  -h, --help            Show this help
+EOF
+}
+
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/obsidian-dictionary"
+OUTPUT="$HOME/.config/obsidian/Dictionaries/en-US-10-1.bdic"
+BASE_DIC="/usr/share/hunspell/en_US-large.dic"
+BASE_AFF="/usr/share/hunspell/en_US-large.aff"
+REFRESH=false
+DRY_RUN=false
+
+while (($#)); do
+    case "$1" in
+        --cache-dir) CACHE_DIR="$2"; shift 2 ;;
+        --output) OUTPUT="$2"; shift 2 ;;
+        --base-dic) BASE_DIC="$2"; shift 2 ;;
+        --base-aff) BASE_AFF="$2"; shift 2 ;;
+        --refresh) REFRESH=true; shift ;;
+        --dry-run) DRY_RUN=true; shift ;;
+        -h|--help) usage; exit 0 ;;
+        *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+    esac
+done
+
+for command in curl python3; do
+    command -v "$command" >/dev/null || {
+        echo "Required command not found: $command" >&2
+        exit 1
+    }
+done
+
+CONVERTER="/usr/lib/qt6/qwebengine_convert_dict"
+if [[ ! -x "$CONVERTER" ]]; then
+    CONVERTER="$(command -v qwebengine_convert_dict || true)"
+fi
+if [[ -z "$CONVERTER" || ! -x "$CONVERTER" ]]; then
+    echo "qwebengine_convert_dict is required (package: qt6-webengine)" >&2
+    exit 1
+fi
+
+if [[ ! -f "$BASE_DIC" || ! -f "$BASE_AFF" ]]; then
+    echo "Base Hunspell files are missing: $BASE_DIC and $BASE_AFF" >&2
+    exit 1
+fi
+
+mkdir -p "$CACHE_DIR"
+WORK_DIR="$(mktemp -d)"
+trap 'rm -rf -- "$WORK_DIR"' EXIT
+
+download() {
+    local url="$1"
+    local destination="$2"
+    if [[ "$REFRESH" == true || ! -s "$destination" ]]; then
+        echo "Downloading $(basename "$destination")..."
+        curl --fail --location --retry 3 --connect-timeout 20 \
+            --output "${destination}.tmp" "$url"
+        mv -- "${destination}.tmp" "$destination"
+    fi
+}
+
+ACADEMIC_DIC="$CACHE_DIR/en-Academic.dic"
+MEDICAL_DIC="$CACHE_DIR/en_med_glut.dic"
+
+download \
+    "https://raw.githubusercontent.com/emareg/acamedic/master/en-Academic.dic" \
+    "$ACADEMIC_DIC"
+download \
+    "https://raw.githubusercontent.com/glutanimate/hunspell-en-med-glut/master/en_med_glut.dic" \
+    "$MEDICAL_DIC"
+
+CUSTOM_DIC="$WORK_DIR/en-US.dic"
+CUSTOM_AFF="$WORK_DIR/en-US.aff"
+cp -- "$BASE_AFF" "$CUSTOM_AFF"
+
+python3 - "$BASE_DIC" "$ACADEMIC_DIC" "$MEDICAL_DIC" "$CUSTOM_DIC" "$CUSTOM_AFF" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+base_dic, academic_dic, medical_dic, out_dic, out_aff = map(Path, sys.argv[1:])
+
+entries = {}
+
+
+def add_entry(word, flags=""):
+    word = word.strip()
+    if not word:
+        return
+    if word.startswith("#") or word.startswith(";"):
+        return
+    if len(word) > 256:
+        return
+    if not re.match(r"^[^\s/]+(?:[^\s/]*)$", word):
+        return
+    if re.search(r"[<>]", word):
+        return
+    entry_flags = entries.setdefault(word, set())
+    entry_flags.update(flags)
+
+
+def read_dictionary(path, preserve_flags):
+    with path.open("r", encoding="utf-8", errors="replace") as source:
+        for line_number, raw_line in enumerate(source):
+            line = raw_line.rstrip("\r\n")
+            if not line or line.lstrip().startswith("#") or line.lstrip().startswith(";"):
+                continue
+            if line_number == 0 and line.strip().isdigit():
+                continue
+            if line.startswith(" ") or line.startswith("\t"):
+                continue
+            word_and_flags = line.split(None, 1)[0]
+            if "/" in word_and_flags:
+                word, flags = word_and_flags.split("/", 1)
+            else:
+                word, flags = word_and_flags, ""
+            add_entry(word, flags if preserve_flags else "")
+
+
+read_dictionary(base_dic, preserve_flags=True)
+read_dictionary(academic_dic, preserve_flags=False)
+read_dictionary(medical_dic, preserve_flags=False)
+
+affix_text = out_aff.read_text(encoding="utf-8", errors="replace")
+used_flags = set(re.findall(r"\b(?:PFX|SFX)\s+([^ \t]+)", affix_text))
+
+def allocate_flag():
+    for candidate in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789":
+        if candidate not in used_flags:
+            used_flags.add(candidate)
+            return candidate
+    raise SystemExit("Could not allocate a Hunspell affix flag")
+
+
+prefix_flag = allocate_flag()
+decade_flag = allocate_flag()
+
+# Generate numeric decade/temperature stems. The "s" rule is attached only
+# to these entries rather than to every word in the dictionary.
+for number in range(3000):
+    add_entry(str(number), decade_flag)
+
+with out_dic.open("w", encoding="utf-8", newline="\n") as target:
+    target.write(f"{len(entries)}\n")
+    for word in sorted(entries, key=lambda value: value.casefold()):
+        flags = "".join(sorted(entries[word]))
+        if not word.isdigit():
+            flags += prefix_flag
+        target.write(f"{word}/{flags}\n")
+
+prefixes = (
+    "anti auto bio chemo contra co cyto de endo exo extra hydro hyper hypo "
+    "inter intra macro meta micro mis multi nano neuro non over para peri post "
+    "pre pro pseudo radio re retro self semi sub super thermo trans ultra under"
+).split()
+
+with out_aff.open("a", encoding="utf-8", newline="\n") as target:
+    target.write("\n# Productive prefixes added by fix-obsidian-dictionary\n")
+    target.write(f"PFX {prefix_flag} Y {len(prefixes)}\n")
+    for prefix in prefixes:
+        target.write(f"PFX {prefix_flag} 0 {prefix} .\n")
+    target.write("\n# Numeric decade/temperature plurals added by fix-obsidian-dictionary\n")
+    target.write(f"SFX {decade_flag} Y 1\n")
+    target.write(f"SFX {decade_flag} 0 s .\n")
+
+print(f"Merged {len(entries)} unique dictionary entries")
+print(f"Added productive prefix flag {prefix_flag}")
+print(f"Added numeric plural flag {decade_flag}")
+PY
+
+cd "$WORK_DIR"
+"$CONVERTER" en-US.dic en-US.bdic
+
+if [[ ! -s "$WORK_DIR/en-US.bdic" ]]; then
+    echo "Dictionary conversion failed: no .bdic was produced" >&2
+    exit 1
+fi
+
+if command -v hunspell >/dev/null; then
+    cd "$WORK_DIR"
+    verification_output="$(printf 'reuptake\n20s\n90s\n120s\n1900s\n1990s\n2000s\n' | hunspell -d en-US -l)"
+    if [[ -n "$verification_output" ]]; then
+        echo "Affix verification failed:" >&2
+        printf '%s\n' "$verification_output" >&2
+        exit 1
+    fi
+    misspelled_output="$(printf 'stdes\n' | hunspell -d en-US -l)"
+    if [[ "$misspelled_output" != "stdes" ]]; then
+        echo "Affix verification failed: stdes should remain misspelled" >&2
+        exit 1
+    fi
+    echo "Verified prefixes, numeric plurals, and rejection of stdes"
+    cd - >/dev/null
+fi
+
+if [[ "$DRY_RUN" == true ]]; then
+    echo "Dry run complete: $WORK_DIR/en-US.bdic"
+    echo "Entries: $(head -n 1 "$CUSTOM_DIC")"
+    echo "Dry-run output was cleaned when this script exits."
+    exit 0
+fi
+
+mkdir -p "$(dirname "$OUTPUT")"
+if [[ -f "$OUTPUT" ]]; then
+    backup="${OUTPUT}.bak.$(date -u +%Y%m%dT%H%M%SZ)"
+    cp -p -- "$OUTPUT" "$backup"
+    echo "Backed up existing dictionary to $backup"
+fi
+chmod 0644 "$WORK_DIR/en-US.bdic"
+mv -f -- "$WORK_DIR/en-US.bdic" "$OUTPUT"
+echo "Installed $OUTPUT"
