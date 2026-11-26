@@ -312,7 +312,7 @@ packages:
     - grim
     - slurp
     - wlsunset
-    - clipman
+    - cliphist
 
     # Dolphin stuff
     - baloo
